@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 export default async function SuccessPage({ searchParams }) {
   const { payment_intent: paymentIntentId } = searchParams;
-  
+  //Changed by 12345
   if (!paymentIntentId) redirect("/");
 
   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);

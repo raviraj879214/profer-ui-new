@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function PaymentForm() {
+
+  
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);

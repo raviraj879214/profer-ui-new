@@ -106,8 +106,8 @@ export function Companyprofile({ paymentIntentId }) {
       localStorage.setItem("FrontendLoginStatus", "true");
 
       console.log("Login successful", result);
-      localStorage.setItem("tempemailuser","");
-      localStorage.setItem("temppassword","");
+      // localStorage.setItem("tempemailuser","");
+      // localStorage.setItem("temppassword","");
     } catch (error) {
       console.error("Error during login:", error);
     }

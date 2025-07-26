@@ -27,7 +27,7 @@ function PaymentForm() {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: `https://profer-ui.vercel.app/company-profile` },
-      redirect: "if_required",
+      //redirect: "if_required",
     });
 
     if (error) {

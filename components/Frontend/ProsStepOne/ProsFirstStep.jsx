@@ -121,6 +121,18 @@ export function Companyprofile({ paymentIntentId }) {
     signinexternal();
   }, [paymentIntentId]);
 
+
+   useEffect(() => {
+    const onLoad = () => {
+      localStorage.setItem("tempemailuser", "");
+      localStorage.setItem("temppassword", "");
+    };
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
+
+
+  
   return (
     <div className="flex flex-col min-h-screen">
       {/* Main Content */}

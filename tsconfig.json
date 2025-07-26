@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Frontend/ProjectSubmissionFromUser/ProjectSubmit.jsx", "app/admin/project-requested/page.jsx", "app/pro-select-plan/page.jsx", "app/email-verify/page.jsx", "app/pro-payment-page/page.jsx", "app/company-profile/page.jsx", "components/Frontend/Signin/Signinfrontend.jsx", "app/sign-in/page.jsx", "app/layout.jsx"],
+  "exclude": ["node_modules"]
+}

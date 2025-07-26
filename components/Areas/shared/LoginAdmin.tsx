@@ -1,114 +1,116 @@
-"use client"
+"use client";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import signupimage from "../../../public/images/signup.png";
 
+export function LoginAdminFrontend() {
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const router = useRouter();
 
-
-
-export  function LoginAdminFrontend() {
-
-
-    const {register,handleSubmit,reset,formState: { errors }} = useForm();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    
-    const onSubmit =async (data: any) => {
-      setLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/login`,{
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    setErrorMsg(null);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email : data.email,
-          password : data.password
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
       });
-      if(response.ok){
-        const result = await response.json();
-        localStorage.setItem("token", result.token);
-        console.log("Login successful", result);
-        if(result.status == 200)
-        {
 
-          localStorage.setItem("Role", JSON.stringify(result.user.role.name));
-          localStorage.setItem("token", result.token);
-          localStorage.setItem("LoginStatus", "true");
-          window.location.href = "/admin/dashboard";
-        }
-        else{
-          setError(result.error);
-        }
+      const result = await response.json();
+
+      if (!response.ok) throw new Error(result.error || "Login failed");
+
+      if (result.status === 200) {
+        localStorage.setItem("Role", JSON.stringify(result.user.role.name));
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("LoginStatus", "true");
+        router.push("/admin/dashboard");
+      } else {
+        throw new Error(result.error || "Invalid credentials");
       }
+    } catch (err: any) {
+      setErrorMsg(err.message || "Something went wrong. Please try again.");
+    } finally {
       setLoading(false);
       reset();
     }
-    return (
-        <>
-          <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-            <h1 className="text-2xl font-bold mb-6 text-center"> Admin</h1>
-            <p>{error}</p>
-            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label className="block text-gray-700 mb-2" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500' : ''}`}
-                  placeholder="Enter your email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Invalid email address"
-                    }
-                  })}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message as string}</p>
-                )}
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password ? 'border-red-500' : ''}`}
-                  placeholder="Enter your password"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters"
-                    }
-                  })}
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password.message as string}</p>
-                )}
-              </div>
-              <button
-              disabled={loading}
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-              >
-                {}{loading ? "Logging in..." : "Login"}
-              </button>
-            </form>
-           <div className="flex justify-end mt-2">
-  <a href="/admin-forgot-password" className="text-sm text-blue-600 hover:underline">
-    Forgot Password?
-  </a>
-</div>
+  };
 
-            </div>
+  return (
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Main Section */}
+      <main className="flex flex-col items-center justify-center flex-grow relative">
+        {/* Curved Top Background */}
+        <div className="absolute top-0 w-full h-56 bg-[#D5F1F1] rounded-b-[80px]"></div>
+
+        {/* Login Card */}
+        <div className="relative z-10 w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+          {/* Illustration */}
+          <div className="flex justify-center mb-4">
+            <Image
+              src={signupimage}
+              alt="Admin Login Illustration"
+              width={120}
+              height={120}
+              priority
+            />
           </div>
-        </>
-    );
+
+          <h1 className="text-center text-3xl font-bold text-gray-800 mb-6">
+            Admin Login
+          </h1>
+
+          {errorMsg && <p className="mb-4 text-center text-red-600">{errorMsg}</p>}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input
+              type="email"
+              placeholder="Email"
+              className="block w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
+              {...register("email", {
+                required: "Email is required",
+                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
+              })}
+            />
+            {errors.email && <p className="text-red-500 text-sm mb-2">{errors.email.message as string}</p>}
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="block w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 6, message: "Password must be at least 6 characters" },
+              })}
+            />
+            {errors.password && <p className="text-red-500 text-sm mb-2">{errors.password.message as string}</p>}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full p-3 bg-[#0C0C2D] text-white rounded font-semibold hover:bg-[#1E1E3E] disabled:opacity-50"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+
+          {/* Forgot password */}
+          <div className="flex justify-end mt-3">
+            <Link href="/admin-forgot-password" className="text-sm text-[#18A2AC] hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }
+
+export default LoginAdminFrontend;

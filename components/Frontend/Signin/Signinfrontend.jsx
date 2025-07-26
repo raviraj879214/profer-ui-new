@@ -22,13 +22,6 @@ const SignIn = () => {
   const router = useRouter();
 
   
-  
-
-
-
-
-
-    
   const onSubmit = async (data) => {
   setLoading(true);
   setErrorMsg(""); // clear previous errors
@@ -36,6 +29,7 @@ const SignIn = () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/pro-login`, {
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
       },

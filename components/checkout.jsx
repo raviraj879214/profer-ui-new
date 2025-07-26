@@ -19,37 +19,42 @@ function PaymentForm() {
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
-    setIsLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!stripe || !elements) return;
+  setIsLoading(true);
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      confirmParams: { return_url: `https://profer-ui.vercel.app/company-profile` },
-      //redirect: "if_required",
-    });
+  const { error, paymentIntent } = await stripe.confirmPayment({
+    elements,
+    confirmParams: { return_url: `https://profer-ui.vercel.app/company-profile` },
+    redirect: "if_required",
+  });
 
-    if (error) {
-      setMessage(error.message || "Something went wrong. Please try again.");
-      setDetailedError(JSON.stringify(error, null, 2));
-      if (error.payment_intent) {
-        setPaymentStatus(error.payment_intent.status);
-      }
-    } else if (paymentIntent) {
-      setPaymentStatus(paymentIntent.status);
-
-      if (paymentIntent.status === "succeeded") {
-        setMessage("Payment successful!");
-        setDetailedError(null);
-      } else {
-        setMessage(`Unexpected status: ${paymentIntent.status}`);
-        setDetailedError(JSON.stringify(paymentIntent, null, 2));
-      }
+  // Handle error
+  if (error) {
+    if (error.payment_intent && error.payment_intent.status === "succeeded") {
+      // Payment succeeded despite error, redirect
+      router.push("/company-profile");
+      return;
     }
+    setMessage(error.message || "Something went wrong. Please try again.");
+    setDetailedError(JSON.stringify(error, null, 2));
+    if (error.payment_intent) setPaymentStatus(error.payment_intent.status);
+  } 
+  // Handle success
+  else if (paymentIntent) {
+    setPaymentStatus(paymentIntent.status);
+    if (paymentIntent.status === "succeeded") {
+      router.push("/company-profile"); // Instant redirect
+    } else {
+      setMessage(`Unexpected status: ${paymentIntent.status}`);
+      setDetailedError(JSON.stringify(paymentIntent, null, 2));
+    }
+  }
 
-    setIsLoading(false);
-  };
+  setIsLoading(false);
+};
+
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="space-y-6">

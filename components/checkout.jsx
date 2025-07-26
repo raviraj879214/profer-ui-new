@@ -20,7 +20,7 @@ function PaymentForm() {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: { return_url: `http://localhost:3000/company-profile` },
+      confirmParams: { return_url: `https://profer-ui.vercel.app/company-profile` },
     });
     if (error) setMessage(error.message);
     setIsLoading(false);

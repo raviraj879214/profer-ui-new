@@ -39,6 +39,7 @@ export function EmailProVerify() {
     }
   };
 
+  
   const handleChange = (value, index) => {
     if (!/^\d*$/.test(value)) return;
     const newOtp = [...otpSize];
@@ -57,6 +58,9 @@ export function EmailProVerify() {
     const enteredOtp = otpSize.join("");
     if (otp == enteredOtp) {
       router.push("/pro-payment-page");
+    }
+    else{
+      setMessage("Invalid OTP. Please try again.")
     }
   };
 

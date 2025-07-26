@@ -11,6 +11,7 @@ export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  
   const navLinks = [
     { name: "Search for Pros", href: "/search-for-pros" },
     { name: "Project Auction", href: "/project-auction" },

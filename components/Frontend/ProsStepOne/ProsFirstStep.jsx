@@ -10,7 +10,7 @@ export function Companyprofile({ paymentIntentId }) {
    
 
   useEffect(() => {
-    const email = localStorage.getItem("tempemailuser");
+    const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
     if (!email) {
       router.replace("/"); // redirect immediately
       return;

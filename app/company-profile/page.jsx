@@ -14,11 +14,11 @@ export default async function Comapnyprofile({ searchParams }) {
  const { payment_intent: paymentIntentId } = searchParams;
   
   
+ 
 
   return (
      <>
-      {/* <h2>Payment {paymentIntent.status}</h2>
-      <p>Payment ID: {paymentIntent.id}</p>  */}
+     
       <Companyprofile paymentIntentId ={paymentIntentId}></Companyprofile>
      </>
     

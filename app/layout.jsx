@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const hideLayout = pathname.startsWith("/pro"); // Hide for /pro pages
+  const hideLayout = pathname?.startsWith("/pro"); // this will now work
 
   return (
     <html lang="en">

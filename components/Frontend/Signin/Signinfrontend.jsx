@@ -4,6 +4,9 @@ import signupimage from "../../../public/images/signup.png";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+
 
 const SignIn = () => {
   const {
@@ -16,6 +19,13 @@ const SignIn = () => {
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
+
+  
+  
+
+
+
 
 
     
@@ -51,7 +61,17 @@ const SignIn = () => {
       console.log("Login successful", result);
      
       if(result.user.role == "Pro"){
-         window.location.href = "/pro";
+        
+          if(result.user.status == "0"){
+            router.push('/pro/step-1');
+          }
+          else if(result.user.status == "1"){
+              router.push('/pro/step-2');
+          }
+          else if(result.user.status == "2"){
+              router.push('/pro/step-3');
+          }
+
       }
       else{
          window.location.href = "/admin/dashboard";

@@ -22,7 +22,7 @@ export function ProsCheckout({ clientSecret }) {
             setbutton(true);
             const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
             console.log("Form Data:", email);
-
+            localStorage.setItem("temppassword", data.password);
             const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-checkout`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

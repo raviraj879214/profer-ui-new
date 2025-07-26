@@ -8,6 +8,7 @@ import {
   Elements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -18,7 +19,7 @@ function PaymentForm() {
   const [detailedError, setDetailedError] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
 const handleSubmit = async (e) => {
   e.preventDefault();
   if (!stripe || !elements) return;

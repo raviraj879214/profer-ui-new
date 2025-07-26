@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export function Companyprofile({ paymentIntentId }) {
   const [prosName, setProsName] = useState("");
   const router =  useRouter();
-
+ const [isReady, setIsReady] = useState(false);
    
 
   useEffect(() => {

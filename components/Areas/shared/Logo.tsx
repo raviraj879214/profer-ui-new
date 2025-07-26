@@ -6,7 +6,7 @@ export function Logo({ isFooter = false }) {
     <div className={`flex items-center space-x-2 ${isFooter ? "text-white" : ""}`}>
      
       <img
-        src="/images/logo.png"
+        src="/images/Logo.png"
         alt="Secondary Logo"
         className="h-18 w-auto object-contain"
       />

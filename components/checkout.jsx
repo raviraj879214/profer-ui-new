@@ -16,6 +16,7 @@ function PaymentForm() {
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [detailedError, setDetailedError] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -26,24 +27,25 @@ function PaymentForm() {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: `https://profer-ui.vercel.app/company-profile` },
-      redirect: "if_required", // Stay on page to show errors instead of redirecting
+      redirect: "if_required",
     });
 
     if (error) {
-      // Main error message
       setMessage(error.message || "Something went wrong. Please try again.");
-
-      // Extract detailed error info (if available)
-      if (error.payment_intent && error.payment_intent.last_payment_error) {
-        setDetailedError(error.payment_intent.last_payment_error.message);
-      } else if (paymentIntent && paymentIntent.last_payment_error) {
-        setDetailedError(paymentIntent.last_payment_error.message);
-      } else {
-        setDetailedError(JSON.stringify(error, null, 2)); // fallback to raw error object
+      setDetailedError(JSON.stringify(error, null, 2));
+      if (error.payment_intent) {
+        setPaymentStatus(error.payment_intent.status);
       }
-    } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      setMessage("Payment successful!");
-      setDetailedError(null);
+    } else if (paymentIntent) {
+      setPaymentStatus(paymentIntent.status);
+
+      if (paymentIntent.status === "succeeded") {
+        setMessage("Payment successful!");
+        setDetailedError(null);
+      } else {
+        setMessage(`Unexpected status: ${paymentIntent.status}`);
+        setDetailedError(JSON.stringify(paymentIntent, null, 2));
+      }
     }
 
     setIsLoading(false);
@@ -65,6 +67,7 @@ function PaymentForm() {
           },
         }}
       />
+
       <button
         disabled={isLoading || !stripe || !elements}
         id="submit"
@@ -79,11 +82,27 @@ function PaymentForm() {
         </div>
       )}
 
-      {detailedError && (
+      {paymentStatus && (
+        <div className="text-xs text-center text-gray-600">
+          PaymentIntent status: <strong>{paymentStatus}</strong>
+        </div>
+      )}
+
+      {detailedError && process.env.NODE_ENV === "development" && (
         <div className="bg-red-50 text-red-800 text-xs p-3 rounded mt-3 border border-red-200">
-          <strong>Details:</strong>
+          <strong>Debug Details:</strong>
           <pre className="whitespace-pre-wrap break-words mt-1">{detailedError}</pre>
         </div>
+      )}
+
+      {paymentStatus && ["succeeded", "canceled"].includes(paymentStatus) && (
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="mt-3 w-full bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200"
+        >
+          Retry with new payment session
+        </button>
       )}
     </form>
   );

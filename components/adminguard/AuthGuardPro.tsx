@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export function AuthGuard({ children }: { children: React.ReactNode }) {
+export function AuthGuardPro({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -12,7 +12,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       const token = localStorage.getItem("token");
       if (!token) 
       {
-        router.push('/admin-login');
+        router.push('/sign-in');
         return;
       }
       try {
@@ -29,20 +29,15 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           const data = await res.json();
           console.log("Protected check response:", data);
 
-          if(data.status == 401)
-          {
+          if(data.status == 401){
             router.push('/admin-login');
           }
-          else if(data.user.role == "Pro"){
-             router.push('/pro/step-1');
+          else if(data.user.role == "Admin"){
+             router.push('/admin/dashboard');
           }
-            
 
-
-
-
-          console.log("from authguard",data);
         } 
+   
       } catch (err) {
         console.error('Auth check failed:', err);
         router.push('/admin-login');

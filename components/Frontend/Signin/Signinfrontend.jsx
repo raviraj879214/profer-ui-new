@@ -48,10 +48,11 @@ const SignIn = () => {
 
     if (result.status === 200) {
       // Save login details
-      localStorage.setItem("FrontendRole", JSON.stringify(result.user.role.name));
+      localStorage.setItem("FrontendRole", JSON.stringify(result.user.role));
       localStorage.setItem("Frontendtoken", result.token);
       localStorage.setItem("FrontendLoginStatus", "true");
-
+      localStorage.setItem("token",result.token);
+      localStorage.setItem("UserID",result.user.id);
       console.log("Login successful", result);
      
       if(result.user.role == "Pro"){

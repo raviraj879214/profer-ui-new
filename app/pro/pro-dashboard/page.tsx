@@ -48,13 +48,7 @@ export default function ProProfile() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <ul className="flex space-x-8 mt-8 text-sm font-semibold text-gray-500">
-          <li className="border-b-2 border-[#3CB371] text-[#3CB371] pb-2 cursor-default">Overview</li>
-          <li className="cursor-pointer hover:text-gray-700 py-2">Credentials</li>
-          <li className="cursor-pointer hover:text-[#3CB371] py-2">Download</li>
-          <li className="cursor-pointer hover:text-[#3CB371] py-2">Share</li>
-        </ul>
+        
       </div>
 
       {/* Main Section */}

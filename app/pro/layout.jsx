@@ -1,17 +1,19 @@
 
-import ProHeader from "../../components/ProsArea/shared/ProHeader";
+import {ProHeader} from "../../components/ProsArea/shared/ProHeader";
 import {ProFooter} from "../../components/ProsArea/shared/ProFooter";
-
+import  {AuthGuardPro} from "../../components/adminguard/AuthGuardPro";
 
 
 
 export default function ProLayout({ children }) {
   return ( <>
    
+        
+    <AuthGuardPro>
         <ProHeader></ProHeader>
         {children}
-       <ProFooter></ProFooter>
-
+        <ProFooter></ProFooter>
+    </AuthGuardPro>
 
    </>);
 }

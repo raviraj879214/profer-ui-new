@@ -2,6 +2,10 @@
 
 import { Logo } from "@/components/Areas/shared/Logo";
 
+
+
+
+
 export function ProFooter() {
   return (
     <footer className="bg-gray-900 text-gray-200 py-10 px-6 flex flex-wrap items-center justify-between">

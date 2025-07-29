@@ -1,3 +1,4 @@
+"use client"
 import { ProsStepNextCredentials } from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
 
 

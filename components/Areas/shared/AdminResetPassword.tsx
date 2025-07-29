@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
+import Link from "next/link";
+import signupimage from "../../../public/images/signup.png";
 
 interface AdminResetPasswordFormProps {
   passwordresetlink: string;
@@ -9,7 +12,9 @@ interface AdminResetPasswordFormProps {
 
 export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
   const [message, setMessage] = useState("");
+  const [fade, setFade] = useState(false);
   const [tokenValid, setTokenValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -23,9 +28,7 @@ export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
     const verifyToken = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/reset-confirmation`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ passwordresetlink }),
       });
 
@@ -37,80 +40,135 @@ export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
         setMessage("Token expired or invalid. Please try again.");
       }
     };
-
     verifyToken();
   }, [passwordresetlink]);
 
+  // Fade out success/error messages
+  useEffect(() => {
+    if (message) {
+      const fadeTimeout = setTimeout(() => setFade(true), 5000);
+      const hideTimeout = setTimeout(() => {
+        setMessage("");
+        setFade(false);
+      }, 6000);
+
+      return () => {
+        clearTimeout(fadeTimeout);
+        clearTimeout(hideTimeout);
+      };
+    }
+  }, [message]);
+
   // Password reset submission
   const onSubmit = async (data: any) => {
-    
     if (data.newpassword !== data.confirmPassword) {
       setMessage("Passwords do not match.");
       return;
     }
 
-    
-  
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password: data.newpassword,
+          passwordresetlink,
+        }),
+      });
 
-
+      const result = await res.json();
+      if (res.ok && result.status == 200) {
+        setMessage("Password reset successful. You can now log in.");
+        reset();
+      } else {
+        setMessage(result.message || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
-          Reset Password
-        </h2>
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Main Section */}
+      <main className="flex flex-col items-center justify-center flex-grow relative">
+        {/* Curved Top Background */}
+        <div className="absolute top-0 w-full h-56 bg-[#D5F1F1] rounded-b-[80px]"></div>
 
-        {message && (
-          <div className="mb-4 rounded bg-red-100 px-4 py-2 text-center text-sm text-red-700">
-            {message}
+        {/* Reset Password Card */}
+        <div className="relative z-10 w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+          {/* Illustration */}
+          <div className="flex justify-center mb-4">
+            <Image
+              src={signupimage}
+              alt="Reset Password Illustration"
+              width={120}
+              height={120}
+              priority
+            />
           </div>
-        )}
 
-        {tokenValid && (
-          <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label htmlFor="newpassword" className="block text-sm font-medium text-gray-700">
-                New Password
-              </label>
+          <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
+            Reset Password
+          </h2>
+
+          {message && (
+            <p
+              className={`mb-4 text-center text-sm ${
+                fade ? "opacity-0 transition-opacity duration-1000" : "text-green-600"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+
+          {tokenValid && (
+            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="password"
-                id="newpassword"
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+                placeholder="New Password"
+                className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
                 {...register("newpassword", { required: "New password is required" })}
               />
               {errors.newpassword && (
-                <p className="text-sm text-red-500 mt-1">{errors.newpassword.message as string}</p>
+                <p className="text-red-500 text-sm">{errors.newpassword.message as string}</p>
               )}
-            </div>
 
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Confirm Password
-              </label>
               <input
                 type="password"
-                id="confirmPassword"
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+                placeholder="Confirm Password"
+                className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
                 {...register("confirmPassword", { required: "Please confirm your password" })}
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.confirmPassword.message as string}
-                </p>
+                <p className="text-red-500 text-sm">{errors.confirmPassword.message as string}</p>
               )}
-            </div>
 
-            <button
-              type="submit"
-              className="w-full rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 transition"
-            >
-              Reset Password
-            </button>
-          </form>
-        )}
-      </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full p-3 rounded font-semibold text-white ${
+                  isSubmitting
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#0C0C2D] hover:bg-[#1E1E3E]"
+                }`}
+              >
+                {isSubmitting ? "Resetting..." : "Reset Password"}
+              </button>
+            </form>
+          )}
+
+          {/* Back to login */}
+          <div className="mt-6 text-center">
+            <Link href="/" className="text-sm text-[#18A2AC] hover:underline">
+              Back to Home
+            </Link>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

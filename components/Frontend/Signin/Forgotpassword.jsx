@@ -6,17 +6,20 @@ import Image from "next/image";
 import Link from "next/link";
 import signupimage from "../../../public/images/signup.png";
 
-export function AdminForgotPassword() {
+export function ForgotPassword() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // "success" | "error"
   const [fade, setFade] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false); // <-- NEW
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Auto-hide messages after 6s
   useEffect(() => {
     if (message) {
       const fadeTimeout = setTimeout(() => setFade(true), 5000);
       const hideTimeout = setTimeout(() => {
         setMessage("");
+        setMessageType("");
         setFade(false);
       }, 6000);
 
@@ -27,32 +30,37 @@ export function AdminForgotPassword() {
     }
   }, [message]);
 
-  const handleSubmitForm = async (data: any) => {
-    setIsSubmitting(true); // Disable button
+  const handleSubmitForm = async (data) => {
+    if (isSubmitting) return; // Prevent multiple submissions
+    setIsSubmitting(true);
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin-forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: data.email }),
       });
 
+      const result = await res.json();
+
       if (res.ok) {
-        const result = await res.json();
-        setMessage(result.message);
+        setMessage(result.message || "Reset link sent to your email.");
+        setMessageType("success");
         reset();
       } else {
-        setMessage("Something went wrong. Please try again.");
+        setMessage(result.message || "Something went wrong. Please try again.");
+        setMessageType("error");
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.");
+      setMessageType("error");
     } finally {
-      setIsSubmitting(false); // Enable button again
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Main Section */}
       <main className="flex flex-col items-center justify-center flex-grow relative">
         {/* Curved Top Background */}
         <div className="absolute top-0 w-full h-56 bg-[#D5F1F1] rounded-b-[80px]"></div>
@@ -74,8 +82,13 @@ export function AdminForgotPassword() {
             Forgot Password
           </h2>
 
+          {/* Message */}
           {message && (
-            <p className={`mb-4 text-center text-sm ${fade ? "opacity-0 transition-opacity duration-1000" : "text-green-600"}`}>
+            <p
+              className={`mb-4 text-center text-sm transition-opacity duration-1000 ${
+                fade ? "opacity-0" : messageType === "success" ? "text-green-600" : "text-red-600"
+              }`}
+            >
               {message}
             </p>
           )}
@@ -85,6 +98,7 @@ export function AdminForgotPassword() {
             <input
               type="email"
               placeholder="Email address"
+              autoFocus
               className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#6C63FF]"
               {...register("email", {
                 required: "Email is required",
@@ -94,14 +108,23 @@ export function AdminForgotPassword() {
                 },
               })}
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message as string}</p>}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
             <button
               type="submit"
-              disabled={isSubmitting} // <-- DISABLED WHEN SENDING
-              className={`w-full p-3 rounded font-semibold text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#0C0C2D] hover:bg-[#1E1E3E]"}`}
+              disabled={isSubmitting}
+              className={`w-full p-3 rounded font-semibold text-white flex items-center justify-center ${
+                isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#0C0C2D] hover:bg-[#1E1E3E]"
+              }`}
             >
-              {isSubmitting ? "Sending..." : "Send Reset Link"} {/* <-- TEXT CHANGE */}
+              {isSubmitting ? (
+                <div className="flex items-center space-x-2">
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span>Sending...</span>
+                </div>
+              ) : (
+                "Send Reset Link"
+              )}
             </button>
           </form>
 
@@ -117,4 +140,4 @@ export function AdminForgotPassword() {
   );
 }
 
-export default AdminForgotPassword;
+export default ForgotPassword;

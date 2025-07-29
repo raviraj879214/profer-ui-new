@@ -153,6 +153,11 @@ const SignIn = () => {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
+           <div className="flex justify-end mt-3">
+            <Link href="/forgot-password" className="text-sm text-[#18A2AC] hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
           <p className="mt-4 text-center text-[#18A2AC] font-medium">
             Create new account?{" "}
             <Link href="/email-verify" className="underline">

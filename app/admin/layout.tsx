@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="relative flex flex-col min-h-screen bg-white font-sans overflow-hidden">
+      <Header></Header>
       <SidebarProvider>
         {/* <Header /> */}
 
@@ -63,6 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* <Footer /> */}
       </SidebarProvider>
+       <Footer></Footer>
     </div>
   );
 }

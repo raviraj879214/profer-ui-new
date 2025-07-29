@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
 import signupimage from "../../../public/images/signup.png";
+import { Logo } from "./Logo";
 
 export function AdminForgotPassword() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -52,6 +53,11 @@ export function AdminForgotPassword() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <div className="absolute top-6 left-6 z-20">
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+          <Logo />
+        </Link>
+      </div>
       {/* Main Section */}
       <main className="flex flex-col items-center justify-center flex-grow relative">
         {/* Curved Top Background */}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import signupimage from "../../../public/images/signup.png";
+import { Logo } from "./Logo";
 
 export function LoginAdminFrontend() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -44,6 +45,13 @@ export function LoginAdminFrontend() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      {/* Top Logo Section */}
+      <div className="absolute top-6 left-6 z-20">
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+          <Logo />
+        </Link>
+      </div>
+
       {/* Main Section */}
       <main className="flex flex-col items-center justify-center flex-grow relative">
         {/* Curved Top Background */}

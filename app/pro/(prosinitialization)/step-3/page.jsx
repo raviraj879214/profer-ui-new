@@ -1,5 +1,5 @@
 "use client"
-import { ProsStepNextCredentials } from "../../../../components/ProsArea/Prossteps/test";
+import { ProsStepNextCredentials } from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
 
 
 

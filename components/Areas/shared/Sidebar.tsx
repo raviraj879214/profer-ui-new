@@ -83,7 +83,7 @@ export function Sidebar() {
 
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
 
-      {/* <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" /> */}
+      <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );
 }

@@ -1,5 +1,6 @@
-"use client";
-import React from "react";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface DocumentItem {
   title: string;
@@ -16,201 +17,556 @@ interface CredentialSectionProps {
 
 export default function Home() {
   return (
-    <div className="">
-      {/* Main profile header */}
-      <div className="relative bg-[#C1E5EC] p-8 pb-20 rounded-b-3xl mt-6 max-w-7xl mx-auto">
-        <div className="flex items-center space-x-6">
-          {/* Company Logo */}
-          <div className="flex-shrink-0 w-24 h-24">
-            <img
-              src="/images/hometownroofing.png"
-              alt="Hometown Roofing Logo"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          {/* Company Info */}
+    <>
+    {/*Header */}
+  <div className="bg-gray-50 px-[30px]">
+     <div className="bg-[#c9edf2] py-4 px-6 flex justify-between items-center">
+
+        {/* Left Side - Logo and Name */}
+        <div className="flex items-center space-x-4">
+          <Image
+            src="/images/hometownroofing.png"
+            alt="Hometown Roofing Logo"
+            width={150}
+            height={100}
+            className="object-contain"
+          />
           <div>
-            <h1 className="font-bold text-xl text-[#012C43] flex items-center gap-2">
-              Hometown Roofing
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-[#3CB371]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={3}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </h1>
-            <p className="text-gray-500 mt-1">Hometown, USA</p>
-            <p className="flex items-center space-x-2 text-gray-400 mt-2 font-medium">
-              <span>Favorite Pro</span>
-              <svg fill="red" stroke="none" viewBox="0 0 24 24" className="w-4 h-4">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-                         2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 
-                         2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 
-                         5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 
-                         21.35z" />
-              </svg>
-            </p>
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/images/tick.png"
+                width={28}
+                height={28}
+                alt="Verified tick"
+                className="object-contain"
+              />
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                Hometown Roofing Co.
+              </h2>
+            </div>
+            <p className="text-gray-500 text-sm">Hometown, USA</p>
           </div>
         </div>
 
-        {/* Tabs */}
-        <ul className="flex space-x-8 mt-8 text-sm font-semibold text-gray-500">
-          <li className="cursor-pointer hover:text-[#3CB371] py-2">Overview</li>
-          <li className="border-b-2 border-[#3CB371] text-[#3CB371] pb-2 cursor-default">
-            Credentials
-          </li>
-          <li className="cursor-pointer hover:text-[#3CB371] py-2">Download</li>
-          <li className="cursor-pointer hover:text-[#3CB371] py-2">Share</li>
-        </ul>
+        {/* Right Side - Link */}
+        <Link
+          href="#"
+          className="text-teal-500 text-sm sm:text-base hover:underline"
+        >
+          View Public ProFile™
+        </Link>
+      </div>
+    </div>
+     <div className="my-5 " />
+ {/*Main */}
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+       
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/licensed.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+            State Licenses, Registrations,<br /> and Certifications
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
       </div>
 
-      {/* Credentials content */}
-      <main className="flex-grow px-6 py-8 max-w-7xl mx-auto space-y-6">
-        <p className="text-center text-xs text-gray-400 mb-4">
-          *Credentials are in order of importance from the top to bottom.
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+          Kansas Registered Roofing Contractor Certificate
         </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/RC.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </div>
 
-        <CredentialSection
-          title="State Licenses, Registrations, and Certifications"
-          viewCount={35}
-          documents={[
-            {
-              title: "Kansas Registered Roofing Contractor Certificate",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9ffff034-1fbd-48aa-878e-8f74a583d251.png",
-              alt: "Kansas Registered Roofing Contractor Certificate",
-            },
-            {
-              title: "North Carolina Registered Roofing Contractor Certificate",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c3b94a0c-ecc3-44e2-ae93-f3e073530fec.png",
-              alt: "North Carolina Registered Roofing Contractor Certificate",
-            },
-          ]}
-        />
-
-        <CredentialSection
-          title="Local Licenses, Registrations, and Certifications"
-          viewCount={48}
-          documents={[
-            {
-              title: "Wichita Area Class A General Contractor License",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a41a634e-3aab-4fde-8f03-b0633819d655.png",
-              alt: "Wichita Area Class A General Contractor License",
-            },
-            {
-              title: "Johnson County Class A General Contractor License",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/577766b7-f9ee-433f-b7ba-8bfc03daf99e.png",
-              alt: "Johnson County Class A General Contractor License",
-            },
-          ]}
-        />
-
-        <CredentialSection
-          title="Insurance and Bonds"
-          viewCount={5}
-          documents={[
-            {
-              title: "Liability Insurance",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6e670210-38fd-4f85-aee3-238888de6fa1.png",
-              alt: "Liability Insurance document",
-              subText: "Verify Insurance Services",
-            },
-            {
-              title: "Work Comp Insurance",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93e8cff2-a6fc-4424-9dfd-fe75d345b966.png",
-              alt: "Work Comp Insurance document",
-              subText: "Verify Insurance Services",
-            },
-          ]}
-        />
-
-        <CredentialSection
-          title="Certificate of Good Standing"
-          viewCount={1}
-          documents={[
-            {
-              title: "Kansas Secretary of State Certificate of Good Standing",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/66d57fea-b02c-4f44-b17f-f9b92934ca1e.png",
-              alt: "Kansas Secretary of State Certificate of Good Standing",
-            },
-          ]}
-        />
-
-        <CredentialSection
-          title="Skills Certifications"
-          viewCount={11}
-          documents={[
-            {
-              title: "Ludowici Installation Certificate",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d1b6dd1c-c092-4193-b634-8a49ff187f94.png",
-              alt: "Ludowici Installation Certificate",
-            },
-            {
-              title: "Ludowici Installation Certificate",
-              imgSrc: "https://placehold.co/200x112/cccccc/000000?text=Ludowici+Certificate+Blur",
-              alt: "Ludowici Installation Certificate",
-            },
-          ]}
-        />
-
-        <CredentialSection title="Safety Certifications" viewCount={0} documents={[]} />
-
-        <CredentialSection
-          title="Government Certifications"
-          viewCount={2}
-          documents={[
-            {
-              title: "Kansas Minority Business Owner Certificate",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fd0999cb-058f-4579-a34f-d5efd8704c1f.png",
-              alt: "Kansas Minority Business Owner Certificate",
-            },
-            {
-              title: "SAM.GOV Registration Certificate",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/defef40e-ec8f-4d1e-9ac5-48ac18950bdf.png",
-              alt: "SAM.GOV Registration Certificate",
-            },
-          ]}
-        />
-
-        <CredentialSection
-          title="Badges"
-          viewCount={10}
-          documents={[
-            {
-              title: "Porch Pro Badge",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ff3147bf-8048-47f2-b0eb-7c02387e3868.png",
-              alt: "Porch Pro Badge",
-            },
-            {
-              title: "Google Guaranteed Badge",
-              imgSrc:
-                "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f681a3ad-7143-4ce1-94a7-748e2b04ae9a.png",
-              alt: "Google Guaranteed Badge",
-            },
-          ]}
-        />
-
-        <p className="text-center text-xs text-gray-400 mt-4">
-          *Credentials are in order of importance from the top to bottom.
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+          North Carolina Registered Roofing Contractor Certificate
         </p>
-      </main>
+        <div className="h-[124px] w-[250px] mt-10  rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/NCC.jpg"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/licensed.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+          Local Licenses, Registrations, and Certifications
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+        MABCD Class A General Contractor License   
+        </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/CL.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+         Johnson County Class A General Contractor License    
+        </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/JC.jpg"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/insured.jpg" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+          Insurance
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+      Liability Insurance Certificatee   
+        </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/LI.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+        Workers Compensations Insurance Certificate   
+        </p>
+        <div className="h-[124px] w-[250px] mt-6 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/LI.jpg"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center -ml-[250px]">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/Checkmark.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+         Certificate of Good Standing
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+      Kansas Secretary of State Certificate of Good Standing  
+        </p>
+        <div className="h-[124px] w-[250px] mt-4 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/SC.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      
+    </div>
+  </div>
+</div>
+ 
+
+//
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/Checkmark.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+       Skills Certifications
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+   Ludowici Installation Certificate   
+        </p>
+        <div className="h-[124px] w-[250px] mt-9 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/LC1.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+      Ludowici Installation Certificate    
+        </p>
+        <div className="h-[124px] w-[250px] mt-9 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/LC2.jpg"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p className="text-center text-red-600 text-l mt-2">
+  Missing safety certifications. Please upload.
+</p>
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+ <div className="relative max-w-screen-lg mx-auto rounded-2xl border border-red-300 shadow-[0_4px_12px_rgba(255,0,0,0.08)] bg-white p-4 sm:p-6">
+
+    {/* Update Link */}
+    
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px] -ml-[540px]">
+        <div className="flex items-center gap-2 mb-2 ">
+          <Image src="/images/Checkmark.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left  ">
+       Safety Certifications
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+     
+    </div>
+  </div>
+</div>
+
+//
+  <div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/Checkmark.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+          Government Certifications
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+        Kansas Minority Business Owner    
+        </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/KS.jpg"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+       SAM.GOV
+Registration Certificate       
+        </p>
+        <div className="h-[124px] w-[250px] mt-10 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/SOM.jpg"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div className="w-full px-4 sm:px-6 py-6 bg-gray-50">
+  <div className="relative max-w-screen-lg mx-auto rounded-2xl shadow-lg shadow-black/60 bg-white p-4 sm:p-6">
+    {/* Update Link */}
+    <Link href="#" className="absolute top-2 right-4 text-xl text-red-600 hover:underline">
+      Update
+    </Link>
+
+    {/* Certificates Section */}
+    <div className="mt-8 flex flex-wrap gap-6 justify-center">
+      
+      {/* Column 1 */}
+      <div className="flex flex-col items-center sm:items-start min-w-[180px] max-w-[250px]">
+        <div className="flex items-center gap-2 mb-2">
+          <Image src="/images/Checkmark.png" alt="Shield Icon" width={24} height={24} />
+          <h3 className="font-semibold text-gray-800 text-center sm:text-left">
+         Badges
+          </h3>
+        </div>
+        <Link href="#" className="text-sm text-blue-500 hover:underline mb-4">
+          View 35 document(s)
+        </Link>
+        <div className="h-[120px] w-[200px] border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center text-sm text-gray-500 hover:border-teal-400 cursor-pointer shadow-sm">
+          <span className="text-2xl text-teal-500">+</span>
+          <p className="text-xs">Drag & drop</p>
+          <p className="text-xs">or</p>
+          <p className="text-xs text-teal-500 underline">Click to upload</p>
+        </div>
+      </div>
+
+      {/* Column 2 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+       Porch Pro Badge    
+        </p>
+        <div className="h-[124px] w-[250px] mt-9 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/PP.png"
+            alt="RC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Column 3 */}
+      <div className="flex flex-col items-center text-center min-w-[180px] max-w-[250px]">
+        <p className="text-sm font-semibold text-gray-500 mb-2">
+Google Guaranteed Badge       
+        </p>
+        <div className="h-[124px] w-[250px] mt-9 rounded-md border overflow-hidden shadow-sm">
+          <Image
+            src="/images/GG.png"
+            alt="NCC Certificate"
+            width={250}
+            height={130}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div className="flex justify-center">
+  <button
+    type="button"
+    className="items-center mt-6 rounded-full bg-red-500 w-full max-w-xs px-6 py-3 text-white text-lg sm:text-2xl font-medium shadow-md transition-colors hover:bg-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
+  >
+    Save
+  </button>
+</div>
+<div className='my-10'></div>
+   
+    </>
   );
 }
+
+
+
+
+
+
 
 function CredentialSection({ title, viewCount, documents }: CredentialSectionProps) {
   return (

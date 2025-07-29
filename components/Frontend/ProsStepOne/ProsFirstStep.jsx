@@ -7,7 +7,8 @@ export function Companyprofile({ paymentIntentId }) {
   const [prosName, setProsName] = useState("");
   const router =  useRouter();
  const [isReady, setIsReady] = useState(false);
-   
+
+
 
   useEffect(() => {
     const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
@@ -161,7 +162,9 @@ export function Companyprofile({ paymentIntentId }) {
             <span className="w-3 h-3 rounded-full bg-gray-300 block"></span>
             <span className="w-3 h-3 rounded-full bg-gray-300 block"></span>
           </div>
-          <button className="bg-[#0A0B27] shadow-lg text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-[#131533] transition">
+          <button onClick={()=>{
+            router.push('/pro/step-2')
+          }}  className="bg-[#0A0B27] shadow-lg text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-[#131533] transition">
             Next
           </button>
         </div>

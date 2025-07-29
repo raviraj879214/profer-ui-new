@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 
 
 
@@ -5,7 +6,7 @@
 
 export function ProsStepNextCredentials(){
 
-
+      const router = useRouter();
 
 
     return(<>
@@ -52,7 +53,9 @@ export function ProsStepNextCredentials(){
         </div>
 
         {/* Next Button */}
-        <button className="bg-gray-900 text-white font-semibold rounded-lg py-2 px-6 shadow-md hover:brightness-110 transition duration-150">
+        <button onClick={()=>{
+          router.push('/pro/pro-dashboard')
+        }} className="bg-gray-900 text-white font-semibold rounded-lg py-2 px-6 shadow-md hover:brightness-110 transition duration-150">
           Next
         </button>
       </div>

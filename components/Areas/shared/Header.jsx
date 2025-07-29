@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,7 +13,7 @@ export function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState(""); // store user name
+  const [userName, setUserName] = useState(""); 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -27,7 +28,7 @@ export function Header() {
   // Check login state on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const storedName = localStorage.getItem("username"); // optional user name
+    const storedName = localStorage.getItem("username");
     if (token) {
       setIsLoggedIn(true);
       setUserName(storedName || "My Account");
@@ -68,7 +69,7 @@ export function Header() {
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Center Nav - Desktop only */}
+        {/* Center Nav - Desktop */}
         <nav className="hidden md:flex gap-8 text-gray-600 font-medium text-base">
           {navLinks.map((link) => (
             <Link

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import type { JSX } from "react";
 
 export default function ProProfile() {
   return (
@@ -47,8 +46,6 @@ export default function ProProfile() {
             </p>
           </div>
         </div>
-
-        
       </div>
 
       {/* Main Section */}
@@ -64,8 +61,6 @@ export default function ProProfile() {
             <span className="font-semibold text-sm">Insured</span>
           </div>
 
-
-          
           <div className="col-span-1 md:col-span-1 flex flex-col">
             <div className="flex items-center space-x-4">
               <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
@@ -185,18 +180,8 @@ function FacebookIcon() {
   );
 }
 
-
 // CREDENTIAL DATA
-const credentialData: {
-  title: string;
-  icon: JSX.Element;
-  viewText?: string;
-  contents: {
-    text: string;
-    image: string;
-    alt: string;
-  }[];
-}[] = [
+const credentialData = [
   {
     title: "State Licenses, Registrations, and Certifications",
     icon: <img src="/images/licensed.png" alt="State License Icon" className="w-5 h-5 object-contain" />,

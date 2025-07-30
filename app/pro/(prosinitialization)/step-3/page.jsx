@@ -1,9 +1,5 @@
-import { ProsStepNextCredentials } from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
 
-
-
-
-
+import ProsStepNextCredentials from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
 
 
 

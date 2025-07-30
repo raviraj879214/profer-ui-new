@@ -10,9 +10,6 @@ import {
   BuildingOffice2Icon,
   ShieldCheckIcon,
   ClipboardDocumentListIcon,
-  EnvelopeIcon,
-  Cog6ToothIcon,
-  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import { Logo } from "@/components/Areas/shared/Logo";
 
@@ -22,7 +19,6 @@ export function ProHeader() {
   const [activeLink, setActiveLink] = useState("Home");
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
-  
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -30,17 +26,16 @@ export function ProHeader() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#", icon: UserIcon },
-    { name: "ProFile™ Overview", href: "#", icon: BuildingOffice2Icon },
+    { name: "ProFile™ Overview", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
     { name: "Credentials", href: "#", icon: ShieldCheckIcon, highlight: true },
-    { name: "Bids", href: "#", icon: ClipboardDocumentListIcon },
-    { name: "Notifications", href: "#", icon: EnvelopeIcon },
-    { name: "Stats", href: "#", icon: Cog6ToothIcon },
-    { name: "Messages", href: "#", icon: ChatBubbleLeftRightIcon },
+    { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
   ];
 
-  const handleLinkClick = (name) => {
+  const handleLinkClick = (name, href) => {
     setActiveLink(name);
+    if (href && href !== "#") {
+      router.push(href);
+    }
   };
 
   const handleLogout = () => {
@@ -63,26 +58,23 @@ export function ProHeader() {
           {navLinks.map((link) => {
             const isActive = activeLink === link.name;
             return (
-              <Link
+              <button
                 key={link.name}
-                href={link.href}
-                prefetch={false}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.name);
-                }}
+                onClick={() => handleLinkClick(link.name, link.href)}
                 className={clsx(
                   "flex items-center gap-2 relative transition-all px-2 py-1 rounded-md hover:text-gray-900 cursor-pointer",
                   isActive && "text-red-600 font-semibold",
                   link.href === "#" && "opacity-70"
                 )}
               >
-                <link.icon className={clsx("w-5 h-5", link.highlight && "text-red-600")} />
+                <link.icon
+                  className={clsx("w-5 h-5", link.highlight && "text-red-600")}
+                />
                 {link.name}
                 {isActive && (
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full" />
                 )}
-              </Link>
+              </button>
             );
           })}
         </nav>
@@ -136,27 +128,26 @@ export function ProHeader() {
             {navLinks.map((link) => {
               const isActive = activeLink === link.name;
               return (
-                <Link
+                <button
                   key={link.name}
-                  href={link.href}
-                  prefetch={false}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.name);
+                  onClick={() => {
+                    handleLinkClick(link.name, link.href);
                     setMobileMenuOpen(false);
                   }}
                   className={clsx(
-                    "flex items-center gap-2 relative px-2 py-1 rounded-md hover:text-black",
+                    "flex items-center gap-2 relative px-2 py-1 rounded-md hover:text-black text-left",
                     isActive && "text-red-600 font-semibold",
                     link.href === "#" && "opacity-70"
                   )}
                 >
-                  <link.icon className={clsx("w-5 h-5", link.highlight && "text-red-600")} />
+                  <link.icon
+                    className={clsx("w-5 h-5", link.highlight && "text-red-600")}
+                  />
                   {link.name}
                   {isActive && (
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full" />
                   )}
-                </Link>
+                </button>
               );
             })}
           </nav>

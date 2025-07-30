@@ -80,6 +80,7 @@ export function Sidebar() {
       <SideNavButton icon={BiddingIcon} label="Bidding Activity" href="/admin/bidding" />
       <SideNavButton icon={AnalyticsIcon} label="Analytics" href="/admin/analytics" />
       <SideNavButton icon={UsersIcon} label="Users" href="/admin/users" /> */}
+      <SideNavButton icon={UsersIcon} label="CMS" href="/admin/cms" /> 
 
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
 

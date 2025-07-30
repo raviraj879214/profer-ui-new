@@ -22,6 +22,7 @@ export function ProHeader() {
   const [activeLink, setActiveLink] = useState("Home");
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");

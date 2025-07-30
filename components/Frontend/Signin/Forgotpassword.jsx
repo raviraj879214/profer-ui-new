@@ -130,7 +130,7 @@ export function ForgotPassword() {
 
           {/* Back to login */}
           <div className="mt-6 text-center">
-            <Link href="/admin-login" className="text-sm text-[#18A2AC] hover:underline">
+            <Link href="/sign-in" className="text-sm text-[#18A2AC] hover:underline">
               Back to login
             </Link>
           </div>

@@ -43,14 +43,27 @@ function AnalyticsIcon(props: any) {
   );
 }
 
-function UsersIcon(props: any) {
+function CmsIcon(props: any) {
   return (
-    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
-      <circle cx="12" cy="7" r="4" />
-      <path d="M5.5 21h13a2 2 0 00-13 0z" />
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      {/* Outer browser frame */}
+      <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+      <line x1="3" y1="8" x2="21" y2="8" />
+      {/* Gear for settings */}
+      <circle cx="12" cy="14" r="2" />
+      <path d="M12 11v1M12 17v1M9.8 12.2l-.7-.7M15 17l-.7-.7M9.8 15.8l-.7.7M15 12.9l-.7.7" />
     </svg>
   );
 }
+
+
+
 
 function SettingsIcon(props: any) {
   return (
@@ -80,7 +93,8 @@ export function Sidebar() {
       <SideNavButton icon={BiddingIcon} label="Bidding Activity" href="/admin/bidding" />
       <SideNavButton icon={AnalyticsIcon} label="Analytics" href="/admin/analytics" />
       <SideNavButton icon={UsersIcon} label="Users" href="/admin/users" /> */}
-      <SideNavButton icon={UsersIcon} label="CMS" href="/admin/cms" /> 
+
+      <SideNavButton icon={CmsIcon} label="CMS" href="/admin/cms" /> 
 
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
 

@@ -116,6 +116,15 @@ export function ProjectRequest() {
     }
   }, [messgae]);
 
+  // Group files by type
+  const groupFilesByType = (files = []) => {
+    return files.reduce((acc, file) => {
+      acc[file.fileType] = acc[file.fileType] || [];
+      acc[file.fileType].push(file);
+      return acc;
+    }, {});
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="bg-white rounded-2xl shadow-md p-6">
@@ -151,8 +160,8 @@ export function ProjectRequest() {
                 </th>
                 <th className="px-4 py-3">Full Name</th>
                 <th className="px-4 py-3">Contact</th>
-                <th className="px-4 py-3">Email Address</th>
-                <th className="px-4 py-3">Property Type</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Project Title</th>
                 <th className="px-4 py-3">Posted Date</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
@@ -170,17 +179,13 @@ export function ProjectRequest() {
                   <td className="px-4 py-4 font-semibold">
                     {user.fullName || "N/A"}
                   </td>
-                  <td className="px-4 py-4 whitespace-pre-line">
-                    <span className="text-xs text-gray-600">
-                      {user.phone || "N/A"}
-                    </span>
+                  <td className="px-4 py-4 text-xs text-gray-600">
+                    {user.phoneNumber || "N/A"}
                   </td>
                   <td className="px-4 py-4 text-xs text-blue-600">
-                    {user.email || "N/A"}
+                    {user.emailAddress || "N/A"}
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-700">
-                    {user.propertyType || "N/A"}
-                  </td>
+                  <td className="px-4 py-4">{user.projectTitle || "N/A"}</td>
                   <td className="px-4 py-4 text-sm text-gray-600">
                     {user.createdAt
                       ? new Date(user.createdAt).toLocaleDateString("en-IN", {
@@ -225,7 +230,6 @@ export function ProjectRequest() {
               <option value={10}>10</option>
             </select>
           </div>
-
           <div className="flex items-center space-x-2">
             <button
               disabled={currentPage === 1}
@@ -266,80 +270,94 @@ export function ProjectRequest() {
 
             <div className="p-6 overflow-y-auto flex-1">
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                {selectedUser.fullName && (
-                  <div className="border rounded-lg p-4">
-                    <dt className="font-semibold text-gray-900">Name</dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.fullName || "N/A"}
-                    </dd>
-                  </div>
+                {[
+                  ["Full Name", selectedUser.fullName],
+                  ["Email Address", selectedUser.emailAddress],
+                  ["Phone Number", selectedUser.phoneNumber],
+                  ["Preferred Contact Method", selectedUser.preferredContactMethod],
+                  ["Preferred Calling Time", selectedUser.preferredCallingTime],
+                  ["Project Title", selectedUser.projectTitle],
+                  ["Project Address", selectedUser.projectAddress],
+                  ["Product Type", selectedUser.productType],
+                  ["Product Color", selectedUser.productColor],
+                  ["Product Preference", selectedUser.productPreference],
+                ].map(
+                  ([label, value], idx) =>
+                    value && (
+                      <div key={idx} className="border rounded-lg p-4">
+                        <dt className="font-semibold text-gray-900">{label}</dt>
+                        <dd className="text-gray-700">{value}</dd>
+                      </div>
+                    )
                 )}
-                {selectedUser.email && (
-                  <div className="border rounded-lg p-4">
-                    <dt className="font-semibold text-gray-900">Email</dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.email || "N/A"}
-                    </dd>
-                  </div>
-                )}
-                {selectedUser.phone && (
-                  <div className="border rounded-lg p-4">
-                    <dt className="font-semibold text-gray-900">Phone</dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.phone || "N/A"}
-                    </dd>
-                  </div>
-                )}
-                {selectedUser.propertyType && (
-                  <div className="border rounded-lg p-4">
-                    <dt className="font-semibold text-gray-900">
-                      Property Type
-                    </dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.propertyType || "N/A"}
-                    </dd>
-                  </div>
-                )}
-                {selectedUser.serviceNeeded && (
-                  <div className="border rounded-lg p-4">
-                    <dt className="font-semibold text-gray-900">
-                      Service Needed
-                    </dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.serviceNeeded || "N/A"}
-                    </dd>
-                  </div>
-                )}
-                {selectedUser.problemDescription && (
+
+                {selectedUser.projectDetails && (
                   <div className="border rounded-lg p-4 sm:col-span-2">
                     <dt className="font-semibold text-gray-900">
-                      Description
+                      Project Details
                     </dt>
-                    <dd className="text-gray-700">
-                      {selectedUser.problemDescription || "N/A"}
-                    </dd>
+                    <dd className="text-gray-700">{selectedUser.projectDetails}</dd>
                   </div>
                 )}
-                {selectedUser.photoUrls && selectedUser.photoUrls.length > 0 && (
+                {selectedUser.workDescription && (
                   <div className="border rounded-lg p-4 sm:col-span-2">
-                    <dt className="font-semibold text-gray-900 mb-2">Files</dt>
-                    <dd className="space-y-2">
-                      {selectedUser.photoUrls.map((url, idx) => (
-                        <a
+                    <dt className="font-semibold text-gray-900">
+                      Work Description
+                    </dt>
+                    <dd className="text-gray-700">{selectedUser.workDescription}</dd>
+                  </div>
+                )}
+
+                {/* Grouped Files */}
+             {selectedUser.files && selectedUser.files.length > 0 &&
+              Object.entries(groupFilesByType(selectedUser.files)).map(([type, files]) => (
+                <div key={type} className="border rounded-lg p-4 sm:col-span-2">
+                  <dt className="font-semibold text-gray-900 mb-2">
+                    {type.toUpperCase()} Files
+                  </dt>
+                  <dd className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {files.map((file, idx) => {
+                      const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(file.originalName);
+                      return (
+                        <div
                           key={idx}
-                          href={url}
-                          download
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center text-blue-600 hover:underline"
+                          className="flex flex-col items-start border rounded p-2 bg-gray-50"
                         >
-                          <ArrowDownTrayIcon className="w-5 h-5 mr-2" />
-                          Download File {idx + 1}
-                        </a>
-                      ))}
-                    </dd>
-                  </div>
-                )}
+                          {isImage && (
+                            <a
+                              href={file.fileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full"
+                            >
+                              <img
+                                src={file.fileUrl}
+                                alt={file.originalName}
+                                className="w-full h-40 object-contain bg-white border rounded"
+                              />
+                            </a>
+                          )}
+                          <div className="flex items-center space-x-2 mt-2">
+                            <ArrowDownTrayIcon className="w-5 h-5 text-gray-700" />
+                            <a
+                              href={file.fileUrl}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline text-sm break-words"
+                            >
+                              {file.originalName}
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </dd>
+                </div>
+              ))
+            }
+
+
               </dl>
             </div>
 

@@ -19,9 +19,9 @@ export function Header() {
 
   const navLinks = [
     { name: "Search for Pros", href: "/search-for-pros" },
-    { name: "Project Auction", href: "/project-auction" },
+    { name: "Project Auction", href: "/auction" },
     { name: "Why Profer", href: "/why-profer" },
-    { name: "Submit Project", href: "/submit-project" },
+    // { name: "Submit Project", href: "/submit-project" },
     { name: "Select Plan", href: "/pro-select-plan" },
   ];
 

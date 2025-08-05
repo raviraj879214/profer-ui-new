@@ -88,7 +88,7 @@ export function Sidebar() {
   return (
     <nav className="flex flex-col w-60 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
       <SideNavButton icon={DashboardIcon} label="Dashboard" href="/admin/dashboard" />
-      {/* <SideNavButton icon={CompaniesIcon} label="Companies" href="/admin/companies" /> */}
+      <SideNavButton icon={CompaniesIcon} label="Companies" href="/admin/companies" />
       <SideNavButton icon={ProjectsIcon} label="Projects" href="/admin/projects" />
       {/* <SideNavButton icon={BiddingIcon} label="Bidding Activity" href="/admin/bidding" /> */}
       {/* <SideNavButton icon={AnalyticsIcon} label="Analytics" href="/admin/analytics" /> */}

@@ -52,7 +52,7 @@ export default function ProsStepNextCredentials() {
         {/* Next Button */}
         <button
           onClick={() => {
-            router.push('/pro/pro-dashboard');
+            router.push('/pro/pro-credentials');
           }}
           className="bg-gray-900 text-white font-semibold rounded-lg py-2 px-6 shadow-md hover:brightness-110 transition duration-150"
         >

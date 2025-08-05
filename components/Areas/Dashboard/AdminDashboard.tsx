@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { AdminSubHeader } from "../shared/AdminSubHeader";
 
 // Dummy Stats
 const stats = [
@@ -34,7 +35,10 @@ const verificationRequests = [
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Verification Queue');
 
-  return (
+  return (<>
+    
+     <AdminSubHeader></AdminSubHeader>
+
     <main className="flex-1 p-4 md:p-6 bg-gray-50 min-h-screen">
       <h1 className="text-2xl md:text-3xl font-bold mb-6">Admin Dashboard</h1>
 
@@ -132,5 +136,5 @@ export function AdminDashboard() {
         </div>
       </div>
     </main>
-  );
+  </>);
 }

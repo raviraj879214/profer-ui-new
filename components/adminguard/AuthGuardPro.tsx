@@ -26,11 +26,16 @@ export function AuthGuardPro({ children }: { children: React.ReactNode }) {
           const data = await res.json();
           console.log("Protected check response:", data);
 
-          if (data.status == 401) {
+          if (data.status == 401)
+          {
             router.push('/admin-login');
-          } else if (data.user.role == "Admin") {
-            router.push('/admin/dashboard');
+          } 
+          else if (data.user.role == "Admin")
+          {
+              router.push('/admin/dashboard');
           }
+          
+
         } else {
           router.push('/admin-login');
         }

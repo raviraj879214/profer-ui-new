@@ -7,6 +7,9 @@ import { Header } from "@/components/Areas/shared/Header";
 import { Sidebar } from "@/components/Areas/shared/Sidebar";
 import { SidebarProvider } from "@/components/context/SidebarContext";
 
+import {AdminSubHeader} from "../../components/Areas/shared/AdminSubHeader";
+
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -56,7 +59,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
 
           <AuthGuard>
-            <main className="flex-1 p-4 sm:p-6 md:p-8 bg-gray-50 overflow-auto z-0">
+
+            
+
+            <main className="flex-1 p-4 bg-gray-50 overflow-auto z-0">
+
+              
+             
+          
+
               {children}
             </main>
           </AuthGuard>

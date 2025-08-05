@@ -402,147 +402,254 @@ export function CompanyManagement() {
       </div>
 
       {/* View Modal */}
-      {isModalOpen && selectedUser && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col max-h-[90vh]">
-            {/* Header */}
-            <div className="flex justify-between items-center border-b px-6 py-4">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">
-                  {selectedUser.businessDetails?.companyName || "Company Details"}
-                </h2>
-                <span className={`inline-block mt-1 px-3 py-1 text-xs rounded-full ${
-                  selectedUser.status === "0" ? "bg-yellow-100 text-yellow-800" :
-                  selectedUser.status === "1" ? "bg-green-100 text-green-800" :
-                  "bg-red-100 text-red-800"
-                }`}>
-                  {selectedUser.status === "0" ? "Pending" : selectedUser.status === "1" ? "Approved" : "Rejected"}
-                </span>
-              </div>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-500 hover:text-gray-800 text-lg"
-              >
-                ✕
-              </button>
-            </div>
+    {isModalOpen && selectedUser && (
+  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col max-h-[90vh]">
+      {/* Header */}
+      <div className="flex justify-between items-center border-b px-6 py-4">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">
+            {selectedUser.businessDetails?.companyName || "Company Details"}
+          </h2>
+          <span
+            className={`inline-block mt-1 px-3 py-1 text-xs rounded-full ${
+              selectedUser.status === "0"
+                ? "bg-yellow-100 text-yellow-800"
+                : selectedUser.status === "1"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {selectedUser.status === "0"
+              ? "Pending"
+              : selectedUser.status === "1"
+              ? "Approved"
+              : "Rejected"}
+          </span>
+        </div>
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="text-gray-500 hover:text-gray-800 text-lg"
+        >
+          ✕
+        </button>
+      </div>
 
-            {/* Content */}
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
-              {/* Overview */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Description</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.companyDescription || "N/A"}</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Experience</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.experienceYears || "0"} years</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Employees</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.employeeCount || "0"} employees</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Joined</dt>
-                  <dd className="text-gray-700">
-                    {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </dd>
-                </div>
-              </div>
-
-              {/* Contact Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Contact Person</dt>
-                  <dd className="text-gray-700">{selectedUser.firstname} {selectedUser.lastname}</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Email</dt>
-                  <dd className="text-blue-600">{selectedUser.email}</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Phone</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.companyPhone || "N/A"}</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Location</dt>
-                  <dd className="text-gray-700">{selectedUser.city}, {selectedUser.state} {selectedUser.zipCode}</dd>
-                </div>
-              </div>
-
-              {/* Business Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">EIN</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.ein || "N/A"}</dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Owner</dt>
-                  <dd className="text-gray-700">
-                    {selectedUser.businessDetails?.ownerFirstName} {selectedUser.businessDetails?.ownerLastName}<br />
-                    {selectedUser.businessDetails?.ownerEmail}
-                  </dd>
-                </div>
-                <div className="border rounded-lg p-4 sm:col-span-2">
-                  <dt className="font-semibold text-gray-900">Services</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.services ? JSON.parse(selectedUser.businessDetails.services).join(", ") : "N/A"}</dd>
-                </div>
-                <div className="border rounded-lg p-4 sm:col-span-2">
-                  <dt className="font-semibold text-gray-900">Qualifications</dt>
-                  <dd className="text-gray-700">{selectedUser.businessDetails?.qualifications ? JSON.parse(selectedUser.businessDetails.qualifications).join(", ") : "N/A"}</dd>
-                </div>
-              </div>
-
-              {/* Images */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Company Logo</dt>
-                  <dd>
-                    {selectedUser.businessDetails?.companyLogo ? (
-                      <img src={selectedUser.businessDetails.companyLogo} alt="Logo" className="w-24 h-24 rounded-lg border object-cover mt-2" />
-                    ) : "No logo"}
-                  </dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Owner License</dt>
-                  <dd>
-                    {selectedUser.businessDetails?.ownerLicense ? (
-                      <img src={selectedUser.businessDetails.ownerLicense} alt="License" className="w-24 h-24 rounded-lg border object-cover mt-2" />
-                    ) : "No license"}
-                  </dd>
-                </div>
-              </div>
-
-              {/* Subscription */}
-              {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Subscription</dt>
-                  <dd className="text-gray-700">
-                    Plan: {selectedUser.subscriptions[0].PlanName} ({selectedUser.subscriptions[0].PlanType})<br />
-                    Status: {selectedUser.subscriptions[0].Status}<br />
-                    Amount: {selectedUser.subscriptions[0].Amount} {selectedUser.subscriptions[0].Currency}
-                  </dd>
-                </div>
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="border-t px-6 py-3 flex justify-end space-x-3">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
-              >
-                Close
-              </button>
-            </div>
+      {/* Content */}
+      <div className="p-6 overflow-y-auto flex-1 space-y-4">
+        {/* Overview */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Description</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.companyDescription || "N/A"}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Experience</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.experienceYears || "0"} years
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Employees</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.employeeCount || "0"} employees
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Joined</dt>
+            <dd className="text-gray-700">
+              {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </dd>
           </div>
         </div>
-      )}
+
+        {/* Contact Info */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Contact Person</dt>
+            <dd className="text-gray-700">
+              {selectedUser.firstname} {selectedUser.lastname}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Email</dt>
+            <dd className="text-blue-600">{selectedUser.email}</dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Phone</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.companyPhone || "N/A"}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Location</dt>
+            <dd className="text-gray-700">
+              {selectedUser.city}, {selectedUser.state} {selectedUser.zipCode}
+            </dd>
+          </div>
+        </div>
+
+        {/* Business Details */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">EIN</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.ein || "N/A"}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Owner</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.ownerFirstName}{" "}
+              {selectedUser.businessDetails?.ownerLastName}
+              <br />
+              {selectedUser.businessDetails?.ownerEmail}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4 sm:col-span-2">
+            <dt className="font-semibold text-gray-900">Services</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.services
+                ? JSON.parse(selectedUser.businessDetails.services).join(", ")
+                : "N/A"}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4 sm:col-span-2">
+            <dt className="font-semibold text-gray-900">Qualifications</dt>
+            <dd className="text-gray-700">
+              {selectedUser.businessDetails?.qualifications
+                ? JSON.parse(selectedUser.businessDetails.qualifications).join(
+                    ", "
+                  )
+                : "N/A"}
+            </dd>
+          </div>
+        </div>
+
+        {/* Images */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Company Logo</dt>
+            <dd>
+              {selectedUser.businessDetails?.companyLogo ? (
+                <a
+                  href={selectedUser.businessDetails.companyLogo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={selectedUser.businessDetails.companyLogo}
+                    alt="Logo"
+                    className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                  />
+                </a>
+              ) : (
+                "No logo"
+              )}
+            </dd>
+          </div>
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Owner License</dt>
+            <dd>
+              {selectedUser.businessDetails?.ownerLicense ? (
+                <a
+                  href={selectedUser.businessDetails.ownerLicense}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={selectedUser.businessDetails.ownerLicense}
+                    alt="License"
+                    className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                  />
+                </a>
+              ) : (
+                "No license"
+              )}
+            </dd>
+          </div>
+        </div>
+
+        {/* Subscription */}
+        {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Subscription</dt>
+            <dd className="text-gray-700">
+              Plan: {selectedUser.subscriptions[0].PlanName} (
+              {selectedUser.subscriptions[0].PlanType})
+              <br />
+              Status: {selectedUser.subscriptions[0].Status}
+              <br />
+              Amount: {selectedUser.subscriptions[0].Amount}{" "}
+              {selectedUser.subscriptions[0].Currency}
+            </dd>
+          </div>
+        )}
+
+        {/* Credentials */}
+        {selectedUser.credentials && selectedUser.credentials.length > 0 && (
+          <div className="border rounded-lg p-4">
+            <dt className="font-semibold text-gray-900">Credentials</dt>
+            <div className="mt-3 space-y-4">
+              {Object.entries(
+                selectedUser.credentials.reduce((acc, cred) => {
+                  if (!acc[cred.section]) acc[cred.section] = [];
+                  acc[cred.section].push(cred);
+                  return acc;
+                }, {})
+              ).map(([section, creds]) => (
+                <div key={section}>
+                  <h4 className="text-md font-semibold text-gray-800 mb-2">
+                    {section}
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {creds.map((cred) => (
+                      <div
+                        key={cred.id}
+                        className="border rounded-lg p-2 flex flex-col items-center text-center"
+                      >
+                        <a
+                          href={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
+                            alt={cred.name}
+                            className="w-24 h-24 object-cover rounded mb-2 cursor-pointer hover:opacity-80"
+                          />
+                        </a>
+                        <p className="text-sm text-gray-700">{cred.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="border-t px-6 py-3 flex justify-end space-x-3">
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }

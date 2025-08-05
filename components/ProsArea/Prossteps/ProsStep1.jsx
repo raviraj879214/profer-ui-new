@@ -9,11 +9,6 @@ export function ProsStep(){
 
 
 
-
-
-
-
-
     return(<>
      <div className="flex flex-col min-h-screen">
       {/* Main Content */}

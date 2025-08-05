@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // <-- Added usePathname
 import clsx from "clsx";
 import { Menu, X } from "lucide-react";
 import {
@@ -15,8 +15,8 @@ import { Logo } from "@/components/Areas/shared/Logo";
 
 export function ProHeader() {
   const router = useRouter();
+  const pathname = usePathname(); // <-- Get current path
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Home");
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -27,16 +27,10 @@ export function ProHeader() {
 
   const navLinks = [
     { name: "ProFile™ Overview", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
-    { name: "Credentials", href: "#", icon: ShieldCheckIcon, highlight: true },
+    { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
+    { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
   ];
-
-  const handleLinkClick = (name, href) => {
-    setActiveLink(name);
-    if (href && href !== "#") {
-      router.push(href);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -56,11 +50,11 @@ export function ProHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 text-gray-600 font-medium text-sm mx-auto">
           {navLinks.map((link) => {
-            const isActive = activeLink === link.name;
+            const isActive = pathname.startsWith(link.href); // <-- Auto-detect active
             return (
               <button
                 key={link.name}
-                onClick={() => handleLinkClick(link.name, link.href)}
+                onClick={() => router.push(link.href)}
                 className={clsx(
                   "flex items-center gap-2 relative transition-all px-2 py-1 rounded-md hover:text-gray-900 cursor-pointer",
                   isActive && "text-red-600 font-semibold",
@@ -96,15 +90,29 @@ export function ProHeader() {
             {accountMenuOpen && (
               <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-md z-50">
                 <Link
-                  href="/account"
-                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"
-                >
-                  Account
+                  href="/pro/pro-dashboard"
+                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                  Dashboard
+                </Link>
+                <Link
+                  href="/pro/pro-update"
+                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                  Update Profile
+                </Link>
+                  <Link
+                  href="/pro/pro-bid"
+                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                   Bid Management
+                </Link>
+
+                <Link
+                  href="/pro/pro-credentials"
+                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                  Pros Credentials
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"
-                >
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
                   Logout
                 </button>
               </div>
@@ -126,12 +134,12 @@ export function ProHeader() {
         <div className="md:hidden px-4 pt-4 pb-6 space-y-4 animate-slide-down">
           <nav className="flex flex-col space-y-3 text-gray-700 font-medium text-sm">
             {navLinks.map((link) => {
-              const isActive = activeLink === link.name;
+              const isActive = pathname.startsWith(link.href);
               return (
                 <button
                   key={link.name}
                   onClick={() => {
-                    handleLinkClick(link.name, link.href);
+                    router.push(link.href);
                     setMobileMenuOpen(false);
                   }}
                   className={clsx(

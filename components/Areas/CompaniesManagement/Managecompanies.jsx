@@ -180,6 +180,8 @@ export function CompanyManagement() {
     }
   }, [message]);
 
+   const statusLabels = { 0: "Pending", 4: "Approved", 5: "Rejected" };
+   
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="bg-white rounded-2xl shadow-md p-6">
@@ -187,8 +189,8 @@ export function CompanyManagement() {
         <div className="flex space-x-4 mb-6 border-b">
           {[
             { label: "Pending", value: "0" },
-            { label: "Approved", value: "1" },
-            { label: "Rejected", value: "2" },
+            { label: "Approved", value: "4" },
+            { label: "Rejected", value: "5" },
           ].map((tab) => (
             <button
               key={tab.value}
@@ -210,7 +212,12 @@ export function CompanyManagement() {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">
-            Companies ({["Pending", "Approved", "Rejected"][parseInt(statusFilter)]})
+
+          
+
+          Companies ({statusLabels[statusFilter]})
+
+
           </h1>
          {selectedIds.length > 0 && (
   <>
@@ -237,7 +244,7 @@ export function CompanyManagement() {
 )}
 
 
-    {statusFilter === "1" && (
+    {statusFilter === "4" && (
       <>
         {/* Block Button for Approved */}
         <button
@@ -250,7 +257,7 @@ export function CompanyManagement() {
       </>
     )}
 
-    {statusFilter === "2" && (
+    {statusFilter === "5" && (
       <>
         {/* Unblock Button for Blocked */}
         <button
@@ -338,7 +345,7 @@ export function CompanyManagement() {
                   <td className="px-4 py-4 text-sm">
                     {user.status === "0" ? (
                       <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
-                    ) : user.status === "1" ? (
+                    ) : user.status === "4" ? (
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Approved</span>
                     ) : (
                       <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Rejected</span>

@@ -50,6 +50,8 @@ export function ProjectAuctionForm() {
       formData.append("status", "0");
 
       const ids = selectedCompanies.map((data) => data.value).join(",");
+      
+      console.log("ids",ids);
       setlastselectcompanies(ids);
       formData.append("prosId", ids);
 
@@ -71,7 +73,7 @@ export function ProjectAuctionForm() {
 
       if (res.ok) {
         Setmessage("project created successfully");
-         router.push('/admin/projects');
+          router.push('/admin/projects');
         reset();
         setSelectedCompanies([]);
         setFiles({ drawings: null, insurance: null, projectother: null });
@@ -87,8 +89,9 @@ export function ProjectAuctionForm() {
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200 mt-10">
+    
       <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
-        Create your <span className="text-red-600">Project <sup className="text-sm">™</sup></span>
+        Create your <span className="text-red-600">Project <sup className="text-sm">™</sup></span>  
         <p className='text-sm text-green-400'>{success}</p>
       </h2>
 

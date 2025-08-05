@@ -6,14 +6,7 @@ import { useState, useRef, useEffect } from "react";
 
 export  function CompanyMultiSelect({ value = [], onChange }) {
 
-const [options, setOptions] = useState([
-  {
-    value: null,
-    label: null,
-    description: null,
-    img: null,
-  }
-]);
+const [options, setOptions] = useState([]);
 
 
 

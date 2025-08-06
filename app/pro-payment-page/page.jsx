@@ -13,11 +13,12 @@ export const metadata = {
 export default async function Page(){
 
 
-   const calculateOrderAmount = (items) => 1800; // Replace with real calculation
+   const calculateOrderAmount =  300; // Replace with real calculation
   
   const { client_secret: clientSecret } = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount([{ id: 'xl-tshirt' }]),
-    currency: 'eur', 
+
+     amount: 30000,
+    currency: 'USD', 
     automatic_payment_methods: { enabled: true },
     description: 'Export of digital service: Profer subscription plan', 
     shipping: {
@@ -34,7 +35,7 @@ export default async function Page(){
 
   return(<>
   
-    <ProsCheckout clientSecret={clientSecret}></ProsCheckout>
+    <ProsCheckout clientSecret={clientSecret} amount={calculateOrderAmount} ></ProsCheckout>
 
   </>);
 }

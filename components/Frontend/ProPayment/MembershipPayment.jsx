@@ -7,7 +7,7 @@ import CheckoutForm from "../../checkout";
 
 
 
-export function ProsCheckout({ clientSecret }) {
+export function ProsCheckout({ clientSecret ,amount }) {
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
     const [button, setbutton] = useState(false);
@@ -236,7 +236,7 @@ export function ProsCheckout({ clientSecret }) {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-black opacity-50"onClick={() => {setIsOpen(false);setbutton(false);}}></div>
           <div className="bg-white rounded-lg shadow-lg z-10 w-100 ">
-            <CheckoutForm clientSecret={clientSecret} />
+            <CheckoutForm clientSecret={clientSecret} amount= {amount} />
           </div>
         </div>
       )}

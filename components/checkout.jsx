@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-function PaymentForm() {
+function PaymentForm({amount}) {
 
   
   const stripe = useStripe();
@@ -60,6 +60,7 @@ const handleSubmit = async (e) => {
 
 
   return (
+    
     <form id="payment-form" onSubmit={handleSubmit} className="space-y-6">
       <PaymentElement
         id="payment-element"
@@ -81,7 +82,8 @@ const handleSubmit = async (e) => {
         id="submit"
         className="w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition disabled:opacity-50"
       >
-        {isLoading ? "Processing..." : "Pay now"}
+        {isLoading ? "Processing..." : "Pay now "}  
+        ${amount}
       </button>
 
       {message && (
@@ -116,14 +118,14 @@ const handleSubmit = async (e) => {
   );
 }
 
-export default function CheckoutForm({ clientSecret }) {
+export default function CheckoutForm({ clientSecret , amount }) {
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
       <div className="w-full max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl border border-gray-200">
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
           Complete Your Membership
         </h2>
-        <PaymentForm />
+        <PaymentForm amount = {amount} />
       </div>
     </Elements>
   );

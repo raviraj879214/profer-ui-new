@@ -14,7 +14,10 @@ export function AdminPassword() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/update-user-password`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+      headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         body: JSON.stringify({
           id: userid,
           currentpassword: data.password,

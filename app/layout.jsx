@@ -4,18 +4,18 @@ import "./globals.css";
 import { Header } from "@/components/Frontend/shared/Header";
 import { Footer } from "@/components/Frontend/shared/Footer";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import {SiteLayout} from "./SiteLayout";
 
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-  const hideLayout = pathname?.startsWith("/pro") ||  pathname?.startsWith("/admin"); // this will now work
+
+
 
   return (
-    <html lang="en">
+    <html lang="en">  
       <body>
-        {!hideLayout && <Header />}
-        {children}
-        {!hideLayout && <Footer />}
+         <SiteLayout>{children}</SiteLayout>
       </body>
     </html>
   );

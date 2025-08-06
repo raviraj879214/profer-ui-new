@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { AdminSubHeader } from "../shared/AdminSubHeader";
+import {ActivityLog} from "../../reusable/Loging";
 
 // Dummy Stats
 const stats = [
@@ -33,7 +34,7 @@ const verificationRequests = [
 ];
 
 export function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState('Verification Queue');
+  const [activeTab, setActiveTab] = useState('Recent Activity');
 
   return (<>
     
@@ -65,7 +66,7 @@ export function AdminDashboard() {
         {/* Tab Buttons */}
         <div className="border-b px-4 sm:px-6">
           <nav className="flex flex-wrap gap-2 sm:space-x-8 text-sm font-medium">
-            {['Verification Queue', 'Recent Activity', 'Platform Analytics'].map((tab) => (
+            {['Recent Activity', 'Platform Analytics'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -83,50 +84,17 @@ export function AdminDashboard() {
 
         {/* Tab Content */}
         <div className="p-4 sm:p-6 overflow-x-auto">
-          {/* Verification Queue Table */}
-          {activeTab === 'Verification Queue' && (
-            <div className="w-full">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Company Name</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Location</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Submission Date</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-600">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-100">
-                  {verificationRequests.map(({ company, location, date, status }) => (
-                    <tr key={company}>
-                      <td className="px-4 py-3 font-medium text-gray-900">{company}</td>
-                      <td className="px-4 py-3 text-gray-600">{location}</td>
-                      <td className="px-4 py-3 text-gray-600">{date}</td>
-                      <td className="px-4 py-3">
-                        <span className="inline-block rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-semibold text-yellow-800">
-                          {status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-blue-600 hover:underline cursor-pointer">
-                        Review
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={5} className="px-4 py-4 text-right text-blue-600 text-sm hover:underline cursor-pointer">
-                      View all verification requests &rarr;
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          )}
+         
+          
 
           {/* Recent Activity Placeholder */}
           {activeTab === 'Recent Activity' && (
-            <div className="text-gray-500 text-sm">Recent activity content goes here.</div>
+            <div className="text-gray-500 text-sm">
+
+            <ActivityLog></ActivityLog>
+
+
+            </div>
           )}
 
           {/* Platform Analytics Placeholder */}

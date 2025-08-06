@@ -400,9 +400,9 @@ const handleSelect =async (id) => {
                     >
                       View
                     </button>
-                    <button className="bg-blue-500 text-white rounded-md px-3 py-1 text-xs hover:bg-blue-600">
+                    {/* <button className="bg-blue-500 text-white rounded-md px-3 py-1 text-xs hover:bg-blue-600">
                       Edit
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}

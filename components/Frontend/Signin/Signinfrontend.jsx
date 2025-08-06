@@ -55,6 +55,8 @@ const SignIn = () => {
       localStorage.setItem("UserID",result.user.id);
       console.log("Login successful", result);
      
+      
+
       if(result.user.role == "Pro"){
         
           if(result.user.status == "0"){
@@ -66,7 +68,11 @@ const SignIn = () => {
           else if(result.user.status == "2"){
               router.push('/pro/step-3');
           }
+          else if(result.user.status == "4"){
+              router.push('/pro/pro-dashboard');
+          }
 
+          
       }
       else{
          window.location.href = "/admin/dashboard";

@@ -1,58 +1,60 @@
+
+
 'use client';
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '../Frontend/shared/Header';
 import { Footer } from '../Frontend/shared/Footer';
 
-interface AuthGuardProps {
-  children: ReactNode;
-}
 
-export function AuthGuard({ children }: AuthGuardProps) {
+export function FrontendAuthGuard({ children }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        router.push('/admin-login');
+        router.push('/sign-in');
         return;
       }
+
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/protected-check`, {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
         });
-        if (res.ok) {
+
+        if (res.ok) { 
           const data = await res.json();
-          console.log("Protected check response:", data);
-          if (data.status == 401) {
+          setRole(data.user.role); // Store the role
+
+          if (data.status === 401) {
             router.push('/admin-login');
-            return;
-          } else if (data.user.role == "Pro") {
-            router.push('/pro/step-1');
-            return;
+          } else if (data.user.role === "Admin") {
+            router.push('/admin/dashboard');
           }
         } else {
           router.push('/admin-login');
-          return;
         }
       } catch (err) {
         console.error('Auth check failed:', err);
         router.push('/admin-login');
-        return;
       } finally {
         setIsLoading(false);
       }
     };
+
     checkLogin();
   }, [router]);
 
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-gray-900">
-        {/* Spinner */}
         <div role="status" className="mb-4">
           <svg
             aria-hidden="true"
@@ -69,18 +71,24 @@ export function AuthGuard({ children }: AuthGuardProps) {
             />
           </svg>
         </div>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">Please wait while we verify your session...</p>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">
+          Please wait while we verify your session...
+        </p>
       </div>
     );
   }
 
-  return <>
-   
-      {children} 
-  
-  </>;
+  // If role is Pro -> no header/footer
+  if (role === "Pro") {
+    return <>{children}</>;
+  }
 
-
-
-
+  // Default: render with header/footer
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+        <main className="flex-1">{children}</main>
+      <Footer />
+    </div>
+  );
 }

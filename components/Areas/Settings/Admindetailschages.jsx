@@ -12,11 +12,16 @@ export function AdminDetails() {
 
   const onSubmit = async (data) => {
     setSuccess(true);
+
+
     setMessage("");
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/update-user-details`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+       headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         body: JSON.stringify({
           id : id,
           firstname : data.firstname,
@@ -41,7 +46,12 @@ export function AdminDetails() {
   const fetchUserData = async (userId) => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-user-details/${userId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-user-details/${userId}`,{
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+      });
       const result = await res.json();
       if (res.ok && result.status === 200) {
         reset(result.data);  // Automatically fills all fields

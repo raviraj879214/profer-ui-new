@@ -31,7 +31,7 @@ export function ProHeader() {
     { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
     { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
-    { name: "Subscription Details", href: "/pro/pro-subscription", icon: CreditCardIcon }
+    // { name: "Subscription Details", href: "/pro/pro-subscription", icon: CreditCardIcon }
   ];
 
   const handleLogout = () => {

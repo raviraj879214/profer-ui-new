@@ -202,10 +202,10 @@ export function ProDash() {
           </p>
         </div>
       </div>
-
-      {/* About + Credentials */}
+       {/* About + Credentials */}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* About Section */}
+        {/* About Section - Commented Out */}
+        {/*
         <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px]">
           <h3 className="font-bold text-gray-900 mb-3">About</h3>
           <ul className="space-y-4 text-blue-600 text-sm font-medium">
@@ -248,6 +248,8 @@ export function ProDash() {
             />
           </ul>
         </div>
+        */}
+
 
         {/* Credentials Section */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px] flex flex-col">

@@ -8,11 +8,12 @@ export function ProjectAuction() {
   const [files, setFiles] = useState({ drawings: null, insurance: null, projectother: null });
   const [mediaFiles, setMediaFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Loader state
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
     if (file) {
-      setFiles((prev) => ({ ...prev, [field]: file })); // store actual file object
+      setFiles((prev) => ({ ...prev, [field]: file }));
     }
   };
 
@@ -24,7 +25,7 @@ export function ProjectAuction() {
     const filesArr = Array.from(e.target.files);
     setMediaFiles((prev) => {
       const combined = [...prev, ...filesArr];
-      return combined.slice(0, 5); // limit to 5
+      return combined.slice(0, 5);
     });
   };
 
@@ -34,6 +35,8 @@ export function ProjectAuction() {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true); // Start loader
+
       const formData = new FormData();
 
       // Append text fields
@@ -72,6 +75,8 @@ export function ProjectAuction() {
     } catch (err) {
       console.error(err);
       alert('Failed to submit form');
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
 
@@ -167,9 +172,6 @@ export function ProjectAuction() {
           {/* Project Documents */}
           <section className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-8 space-y-4">
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
               Project Documents
             </h2>
             <div className="grid grid-cols-3 gap-4 text-xs text-center text-gray-500">
@@ -200,7 +202,6 @@ export function ProjectAuction() {
                           ? "Insurance Claim Paperwork"
                           : "Project other documents"}
                       </div>
-                      <small className="text-gray-400 mt-1">Upload Other Estimates</small>
                     </>
                   )}
                   <input
@@ -214,24 +215,21 @@ export function ProjectAuction() {
             </div>
           </section>
 
-          {/* Project Photos and Videos */}
+          {/* Project Photos */}
           <section className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-8 space-y-4">
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Project Photos and Videos
+              Project Photos 
             </h2>
             <label className="w-full border-2 border-dashed border-gray-300 rounded-md p-8 flex flex-col items-center justify-center text-gray-500 cursor-pointer hover:bg-gray-50">
               <div className="text-blue-400 text-5xl leading-none mb-2">+</div>
-              <div className="text-lg">Upload Photos or Videos</div>
+              <div className="text-lg">Upload Photos</div>
               <small className="text-gray-400 mt-1">You can select multiple files</small>
               <input
                 type="file"
-                accept="image/*,video/*"
+                accept="image/*"  // ✅ Only images allowed
                 multiple
                 disabled={mediaFiles.length >= 5}
-                className={mediaFiles.length >= 5 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"}
+                className="hidden"
                 onChange={handleMultipleFiles}
               />
             </label>
@@ -258,16 +256,17 @@ export function ProjectAuction() {
           </section>
 
           <div className="flex justify-center mt-6">
-            <button type="submit" className="bg-red-500 rounded-full px-12 py-3 text-white font-semibold text-lg hover:bg-red-600 transition">
-              Proceed
+            <button
+              type="submit"
+              disabled={loading}
+              className={`rounded-full px-12 py-3 text-white font-semibold text-lg transition ${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-500 hover:bg-red-600"
+              }`}
+            >
+              {loading ? "Uploading..." : "Proceed"}
             </button>
           </div>
         </form>
-
-        <div className="text-center mt-6 text-sm text-sky-600">
-          Or press the easy button and we will walk you through it. <br />
-          Call us for assistance at <a href="tel:8008134021" className="underline">800-813-4021</a>.
-        </div>
       </main>
     </div>
   );

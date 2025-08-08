@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="relative flex flex-col min-h-screen bg-white font-sans overflow-hidden">
       {/* <Header></Header> */}
       <SidebarProvider>
-        {/* <Header /> */}
+       
 
         {/* Mobile Sidebar */}
         <div className="flex flex-1 flex-col md:flex-row relative z-10">
@@ -59,15 +59,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
 
           <AuthGuard>
-
-            
-
             <main className="flex-1 p-4 bg-gray-50 overflow-auto z-0">
 
-              
-             
-          
-
+           <AdminSubHeader></AdminSubHeader>
               {children}
             </main>
           </AuthGuard>

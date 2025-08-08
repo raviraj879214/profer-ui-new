@@ -71,6 +71,7 @@ export function AdminDetails() {
      const id = tokendecryptor();
      setId(id);
     fetchUserData(id);
+
   }, []);
 
   
@@ -78,7 +79,16 @@ export function AdminDetails() {
 
 
 
+useEffect(() => {
+    if (!message) return;
 
+   
+    const timer = setTimeout(() => {
+      setMessage(""); // fade out
+    }, 5000); // wait 5 sec
+
+    return () => clearTimeout(timer);
+  }, [message]);
 
 
 

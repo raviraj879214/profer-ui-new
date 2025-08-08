@@ -8,14 +8,14 @@ export function ProCredential() {
     { title: "Insurance", icon: "/images/insured.jpg", section: "Insurance" },
     { title: "Certificate of Good Standing", icon: "/images/Checkmark.png", section: "Certificate of Good Standing" },
     { title: "Skills Certifications", icon: "/images/Checkmark.png", section: "Skills Certifications" },
-    { title: "Safety Certifications", icon: "/images/Checkmark.png", section: "Safety Certifications", highlight: true, note: "" },
+    { title: "Safety Certifications", icon: "/images/Checkmark.png", section: "Safety Certifications"  },
     { title: "Government Certifications", icon: "/images/Checkmark.png", section: "Government Certifications" },
     { title: "Badges", icon: "/images/Checkmark.png", section: "Badges" },
   ];
 
   return (
     <>
-     <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg shadow-sm max-w-screen-lg mx-auto mt-6">
+      <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg shadow-sm max-w-screen-lg mx-auto mt-6">
         <p className="text-sm md:text-base text-center">
           <strong>Important:</strong> Please upload all the required documents in each section. 
           Your account will be reviewed and approved by an admin once all credentials are submitted.
@@ -205,6 +205,7 @@ function CredentialSection({ title, icon, section }) {
                     Replace
                     <input
                       type="file"
+                      accept="image/*"
                       className="hidden"
                       onChange={(e) => handleUpload(e, idx)}
                     />
@@ -216,6 +217,7 @@ function CredentialSection({ title, icon, section }) {
               {!doc.uploadedFile && (
                 <input
                   type="file"
+                  accept="image/*"
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   onChange={(e) => handleUpload(e, idx)}
                   disabled={!doc.title?.trim()}

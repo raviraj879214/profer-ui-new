@@ -1,3 +1,5 @@
+
+import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { SideNavButton } from "./SideNavButton";
 
@@ -86,10 +88,16 @@ function ProjectrequestedIcon(props: any) {
 }
 
 export function Sidebar() {
+
+
+  const route = useRouter();
+
+
+
   return (
     <nav className="flex flex-col w-60 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
       
-       <div className="flex items-center justify-center">
+       <div className="flex items-center justify-center" onClick={()=>route.push('/admin/dashboard') }>
           <Logo></Logo>
       </div>
     

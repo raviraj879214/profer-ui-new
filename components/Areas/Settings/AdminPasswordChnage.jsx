@@ -47,6 +47,21 @@ export function AdminPassword() {
 
   const newPassword = watch("newPassword");
 
+
+
+  useEffect(() => {
+    if (!message) return;
+
+   
+    const timer = setTimeout(() => {
+      setMessage(""); // fade out
+    }, 5000); // wait 5 sec
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+
+  
   return (
     <>
       <h3 className="text-lg font-semibold mb-1">Security Settings</h3>

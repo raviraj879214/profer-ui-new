@@ -30,12 +30,10 @@ export function AuthGuardPro({ children }: { children: React.ReactNode }) {
           {
             router.push('/admin-login');
           } 
-          else if (data.user.role == "Admin")
+          else if (data.user.role == "admin")
           {
               router.push('/admin/dashboard');
           }
-          
-
         } else {
           router.push('/admin-login');
         }

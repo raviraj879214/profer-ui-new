@@ -42,7 +42,8 @@ export function ProsCheckout({ clientSecret ,amount }) {
 
             if (res.ok && result.status === 200) {
                 console.log("Payment successful:", result);
-                 setIsOpen(true);
+                //  setIsOpen(true);
+                handleCheckout("price_1RtQ5YDCJHVBcMfdTFtcf94y");
             }
         }
         catch (error) {
@@ -50,6 +51,18 @@ export function ProsCheckout({ clientSecret ,amount }) {
         }
         // setbutton(false);
     };
+
+
+      const handleCheckout = async (priceId) => {
+            const res = await fetch('/api/checkout', {
+            method: 'POST',
+            body: JSON.stringify({ priceId }),
+            headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            window.location.href = data.url;
+        };
+
 
     const fetchprodetails = async () => {
         const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
@@ -236,10 +249,12 @@ export function ProsCheckout({ clientSecret ,amount }) {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-black opacity-50"onClick={() => {setIsOpen(false);setbutton(false);}}></div>
           <div className="bg-white rounded-lg shadow-lg z-10 w-100 ">
-            <CheckoutForm clientSecret={clientSecret} amount= {amount} />
+            {/* <CheckoutForm clientSecret={clientSecret} amount= {amount} /> */}
           </div>
         </div>
       )}
+
+      
     </div>
   </main>
     );

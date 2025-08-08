@@ -95,7 +95,7 @@ export function Bid(){
 
 
     return(<>
-      <main className="max-w-7xl mx-auto flex flex-col">
+      <main className="w-full max-w-5xl mx-auto flex flex-col">
         <section className="flex mt-6 w-full max-w-full">
           <aside className="flex flex-col space-y-3 bg-sky-200 w-36 p-5 rounded-tl-lg rounded-bl-lg text-gray-600 text-sm font-medium">
             <span className="cursor-pointer font-bold text-gray-900 border-l-4 border-sky-500 pl-3">

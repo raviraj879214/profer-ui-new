@@ -120,7 +120,7 @@ export function Header() {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white border py-2 z-50">
                   <Link
-                    href="#"
+                    href="/admin/settings"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setDropdownOpen(false)}
                   >
@@ -181,7 +181,7 @@ export function Header() {
             ) : (
               <>
                 <Link
-                  href="#"
+                  href="/admin/settings"
                   className="text-sm font-medium text-gray-700 hover:underline"
                   prefetch={false}
                   onClick={() => setMobileMenuOpen(false)}

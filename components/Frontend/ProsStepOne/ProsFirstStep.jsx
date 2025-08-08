@@ -65,7 +65,8 @@ export function Companyprofile({ paymentIntentId }) {
   };
 
   // Transfer Temp User to Subscription
-  const transfertempusertosubscription = async () => {
+  const transfertempusertosubscription = async (paymentIntentId) => {
+    debugger;
     const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
     if (!email) return console.error("No email found in localStorage");
 
@@ -73,7 +74,7 @@ export function Companyprofile({ paymentIntentId }) {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/activate-user-tempuser`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailaddress: email }),
+        body: JSON.stringify({ emailaddress: email, paymentIntentId : paymentIntentId }),
       });
 
       const result = await res.json();
@@ -87,6 +88,8 @@ export function Companyprofile({ paymentIntentId }) {
 
   // Sign In External
   const signinexternal = async () => {
+    debugger;
+    debugger;
     const email = typeof window !== "undefined" ? localStorage.getItem("tempemailuser") : null;
     const temppassword = typeof window !== "undefined" ? localStorage.getItem("temppassword") : null;
     if (!email || !temppassword) return console.error("Missing login credentials");
@@ -118,7 +121,7 @@ export function Companyprofile({ paymentIntentId }) {
   useEffect(() => {
     getProsDetails();
     if (paymentIntentId) updatePaymentDetails(paymentIntentId);
-    transfertempusertosubscription();
+    transfertempusertosubscription(paymentIntentId);
     signinexternal();
   }, [paymentIntentId]);
 

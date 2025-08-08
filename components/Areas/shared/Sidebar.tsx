@@ -1,3 +1,4 @@
+import { Logo } from "./Logo";
 import { SideNavButton } from "./SideNavButton";
 
 function DashboardIcon(props: any) {
@@ -87,6 +88,11 @@ function ProjectrequestedIcon(props: any) {
 export function Sidebar() {
   return (
     <nav className="flex flex-col w-60 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
+      
+       <div className="flex items-center justify-center">
+          <Logo></Logo>
+      </div>
+    
       <SideNavButton icon={DashboardIcon} label="Dashboard" href="/admin/dashboard" />
       <SideNavButton icon={CompaniesIcon} label="Companies" href="/admin/companies" />
       <SideNavButton icon={ProjectsIcon} label="Projects" href="/admin/projects" />

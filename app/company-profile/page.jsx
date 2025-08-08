@@ -11,14 +11,14 @@ export const metadata = {
 
 export default async function Comapnyprofile({ searchParams }) {
 
- const { payment_intent: paymentIntentId } = searchParams;
+ const { paymentIntentId } = searchParams;
   
   
  
 
   return (
      <>
-     
+      
       <Companyprofile paymentIntentId ={paymentIntentId}></Companyprofile>
      </>
     

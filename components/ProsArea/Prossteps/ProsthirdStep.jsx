@@ -37,18 +37,8 @@ export default function ProsStepNextCredentials() {
       {/* Bottom Controls */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
         {/* Back Button */}
-        <button
-          onClick={() => router.back()}
-          className="flex items-center text-cyan-600 font-medium text-sm hover:underline"
-        >
-          Back
-        </button>
-        {/* Pagination Dots */}
-        <div className="flex space-x-2">
-          <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-          <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-          <div className="w-3 h-3 rounded-full bg-[#E94E3B]"></div>
-        </div>
+       
+        
         {/* Next Button */}
         <button
           onClick={() => {

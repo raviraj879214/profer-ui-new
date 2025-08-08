@@ -96,7 +96,7 @@ export function ProUpdate() {
 
   return (
     <>
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-20">
+      <div className="w-full max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg mt-20">
         <h2 className="text-2xl font-bold mb-6">Update Profile</h2>
         <p className="text-green-700">{message}</p>
         <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit(OnSubmit)}>

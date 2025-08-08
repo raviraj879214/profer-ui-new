@@ -103,7 +103,7 @@ export function Companyprofile({ paymentIntentId }) {
 
       const result = await response.json();
       console.log("Logged from Company profile" , result);
-    
+      localStorage.clear();
       // Save login details
       localStorage.setItem("FrontendRole", JSON.stringify(result.user.role));
       localStorage.setItem("Frontendtoken", result.token);

@@ -48,6 +48,7 @@ const SignIn = () => {
 
     if (result.status === 200) {
       // Save login details
+      localStorage.clear();
       localStorage.setItem("FrontendRole", JSON.stringify(result.user.role));
       localStorage.setItem("Frontendtoken", result.token);
       localStorage.setItem("FrontendLoginStatus", "true");

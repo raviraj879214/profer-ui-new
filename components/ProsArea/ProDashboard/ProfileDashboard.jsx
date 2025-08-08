@@ -168,43 +168,7 @@ export function ProDash() {
         </div>
       </div>
 
-      {/* About + Credentials */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* About Section */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px]">
-          <h3 className="font-bold text-gray-900 mb-3">About</h3>
-          <ul className="space-y-4 text-blue-600 text-sm font-medium">
-            <EditableField
-              icon={<PhoneIcon />}
-              field="phone"
-              value={aboutInfo.phone}
-              setValue={(val) => setAboutInfo((prev) => ({ ...prev, phone: val }))}
-              linkPrefix="tel:"
-              onSave={handleSaveField}
-            />
-            <EditableField
-              icon={<GlobeIcon />}
-              field="website"
-              value={aboutInfo.website}
-              setValue={(val) => setAboutInfo((prev) => ({ ...prev, website: val }))}
-              onSave={handleSaveField}
-            />
-            <EditableField
-              icon={<GoogleMapsIcon />}
-              field="maps"
-              value={aboutInfo.maps}
-              setValue={(val) => setAboutInfo((prev) => ({ ...prev, maps: val }))}
-              onSave={handleSaveField}
-            />
-            <EditableField
-              icon={<FacebookIcon />}
-              field="facebook"
-              value={aboutInfo.facebook}
-              setValue={(val) => setAboutInfo((prev) => ({ ...prev, facebook: val }))}
-              onSave={handleSaveField}
-            />
-          </ul>
-        </div>
+
 
         {/* Credentials Section */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px] flex flex-col">

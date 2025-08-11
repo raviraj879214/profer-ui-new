@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 export function ProCredential() {
 const [isOpen, setIsOpen] = useState(false);
-const [notifymessage , setnotifymessage] = useState("Please confirm: Have you uploaded all required documents?  Clicking <strong>Confirm</strong> will send an email notification tothe admin that your documents are ready for review.");
+const [notifymessage , setnotifymessage] = useState("Please confirm: Have you uploaded all required documents?  Clicking Confirm will send an email notification tothe admin that your documents are ready for review.");
 const [notiloading,setnotiloading] = useState(false);
 const router = useRouter();
   const credentialSections = [
@@ -74,7 +74,7 @@ const router = useRouter();
    
     setnotiloading(false);
     setIsOpen(false);
-    setnotifymessage("Please confirm: Have you uploaded all required documents?  Clicking <strong>Confirm</strong> will send an email notification tothe admin that your documents are ready for review.");
+    setnotifymessage("Please confirm: Have you uploaded all required documents?  Clicking Confirm will send an email notification tothe admin that your documents are ready for review.");
       router.push('/pro/pro-dashboard');
   };
 

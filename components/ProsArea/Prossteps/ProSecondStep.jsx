@@ -148,6 +148,13 @@ export function ProsStepBusinessDetails({ userId }) {
     setLoading(false);
   };
 
+
+  const submitbusinessdetails= ()=>{
+    if(loading == false){
+      }router.push("/pro/step-3");
+    }
+  }
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-12">
       {/* Success Banner */}
@@ -431,7 +438,8 @@ export function ProsStepBusinessDetails({ userId }) {
             Save
           </button> */}
           <button
-            onClick={() => router.push("/pro/step-3")}
+
+            onClick={() => submitbusinessdetails() }
             type="submit"
             className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md"
           >
@@ -441,4 +449,4 @@ export function ProsStepBusinessDetails({ userId }) {
       </form>
     </main>
   );
-}
+

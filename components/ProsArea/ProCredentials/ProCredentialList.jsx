@@ -1,7 +1,12 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 
 export function ProCredential() {
+const [isOpen, setIsOpen] = useState(false);
+const [notifymessage , setnotifymessage] = useState("Please confirm: Have you uploaded all required documents?  Clicking <strong>Confirm</strong> will send an email notification tothe admin that your documents are ready for review.");
+const [notiloading,setnotiloading] = useState(false);
+const router = useRouter();
   const credentialSections = [
     {
       title: "State Licenses, Registrations, and Certifications",
@@ -37,6 +42,45 @@ export function ProCredential() {
     { title: "Badges", icon: "/images/Checkmark.png", section: "Badges" },
   ];
 
+
+  const  submitcredential = async ()=>{
+    setIsOpen(true);
+  
+  }
+
+   const handleConfirm =async () => {
+    setnotiloading(true);
+     const  userid = localStorage.getItem("UserID");
+
+     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/notify-credential-uploade`,{
+        method : "POST",
+        headers: {
+         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+         },
+        body: JSON.stringify({
+          userid : userid
+        })
+      });
+
+      if(res.ok){
+        const result = await res.json();
+        if(result.status == 200){
+          setnotifymessage(result.message);
+        }
+      }
+   
+   
+    setnotiloading(false);
+    setIsOpen(false);
+    setnotifymessage("Please confirm: Have you uploaded all required documents?  Clicking <strong>Confirm</strong> will send an email notification tothe admin that your documents are ready for review.");
+      router.push('/pro/pro-dashboard');
+  };
+
+
+
+
   return (
     <>
       <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg shadow-sm max-w-screen-lg mx-auto mt-6">
@@ -65,8 +109,44 @@ export function ProCredential() {
           )}
         </div>
       ))}
-      <div className="my-10"></div>
-    </>
+
+      {/* Submit button below all components */}
+      <div className="flex justify-center mt-8 mb-12">
+        <button className="bg-red-500 text-white px-8 py-3 rounded-md font-semibold shadow" onClick={()=>submitcredential()}>
+          Submit
+        </button>
+        
+      </div>
+      
+      
+      {isOpen && (
+  <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
+    <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md w-full transform transition-all scale-100 animate-fadeIn">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        Confirm Submission
+      </h2>
+      <p className="text-gray-700 leading-relaxed mb-8">
+       {notifymessage}
+      </p>
+      <div className="flex justify-end gap-4">
+        <button
+          onClick={() => setIsOpen(false)}
+          className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleConfirm}
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition"
+        >
+           {notiloading ? "wait ..." : "Confirm"}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+ </>
   );
 }
 
@@ -118,10 +198,7 @@ function CredentialSection({ title, icon, section }) {
 
     const formData = new FormData();
     formData.append("section", title);
-    formData.append(
-      "names",
-      JSON.stringify([uploadedFiles[index].title])
-    );
+    formData.append("names", JSON.stringify([uploadedFiles[index].title]));
     formData.append("documents", file);
 
     const newLoading = [...loadingStates];
@@ -225,7 +302,7 @@ function CredentialSection({ title, icon, section }) {
               value={doc.title}
               onChange={(e) => handleTitleChange(e, idx)}
               ref={(el) => (inputRefs.current[idx] = el)}
-              className="doc-name-input text-sm text-gray-700 border rounded-md px-2 py-1 w-full text-center focus:ring-2 focus:ring-blue-400 outline-none"
+              className="text-sm text-gray-700 border rounded-md px-2 py-1 w-full text-center focus:ring-2 focus:ring-blue-400 outline-none"
             />
 
             <div className="h-[140px] w-full rounded-md border overflow-hidden shadow-sm relative group">
@@ -234,11 +311,19 @@ function CredentialSection({ title, icon, section }) {
                   Uploading...
                 </div>
               ) : doc.uploadedFile ? (
-                <img
-                  src={doc.uploadedFile}
-                  alt={doc.title || "Uploaded file"}
-                  className="object-contain w-full h-full"
-                />
+                doc.uploadedFile.toLowerCase().endsWith(".pdf") ? (
+                  <iframe
+                    src={doc.uploadedFile}
+                    title={doc.title || "Uploaded PDF"}
+                    className="w-full h-full"
+                  ></iframe>
+                ) : (
+                  <img
+                    src={doc.uploadedFile}
+                    alt={doc.title || "Uploaded file"}
+                    className="object-contain w-full h-full"
+                  />
+                )
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">
                   {doc.title?.trim() ? "+ Upload File" : "Enter name first"}
@@ -253,22 +338,13 @@ function CredentialSection({ title, icon, section }) {
                   >
                     Remove
                   </button>
-                  <label className="bg-blue-500 text-white text-xs px-3 py-1 rounded shadow cursor-pointer">
-                    Replace
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => handleUpload(e, idx)}
-                    />
-                  </label>
                 </div>
               )}
 
               {!loadingStates[idx] && !doc.uploadedFile && (
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,application/pdf"
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   onChange={(e) => handleUpload(e, idx)}
                   disabled={!doc.title?.trim()}
@@ -278,6 +354,7 @@ function CredentialSection({ title, icon, section }) {
           </div>
         ))}
 
+        {/* Add more slot */}
         <div className="flex flex-col items-center text-center min-w-[200px] max-w-[250px] space-y-2">
           <div className="h-[34px]"></div>
           <button
@@ -288,6 +365,7 @@ function CredentialSection({ title, icon, section }) {
           </button>
         </div>
       </div>
+      
     </div>
   );
 }

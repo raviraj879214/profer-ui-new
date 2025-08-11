@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 export function Companyprofile({ paymentIntentId }) {
   const [prosName, setProsName] = useState("");
@@ -122,7 +123,7 @@ export function Companyprofile({ paymentIntentId }) {
     getProsDetails();
     if (paymentIntentId) updatePaymentDetails(paymentIntentId);
     transfertempusertosubscription(paymentIntentId);
-    signinexternal();
+    // signinexternal();
   }, [paymentIntentId]);
 
 
@@ -138,39 +139,38 @@ export function Companyprofile({ paymentIntentId }) {
 
   
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Main Content */}
-      <main className="flex-grow max-w-5xl mx-auto px-6 sm:px-12 py-20 flex flex-col items-center text-center">
-        <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-16 w-full">
-          <div className="flex-shrink-0 max-w-xs md:max-w-sm">
-            <img
-              src="./images/comapny-profile.png"
-              alt="Company profile illustration"
-              className="w-full h-auto mx-auto"
-            />
-          </div>
-          <div className="mt-10 md:mt-0 text-left max-w-lg">
-            <h2 className="text-2xl font-semibold text-gray-900">Hi, {prosName || "there"}.</h2>
-            <p className="mt-4 text-gray-500 text-sm leading-relaxed">
-              Congratulations on your Pro Membership! Get started by entering your business details. Click Next to save and proceed.
-            </p>
-          </div>
-        </div>
+  <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 to-white">
+      <main className="flex-grow flex flex-col justify-center items-center text-center px-6">
+        
+        {/* Success Icon */}
+        <CheckCircleIcon className="w-20 h-20 text-green-500 animate-bounce" />
 
-        {/* Pagination Controls */}
-        <div className="mt-20 w-full flex items-center justify-between max-w-lg mx-auto">
-          <button className="text-gray-400 text-sm font-semibold focus:outline-none">Skip</button>
-          <div className="flex space-x-3 items-center">
-            <span className="w-3 h-3 rounded-full bg-red-500 block"></span>
-            <span className="w-3 h-3 rounded-full bg-gray-300 block"></span>
-            <span className="w-3 h-3 rounded-full bg-gray-300 block"></span>
-          </div>
-          <button onClick={()=>{
-            router.push('/pro/step-2')
-          }}  className="bg-[#0A0B27] shadow-lg text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-[#131533] transition">
-            Next
-          </button>
-        </div>
+        {/* Heading */}
+        <h2 className="mt-6 text-3xl font-bold text-green-600">
+          Payment Successful 🎉
+        </h2>
+
+        {/* Description */}
+        <p className="mt-4 text-gray-600 text-lg max-w-md">
+          Thank you for your purchase! Your Pro Membership is now active.  
+          Please log in to start using your new features.
+        </p>
+
+        {/* Action Button */}
+        <button
+          onClick={() => router.push('/sign-in')}
+          className="mt-8 bg-green-600 shadow-lg text-white py-3 px-10 rounded-full text-base font-semibold hover:bg-green-700 transition transform hover:scale-105"
+        >
+          Log In to Continue
+        </button>
+
+        {/* Extra touch: link back to home */}
+        <p
+          onClick={() => router.push('/')}
+          className="mt-4 text-sm text-gray-500 hover:underline cursor-pointer"
+        >
+          Go back to Home
+        </p>
       </main>
     </div>
   );

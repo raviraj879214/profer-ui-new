@@ -41,7 +41,7 @@ export function AdminSubHeader() {
   return (
     <header className="bg-white shadow w-full text-gray-800 z-30 relative">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
-
+    
         {/* Left: Title */}
         <div className="flex items-center gap-3 min-w-[200px]">
           <div className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-bold">A</div>

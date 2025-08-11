@@ -35,20 +35,27 @@ export default function ProsStepNextCredentials() {
         </div>
       </main>
       {/* Bottom Controls */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-        {/* Back Button */}
-       
-        
-        {/* Next Button */}
-        <button
-          onClick={() => {
-            router.push('/pro/pro-credentials');
-          }}
-          className="bg-gray-900 text-white font-semibold rounded-lg py-2 px-6 shadow-md hover:brightness-110 transition duration-150"
-        >
-          Next
-        </button>
-      </div>
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between gap-4">
+          {/* Back Button */}
+          <button
+            onClick={() => router.push('/pro/step-2')}
+            type="button"
+            className="text-[#00BBD1] underline text-sm font-semibold hover:text-[#008a9a] px-3"
+          >
+            Back
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={() => {
+              router.push('/pro/pro-credentials');
+            }}
+            className="bg-gray-900 text-white font-semibold rounded-lg py-2 px-6 shadow-md hover:brightness-110 transition duration-150"
+          >
+            Next
+          </button>
+        </div>
+
     </>
   );
 }

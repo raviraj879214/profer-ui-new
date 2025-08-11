@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CompanyMultiSelect } from "../../Areas/Adminprojects/ComapniesList";
 
-export function ProjectAuctionForm() {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+export function ProjectAuctionForm({ requestid }) {
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
   const [files, setFiles] = useState({ drawings: null, insurance: null, projectother: null });
   const [mediaFiles, setMediaFiles] = useState([]);
   const [success, Setmessage] = useState("");
@@ -16,31 +16,92 @@ export function ProjectAuctionForm() {
 
   useEffect(() => {
     if (success) {
-      const timer = setTimeout(() => {
-        Setmessage("");
-      }, 5000);
+      const timer = setTimeout(() => Setmessage(""), 5000);
       return () => clearTimeout(timer);
     }
   }, [success]);
 
-  // Single file change
-  const handleFileChange = (e, field) => {
-    const file = e.target.files[0];
-    if (file) setFiles((prev) => ({ ...prev, [field]: file }));
-    e.target.value = null; // reset input so same file can be re-selected
+  useEffect(() => {
+    fetchroofingrequestdetails();
+  }, []);
+
+  const fetchroofingrequestdetails = async () => {
+    const id = requestid;
+    if (parseInt(id) > 0) {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-project-request-details`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ id })
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        if (result.status === 200) {
+          const data = result.data;
+
+          setValue("fullName", data.fullName);
+          setValue("phoneNumber", data.phoneNumber);
+          setValue("emailAddress", data.emailAddress);
+          setValue("projectTitle", data.projectTitle);
+          setValue("propertyType", data.propertyType);
+          setValue("budget", data.budget);
+          setValue("projectAddress", data.projectAddress);
+          setValue("projectDetails", data.projectDetails);
+          setValue("productType", data.productType);
+          setValue("productColor", data.productColor);
+          setValue("productPreference", data.productPreference);
+          setValue("workDescription", data.workDescription);
+
+          let drawingsFile = null;
+          let insuranceFile = null;
+          let projectOtherFile = null;
+          let mediaList = [];
+
+          data.files.forEach(file => {
+            if (file.fileType === "drawing") {
+              drawingsFile = { url: file.fileUrl, name: file.originalName };
+            } else if (file.fileType === "insurance") {
+              insuranceFile = { url: file.fileUrl, name: file.originalName };
+            } else if (file.fileType === "projectOther") {
+              projectOtherFile = { url: file.fileUrl, name: file.originalName };
+            } else if (file.fileType === "media") {
+              mediaList.push({ url: file.fileUrl, name: file.originalName });
+            }
+          });
+
+          setFiles({
+            drawings: drawingsFile,
+            insurance: insuranceFile,
+            projectother: projectOtherFile
+          });
+
+          setMediaFiles(mediaList);
+        }
+      }
+    }
   };
 
-  const handleRemove = (field) => setFiles((prev) => ({ ...prev, [field]: null }));
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    if (file) setFiles(prev => ({ ...prev, [field]: file }));
+    e.target.value = null;
+  };
 
-  // Multiple files
+  const handleRemove = (field) => {
+    setFiles(prev => ({ ...prev, [field]: null }));
+  };
+
   const handleMultipleFiles = (e) => {
     const filesArr = Array.from(e.target.files);
-    setMediaFiles((prev) => [...prev, ...filesArr].slice(0, 5));
-    e.target.value = null; // reset so same file can be re-selected
+    setMediaFiles(prev => [...prev, ...filesArr].slice(0, 5));
+    e.target.value = null;
   };
 
   const handleRemovemultiple = (index) => {
-    setMediaFiles((prev) => prev.filter((_, i) => i !== index));
+    setMediaFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const onSubmit = async (data) => {
@@ -50,30 +111,35 @@ export function ProjectAuctionForm() {
       formData.append("status", "0");
 
       const ids = selectedCompanies.map((data) => data.value).join(",");
-      
-      console.log("ids",ids);
       setlastselectcompanies(ids);
       formData.append("prosId", ids);
 
-
-
       Object.keys(data).forEach((key) => formData.append(key, data[key] || ''));
-      Object.keys(files).forEach((key) => files[key] && formData.append(key, files[key]));
-      mediaFiles.forEach((file) => formData.append("mediaFiles", file));
+
+      Object.keys(files).forEach((key) => {
+        const value = files[key];
+        if (value instanceof File) {
+          formData.append(key, value);
+        }
+      });
+
+      mediaFiles.forEach((file) => {
+        if (file instanceof File) {
+          formData.append("mediaFiles", file);
+        }
+      });
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-project`, {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
+        headers: { "Authorization": `Bearer ${token}` },
         body: formData,
       });
 
       const result = await res.json();
 
       if (res.ok) {
-        Setmessage("project created successfully");
-          router.push('/admin/projects');
+        Setmessage("Project created successfully");
+        router.push('/admin/projects');
         reset();
         setSelectedCompanies([]);
         setFiles({ drawings: null, insurance: null, projectother: null });
@@ -87,24 +153,38 @@ export function ProjectAuctionForm() {
     }
   };
 
+  const renderPreview = (fileObj) => {
+    const fileUrl = fileObj instanceof File ? URL.createObjectURL(fileObj) : fileObj?.url;
+    if (!fileUrl) return null;
+    if (fileUrl.toLowerCase().endsWith(".pdf")) {
+      return <embed src={fileUrl} type="application/pdf" className="absolute inset-0 w-full h-full rounded" />;
+    }
+    return <img src={fileUrl} alt="Preview" className="absolute inset-0 w-full h-full object-cover rounded" />;
+  };
+
+  const renderMultiplePreview = (file) => {
+    const fileUrl = file instanceof File ? URL.createObjectURL(file) : file.url;
+    if (fileUrl.toLowerCase().endsWith(".pdf")) {
+      return <embed src={fileUrl} type="application/pdf" className="w-full h-full rounded" />;
+    }
+    return <img src={fileUrl} alt={file.name} className="w-full h-full object-cover" />;
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200 mt-10">
-    
       <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
-        Create your <span className="text-red-600">Project <sup className="text-sm">™</sup></span>  
+        Create your <span className="text-red-600">Project <sup className="text-sm">™</sup></span>
         <p className='text-sm text-green-400'>{success}</p>
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {/* Contact Fields */}
         {[
           { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
           { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
           { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
           { id: 'projectTitle', label: 'Project Title', type: 'text', required: 'Project title is required' },
           { id: 'propertyType', label: 'Property Type', type: 'text', required: 'Property type is required' },
-         { id: 'budget', label: 'Project Budget', type: 'number', required: 'Project budget is required', inputMode: 'numeric', pattern: '[0-9]*' },
-
+          { id: 'budget', label: 'Project Budget', type: 'number', required: 'Project budget is required', inputMode: 'numeric', pattern: '[0-9]*' },
           { id: 'projectAddress', label: 'Project Address', type: 'text', required: 'Project address is required' },
           { id: 'projectDetails', label: 'Project Details', type: 'text', required: 'Project details are required' },
           { id: 'productType', label: 'Product Type', type: 'text', required: 'Product type is required' },
@@ -117,7 +197,6 @@ export function ProjectAuctionForm() {
             <input
               id={field.id}
               type={field.type}
-              placeholder={field.placeholder || ''}
               {...register(field.id, {
                 required: field.required || false,
                 pattern: field.pattern ? { value: field.pattern, message: field.patternMessage } : undefined
@@ -128,7 +207,6 @@ export function ProjectAuctionForm() {
           </div>
         ))}
 
-        {/* Textareas */}
         {[
           { id: 'productPreference', label: 'Product preference (Brand, Name, Color)', rows: 2, required: 'Project preference is required' },
           { id: 'workDescription', label: 'Description of work to be completed', rows: 3, required: 'Work description is required' },
@@ -147,14 +225,18 @@ export function ProjectAuctionForm() {
 
         <CompanyMultiSelect value={selectedCompanies} onChange={setSelectedCompanies} />
 
-        {/* File Uploads */}
+        {/* Single file uploads */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-gray-500">
           {["drawings", "insurance", "projectother"].map((field, idx) => (
             <label key={idx} className="border border-gray-300 rounded flex flex-col items-center justify-center hover:bg-gray-50 cursor-pointer relative overflow-hidden h-32">
               {files[field] ? (
                 <>
-                  <img src={URL.createObjectURL(files[field])} alt="Preview" className="absolute inset-0 w-full h-full object-cover rounded" />
-                  <button type="button" onClick={(e) => { e.preventDefault(); handleRemove(field); }} className="absolute top-2 right-2 bg-black/60 text-white text-xs rounded-full px-2 py-1 hover:bg-black/80">
+                  {renderPreview(files[field])}
+                  <button
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); handleRemove(field); }}
+                    className="absolute top-2 right-2 bg-black/60 text-white text-xs rounded-full px-2 py-1 hover:bg-black/80"
+                  >
                     ✕
                   </button>
                 </>
@@ -166,25 +248,29 @@ export function ProjectAuctionForm() {
                   </div>
                 </>
               )}
-              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileChange(e, field)} />
+              <input type="file" accept="image/*,application/pdf" className="hidden" onChange={(e) => handleFileChange(e, field)} />
             </label>
           ))}
         </div>
 
-        {/* Project Photos & Videos */}
+        {/* Multiple files */}
         <div>
           <label className="w-full border-2 border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center text-gray-500 cursor-pointer hover:bg-gray-50">
             <div className="text-blue-400 text-5xl mb-1">+</div>
-            <div className="text-lg">Upload Photos or Videos</div>
+            <div className="text-lg">Upload Photos or PDFs</div>
             <small className="text-gray-400 mt-1">Max 5 files</small>
-            <input type="file" accept="image/*,video/*" multiple disabled={mediaFiles.length >= 5} className="hidden" onChange={handleMultipleFiles} />
+            <input type="file" accept="image/*,video/*,application/pdf" multiple disabled={mediaFiles.length >= 5} className="hidden" onChange={handleMultipleFiles} />
           </label>
           {mediaFiles.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
               {mediaFiles.map((file, index) => (
                 <div key={index} className="relative w-full h-28 border rounded overflow-hidden">
-                  <img src={URL.createObjectURL(file)} alt={`upload-${index}`} className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => handleRemovemultiple(index)} className="absolute top-1 right-1 bg-black/60 text-white text-xs rounded-full px-2 py-1 hover:bg-black/80">
+                  {renderMultiplePreview(file)}
+                  <button
+                    type="button"
+                    onClick={() => handleRemovemultiple(index)}
+                    className="absolute top-1 right-1 bg-black/60 text-white text-xs rounded-full px-2 py-1 hover:bg-black/80"
+                  >
                     ✕
                   </button>
                 </div>
@@ -193,7 +279,6 @@ export function ProjectAuctionForm() {
           )}
         </div>
 
-        {/* Submit */}
         <div className="flex justify-center mt-6">
           <button type="submit" className="bg-red-500 rounded-full px-12 py-3 text-white font-semibold text-lg hover:bg-red-600 transition">
             Create Project

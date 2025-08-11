@@ -1,6 +1,6 @@
 
 import {ProsCheckout} from "../../components/Frontend/ProPayment/MembershipPayment.jsx";
-import { stripe } from '../../lib/stripe';
+import { stripe } from '../../lib/stripe.js';
 
 export const metadata = {
   title: "Checkout | Profer",

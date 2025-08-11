@@ -8,7 +8,8 @@ export function ProjectAuction() {
   const [files, setFiles] = useState({ drawings: null, insurance: null, projectother: null });
   const [mediaFiles, setMediaFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Loader state
+  const [loading, setLoading] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
@@ -33,25 +34,46 @@ export function ProjectAuction() {
     setMediaFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // ✅ Updated to show PDF preview
+  const renderFilePreview = (file) => {
+    if (!file) return null;
+
+    if (file.type === "application/pdf") {
+      return (
+        <div className="absolute inset-0 w-full h-full bg-gray-200">
+          <embed
+            src={URL.createObjectURL(file)}
+            type="application/pdf"
+            className="w-full h-full"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <img
+        src={URL.createObjectURL(file)}
+        alt="Preview"
+        className="absolute inset-0 w-full h-full object-cover rounded"
+      />
+    );
+  };
+
   const onSubmit = async (data) => {
     try {
-      setLoading(true); // Start loader
-
+      setLoading(true);
       const formData = new FormData();
 
-      // Append text fields
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key] || '');
       });
 
-      // Append single files
       Object.keys(files).forEach((key) => {
         if (files[key]) {
           formData.append(key, files[key]);
         }
       });
 
-      // Append multiple media files
       mediaFiles.forEach((file) => {
         formData.append("mediaFiles", file);
       });
@@ -64,11 +86,9 @@ export function ProjectAuction() {
       const result = await res.json();
 
       if (res.ok) {
-        setSuccessMessage("Request submitted successfully!");
         reset();
         setFiles({ drawings: null, insurance: null, projectother: null });
         setMediaFiles([]);
-        setTimeout(() => setSuccessMessage(''), 3000);
       } else {
         alert(result.message || "Submission failed");
       }
@@ -76,8 +96,9 @@ export function ProjectAuction() {
       console.error(err);
       alert('Failed to submit form');
     } finally {
-      setLoading(false); // Stop loader
+      setLoading(false);
     }
+    setIsOpen(true);
   };
 
   return (
@@ -171,19 +192,13 @@ export function ProjectAuction() {
 
           {/* Project Documents */}
           <section className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-8 space-y-4">
-            <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-              Project Documents
-            </h2>
+            <h2 className="font-semibold text-gray-900">Project Documents</h2>
             <div className="grid grid-cols-3 gap-4 text-xs text-center text-gray-500">
               {["drawings", "insurance", "projectother"].map((field, idx) => (
                 <label key={idx} className="border border-gray-300 rounded flex flex-col items-center justify-center hover:bg-gray-50 cursor-pointer relative overflow-hidden h-40">
                   {files[field] ? (
                     <>
-                      <img
-                        src={URL.createObjectURL(files[field])}
-                        alt="Preview"
-                        className="absolute inset-0 w-full h-full object-cover rounded"
-                      />
+                      {renderFilePreview(files[field])}
                       <button
                         type="button"
                         onClick={(e) => { e.preventDefault(); handleRemove(field); }}
@@ -206,7 +221,7 @@ export function ProjectAuction() {
                   )}
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/*,application/pdf"
                     className="hidden"
                     onChange={(e) => handleFileChange(e, field)}
                   />
@@ -217,16 +232,14 @@ export function ProjectAuction() {
 
           {/* Project Photos */}
           <section className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-8 space-y-4">
-            <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-              Project Photos 
-            </h2>
+            <h2 className="font-semibold text-gray-900">Project Photos</h2>
             <label className="w-full border-2 border-dashed border-gray-300 rounded-md p-8 flex flex-col items-center justify-center text-gray-500 cursor-pointer hover:bg-gray-50">
               <div className="text-blue-400 text-5xl leading-none mb-2">+</div>
-              <div className="text-lg">Upload Photos</div>
-              <small className="text-gray-400 mt-1">You can select multiple files</small>
+              <div className="text-lg">Upload Photos / PDFs</div>
+              <small className="text-gray-400 mt-1">You can select multiple files (max 5)</small>
               <input
                 type="file"
-                accept="image/*"  // ✅ Only images allowed
+                accept="image/*,application/pdf"
                 multiple
                 disabled={mediaFiles.length >= 5}
                 className="hidden"
@@ -236,12 +249,8 @@ export function ProjectAuction() {
             {mediaFiles.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
                 {mediaFiles.map((file, index) => (
-                  <div key={index} className="relative w-full h-32 border rounded overflow-hidden">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt={`upload-${index}`}
-                      className="w-full h-full object-cover"
-                    />
+                  <div key={index} className="relative w-full h-32 border rounded overflow-hidden bg-gray-100">
+                    {renderFilePreview(file)}
                     <button
                       type="button"
                       onClick={() => handleRemovemultiple(index)}
@@ -268,6 +277,69 @@ export function ProjectAuction() {
           </div>
         </form>
       </main>
+
+
+     <div>
+     
+     
+     {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setIsOpen(false)}
+          ></div>
+
+          {/* Modal Panel */}
+          <div className="relative bg-white rounded-xl shadow-2xl transform transition-all sm:my-8 sm:w-full sm:max-w-md z-10 scale-100 animate-fadeIn">
+            <div className="px-6 pt-6 pb-4 sm:p-8 sm:pb-6">
+              <div className="sm:flex sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
+                {/* Icon */}
+                <div className="mx-auto flex size-14 shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:size-14 shadow-md">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="size-8 text-green-600"
+                  >
+                    <path
+                      d="M4.5 12.75l6 6 9-13.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* Text */}
+                <div className="text-center sm:text-left">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    Project Request Created
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-600">
+                    Your project request has been successfully submitted.
+                    We’ll review it and get back to you shortly.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="bg-gray-50 px-6 py-4 sm:flex sm:flex-row-reverse rounded-b-xl">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex w-full sm:w-auto justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition"
+              >
+                Ok
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+     
+    </div>
+
     </div>
   );
 }

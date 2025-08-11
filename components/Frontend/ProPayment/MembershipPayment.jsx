@@ -205,31 +205,33 @@ export function ProsCheckout({ clientSecret, amount }) {
           </div>
 
           {/* Terms & Conditions */}
-          <div className="flex items-start mt-6">
-            <input
-              type="checkbox"
-              className="mt-1 mr-2 rounded border-gray-300 focus:ring-indigo-500"
-              {...register("terms", { required: "You must agree to the terms and conditions" })}
-            />
-            <label className="text-xs text-gray-500">
-              I agree with the terms and conditions of the Pro Purchase Agreement
-            </label>
-            {errors.terms && (
-              <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
-            )}
-          </div>
+          <div className="flex flex-col mt-6">
+  <div className="flex items-start">
+    <input
+      type="checkbox"
+      className="mt-1 mr-2 rounded border-gray-300 focus:ring-indigo-500"
+      {...register("terms", { required: "You must agree to the terms and conditions" })}
+    />
+    <label className="text-xs text-gray-500">
+      I agree with the terms and conditions of the Pro Purchase Agreement
+    </label>
+  </div>
+
+  {errors.terms && (
+    <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
+  )}
+</div>
+
         </fieldset>
 
         <button
           type="submit"
           className="w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition"
           disabled={button}>
-          {button ? "Processing..." : "Complete Payment"}
+          {button ? "Processing..." : "Proceed To Payment"}
         </button>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
-          Success message to pop up and then redirect them to the "Pro Onboarding" Page
-        </p>
+      
       </form>
 
       <div className="flex items-center justify-center h-screen">

@@ -17,7 +17,7 @@ export function Header() {
     { name: "Project Auction", href: "/auction" },
     { name: "Why Profer", href: "/why-profer" },
     // { name: "Submit Project", href: "/submit-project" },
-    { name: "Select Plan", href: "/select-plan" },
+    // { name: "Select Plan", href: "/select-plan" },
   ];
 
   return (
@@ -66,11 +66,11 @@ export function Header() {
             Sign In
           </Link>
           <Link
-            href="/register"
+            href="/select-plan"
             className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition-colors"
             prefetch={false}
           >
-            Join Waitlist
+            Join Profer
           </Link>
         </div>
       </div>
@@ -104,12 +104,12 @@ export function Header() {
               Sign In
             </Link>
             <Link
-              href="/register"
+              href="/select-plan"
               className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition-colors text-center"
               prefetch={false}
               onClick={() => setMobileMenuOpen(false)}
             >
-              Join Waitlist
+              Join Profer
             </Link>
           </div>
         </div>

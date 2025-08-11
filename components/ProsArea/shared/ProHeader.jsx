@@ -27,7 +27,8 @@ export function ProHeader() {
   }, []);
 
   const navLinks = [
-    { name: "ProFile™ Overview", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
+    { name: "ProFile™ Dashboard", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
+    { name: "ProFile™ Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
     { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
     { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },

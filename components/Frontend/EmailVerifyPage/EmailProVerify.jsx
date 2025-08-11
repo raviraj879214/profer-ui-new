@@ -65,7 +65,7 @@ export function EmailProVerify() {
   const handleSubmitOtp = () => {
     const enteredOtp = otpSize.join("");
     if (enteredOtp === otp) {
-      router.push("/pro-payment-page");
+      router.push("/payment-page");
     } else {
       setMessage("Invalid OTP. Please try again.");
     }

@@ -11,7 +11,7 @@ export default function ProLayout({ children }) {
         
     <AuthGuardPro>
         <ProHeader></ProHeader>
-        {/* <ProDashBoardHero></ProDashBoardHero> */}
+       
         {children}
         <ProFooter></ProFooter>
     </AuthGuardPro>

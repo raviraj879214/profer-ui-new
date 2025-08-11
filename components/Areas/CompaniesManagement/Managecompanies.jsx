@@ -287,6 +287,7 @@ export function CompanyManagement() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full border px-3 py-2 rounded-lg text-sm"
+            style={{display : "none" }}
           />
         </div>
 
@@ -380,7 +381,7 @@ export function CompanyManagement() {
         <td className="px-4 py-4">
           <div className="font-semibold">{user.businessDetails?.companyName || "N/A"}</div>
           <div className="text-xs text-gray-500">
-            {user.businessDetails?.experienceYears || 0} years • {user.businessDetails?.employeeCount || 0} employees
+            {user.businessDetails?.experienceYears || "Not Added"}  
           </div>
         </td>
         <td className="px-4 py-4">
@@ -498,17 +499,12 @@ export function CompanyManagement() {
             </dd>
           </div>
           <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Experience</dt>
+            <dt className="font-semibold text-gray-900">Year Established</dt>
             <dd className="text-gray-700">
-              {selectedUser.businessDetails?.experienceYears || "0"} years
+              {selectedUser.businessDetails?.experienceYears || "Not Added"} 
             </dd>
           </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Employees</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.employeeCount || "0"} employees
-            </dd>
-          </div>
+         
           <div className="border rounded-lg p-4">
             <dt className="font-semibold text-gray-900">Joined</dt>
             <dd className="text-gray-700">
@@ -585,48 +581,84 @@ export function CompanyManagement() {
         </div>
 
         {/* Images */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Company Logo</dt>
-            <dd>
-              {selectedUser.businessDetails?.companyLogo ? (
-                <a
-                  href={selectedUser.businessDetails.companyLogo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={selectedUser.businessDetails.companyLogo}
-                    alt="Logo"
-                    className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
-                  />
-                </a>
-              ) : (
-                "No logo"
-              )}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Owner License</dt>
-            <dd>
-              {selectedUser.businessDetails?.ownerLicense ? (
-                <a
-                  href={selectedUser.businessDetails.ownerLicense}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={selectedUser.businessDetails.ownerLicense}
-                    alt="License"
-                    className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
-                  />
-                </a>
-              ) : (
-                "No license"
-              )}
-            </dd>
-          </div>
-        </div>
+       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {/* Company Logo */}
+  <div className="border rounded-lg p-4">
+    <dt className="font-semibold text-gray-900">Company Logo</dt>
+    <dd>
+      {selectedUser.businessDetails?.companyLogo ? (
+        <>
+          {selectedUser.businessDetails.companyLogo.toLowerCase().endsWith(".pdf") ? (
+            <a
+              href={selectedUser.businessDetails.companyLogo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <embed
+                src={selectedUser.businessDetails.companyLogo}
+                type="application/pdf"
+                className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+              />
+            </a>
+          ) : (
+            <a
+              href={selectedUser.businessDetails.companyLogo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={selectedUser.businessDetails.companyLogo}
+                alt="Logo"
+                className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+              />
+            </a>
+          )}
+        </>
+      ) : (
+        "No logo"
+      )}
+    </dd>
+  </div>
+
+  {/* Owner License */}
+  <div className="border rounded-lg p-4">
+    <dt className="font-semibold text-gray-900">Owner License</dt>
+    <dd>
+      {selectedUser.businessDetails?.ownerLicense ? (
+        <>
+          {selectedUser.businessDetails.ownerLicense.toLowerCase().endsWith(".pdf") ? (
+            <a
+              href={selectedUser.businessDetails.ownerLicense}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <embed
+                src={selectedUser.businessDetails.ownerLicense}
+                type="application/pdf"
+                className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+              />
+            </a>
+          ) : (
+            <a
+              href={selectedUser.businessDetails.ownerLicense}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={selectedUser.businessDetails.ownerLicense}
+                alt="License"
+                className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+              />
+            </a>
+          )}
+        </>
+      ) : (
+        "No license"
+      )}
+    </dd>
+  </div>
+</div>
+
 
         {/* Subscription */}
         {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
@@ -645,47 +677,65 @@ export function CompanyManagement() {
         )}
 
         {/* Credentials */}
-        {selectedUser.credentials && selectedUser.credentials.length > 0 && (
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Credentials</dt>
-            <div className="mt-3 space-y-4">
-              {Object.entries(
-                selectedUser.credentials.reduce((acc, cred) => {
-                  if (!acc[cred.section]) acc[cred.section] = [];
-                  acc[cred.section].push(cred);
-                  return acc;
-                }, {})
-              ).map(([section, creds]) => (
-                <div key={section}>
-                  <h4 className="text-md font-semibold text-gray-800 mb-2">
-                    {section}
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    {creds.map((cred) => (
-                      <div
-                        key={cred.id}
-                        className="border rounded-lg p-2 flex flex-col items-center text-center"
-                      >
-                        <a
-                          href={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
-                            alt={cred.name}
-                            className="w-24 h-24 object-cover rounded mb-2 cursor-pointer hover:opacity-80"
-                          />
-                        </a>
-                        <p className="text-sm text-gray-700">{cred.name}</p>
-                      </div>
-                    ))}
-                  </div>
+      {selectedUser.credentials && selectedUser.credentials.length > 0 && (
+  <div className="border rounded-lg p-4">
+    <dt className="font-semibold text-gray-900">Credentials</dt>
+    <div className="mt-3 space-y-4">
+      {Object.entries(
+        selectedUser.credentials.reduce((acc, cred) => {
+          if (!acc[cred.section]) acc[cred.section] = [];
+          acc[cred.section].push(cred);
+          return acc;
+        }, {})
+      ).map(([section, creds]) => (
+        <div key={section}>
+          <h4 className="text-md font-semibold text-gray-800 mb-2">
+            {section}
+          </h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {creds.map((cred) => {
+              const fileUrl = `${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`;
+              const isPDF = fileUrl.toLowerCase().endsWith(".pdf");
+
+              return (
+                <div
+                  key={cred.id}
+                  className="border rounded-lg p-2 flex flex-col items-center text-center"
+                >
+                  <a
+                    href={fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-28 h-36 flex items-center justify-center"
+                  >
+                    {isPDF ? (
+                      <embed
+                        src={fileUrl}
+                        type="application/pdf"
+                        className="w-full h-full border rounded bg-gray-100 object-contain cursor-pointer hover:opacity-80"
+                      />
+                    ) : (
+                      <img
+                        src={fileUrl}
+                        alt={cred.name}
+                        className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80"
+                      />
+                    )}
+                  </a>
+                  <p className="text-sm text-gray-700 mt-2 text-center break-words">
+                    {cred.name}
+                  </p>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        )}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
       </div>
 
       {/* Footer */}

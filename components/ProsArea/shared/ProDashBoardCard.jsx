@@ -5,38 +5,49 @@ export function ProDashBoardHero() {
   const [company, setCompany] = useState({
     companyName: "",
     companyLogo: "",
-    streetAddress : "",
-    city : "",
-    state : "",
-    zip : ""
+    streetAddress: "",
+    city: "",
+    state: "",
+    zip: "",
+    verified: true, // For demo, you can toggle this based on your data
   });
+  const [logoSrc, setLogoSrc] = useState("/placeholder-logo.png");
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
-    fetchuserdetails();
+    fetchUserDetails();
   }, []);
 
-  const fetchuserdetails = async () => {
+  const fetchUserDetails = async () => {
     const userid = localStorage.getItem("UserID");
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-business-details/${userid}`, {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/get-business-details/${userid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.ok) {
         const result = await res.json();
         if (result.status === 200 && result.data.length > 0) {
+          const data = result.data[0];
           setCompany({
-            companyName: result.data[0]?.companyName || "",
-            companyLogo: result.data[0]?.companyLogo || "",
-            city : result.data[0]?.city || "",
-            state : result.data[0]?.state || "",
-            zip : result.data[0]?.zip || "",
-            streetAddress : result.data[0]?.streetAddress || "",
+            companyName: data?.companyName || "",
+            companyLogo: data?.companyLogo || "",
+            city: data?.city || "",
+            state: data?.state || "",
+            zip: data?.zip || "",
+            streetAddress: data?.streetAddress || "",
+            verified: data?.verified || true,
           });
+          if (data?.companyLogo) {
+            setLogoSrc(data.companyLogo);
+          }
         }
       }
     } catch (err) {
@@ -45,25 +56,63 @@ export function ProDashBoardHero() {
   };
 
   return (
-    <div className="relative bg-[#C1E5EC] p-8 pb-20 rounded-b-3xl mt-6 max-w-7xl mx-auto">
-      <div className="flex items-center space-x-6">
-        <div className="flex-shrink-0 w-24 h-24">
+    <div className="relative bg-[#C1E5EC] rounded-b-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md">
+      {/* Left Side: Logo + Info */}
+      <div className="flex items-center space-x-4 sm:space-x-6">
+        {/* Logo with rounded corners */}
+        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
           <img
-            src={company.companyLogo || "/placeholder-logo.png"}
+            src={logoSrc}
             alt={company.companyName || "Company Logo"}
-            className="w-full h-full object-contain"
+            className={`w-full h-full object-contain transition-opacity duration-500 ${
+              logoLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={() => setLogoLoaded(true)}
           />
         </div>
+
+        {/* Company info */}
         <div>
-          <h1 className="font-bold text-xl text-[#012C43] flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-extrabold text-[#012C43]">
             {company.companyName || "Company Name"}
+            {company.verified && (
+              <VerifiedCheckIcon />
+            )}
           </h1>
-          <p className="text-gray-500 mt-1">{company.state} {company.city} {company.streetAddress} {company.zip}</p>
-          <p className="flex items-center space-x-2 text-gray-400 mt-2 font-medium">
-            
+          <p className="text-gray-500 mt-1 text-sm sm:text-base">
+            {company.city && company.state
+              ? `${company.city}, ${company.state}`
+              : "Location not available"}
           </p>
         </div>
       </div>
+
+      {/* Right Side: View Public ProFile™ */}
+      <div>
+        <a
+          href="/public-profile" // Adjust this link accordingly
+          className="text-cyan-500 text-sm sm:text-base hover:underline font-medium cursor-pointer"
+        >
+          View Public ProFile<span className="text-xs">™</span>
+        </a>
+      </div>
     </div>
+  );
+}
+
+/* Verified Check Icon */
+function VerifiedCheckIcon() {
+  return (
+    <span className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full">
+      <svg
+        className="w-4 h-4 text-white"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={3}
+        viewBox="0 0 24 24"
+      >
+        <path d="M5 13l4 4L19 7" />
+      </svg>
+    </span>
   );
 }

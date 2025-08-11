@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ProjectAuctionForm } from "../../../components/Areas/Adminprojects/Createproject";
+import { ProjectAuctionForm } from "../../../../components/Areas/Adminprojects/Createproject";
 
 
 
@@ -12,7 +12,7 @@ export const metadata = {
 
 export default async function Page({ params }) {
 
-   const { id } = await params.id ?? 0;
+   const { id } = await params;
    
 
 

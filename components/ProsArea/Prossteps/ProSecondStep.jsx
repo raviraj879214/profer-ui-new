@@ -150,8 +150,9 @@ export function ProsStepBusinessDetails({ userId }) {
 
 
   const submitbusinessdetails= ()=>{
-    if(loading == false){
-      }router.push("/pro/step-3");
+    if(loading == false)
+    {
+      router.push("/pro/step-3");
     }
   }
 

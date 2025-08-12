@@ -7,12 +7,16 @@ export function ProsStepBusinessDetails({ userId }) {
   const router = useRouter();
   const successRef = useRef(null);
 
-  const serviceOptions = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const serviceOptionss = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const [serviceOptions,SetserviceOptions] = useState([]);
   const qualificationOptions = ["Level 1", "Level 2", "Level 3"];
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedQualifications, setSelectedQualifications] = useState([]);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isQualificationOpen, setIsQualificationOpen] = useState(false);
+
+  const serviceRef = useRef(null);
+  const qualificationRef = useRef(null);
 
   const [companyLogo, setCompanyLogo] = useState(null);
   const [ownerLicense, setOwnerLicense] = useState(null);
@@ -20,9 +24,35 @@ export function ProsStepBusinessDetails({ userId }) {
   const [previewOwnerLicense, setPreviewOwnerLicense] = useState(null);
 
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, setValue } = useForm();
+
+
+  const fetchservices = async () =>{
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/getnames`);
+
+    if(res.ok){
+      const result  = await res.json();
+      const names = result.map(item => item.name); 
+      SetserviceOptions(names);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const toggleOption = (setState, selected, option) => {
     setState((prev) =>
@@ -56,6 +86,7 @@ export function ProsStepBusinessDetails({ userId }) {
 
   // Load existing data
   useEffect(() => {
+    
     async function fetchData() {
       try {
         const res = await fetch(
@@ -84,6 +115,7 @@ export function ProsStepBusinessDetails({ userId }) {
       }
     }
     fetchData();
+    fetchservices();
   }, [userId, setValue]);
 
   // Auto-hide success message
@@ -93,6 +125,22 @@ export function ProsStepBusinessDetails({ userId }) {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
+
+  // Click outside close
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (serviceRef.current && !serviceRef.current.contains(event.target)) {
+        setIsServiceOpen(false);
+      }
+      if (qualificationRef.current && !qualificationRef.current.contains(event.target)) {
+        setIsQualificationOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Submit handler
   const onSubmit = async (data) => {
@@ -148,13 +196,11 @@ export function ProsStepBusinessDetails({ userId }) {
     setLoading(false);
   };
 
-
-  const submitbusinessdetails= ()=>{
-    if(loading == false){
-      router.push("/pro/step-3")
+  const submitbusinessdetails = () => {
+    if (!loading) {
+      router.push("/pro/step-3");
     }
-
-  }
+  };
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-12">
@@ -179,97 +225,33 @@ export function ProsStepBusinessDetails({ userId }) {
       >
         <div className="grid grid-cols-2 gap-x-10 gap-y-6">
           {/* Company Info */}
-          <input
-            {...register("companyName", {
-              required: "Company name is required",
-            })}
-            placeholder="Company Name"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("companyPhone", {
-              required: "Company phone is required",
-            })}
-            placeholder="Company Phone"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("companyEmail", {
-              required: "Company email is required",
-            })}
-            placeholder="Company Email"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("ownerEmail", {
-              required: "Owner email is required",
-            })}
-            placeholder="Owner Email"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("ownerFirstName", {
-              required: "Owner first name is required",
-            })}
-            placeholder="Owner First Name"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("ownerLastName", {
-              required: "Owner last name is required",
-            })}
-            placeholder="Owner Last Name"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            {...register("streetAddress", {
-              required: "Street address is required",
-            })}
-            placeholder="Street Address"
-            className="w-full border p-2 rounded col-span-2"
-          />
+          <input {...register("companyName", { required: "Company name is required" })} placeholder="Company Name" className="w-full border p-2 rounded" />
+          <input {...register("companyPhone", { required: "Company phone is required" })} placeholder="Company Phone" className="w-full border p-2 rounded" />
+          <input {...register("companyEmail", { required: "Company email is required" })} placeholder="Company Email" className="w-full border p-2 rounded" />
+          <input {...register("ownerEmail", { required: "Owner email is required" })} placeholder="Owner Email" className="w-full border p-2 rounded" />
+          <input {...register("ownerFirstName", { required: "Owner first name is required" })} placeholder="Owner First Name" className="w-full border p-2 rounded" />
+          <input {...register("ownerLastName", { required: "Owner last name is required" })} placeholder="Owner Last Name" className="w-full border p-2 rounded" />
+          <input {...register("streetAddress", { required: "Street address is required" })} placeholder="Street Address" className="w-full border p-2 rounded col-span-2" />
           <div className="grid grid-cols-3 gap-4 col-span-2">
-            <input
-              {...register("city", { required: "City is required" })}
-              placeholder="City"
-              className="w-full border p-2 rounded"
-            />
-            <input
-              {...register("state", { required: "State is required" })}
-              maxLength={2}
-              placeholder="State"
-              className="w-full border p-2 rounded"
-            />
-            <input
-              {...register("zip", { required: "Zip is required" })}
-              placeholder="Zip"
-              className="w-full border p-2 rounded"
-            />
+            <input {...register("city", { required: "City is required" })} placeholder="City" className="w-full border p-2 rounded" />
+            <input {...register("state", { required: "State is required" })} maxLength={2} placeholder="State" className="w-full border p-2 rounded" />
+            <input {...register("zip", { required: "Zip is required" })} placeholder="Zip" className="w-full border p-2 rounded" />
           </div>
-          <input
-            {...register("ein", { required: "EIN is required" })}
-            placeholder="EIN"
-            className="w-full border p-2 rounded"
-          />
+          <input {...register("ein", { required: "EIN is required" })} placeholder="EIN" className="w-full border p-2 rounded" />
+          <input {...register("experienceYears", { required: "Established year is required" })} placeholder="Established Year" className="w-full border p-2 rounded" />
 
-          <input
-            
-            {...register("experienceYears", { required: "Established year is required" })}
-            placeholder="Established Year"
-            className="w-full border p-2 rounded"
-          />
-
-          {/* Multi-selects */}
+          {/* Dropdowns */}
           <div className="col-span-2 grid grid-cols-2 gap-x-10">
             {/* Services */}
-            <div>
-              <label className="block text-xs mb-1 text-gray-600">
-                Services
-              </label>
+            <div ref={serviceRef}>
+              <label className="block text-xs mb-1 text-gray-600">Services</label>
               <div className="relative">
                 <div
                   className="border p-2 rounded cursor-pointer bg-white"
-                  onClick={() => setIsServiceOpen(!isServiceOpen)}
+                  onClick={() => {
+                    setIsServiceOpen(!isServiceOpen);
+                    setIsQualificationOpen(false);
+                  }}
                 >
                   {selectedServices.length > 0
                     ? selectedServices.join(", ")
@@ -286,11 +268,7 @@ export function ProsStepBusinessDetails({ userId }) {
                           type="checkbox"
                           checked={selectedServices.includes(option)}
                           onChange={() =>
-                            toggleOption(
-                              setSelectedServices,
-                              selectedServices,
-                              option
-                            )
+                            toggleOption(setSelectedServices, selectedServices, option)
                           }
                           className="mr-2"
                         />
@@ -303,16 +281,15 @@ export function ProsStepBusinessDetails({ userId }) {
             </div>
 
             {/* Qualifications */}
-            <div>
-              <label className="block text-xs mb-1 text-gray-600">
-                Qualifications
-              </label>
+            <div ref={qualificationRef}>
+              <label className="block text-xs mb-1 text-gray-600">Qualifications</label>
               <div className="relative">
                 <div
                   className="border p-2 rounded cursor-pointer bg-white"
-                  onClick={() =>
-                    setIsQualificationOpen(!isQualificationOpen)
-                  }
+                  onClick={() => {
+                    setIsQualificationOpen(!isQualificationOpen);
+                    setIsServiceOpen(false);
+                  }}
                 >
                   {selectedQualifications.length > 0
                     ? selectedQualifications.join(", ")
@@ -329,11 +306,7 @@ export function ProsStepBusinessDetails({ userId }) {
                           type="checkbox"
                           checked={selectedQualifications.includes(option)}
                           onChange={() =>
-                            toggleOption(
-                              setSelectedQualifications,
-                              selectedQualifications,
-                              option
-                            )
+                            toggleOption(setSelectedQualifications, selectedQualifications, option)
                           }
                           className="mr-2"
                         />
@@ -350,20 +323,12 @@ export function ProsStepBusinessDetails({ userId }) {
           <div className="col-span-2 flex gap-10">
             {/* Company Logo */}
             <div>
-              <label className="block text-xs mb-2 text-gray-600">
-                Company Logo
-              </label>
+              <label className="block text-xs mb-2 text-gray-600">Company Logo</label>
               <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
                 {companyLogo ? (
-                  <img
-                    src={URL.createObjectURL(companyLogo)}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+                  <img src={URL.createObjectURL(companyLogo)} className="w-full h-full object-cover rounded-md" />
                 ) : previewCompanyLogo ? (
-                  <img
-                    src={previewCompanyLogo}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+                  <img src={previewCompanyLogo} className="w-full h-full object-cover rounded-md" />
                 ) : (
                   <span className="text-gray-400 text-3xl">+</span>
                 )}
@@ -378,20 +343,12 @@ export function ProsStepBusinessDetails({ userId }) {
 
             {/* Owner License */}
             <div>
-              <label className="block text-xs mb-2 text-gray-600">
-                Owner License
-              </label>
+              <label className="block text-xs mb-2 text-gray-600">Owner License</label>
               <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
                 {ownerLicense ? (
-                  <img
-                    src={URL.createObjectURL(ownerLicense)}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+                  <img src={URL.createObjectURL(ownerLicense)} className="w-full h-full object-cover rounded-md" />
                 ) : previewOwnerLicense ? (
-                  <img
-                    src={previewOwnerLicense}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+                  <img src={previewOwnerLicense} className="w-full h-full object-cover rounded-md" />
                 ) : (
                   <span className="text-gray-400 text-3xl">+</span>
                 )}
@@ -407,9 +364,7 @@ export function ProsStepBusinessDetails({ userId }) {
 
           {/* Links Section */}
           <div className="col-span-2">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4">
-              Links to your:
-            </h3>
+            <h3 className="text-sm font-semibold text-gray-700 mb-4">Links to your:</h3>
             <div className="grid grid-cols-2 gap-6">
               <input {...register("phone")} placeholder="Phone" className="w-full border p-2 rounded" />
               <input {...register("website")} placeholder="Website" className="w-full border p-2 rounded" />
@@ -426,25 +381,18 @@ export function ProsStepBusinessDetails({ userId }) {
         {/* Buttons */}
         <div className="mt-12 flex justify-between items-center max-w-4xl mx-auto">
           <button
-           onClick={()=> router.push('/pro/step-1')}
+            onClick={() => router.push("/pro/step-1")}
             type="button"
             className="text-[#00BBD1] underline text-sm font-semibold hover:text-[#008a9a]"
           >
             Back
           </button>
-          {/* <button
-            type="submit"
-            className="bg-[#FF3B30] text-white font-bold py-2 px-10 rounded-full shadow-md"
-          >
-            Save
-          </button> */}
           <button
-
-            onClick={() => submitbusinessdetails() }
+            onClick={() => submitbusinessdetails()}
             type="submit"
             className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md"
           >
-            {loading ? "saving ..." : "Save & Next"}  
+            {loading ? "saving ..." : "Save & Next"}
           </button>
         </div>
       </form>

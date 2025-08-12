@@ -55,30 +55,30 @@ export function ProjectAuctionForm({ requestid }) {
           setValue("productPreference", data.productPreference);
           setValue("workDescription", data.workDescription);
 
-          let drawingsFile = null;
-          let insuranceFile = null;
-          let projectOtherFile = null;
-          let mediaList = [];
+          // let drawingsFile = null;
+          // let insuranceFile = null;
+          // let projectOtherFile = null;
+          // let mediaList = [];
 
-          data.files.forEach(file => {
-            if (file.fileType === "drawing") {
-              drawingsFile = { url: file.fileUrl, name: file.originalName };
-            } else if (file.fileType === "insurance") {
-              insuranceFile = { url: file.fileUrl, name: file.originalName };
-            } else if (file.fileType === "projectOther") {
-              projectOtherFile = { url: file.fileUrl, name: file.originalName };
-            } else if (file.fileType === "media") {
-              mediaList.push({ url: file.fileUrl, name: file.originalName });
-            }
-          });
+          // data.files.forEach(file => {
+          //   if (file.fileType === "drawing") {
+          //     drawingsFile = { url: file.fileUrl, name: file.originalName };
+          //   } else if (file.fileType === "insurance") {
+          //     insuranceFile = { url: file.fileUrl, name: file.originalName };
+          //   } else if (file.fileType === "projectOther") {
+          //     projectOtherFile = { url: file.fileUrl, name: file.originalName };
+          //   } else if (file.fileType === "media") {
+          //     mediaList.push({ url: file.fileUrl, name: file.originalName });
+          //   }
+          // });
 
-          setFiles({
-            drawings: drawingsFile,
-            insurance: insuranceFile,
-            projectother: projectOtherFile
-          });
+          // setFiles({
+          //   drawings: drawingsFile,
+          //   insurance: insuranceFile,
+          //   projectother: projectOtherFile
+          // });
 
-          setMediaFiles(mediaList);
+          // setMediaFiles(mediaList);
         }
       }
     }
@@ -113,7 +113,7 @@ export function ProjectAuctionForm({ requestid }) {
       const ids = selectedCompanies.map((data) => data.value).join(",");
       setlastselectcompanies(ids);
       formData.append("prosId", ids);
-
+      formData.append("requestid",requestid);
       Object.keys(data).forEach((key) => formData.append(key, data[key] || ''));
 
       Object.keys(files).forEach((key) => {

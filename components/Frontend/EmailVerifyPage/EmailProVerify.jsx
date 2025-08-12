@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import signupImage from "../../../public/images/signup.png"; // <-- your signup illustration
+import signupImage from "../../../public/images/signup.png";
 
 export function EmailProVerify() {
   const { register, handleSubmit, formState: { errors }, getValues, setError } = useForm();
@@ -13,6 +13,7 @@ export function EmailProVerify() {
   const [message, setMessage] = useState("");
   const [stage, setStage] = useState(false);
   const [otpSize, setOtpSize] = useState(Array(6).fill(""));
+  const [verifying, setVerifying] = useState(false);
   const inputsRef = useRef([]);
   const router = useRouter();
 
@@ -53,22 +54,44 @@ export function EmailProVerify() {
     const newOtp = [...otpSize];
     newOtp[index] = value;
     setOtpSize(newOtp);
-    if (value && index < 5) inputsRef.current[index + 1].focus();
+
+    if (value && index < 5) {
+      inputsRef.current[index + 1]?.focus();
+    }
+
+    if (newOtp.join("").length === 6) {
+      handleSubmitOtp(newOtp.join(""));
+    }
   };
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otpSize[index] && index > 0) {
-      inputsRef.current[index - 1].focus();
+      inputsRef.current[index - 1]?.focus();
     }
   };
 
-  const handleSubmitOtp = () => {
-    const enteredOtp = otpSize.join("");
-    if (enteredOtp === otp) {
-      router.push("/payment-page");
-    } else {
-      setMessage("Invalid OTP. Please try again.");
+  const handlePaste = (e) => {
+    const pasteData = e.clipboardData.getData("text").trim();
+    if (/^\d{6}$/.test(pasteData)) {
+      const pasteArray = pasteData.split("");
+      setOtpSize(pasteArray);
+      handleSubmitOtp(pasteData);
     }
+    e.preventDefault();
+  };
+
+  const handleSubmitOtp = (manualOtp) => {
+    const enteredOtp = manualOtp || otpSize.join("");
+    setVerifying(true);
+
+    setTimeout(() => {
+      if (enteredOtp === otp) {
+        router.push("/payment-page");
+      } else {
+        setMessage("Invalid OTP. Please try again.");
+        setVerifying(false);
+      }
+    }, 1200); // 1.2 sec for feedback animation
   };
 
   const handleResend = async () => {
@@ -88,14 +111,16 @@ export function EmailProVerify() {
   }, [message]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#D5F1F1] to-white px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#D5F1F1] to-white px-4 sm:px-6 lg:px-8">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
         {/* Illustration */}
         <div className="flex justify-center mb-4">
-          <Image src={signupImage} alt="Email Verification Illustration" width={120} height={120} priority />
+          <Image src={signupImage} alt="Email Verification" width={100} height={100} priority />
         </div>
 
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Email Verification</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-4">
+          Email Verification
+        </h1>
         {message && <p className="text-green-600 text-center mb-4">{message}</p>}
 
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +130,7 @@ export function EmailProVerify() {
             <input
               type="email"
               placeholder="Enter your email address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6C63FF] focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6C63FF] focus:outline-none text-sm sm:text-base"
               {...register("email", {
                 required: "Email address is required",
                 pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
@@ -118,7 +143,7 @@ export function EmailProVerify() {
           {/* OTP Section */}
           {stage && (
             <div className="space-y-6">
-              <div className="flex gap-3 justify-center">
+              <div className="flex gap-2 sm:gap-3 justify-center" onPaste={handlePaste}>
                 {otpSize.map((digit, index) => (
                   <input
                     key={index}
@@ -128,7 +153,7 @@ export function EmailProVerify() {
                     ref={(el) => (inputsRef.current[index] = el)}
                     onChange={(e) => handleChange(e.target.value, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
-                    className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#6C63FF] transition"
+                    className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#6C63FF] transition"
                   />
                 ))}
               </div>
@@ -136,16 +161,19 @@ export function EmailProVerify() {
                 type="button"
                 onClick={handleResend}
                 className="flex items-center justify-center gap-2 text-sm text-blue-600 hover:text-blue-800"
+                disabled={verifying}
               >
-                <ArrowPathIcon className="w-4 h-4" />
+                <ArrowPathIcon className={`w-4 h-4 ${verifying ? "animate-spin" : ""}`} />
                 Resend OTP
               </button>
               <button
                 type="button"
-                onClick={handleSubmitOtp}
-                className="w-full bg-[#0C0C2D] text-white py-2 px-4 rounded-lg hover:bg-[#1E1E3E] transition"
+                onClick={() => handleSubmitOtp()}
+                className="w-full bg-[#0C0C2D] text-white py-2 px-4 rounded-lg hover:bg-[#1E1E3E] transition flex items-center justify-center gap-2"
+                disabled={verifying}
               >
-                Verify OTP
+                {verifying && <ArrowPathIcon className="w-5 h-5 animate-spin" />}
+                {verifying ? "Verifying OTP..." : "Verify OTP"}
               </button>
             </div>
           )}
@@ -157,7 +185,7 @@ export function EmailProVerify() {
               className="w-full bg-[#0C0C2D] hover:bg-[#1E1E3E] text-white font-medium py-2 px-4 rounded-lg transition"
               disabled={loading}
             >
-              {loading ? "Verifying..." : "Verify Email"}
+              {loading ? "Sending OTP..." : "Verify Email"}
             </button>
           )}
         </form>

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
 
 export function ProjectAuction() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -9,7 +11,16 @@ export function ProjectAuction() {
   const [mediaFiles, setMediaFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+
+
+
+
+
+
+
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
@@ -61,6 +72,25 @@ export function ProjectAuction() {
 
   const onSubmit = async (data) => {
     try {
+        debugger;
+       const captchatoken = await executeRecaptcha("form_submit");
+
+        // 2. Verify token with Google via API route
+        const verifyRes = await fetch("http://localhost:3000/api/verify-captcha", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ captchatoken }),
+        });
+        const verifyData = await verifyRes.json();
+
+        if (!verifyData.success) {
+          alert("Captcha failed! You might be a bot 😅");
+          setLoading(false);
+          return;
+        }
+
+
+
       setLoading(true);
       const formData = new FormData();
 

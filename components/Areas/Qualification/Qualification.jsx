@@ -48,7 +48,7 @@ useEffect(() => {
  
   const fetchQualifications = () => {
   setLoading(true);
-  fetch("http://localhost:8000/api/admin/qualification/getnames")
+  fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/getnames`)
     .then((res) => res.json())
     .then((data) => setQualifications(data))
     .catch((err) => console.error("Error fetching qualifications:", err))
@@ -62,7 +62,7 @@ const handleSubmit = async (e) => {
     if (editId) {
       // Update flow
       const res = await fetch(
-        `http://localhost:8000/api/admin/qualification/updatename/${editId}`,
+        `${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/updatename/${editId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -92,7 +92,7 @@ const handleSubmit = async (e) => {
  
       // Add flow
       const res = await fetch(
-        "http://localhost:8000/api/admin/qualification/addname",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/addname`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -162,7 +162,7 @@ const handleDelete = async (ids) => {
   setDeleteRow(true); // Use correct setter name here
  
   try {
-    const res = await fetch("http://localhost:8000/api/admin/qualification/delete", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/delete`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids }),

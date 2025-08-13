@@ -1,5 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import {NotesTimeLine} from "../../Areas/CompaniesManagement/Notesmanagent";
+
+
+
+
 
 export function CompanyManagement() {
   const [statusFilter, setStatusFilter] = useState("0"); // 0: Pending, 1: Approved, 2: Rejected
@@ -16,6 +21,14 @@ export function CompanyManagement() {
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
   const [loading,setLoading] = useState(false);
+
+
+  const [NotePopup,setNotePopup] = useState(false);
+  const [companiesid,setcompaniesid] = useState(0);
+
+
+
+
 
   // Fetch companies
   const fetchCompanies = async (status) => {
@@ -185,6 +198,33 @@ export function CompanyManagement() {
 
    const statusLabels = { 0: "Pending", 4: "Approved", 5: "Rejected" };
    
+
+
+    const approvesingle = (id)=>{
+        
+    }
+
+    const blocksingle = (data)=>{
+       
+    }
+
+    const unblocksingle = (data)=>{
+     
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="bg-white rounded-2xl shadow-md p-6">
@@ -310,6 +350,7 @@ export function CompanyManagement() {
                 <th className="px-4 py-3">Contact</th>
                 <th className="px-4 py-3">Location</th>
                 <th className="px-4 py-3">Joined</th>
+               
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
@@ -400,6 +441,7 @@ export function CompanyManagement() {
               })
             : "N/A"}
         </td>
+        
         <td className="px-4 py-4 text-sm">
           {user.status === "0" ? (
             <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
@@ -411,7 +453,7 @@ export function CompanyManagement() {
         </td>
         <td className="px-4 py-4 space-x-2">
           <button
-            onClick={() => handleView(user)}
+            onClick={() => {handleView(user); toggleSelect(user.id)}}
             className="border border-gray-300 text-gray-700 rounded-md px-3 py-1 text-xs hover:bg-gray-100"
           >
             View
@@ -469,287 +511,342 @@ export function CompanyManagement() {
       </div>
 
       {/* View Modal */}
+
+
     {isModalOpen && selectedUser && (
-  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col max-h-[90vh]">
-      {/* Header */}
-      <div className="flex justify-between items-center border-b px-6 py-4">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900">
-            {selectedUser.businessDetails?.companyName || "Company Details"}
-          </h2>
-         
-        </div>
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="text-gray-500 hover:text-gray-800 text-lg"
-        >
-          ✕
-        </button>
-      </div>
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col max-h-[90vh]">
+            {/* Header */}
+            <div className="flex justify-between items-center border-b px-6 py-4">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {selectedUser.businessDetails?.companyName || "Company Details"}
+                </h2>
+              
+              </div>
+              <button
+                onClick={() => {
+                setIsModalOpen(false), setSelectedIds([]),  setNotePopup(false)
+                }}
+                className="text-gray-500 hover:text-gray-800 text-lg"
+              >
+                ✕
+              </button>
+            </div>
 
-      {/* Content */}
-      <div className="p-6 overflow-y-auto flex-1 space-y-4">
-        {/* Overview */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Description</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.companyDescription || "N/A"}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Year Established</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.experienceYears || "Not Added"} 
-            </dd>
-          </div>
-         
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Joined</dt>
-            <dd className="text-gray-700">
-              {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </dd>
-          </div>
-        </div>
+            {/* Content */}
+            <div className="p-6 overflow-y-auto flex-1 space-y-4">
+              {/* Overview */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Description</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.companyDescription || "N/A"}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Year Established</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.experienceYears || "Not Added"} 
+                  </dd>
+                </div>
+              
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Joined</dt>
+                  <dd className="text-gray-700">
+                    {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </dd>
+                </div>
+              </div>
 
-        {/* Contact Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Contact Person</dt>
-            <dd className="text-gray-700">
-              {selectedUser.firstname} {selectedUser.lastname}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Email</dt>
-            <dd className="text-blue-600">{selectedUser.email}</dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Phone</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.companyPhone || "N/A"}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Location</dt>
-            <dd className="text-gray-700">
-              {selectedUser.city}, {selectedUser.state} {selectedUser.zipCode}
-            </dd>
-          </div>
-        </div>
+              {/* Contact Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Contact Person</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.firstname} {selectedUser.lastname}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Email</dt>
+                  <dd className="text-blue-600">{selectedUser.email}</dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Phone</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.companyPhone || "N/A"}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Location</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.city}, {selectedUser.state} {selectedUser.zipCode}
+                  </dd>
+                </div>
+              </div>
 
-        {/* Business Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">EIN</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.ein || "N/A"}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Owner</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.ownerFirstName}{" "}
-              {selectedUser.businessDetails?.ownerLastName}
-              <br />
-              {selectedUser.businessDetails?.ownerEmail}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4 sm:col-span-2">
-            <dt className="font-semibold text-gray-900">Services</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.services
-                ? JSON.parse(selectedUser.businessDetails.services).join(", ")
-                : "N/A"}
-            </dd>
-          </div>
-          <div className="border rounded-lg p-4 sm:col-span-2">
-            <dt className="font-semibold text-gray-900">Qualifications</dt>
-            <dd className="text-gray-700">
-              {selectedUser.businessDetails?.qualifications
-                ? JSON.parse(selectedUser.businessDetails.qualifications).join(
-                    ", "
-                  )
-                : "N/A"}
-            </dd>
-          </div>
-        </div>
+              {/* Business Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">EIN</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.ein || "N/A"}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Owner</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.ownerFirstName}{" "}
+                    {selectedUser.businessDetails?.ownerLastName}
+                    <br />
+                    {selectedUser.businessDetails?.ownerEmail}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4 sm:col-span-2">
+                  <dt className="font-semibold text-gray-900">Services</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.services
+                      ? JSON.parse(selectedUser.businessDetails.services).join(", ")
+                      : "N/A"}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4 sm:col-span-2">
+                  <dt className="font-semibold text-gray-900">Qualifications</dt>
+                  <dd className="text-gray-700">
+                    {selectedUser.businessDetails?.qualifications
+                      ? JSON.parse(selectedUser.businessDetails.qualifications).join(
+                          ", "
+                        )
+                      : "N/A"}
+                  </dd>
+                </div>
+              </div>
 
-        {/* Images */}
-       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-  {/* Company Logo */}
-  <div className="border rounded-lg p-4">
-    <dt className="font-semibold text-gray-900">Company Logo</dt>
-    <dd>
-      {selectedUser.businessDetails?.companyLogo ? (
-        <>
-          {selectedUser.businessDetails.companyLogo.toLowerCase().endsWith(".pdf") ? (
-            <a
-              href={selectedUser.businessDetails.companyLogo}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <embed
-                src={selectedUser.businessDetails.companyLogo}
-                type="application/pdf"
-                className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
-              />
-            </a>
-          ) : (
-            <a
-              href={selectedUser.businessDetails.companyLogo}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={selectedUser.businessDetails.companyLogo}
-                alt="Logo"
-                className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
-              />
-            </a>
-          )}
-        </>
-      ) : (
-        "No logo"
-      )}
-    </dd>
-  </div>
-
-  {/* Owner License */}
-  <div className="border rounded-lg p-4">
-    <dt className="font-semibold text-gray-900">Owner License</dt>
-    <dd>
-      {selectedUser.businessDetails?.ownerLicense ? (
-        <>
-          {selectedUser.businessDetails.ownerLicense.toLowerCase().endsWith(".pdf") ? (
-            <a
-              href={selectedUser.businessDetails.ownerLicense}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <embed
-                src={selectedUser.businessDetails.ownerLicense}
-                type="application/pdf"
-                className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
-              />
-            </a>
-          ) : (
-            <a
-              href={selectedUser.businessDetails.ownerLicense}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={selectedUser.businessDetails.ownerLicense}
-                alt="License"
-                className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
-              />
-            </a>
-          )}
-        </>
-      ) : (
-        "No license"
-      )}
-    </dd>
-  </div>
-</div>
-
-
-        {/* Subscription */}
-        {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
-          <div className="border rounded-lg p-4">
-            <dt className="font-semibold text-gray-900">Subscription</dt>
-            <dd className="text-gray-700">
-              Plan: {selectedUser.subscriptions[0].PlanName} (
-              {selectedUser.subscriptions[0].PlanType})
-              <br />
-              Status: {selectedUser.subscriptions[0].Status}
-              <br />
-              Amount: {selectedUser.subscriptions[0].Amount}{" "}
-              {selectedUser.subscriptions[0].Currency}
-            </dd>
-          </div>
-        )}
-
-        {/* Credentials */}
-      {selectedUser.credentials && selectedUser.credentials.length > 0 && (
-  <div className="border rounded-lg p-4">
-    <dt className="font-semibold text-gray-900">Credentials</dt>
-    <div className="mt-3 space-y-4">
-      {Object.entries(
-        selectedUser.credentials.reduce((acc, cred) => {
-          if (!acc[cred.section]) acc[cred.section] = [];
-          acc[cred.section].push(cred);
-          return acc;
-        }, {})
-      ).map(([section, creds]) => (
-        <div key={section}>
-          <h4 className="text-md font-semibold text-gray-800 mb-2">
-            {section}
-          </h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {creds.map((cred) => {
-              const fileUrl = `${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`;
-              const isPDF = fileUrl.toLowerCase().endsWith(".pdf");
-
-              return (
-                <div
-                  key={cred.id}
-                  className="border rounded-lg p-2 flex flex-col items-center text-center"
-                >
+              {/* Images */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Company Logo */}
+        <div className="border rounded-lg p-4">
+          <dt className="font-semibold text-gray-900">Company Logo</dt>
+          <dd>
+            {selectedUser.businessDetails?.companyLogo ? (
+              <>
+                {selectedUser.businessDetails.companyLogo.toLowerCase().endsWith(".pdf") ? (
                   <a
-                    href={fileUrl}
+                    href={selectedUser.businessDetails.companyLogo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-28 h-36 flex items-center justify-center"
                   >
-                    {isPDF ? (
-                      <embed
-                        src={fileUrl}
-                        type="application/pdf"
-                        className="w-full h-full border rounded bg-gray-100 object-contain cursor-pointer hover:opacity-80"
-                      />
-                    ) : (
-                      <img
-                        src={fileUrl}
-                        alt={cred.name}
-                        className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80"
-                      />
-                    )}
+                    <embed
+                      src={selectedUser.businessDetails.companyLogo}
+                      type="application/pdf"
+                      className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+                    />
                   </a>
-                  <p className="text-sm text-gray-700 mt-2 text-center break-words">
-                    {cred.name}
-                  </p>
+                ) : (
+                  <a
+                    href={selectedUser.businessDetails.companyLogo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={selectedUser.businessDetails.companyLogo}
+                      alt="Logo"
+                      className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                    />
+                  </a>
+                )}
+              </>
+            ) : (
+              "No logo"
+            )}
+          </dd>
+        </div>
+
+        {/* Owner License */}
+        <div className="border rounded-lg p-4">
+          <dt className="font-semibold text-gray-900">Owner License</dt>
+          <dd>
+            {selectedUser.businessDetails?.ownerLicense ? (
+              <>
+                {selectedUser.businessDetails.ownerLicense.toLowerCase().endsWith(".pdf") ? (
+                  <a
+                    href={selectedUser.businessDetails.ownerLicense}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <embed
+                      src={selectedUser.businessDetails.ownerLicense}
+                      type="application/pdf"
+                      className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+                    />
+                  </a>
+                ) : (
+                  <a
+                    href={selectedUser.businessDetails.ownerLicense}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={selectedUser.businessDetails.ownerLicense}
+                      alt="License"
+                      className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                    />
+                  </a>
+                )}
+              </>
+            ) : (
+              "No license"
+            )}
+          </dd>
+        </div>
+      </div>
+
+
+              {/* Subscription */}
+              {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Subscription</dt>
+                  <dd className="text-gray-700">
+                    Plan: {selectedUser.subscriptions[0].PlanName} (
+                    {selectedUser.subscriptions[0].PlanType})
+                    <br />
+                    Status: {selectedUser.subscriptions[0].Status}
+                    <br />
+                    Amount: {selectedUser.subscriptions[0].Amount}{" "}
+                    {selectedUser.subscriptions[0].Currency}
+                  </dd>
                 </div>
-              );
-            })}
+              )}
+
+              {/* Credentials */}
+            {selectedUser.credentials && selectedUser.credentials.length > 0 && (
+        <div className="border rounded-lg p-4">
+          <dt className="font-semibold text-gray-900">Credentials</dt>
+          <div className="mt-3 space-y-4">
+            {Object.entries(
+              selectedUser.credentials.reduce((acc, cred) => {
+                if (!acc[cred.section]) acc[cred.section] = [];
+                acc[cred.section].push(cred);
+                return acc;
+              }, {})
+            ).map(([section, creds]) => (
+              <div key={section}>
+                <h4 className="text-md font-semibold text-gray-800 mb-2">
+                  {section}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {creds.map((cred) => {
+                    const fileUrl = `${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`;
+                    const isPDF = fileUrl.toLowerCase().endsWith(".pdf");
+
+                    return (
+                      <div
+                        key={cred.id}
+                        className="border rounded-lg p-2 flex flex-col items-center text-center"
+                      >
+                        <a
+                          href={fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-28 h-36 flex items-center justify-center"
+                        >
+                          {isPDF ? (
+                            <embed
+                              src={fileUrl}
+                              type="application/pdf"
+                              className="w-full h-full border rounded bg-gray-100 object-contain cursor-pointer hover:opacity-80"
+                            />
+                          ) : (
+                            <img
+                              src={fileUrl}
+                              alt={cred.name}
+                              className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80"
+                            />
+                          )}
+                        </a>
+                        <p className="text-sm text-gray-700 mt-2 text-center break-words">
+                          {cred.name}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-)}
+      )}
 
 
-      </div>
+            </div>
 
-      {/* Footer */}
-      <div className="border-t px-6 py-3 flex justify-end space-x-3">
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            {/* Footer */}
+            <div className="border-t px-6 py-3 flex justify-end space-x-3">
+
+                 {selectedUser.status === "0" && (
+                    <>
+                      <button className="bg-green-500 text-white px-3 py-1 rounded" 
+                      onClick={() => {
+                        
+                          deleteSelected();
+                          setIsModalOpen(false);
+                        }}
+
+                      >{deleterow ? "Deleting .." : "Approve"}</button>
+                      <button className="bg-red-500 text-white px-3 py-1 rounded ml-2" onClick={()=>{
+                        blockedSelected();
+                        setIsModalOpen(false);
+                      }}>{deleterow ? "Blocking..." : "Block"}</button>
+                    </>
+                  )}
+
+                  {selectedUser.status === "4" && (
+                    <button className="bg-red-500 text-white px-3 py-1 rounded" onClick={()=> {
+                       blockedSelected();
+                        setIsModalOpen(false);
+                    }}>{deleterow ? "Blocking..." : "Block"}</button>
+                  )}
+
+                  {selectedUser.status === "5" && (
+                    <button className="bg-yellow-500 text-white px-3 py-1 rounded" onClick={()=> {
+                         unblockSelected();
+                        setIsModalOpen(false);
+                    }}>{deleterow ? "UnBlocking..." : "UnBlock"}</button>
+                  )}
+
+
+               <button
+                onClick={() => {
+                  setNotePopup(true),
+                  setcompaniesid(selectedUser.id)
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-300">
+                Notes
+              </button>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false),
+                  setNotePopup(false),
+                  setSelectedIds([])
+                }} className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+                Close
+              </button>
+            </div>
+          </div>
+           {NotePopup && (
+                  <NotesTimeLine companyid={companiesid} setNotePopup={setNotePopup}></NotesTimeLine>
+           )}
+
+        </div>
+    )}
+
+   
+
+
 
 
     </div>

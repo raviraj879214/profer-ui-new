@@ -97,6 +97,35 @@ function Qualification(props: any) {
 
 
 
+
+
+function ServicesIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+      {...props}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M12 12a4 4 0 100-8 4 4 0 000 8zM6 12v1a3 3 0 006 0v-1M6 16v4m6-4v4"
+      />
+    </svg>
+  );
+}
+
+
+
+
+
+
+
+
 export function Sidebar() {
 
 
@@ -122,6 +151,7 @@ export function Sidebar() {
 
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
       <SideNavButton icon={Qualification} label="Qualification" href="/admin/qualification" />
+       <SideNavButton icon={ServicesIcon} label="Services" href="/admin/services" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );

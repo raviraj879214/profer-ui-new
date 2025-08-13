@@ -1,11 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { PencilIcon , EyeIcon  } from "@heroicons/react/24/outline";
+
 
 const statusLabels = {
+   
   0: "Not Started",
   1: "Auction Active",
   2: "Auction Completed",
+  3 : "Draft"
 };
 
 export function Projectmanagement() {
@@ -495,13 +499,16 @@ export function Projectmanagement() {
 
                       <td className="px-4 py-4">
                         <select
-                          className={`px-2 py-1 rounded-full text-xs font-semibold border border-gray-300 focus:outline-none focus:ring-2 ${
-                            project.status === 0
-                              ? "bg-yellow-100 text-yellow-800"
+                         className={`px-2 py-1 rounded-full text-xs font-semibold border border-gray-300 focus:outline-none focus:ring-2 ${
+                            project.status === 3
+                              ? "bg-gray-200 text-gray-700"          // Draft color - grayish
+                              : project.status === 0
+                              ? "bg-yellow-100 text-yellow-800"     // Not Started - yellow
                               : project.status === 1
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-green-100 text-green-800"
+                              ? "bg-blue-100 text-blue-800"         // Auction Active - blue
+                              : "bg-green-100 text-green-800"       // Auction Completed - green (or default)
                           }`}
+
                           value={project.status}
                           onChange={(e) => updatestatus(project.id, e.target.value)}
                           aria-label={`Change status for ${project.projectTitle}`}
@@ -515,18 +522,22 @@ export function Projectmanagement() {
                           <option className="bg-white text-black" value={2}>
                            Auction  Completed
                           </option>
+                            <option className="bg-white text-black" value={3}>
+                             Draft
+                          </option>
                         </select>
                       </td>
 
-                      <td className="px-4 py-4 space-x-2">
-                        <button
-                          className="border border-gray-300 text-gray-700 rounded-md px-3 py-1 text-xs hover:bg-gray-100"
-                          onClick={() => openModal(project)}
-                          aria-label={`View details of ${project.projectTitle}`}
-                        >
-                          View
-                        </button>
-                      </td>
+                     <td className="px-4 py-4 flex items-center space-x-2">
+                      <EyeIcon
+                        className="h-5 w-5 text-gray-500 cursor-pointer"
+                        onClick={() => openModal(project)}
+                      />
+                      <PencilIcon className="h-5 w-5 text-gray-500 cursor-pointer"
+                        onClick={()=> router.push(`/admin/create-project/${project.id}`) }
+                      />
+                    </td>
+
                     </tr>
                   ))
                 )}
@@ -722,7 +733,7 @@ function ProjectDetailsModal({ project, onClose }) {
                     </p>
                     {doc.fileUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                       <img
-                        src={doc.fileUrl}
+                        src={`${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`}
                         alt={doc.originalName}
                         className="w-full h-32 object-cover rounded"
                       />
@@ -753,7 +764,7 @@ function ProjectDetailsModal({ project, onClose }) {
                     className="border rounded-lg p-4 flex gap-4 items-start shadow-sm hover:shadow-md transition"
                   >
                     <img
-                      src={pro.companyLogo}
+                      src={`${pro.companyLogo}`}
                       alt={pro.companyName}
                       className="w-16 h-16 object-cover rounded"
                     />

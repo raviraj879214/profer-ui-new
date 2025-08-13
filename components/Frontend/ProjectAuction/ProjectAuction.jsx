@@ -76,7 +76,7 @@ export function ProjectAuction() {
        const captchatoken = await executeRecaptcha("form_submit");
 
         // 2. Verify token with Google via API route
-        const verifyRes = await fetch(`https://profer-ui.vercel.app/api/verify-captcha`, {
+        const verifyRes = await fetch(`/api/verify-captcha`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ captchatoken }),

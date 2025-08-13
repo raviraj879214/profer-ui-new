@@ -9,7 +9,11 @@ export function ProsStepBusinessDetails({ userId }) {
 
   const serviceOptionss = ["Option 1", "Option 2", "Option 3", "Option 4"];
   const [serviceOptions,SetserviceOptions] = useState([]);
-  const qualificationOptions = ["Level 1", "Level 2", "Level 3"];
+
+  const qualificationOptionsd = ["Level 1", "Level 2", "Level 3"];
+  const [qualificationOptions,SetqualificationOptions] = useState([]);
+
+
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedQualifications, setSelectedQualifications] = useState([]);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
@@ -29,18 +33,32 @@ export function ProsStepBusinessDetails({ userId }) {
   const { register, handleSubmit, setValue } = useForm();
 
 
-  const fetchservices = async () =>{
+  const fetchqualification = async () =>{
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/qualification/getnames`);
+    if(res.ok){
+      const result  = await res.json();
+      const names = result.map(item => item.name); 
+      SetqualificationOptions(names);
+    }
+  }
 
+
+  const fetchservices = async ()=>{
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/services/get-services`,{
+      method : "GET",
+       headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+    });
     if(res.ok){
       const result  = await res.json();
       const names = result.map(item => item.name); 
       SetserviceOptions(names);
     }
   }
-
-
 
 
 
@@ -115,6 +133,7 @@ export function ProsStepBusinessDetails({ userId }) {
       }
     }
     fetchData();
+    fetchqualification();
     fetchservices();
   }, [userId, setValue]);
 

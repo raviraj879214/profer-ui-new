@@ -72,7 +72,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
       //   <p className="text-gray-600 dark:text-gray-400 text-lg">Please wait while we verify your session...</p>
       // </div>
 
-         <div className="flex justify-center items-center  bg-gray-800" style={{width : "100%" }}>
+         <div className="flex justify-center items-center bg-gray-800 h-full w-full" style={{width : "100%" }}>
             <BouncingLoader />
           </div>
       

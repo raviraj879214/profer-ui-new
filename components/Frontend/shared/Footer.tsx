@@ -10,8 +10,8 @@ export function Footer() {
         <span className="text-sm">© 2025 Profer</span>
       </div>
       <div className="space-x-6 text-sm underline flex items-center">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
         <a href="#">Contact</a>
       </div>
 

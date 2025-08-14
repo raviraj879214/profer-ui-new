@@ -69,7 +69,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* <Footer /> */}
       </SidebarProvider>
-       <Footer></Footer>
+       {/* <Footer></Footer> */}
     </div>
   );
 }

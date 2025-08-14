@@ -137,7 +137,36 @@ export default function Profernetwork() {
   </div>
 </div>
 
-
+<div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-8 py-8">
+  {/* Left Side - Image */}
+  <div className="flex-shrink-0">
+    <Image
+      src="/images/p3.png"
+      alt="Professional reviewing credentials"
+      width={550}
+      height={250}
+      className="object-contain"
+      priority
+    />
+  </div>
+ 
+  {/* Right Side - Text */}
+  <div className="max-w-lg text-center md:text-left">
+  <h2 className="text-5xl font-semibold mb-6">
+    Get <span className="text-red-500">free</span> leads.
+  </h2>
+ 
+  <p className="text-gray-600 text-2xl mb-4 text-justify">
+    We don't use you for internet traffic and sell your leads to other people.  
+    We care about our Pros and it shows. You get a notification anytime any verified client views your{" "}
+    <span className="font-semibold text-black">
+      Pro<span className="text-red-500">File</span>™
+    </span>.
+    Did we mention <span className="text-red-500">free </span>leads? You gotta love that.
+  </p>
+</div>
+ 
+</div>
       {/* Final CTA */}
       <div className="bg-[#b6e3e9] py-12 px-4 text-center">
         <div className="flex flex-col items-center space-y-6">

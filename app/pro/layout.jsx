@@ -10,10 +10,10 @@ export default function ProLayout({ children }) {
    
         
     <AuthGuardPro>
-        <ProHeader></ProHeader>
+        {/* <ProHeader></ProHeader> */}
        
         {children}
-        <ProFooter></ProFooter>
+        {/* <ProFooter></ProFooter> */}
     </AuthGuardPro>
 
    </>);

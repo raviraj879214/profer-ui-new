@@ -34,8 +34,12 @@ export function AdminSubHeader() {
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.clear();
-   
-    router.push("/");
+    document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        document.cookie = `${name}=; path=/; max-age=0`;
+    });
+
+    window.location.href = ("/admin-login");
   };
 
   return (

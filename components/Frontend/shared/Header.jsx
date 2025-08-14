@@ -2,18 +2,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Logo } from "@/components/Areas/shared/Logo";
 import { Menu, X } from "lucide-react"; // optional icons from lucide-react (or replace with SVGs)
 
 export function Header() {
+
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    
+    const storedRole = document.cookie.split("; ").find((row) => row.startsWith("role="))?.split("=")[1];
+
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
+
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  
+
+
   const navLinks = [
-    { name: "Search for Pros", href: "/search-for-pros" },
+    { name: `Search for Pros`, href: "/search-for-pros" },
     { name: "Project Auction", href: "/auction" },
     { name: "Why Profer", href: "/why-profer" },
      { name: "How it Works", href: "/how-it-works" },
@@ -27,7 +40,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Logo />
         </Link>
-
+       
         {/* Hamburger Menu Button (Mobile only) */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -70,7 +83,7 @@ export function Header() {
             className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 transition-colors"
             prefetch={false}
           >
-            Join Profer
+            Join Profer 
           </Link>
         </div>
       </div>

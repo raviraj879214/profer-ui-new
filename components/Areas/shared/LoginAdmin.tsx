@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import signupimage from "../../../public/images/signup.png";
@@ -12,6 +12,25 @@ export function LoginAdminFrontend() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const router = useRouter();
+
+
+
+
+  useEffect(()=>{ 
+    const loginstatus = localStorage.getItem("LoginStatus");
+    if(loginstatus === "true"){
+      router.push("/admin/dashboard");
+    }
+    else{
+       router.push("/admin-login");
+    }
+  },[]);
+
+
+
+
+
+
 
   const onSubmit = async (data: any) => {
     setLoading(true);
@@ -31,7 +50,8 @@ export function LoginAdminFrontend() {
         localStorage.setItem("Role", JSON.stringify(result.user.role.name));
         localStorage.setItem("token", result.token);
         localStorage.setItem("LoginStatus", "true");
-        router.push("/admin/dashboard");
+        document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
+         window.location.href = ("/admin/dashboard");
       } else {
         throw new Error(result.error || "Invalid credentials");
       }
@@ -46,11 +66,11 @@ export function LoginAdminFrontend() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Top Logo Section */}
-      <div className="absolute top-6 left-6 z-20">
+      {/* <div className="absolute top-6 left-6 z-20">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Logo />
         </Link>
-      </div>
+      </div> */}
 
       {/* Main Section */}
       <main className="flex flex-col items-center justify-center flex-grow relative">

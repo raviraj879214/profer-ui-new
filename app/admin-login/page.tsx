@@ -17,8 +17,8 @@ export default function AdminLoginPage() {
 
     return(<>
 
-     <LoginAdminFrontend></LoginAdminFrontend>
-   
-    
+        <LoginAdminFrontend></LoginAdminFrontend>
+
+
     </>);
 }

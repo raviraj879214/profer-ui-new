@@ -3,7 +3,7 @@ import Image from "next/image";
 import signupimage from "../../../public/images/signup.png";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 
@@ -22,6 +22,33 @@ const SignIn = () => {
   const router = useRouter();
 
   
+
+
+
+  useEffect(()=>{
+    debugger;
+    const loginstatus = localStorage.getItem("FrontendLoginStatus");
+
+      if(loginstatus === "true"){
+        router.push("/pro/pro-dashboard");
+      }
+      else{
+        router.push("/sign-in");
+      }
+
+  },[]);
+
+
+
+
+
+
+
+
+
+
+
+
   const onSubmit = async (data) => {
   setLoading(true);
   setErrorMsg(""); // clear previous errors
@@ -52,25 +79,26 @@ const SignIn = () => {
       localStorage.setItem("FrontendRole", JSON.stringify(result.user.role));
       localStorage.setItem("Frontendtoken", result.token);
       localStorage.setItem("FrontendLoginStatus", "true");
+      
       localStorage.setItem("token",result.token);
       localStorage.setItem("UserID",result.user.id);
       console.log("Login successful", result);
      
-      
+      document.cookie = `role=${result.user.role}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
       if(result.user.role == "Pro"){
         
           if(result.user.status == "0"){
-            router.push('/pro/step-1');
+            window.location.href=('/pro/step-1');
           }
           else if(result.user.status == "1"){
-              router.push('/pro/step-2');
+               window.location.href=('/pro/step-2');
           }
           else if(result.user.status == "2"){
-              router.push('/pro/step-3');
+               window.location.href=('/pro/step-3');
           }
           else if(result.user.status == "4"){
-              router.push('/pro/pro-dashboard');
+              window.location.href=('/pro/pro-dashboard');
           }
 
           

@@ -2,7 +2,7 @@
 
 
 'use client';  // This makes it re-render on navigation
-import { Header } from "@/components/Frontend/shared/Header";
+import { MainHeader } from "@/components/Frontend/shared/MainHeader";
 import { Footer } from "@/components/Frontend/shared/Footer";
 import { usePathname } from "next/navigation";
 
@@ -15,16 +15,11 @@ export  function SiteLayout({ children }) {
   
 
 
-
-    
-
-
-
   return (
     <div className="flex flex-col min-h-screen">
-      {!hideLayout && <Header />}
+      { <MainHeader />}
         {children}
-        {!hideLayout && <Footer />}
+        { <Footer />}
     </div>
   );
 }

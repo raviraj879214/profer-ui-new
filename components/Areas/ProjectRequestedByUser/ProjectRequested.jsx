@@ -250,6 +250,7 @@ const rejectprojectrequested = async (id) => {
                     onChange={toggleSelectAll}
                   />
                 </th>
+                <th className="px-4 py-3">RequestID</th>
                 <th className="px-4 py-3">Full Name</th>
                 <th className="px-4 py-3">Contact</th>
                 <th className="px-4 py-3">Email</th>
@@ -263,6 +264,7 @@ const rejectprojectrequested = async (id) => {
             {loading ? (
               <tbody className="divide-y divide-gray-100">
                 <tr>
+                 
                   <td colSpan="7" className="text-center py-6">
                     <div role="status" className="flex justify-center">
                       <svg
@@ -323,6 +325,7 @@ const rejectprojectrequested = async (id) => {
                         onChange={() => toggleSelect(user.id)}
                       />
                     </td>
+                     <td className="text-center py-6 font-semibold">{user.RequestID}</td>
                     <td className="px-4 py-4 font-semibold">
                       {user.fullName || "N/A"}
                     </td>
@@ -382,7 +385,7 @@ const rejectprojectrequested = async (id) => {
                 {paginatedUsers.length === 0 && (
                   <tr>
                     <td colSpan="7" className="text-center text-gray-400 py-6">
-                      No users found.
+                      No projects found.
                     </td>
                   </tr>
                 )}

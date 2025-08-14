@@ -37,7 +37,13 @@ export function ProHeader() {
 
   const handleLogout = () => {
     localStorage.clear();
-    router.push("/");
+    document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        document.cookie = `${name}=; path=/; max-age=0`;
+      });
+
+   window.location.href = "/";
+
   };
 
   return (

@@ -76,7 +76,7 @@ export function SelectProPlan(){
             </ul>
             <p className="text-blue-400 font-semibold">Free to use</p>
             <button  className="bg-red-500 text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-red-600 transition">
-              Select
+              Coming Soon
             </button>
           </div>
         </div>

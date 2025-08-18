@@ -2,9 +2,12 @@
 import { useEffect, useState } from "react";
 import { Header } from "../../Frontend/shared/Header";
 import { ProHeader } from "../../ProsArea/shared/ProHeader";
+import { usePathname, useRouter } from "next/navigation";
 
 export  function MainHeader() {
   const [role, setRole] = useState(null);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Get cookie value
@@ -18,11 +21,15 @@ export  function MainHeader() {
   }, []);
 
   debugger;
-      if (role === "admin") {
-        return null; // no JSX for admin
-      } else if (role === "Pro") {
+     if (role === "admin" && pathname.startsWith("/admin")) {
+         return null;
+      }
+      else if (role === "Pro") 
+      {
         return <ProHeader />;
-      } else {
+      }
+      else 
+      {
         return <Header />;
       }
 }

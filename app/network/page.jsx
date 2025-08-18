@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import Link from "next/link";
 
 
 
@@ -32,14 +33,15 @@ export default function Profernetwork() {
           <p className="text-base sm:text-lg font-medium text-gray-900">
             As an experienced service professional, you do things right. So let it show.
           </p>
-          <p className="mt-3 text-gray-500 text-sm sm:text-base">
+          <p className="mt-3 text-gray-500 text-sm sm:text-base mb-10">
             Profer is the first and only network that truly lets your caliber
             shine through to your clients.
           </p>
-          
-          <button  className="mt-5 px-5 sm:px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition duration-300">
+
+          <Link href="/select-plan" className = "mt-10 px-5 sm:px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition duration-300">
             Choose Your Plan
-          </button>
+          </Link>
+          
         </div>
       </section>
 

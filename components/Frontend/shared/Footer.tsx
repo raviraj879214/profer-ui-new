@@ -12,7 +12,8 @@ export function Footer() {
       <div className="space-x-6 text-sm underline flex items-center">
         <a href="/terms">Terms</a>
         <a href="/privacy">Privacy</a>
-        <a href="#">Contact</a>
+        
+        <a href="/contact">Contact</a>
       </div>
 
       <div className="flex-shrink-0">

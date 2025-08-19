@@ -86,6 +86,25 @@ function ChevronDownIcon({ open }: { open: boolean }) {
   );
 }
 
+
+
+function ContactsIcon(props: any) {
+  return (
+     <svg 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      viewBox="0 0 24 24" 
+      {...props}
+    >
+      <circle cx="12" cy="7" r="4" />
+      <path d="M5.5 21a6.5 6.5 0 0113 0" />
+    </svg>
+  );
+}
+
 // ---- SideNavButton Component ----
 interface SideNavButtonProps {
   icon?: React.ComponentType<any>;
@@ -149,6 +168,7 @@ export function Sidebar() {
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
       <SideNavButton icon={Qualification} label="Qualification" href="/admin/qualification" />
       <SideNavButton icon={ServicesIcon} label="Services" href="/admin/services" />
+       <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );

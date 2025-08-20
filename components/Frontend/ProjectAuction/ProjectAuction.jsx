@@ -71,6 +71,7 @@ export function ProjectAuction() {
   };
 
   const onSubmit = async (data) => {
+    
     try {
         debugger;
        const captchatoken = await executeRecaptcha("form_submit");

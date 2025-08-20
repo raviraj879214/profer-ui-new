@@ -205,7 +205,7 @@ export function ProUpdate() {
             <button
             disabled = {button}
               type="submit"
-              className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring"
+              className="f-r bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring float-right"
             >
               
               {button ? "Updating ..." : "Update Profile"}

@@ -12,8 +12,8 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   const [success, Setmessage] = useState("");
   const router = useRouter();
   const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const [lastselectcompanies, setlastselectcompanies] = useState([]);
-  const [companyOptions, setCompanyOptions] = useState([]); // Optional: load from API
+  const [lastselectcompanies, setlastselectcompanies] = useState(""); // keep raw prosId
+  const [companyOptions, setCompanyOptions] = useState([]);
 
   useEffect(() => {
     if (success) {
@@ -25,6 +25,15 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   useEffect(() => {
     fetchroofingrequestdetails();
   }, []);
+
+  // Once companyOptions are loaded, map prosId to selectedCompanies
+  useEffect(() => {
+    if (companyOptions.length > 0 && lastselectcompanies) {
+      const ids = lastselectcompanies.split(",").map(id => id.trim());
+      const matchedCompanies = companyOptions.filter(opt => ids.includes(opt.value.toString()));
+      setSelectedCompanies(matchedCompanies);
+    }
+  }, [companyOptions, lastselectcompanies]);
 
   const fetchroofingrequestdetails = async () => {
     if (parseInt(requestid) > 0) {
@@ -57,26 +66,15 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           setValue("startdate", data.startdate);
           setValue("enddate", data.enddate);
 
-          // Prefill prosId → MultiSelect format
-          const ids = data.prosId ? data.prosId.split(",").map(id => id.trim()) : [];
-          if (companyOptions.length > 0) {
-            const matchedCompanies = companyOptions.filter(opt => ids.includes(opt.value.toString()));
-            setSelectedCompanies(matchedCompanies);
-          } else {
-            setSelectedCompanies(ids.map(id => ({ value: id, label: `Company ${id}` })));
-          }
+          // Store raw prosId for later mapping
+          setlastselectcompanies(data.prosId || "");
 
-          // Prefill files with correct full URLs
-          let drawingsFile = null;
-          let insuranceFile = null;
-          let projectOtherFile = null;
-          let mediaList = [];
-
+          // Prefill files
+          let drawingsFile = null, insuranceFile = null, projectOtherFile = null, mediaList = [];
           (data.documents || []).forEach(file => {
             const fullUrl = file.fileUrl?.startsWith("http")
               ? file.fileUrl
               : `${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`;
-
             if (file.fileType === "drawings") {
               drawingsFile = { url: fullUrl, name: file.originalName };
             } else if (file.fileType === "insurance") {
@@ -87,12 +85,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
               mediaList.push({ url: fullUrl, name: file.originalName });
             }
           });
-
-          setFiles({
-            drawings: drawingsFile,
-            insurance: insuranceFile,
-            projectother: projectOtherFile
-          });
+          setFiles({ drawings: drawingsFile, insurance: insuranceFile, projectother: projectOtherFile });
           setMediaFiles(mediaList);
         }
       }
@@ -106,47 +99,31 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   };
 
   const handleRemove = (field) => {
+    if (confirm("Are you sure to delete ?")) {
+      const fileData = files[field];
+      let fileUrl = '';
+      if (!fileData) fileUrl = 'No file';
+      else if (fileData instanceof File) fileUrl = URL.createObjectURL(fileData);
+      else if (fileData.url) fileUrl = fileData.url;
+      else fileUrl = 'Unknown';
 
-
-    if(confirm("Are you sure to delete ?")){
-        const fileData = files[field];
-  let fileUrl = '';
-
-  if (!fileData) {
-    fileUrl = 'No file';
-  } else if (fileData instanceof File) {
-    // For new uploads, we don't have a backend URL, so createObjectURL or file name only
-    fileUrl = URL.createObjectURL(fileData);
-  } else if (fileData.url) {
-    // Loaded from backend, full URL string is in fileData.url
-    fileUrl = fileData.url;
-  } else {
-    fileUrl = 'Unknown';
-  }
-    deletimagesprojectdocuments(requestid,field,fileUrl);
-    setFiles(prev => ({ ...prev, [field]: null }));
+      deletimagesprojectdocuments(requestid, field, fileUrl);
+      setFiles(prev => ({ ...prev, [field]: null }));
     }
-
-
-
   };
 
   const handleMultipleFiles = (e) => {
     const filesArr = Array.from(e.target.files);
     setMediaFiles(prev => [...prev, ...filesArr].slice(0, 5));
     e.target.value = null;
-    
   };
 
-
   const handleRemovemultiple = (index, file, field) => {
-
-    if(confirm("Are you sure to delete this ?")){
-          deletimagesprojectdocuments(requestid, field, file.url);
+    if (confirm("Are you sure to delete this ?")) {
+      deletimagesprojectdocuments(requestid, field, file.url);
       setMediaFiles(prev => prev.filter((_, i) => i !== index));
     }
-};
-
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -154,7 +131,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
       const formData = new FormData();
       formData.append("status", "0");
 
-      const ids = selectedCompanies.map((data) => data.value).join(",");
+      const ids = selectedCompanies.map((c) => c.value).join(",");
       setlastselectcompanies(ids);
       formData.append("prosId", ids);
       formData.append("requestid", requestid);
@@ -162,15 +139,11 @@ export function ProjectAuctionForm({ requestid = 0 }) {
 
       Object.keys(files).forEach((key) => {
         const value = files[key];
-        if (value instanceof File) {
-          formData.append(key, value);
-        }
+        if (value instanceof File) formData.append(key, value);
       });
 
       mediaFiles.forEach((file) => {
-        if (file instanceof File) {
-          formData.append("mediaFiles", file);
-        }
+        if (file instanceof File) formData.append("mediaFiles", file);
       });
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-project`, {
@@ -180,7 +153,6 @@ export function ProjectAuctionForm({ requestid = 0 }) {
       });
 
       const result = await res.json();
-
       if (res.ok) {
         Setmessage(`Project ${requestid > 0 ? 'updated' : 'created'} successfully`);
         router.push('/admin/projects');
@@ -198,10 +170,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   };
 
   const renderPreview = (fileObj) => {
-    const fileUrl = fileObj instanceof File
-      ? URL.createObjectURL(fileObj)
-      : fileObj?.url;
-
+    const fileUrl = fileObj instanceof File ? URL.createObjectURL(fileObj) : fileObj?.url;
     if (!fileUrl) return null;
     if (fileUrl.toLowerCase().endsWith(".pdf")) {
       return <embed src={fileUrl} type="application/pdf" className="absolute inset-0 w-full h-full rounded" />;
@@ -210,50 +179,27 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   };
 
   const renderMultiplePreview = (file) => {
-    const fileUrl = file instanceof File
-      ? URL.createObjectURL(file)
-      : file.url;
-
+    const fileUrl = file instanceof File ? URL.createObjectURL(file) : file.url;
     if (fileUrl.toLowerCase().endsWith(".pdf")) {
       return <embed src={fileUrl} type="application/pdf" className="w-full h-full rounded" />;
     }
     return <img src={fileUrl} alt={file.name} className="w-full h-full object-cover" />;
   };
 
-
-
-
-  const deletimagesprojectdocuments = async (requestid,field,fileUrl) => {
-    debugger;
-      
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/delete-images-project-document`,{
-        method : "DELETE",
-         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body : JSON.stringify({
-          projectId :requestid,
-          fileType : field,
-          fileUrl : fileUrl.toString()
-        })
-      });
-
-      if(res.ok){
-        const result =await res.json();
-        if(result.status == 200){
-          
-        }
-      }
-  }
-
-
-
-
-
-
-
-
+  const deletimagesprojectdocuments = async (requestid, field, fileUrl) => {
+    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/delete-images-project-document`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectId: requestid,
+        fileType: field,
+        fileUrl: fileUrl.toString()
+      })
+    });
+  };
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200 mt-10">
@@ -263,7 +209,8 @@ export function ProjectAuctionForm({ requestid = 0 }) {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {[
+        {/* Inputs */}
+        {[ 
           { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
           { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
           { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
@@ -292,9 +239,10 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           </div>
         ))}
 
-        {[
+        {/* Textareas */}
+        {[ 
           { id: 'productPreference', label: 'Product preference (Brand, Name, Color)', rows: 2, required: 'Project preference is required' },
-          { id: 'workDescription', label: 'Description of work to be completed', rows: 3, required: 'Work description is required' },
+          { id: 'workDescription', label: 'Description of work to be completed', rows: 3, required: 'Work description is required' }
         ].map((field, i) => (
           <div key={i} className="flex flex-col gap-1">
             <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
@@ -308,10 +256,10 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           </div>
         ))}
 
-        <CompanyMultiSelect value={selectedCompanies} onChange={setSelectedCompanies} />
+        {/* Companies */}
+        <CompanyMultiSelect value={selectedCompanies} onChange={setSelectedCompanies} setOptions={setCompanyOptions} />
 
-
-        {/* Single file uploads */}
+        {/* File Uploads */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-gray-500">
           {["drawings", "insurance", "projectother"].map((field, idx) => (
             <label key={idx} className="border border-gray-300 rounded flex flex-col items-center justify-center hover:bg-gray-50 cursor-pointer relative overflow-hidden h-32">
@@ -339,7 +287,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           ))}
         </div>
 
-        {/* Multiple files */}
+        {/* Multiple Uploads */}
         <div>
           <label className="w-full border-2 border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center text-gray-500 cursor-pointer hover:bg-gray-50">
             <div className="text-blue-400 text-5xl mb-1">+</div>
@@ -354,7 +302,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
                   {renderMultiplePreview(file)}
                   <button
                     type="button"
-                    onClick={() => handleRemovemultiple(index,file , 'mediaFiles')}
+                    onClick={() => handleRemovemultiple(index, file, 'mediaFiles')}
                     className="absolute top-1 right-1 bg-black/60 text-white text-xs rounded-full px-2 py-1 hover:bg-black/80"
                   >
                     ✕
@@ -365,6 +313,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           )}
         </div>
 
+        {/* Submit */}
         <div className="flex justify-center mt-6">
           <button type="submit" className="bg-red-500 rounded-full px-12 py-3 text-white font-semibold text-lg hover:bg-red-600 transition">
             {requestid > 0 ? "Update" : "Create"} Project

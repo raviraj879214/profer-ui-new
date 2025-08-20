@@ -17,6 +17,11 @@ export function CompanyManagement() {
   const [deleterow, setDeleterow] = useState(false);
   const [blockrow, setBlockrow] = useState(false);
   const [unblockrow,setUnBlockrow] = useState(false);
+  const [rejectrow , setrejectrow] = useState(false);
+
+
+
+
 
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
@@ -117,6 +122,37 @@ export function CompanyManagement() {
   };
 
 
+    const RejectSelected = async () => {
+    debugger;
+    setrejectrow(true);
+    if (selectedIds.length === 0) return;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/reject-companies/${selectedIds}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const result = await res.json();
+        if (result.status === 200) {
+          setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
+          setSelectedIds([]);
+          setMessage("Selected companies rejected successfully.");
+        }
+      }
+    } catch (err) {
+      console.error("Error deleting companies:", err);
+    }
+    setrejectrow(false);
+  };
+
+
+  
 
   const blockedSelected = async () => {
     debugger;
@@ -187,6 +223,7 @@ export function CompanyManagement() {
   const handleView = (user) => {
     setSelectedUser(user);
     setIsModalOpen(true);
+  
   };
 
   useEffect(() => {
@@ -196,8 +233,7 @@ export function CompanyManagement() {
     }
   }, [message]);
 
-   const statusLabels = { 0: "Pending", 4: "Approved", 5: "Rejected" };
-   
+   const statusLabels = { 0: "Pending", 4: "Approved", 5: "Blocked" , 6 : "Expired" , 7 : "Rejected" };
 
 
     const approvesingle = (id)=>{
@@ -213,6 +249,8 @@ export function CompanyManagement() {
     }
 
 
+
+    
 
 
 
@@ -233,12 +271,15 @@ export function CompanyManagement() {
           {[
             { label: "Pending", value: "0" },
             { label: "Approved", value: "4" },
-            { label: "Rejected", value: "5" },
+            { label: "Blocked", value: "5" },
+            { label: "Expired", value: "6" },
+            { label: "Rejected", value: "7" },
           ].map((tab) => (
             <button
               key={tab.value}
               onClick={() => {
                 setStatusFilter(tab.value);
+                setSelectedIds([]);
                 setCurrentPage(1);
               }}
               className={`pb-2 px-4 text-sm font-medium ${
@@ -277,11 +318,11 @@ export function CompanyManagement() {
 
     {/* Block Button */}
     <button
-      onClick={blockedSelected}
+      onClick={RejectSelected}
       className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
       disabled={blockrow}
     >
-      {blockrow ? "Loading..." : `Block Selected (${selectedIds.length})`}
+      {rejectrow ? "Loading..." : `Reject Selected (${selectedIds.length})`}
     </button>
   </div>
 )}
@@ -447,9 +488,16 @@ export function CompanyManagement() {
             <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
           ) : user.status === "4" ? (
             <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Approved</span>
+          )
+          : user.status === "5" ? (
+            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Blocked</span>
+          ): user.status === "6" ? (
+            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Expired</span>
           ) : (
             <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Rejected</span>
-          )}
+          )
+          
+          }
         </td>
         <td className="px-4 py-4 space-x-2">
           <button
@@ -533,7 +581,6 @@ export function CompanyManagement() {
                 ✕
               </button>
             </div>
-
             {/* Content */}
             <div className="p-6 overflow-y-auto flex-1 space-y-4">
               {/* Overview */}
@@ -562,7 +609,6 @@ export function CompanyManagement() {
                   </dd>
                 </div>
               </div>
-
               {/* Contact Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
@@ -588,7 +634,6 @@ export function CompanyManagement() {
                   </dd>
                 </div>
               </div>
-
               {/* Business Details */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
@@ -625,87 +670,107 @@ export function CompanyManagement() {
                   </dd>
                 </div>
               </div>
-
               {/* Images */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Company Logo */}
         <div className="border rounded-lg p-4">
           <dt className="font-semibold text-gray-900">Company Logo</dt>
-          <dd>
+          <dd className="relative">
             {selectedUser.businessDetails?.companyLogo ? (
-              <>
+              <div className="flex items-center">
                 {selectedUser.businessDetails.companyLogo.toLowerCase().endsWith(".pdf") ? (
-                  <a
-                    href={selectedUser.businessDetails.companyLogo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <div className="relative">
                     <embed
                       src={selectedUser.businessDetails.companyLogo}
                       type="application/pdf"
-                      className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+                      className="w-32 h-32 mt-2 border rounded-lg"
                     />
-                  </a>
+                    <button
+                      onClick={() => window.open(selectedUser.businessDetails.companyLogo, '_blank')}
+                      className="absolute top-1 right-1 text-gray-600 hover:text-gray-900"
+                      title="View in new tab"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 ) : (
-                  <a
-                    href={selectedUser.businessDetails.companyLogo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <div className="relative">
                     <img
                       src={selectedUser.businessDetails.companyLogo}
                       alt="Logo"
-                      className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                      className="w-24 h-24 rounded-lg border object-cover mt-2"
                     />
-                  </a>
+                    <button
+                      onClick={() => window.open(selectedUser.businessDetails.companyLogo, '_blank')}
+                      className="absolute top-1 right-1 text-gray-600 hover:text-gray-900"
+                      title="View in new tab"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 )}
-              </>
+              </div>
             ) : (
               "No logo"
             )}
           </dd>
         </div>
-
         {/* Owner License */}
         <div className="border rounded-lg p-4">
           <dt className="font-semibold text-gray-900">Owner License</dt>
-          <dd>
+          <dd className="relative">
             {selectedUser.businessDetails?.ownerLicense ? (
-              <>
+              <div className="flex items-center">
                 {selectedUser.businessDetails.ownerLicense.toLowerCase().endsWith(".pdf") ? (
-                  <a
-                    href={selectedUser.businessDetails.ownerLicense}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <div className="relative">
                     <embed
                       src={selectedUser.businessDetails.ownerLicense}
                       type="application/pdf"
-                      className="w-32 h-32 mt-2 border rounded-lg cursor-pointer hover:opacity-80"
+                      className="w-32 h-32 mt-2 border rounded-lg"
                     />
-                  </a>
+                    <button
+                      onClick={() => window.open(selectedUser.businessDetails.ownerLicense, '_blank')}
+                      className="absolute top-1 right-1 text-gray-600 hover:text-gray-900"
+                      title="View in new tab"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 ) : (
-                  <a
-                    href={selectedUser.businessDetails.ownerLicense}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <div className="relative">
                     <img
                       src={selectedUser.businessDetails.ownerLicense}
                       alt="License"
-                      className="w-24 h-24 rounded-lg border object-cover mt-2 cursor-pointer hover:opacity-80"
+                      className="w-24 h-24 rounded-lg border object-cover mt-2"
                     />
-                  </a>
+                    <button
+                      onClick={() => window.open(selectedUser.businessDetails.ownerLicense, '_blank')}
+                      className="absolute top-1 right-1 text-gray-600 hover:text-gray-900"
+                      title="View in new tab"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 )}
-              </>
+              </div>
             ) : (
               "No license"
             )}
           </dd>
         </div>
       </div>
-
-
               {/* Subscription */}
               {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
                 <div className="border rounded-lg p-4">
@@ -721,7 +786,6 @@ export function CompanyManagement() {
                   </dd>
                 </div>
               )}
-
               {/* Credentials */}
             {selectedUser.credentials && selectedUser.credentials.length > 0 && (
         <div className="border rounded-lg p-4">
@@ -742,35 +806,41 @@ export function CompanyManagement() {
                   {creds.map((cred) => {
                     const fileUrl = `${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`;
                     const isPDF = fileUrl.toLowerCase().endsWith(".pdf");
-
                     return (
                       <div
                         key={cred.id}
                         className="border rounded-lg p-2 flex flex-col items-center text-center"
                       >
-                        <a
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-28 h-36 flex items-center justify-center"
-                        >
+                        <div className="w-28 h-36 flex items-center justify-center">
                           {isPDF ? (
                             <embed
                               src={fileUrl}
                               type="application/pdf"
-                              className="w-full h-full border rounded bg-gray-100 object-contain cursor-pointer hover:opacity-80"
+                              className="w-full h-full border rounded bg-gray-100 object-contain"
                             />
                           ) : (
                             <img
                               src={fileUrl}
                               alt={cred.name}
-                              className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80"
+                              className="w-full h-full object-cover rounded"
                             />
                           )}
-                        </a>
-                        <p className="text-sm text-gray-700 mt-2 text-center break-words">
-                          {cred.name}
-                        </p>
+                        </div>
+                        <div className="flex items-center justify-between w-full mt-2">
+                          <p className="text-sm text-gray-700 text-left break-words flex-1">
+                            {cred.name}
+                          </p>
+                          <button
+                            onClick={() => window.open(fileUrl, '_blank')}
+                            className="text-gray-600 hover:text-gray-900 ml-2 flex-shrink-0"
+                            title="View in new tab"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                              <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     );
                   })}
@@ -780,13 +850,9 @@ export function CompanyManagement() {
           </div>
         </div>
       )}
-
-
             </div>
-
             {/* Footer */}
             <div className="border-t px-6 py-3 flex justify-end space-x-3">
-
                  {selectedUser.status === "0" && (
                     <>
                       <button className="bg-green-500 text-white px-3 py-1 rounded" 
@@ -795,7 +861,6 @@ export function CompanyManagement() {
                           deleteSelected();
                           setIsModalOpen(false);
                         }}
-
                       >{deleterow ? "Deleting .." : "Approve"}</button>
                       <button className="bg-red-500 text-white px-3 py-1 rounded ml-2" onClick={()=>{
                         blockedSelected();
@@ -803,22 +868,18 @@ export function CompanyManagement() {
                       }}>{deleterow ? "Blocking..." : "Block"}</button>
                     </>
                   )}
-
                   {selectedUser.status === "4" && (
                     <button className="bg-red-500 text-white px-3 py-1 rounded" onClick={()=> {
                        blockedSelected();
                         setIsModalOpen(false);
                     }}>{deleterow ? "Blocking..." : "Block"}</button>
                   )}
-
                   {selectedUser.status === "5" && (
                     <button className="bg-yellow-500 text-white px-3 py-1 rounded" onClick={()=> {
                          unblockSelected();
                         setIsModalOpen(false);
                     }}>{deleterow ? "UnBlocking..." : "UnBlock"}</button>
                   )}
-
-
                <button
                 onClick={() => {
                   setNotePopup(true),
@@ -840,10 +901,8 @@ export function CompanyManagement() {
            {NotePopup && (
                   <NotesTimeLine companyid={companiesid} setNotePopup={setNotePopup}></NotesTimeLine>
            )}
-
         </div>
     )}
-
    
 
 

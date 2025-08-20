@@ -507,8 +507,11 @@ export function Projectmanagement() {
                               : project.status === 1
                               ? "bg-blue-100 text-blue-800"         // Auction Active - blue
                               : "bg-green-100 text-green-800"       // Auction Completed - green (or default)
-                          }`}
+                          }`
 
+                          
+                        }
+                          disabled ={true}
                           value={project.status}
                           onChange={(e) => updatestatus(project.id, e.target.value)}
                           aria-label={`Change status for ${project.projectTitle}`}

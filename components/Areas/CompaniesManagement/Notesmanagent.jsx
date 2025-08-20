@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-export function NotesTimeLine({ companyid, setNotePopup }) {
+export function NotesTimeLine({ companyid, setNotePopup  }) {
     const [noteslist, setnoteslist] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [loading, setLoading] = useState(false); // 🔹 New loading state
+    const [notescount,setnotescount] = useState(0);
     const scrollRef = useRef(null);
 
     const fetchnotesfromcompany = async () => {
@@ -16,7 +17,10 @@ export function NotesTimeLine({ companyid, setNotePopup }) {
         });
         if (res.ok) {
             const result = await res.json();
-            if (result.status === 200) setnoteslist(result.data);
+            if (result.status === 200) {
+                setnoteslist(result.data);
+                setnotescount(result.data.length);
+            }
         }
     };
 
@@ -79,7 +83,7 @@ export function NotesTimeLine({ companyid, setNotePopup }) {
     return (
         <div className="bg-white rounded-2xl shadow-2xl w-96 h-[90vh] ml-4 p-5 relative flex flex-col">
             <button onClick={() => setNotePopup(false)} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
-            <h2 className="font-semibold text-gray-900 mb-5 text-lg">Notes</h2>
+            <h2 className="font-semibold text-gray-900 mb-5 text-lg">Notes ({notescount})</h2>
 
             <div ref={scrollRef} className="relative border-l-2 border-gray-200 pl-6 space-y-8 flex-1 overflow-y-auto pr-3">
                 {noteslist.length > 0 ? noteslist.map((data) => (

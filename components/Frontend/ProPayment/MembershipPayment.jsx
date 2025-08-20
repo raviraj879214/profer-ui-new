@@ -39,7 +39,7 @@ export function ProsCheckout({ clientSecret, amount }) {
 
       if (res.ok && result.status === 200) {
         console.log("Payment successful:", result);
-        handleCheckout("price_1RtQ5YDCJHVBcMfdTFtcf94y");
+        handleCheckout(`price_1RtQ5YDCJHVBcMfdTFtcf94y`);
       }
     }
     catch (error) {
@@ -206,16 +206,18 @@ export function ProsCheckout({ clientSecret, amount }) {
 
           {/* Terms & Conditions */}
           <div className="flex flex-col mt-6">
-  <div className="flex items-start">
-    <input
-      type="checkbox"
-      className="mt-1 mr-2 rounded border-gray-300 focus:ring-indigo-500"
-      {...register("terms", { required: "You must agree to the terms and conditions" })}
-    />
-    <label className="text-xs text-gray-500">
-      I agree with the terms and conditions of the Pro Purchase Agreement
-    </label>
-  </div>
+              <div className="flex items-start">
+  <input
+    id="terms"
+    type="checkbox"
+    className="mt-1 mr-2 rounded border-gray-300 focus:ring-indigo-500"
+    {...register("terms", { required: "You must agree to the terms and conditions" })}
+  />
+  <label htmlFor="terms" className="text-xs text-gray-500 cursor-pointer">
+    I agree with the terms and conditions of the Pro Purchase Agreement
+  </label>
+</div>
+
 
   {errors.terms && (
     <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>

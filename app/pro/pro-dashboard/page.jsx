@@ -1,3 +1,4 @@
+import { ProDash } from "../../../components/ProsArea/ProDash/ProsDashboard";
 import { ProDashBoardHero } from "../../../components/ProsArea/shared/ProDashBoardCard";
 
 
@@ -18,11 +19,8 @@ export default function Page(){
 
     return(<>
 
-      <ProDashBoardHero></ProDashBoardHero>
+      <ProDash></ProDash>
     
-
-
-
 
 
 

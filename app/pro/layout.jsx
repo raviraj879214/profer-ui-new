@@ -9,6 +9,7 @@ import {ProDashBoardHero} from "../../components/ProsArea/shared/ProDashBoardCar
 export default function ProLayout({ children }) {
   return ( <>
     <AuthGuardPro>
+        <ProDashBoardHero />
         {/* <ProHeader></ProHeader> */}
         {children}
         {/* <ProFooter></ProFooter> */}

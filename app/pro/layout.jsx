@@ -5,16 +5,13 @@ import  {AuthGuardPro} from "../../components/adminguard/AuthGuardPro";
 import {ProDashBoardHero} from "../../components/ProsArea/shared/ProDashBoardCard";
 
 
+
 export default function ProLayout({ children }) {
   return ( <>
-   
-        
     <AuthGuardPro>
         {/* <ProHeader></ProHeader> */}
-       
         {children}
         {/* <ProFooter></ProFooter> */}
     </AuthGuardPro>
-
    </>);
 }

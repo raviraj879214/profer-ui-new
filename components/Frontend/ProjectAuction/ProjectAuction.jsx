@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-
 
 export function ProjectAuction() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -11,16 +9,7 @@ export function ProjectAuction() {
   const [mediaFiles, setMediaFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { executeRecaptcha } = useGoogleReCaptcha();
-
-
-
-
-
-
-
-
+   const [isOpen, setIsOpen] = useState(false);
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
@@ -71,27 +60,7 @@ export function ProjectAuction() {
   };
 
   const onSubmit = async (data) => {
-    
     try {
-        debugger;
-       const captchatoken = await executeRecaptcha("form_submit");
-
-        // 2. Verify token with Google via API route
-        const verifyRes = await fetch(`/api/verify-captcha`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ captchatoken }),
-        });
-        const verifyData = await verifyRes.json();
-
-        if (!verifyData.success) {
-          alert("Captcha failed! You might be a bot 😅");
-          setLoading(false);
-          return;
-        }
-
-
-
       setLoading(true);
       const formData = new FormData();
 
@@ -128,12 +97,22 @@ export function ProjectAuction() {
       alert('Failed to submit form');
     } finally {
       setLoading(false);
+      
     }
-    setIsOpen(true);
+    setTimeout(() => {
+  setIsOpen(true);
+}, 500);
+    //setIsOpen(true);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      {/* Loading spinner overlay */}
+    {/* {loading && (
+      <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="border-8 border-t-8 border-gray-200 border-t-red-400 rounded-full w-16 h-16 animate-spin"></div>
+      </div>
+    )} */}
       <main className="max-w-6xl mx-auto px-6 py-8 flex-grow">
         <section className="bg-sky-100 rounded-tr-3xl rounded-br-3xl p-6 mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">
@@ -295,8 +274,160 @@ export function ProjectAuction() {
             )}
           </section>
 
-          <div className="flex justify-center mt-6">
-            <button
+  <div className="flex justify-center mt-6">
+ {loading ? (
+  <button
+    disabled
+    className="flex items-center justify-center rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg min-w-[140px] gap-2 disabled:cursor-not-allowed"
+  >
+    <span className="flex items-end space-x-1">
+      {[...Array(4)].map((_, i) => (
+        <span
+          key={i}
+          style={{
+            width: '4px',
+            height: '12px',
+            backgroundColor: 'white',
+            display: 'inline-block',
+            animation: 'wave 1s infinite',
+            animationDelay: `${i * 0.1}s`
+          }}
+        ></span>
+      ))}
+    </span>
+    Uploading
+    <style>
+      {`
+        @keyframes wave {
+          0%, 100% { transform: scaleY(0.4); }
+          50% { transform: scaleY(1.2); }
+        }
+      `}
+    </style>
+  </button>
+) : (
+  <button
+    type="submit"
+    className="rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg hover:bg-red-600"
+  >
+    Proceed
+  </button>
+)}
+
+
+
+
+
+
+{/* {loading ? (
+  <button
+    disabled
+    className="relative overflow-hidden rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg min-w-[140px] flex items-center justify-center"
+  >
+    <span className="absolute inset-0 bg-white/20 animate-progress" style={{ zIndex: 0 }}></span>
+    <span className="relative z-10">Uploading...</span>
+
+    <style>
+      {`
+        @keyframes progress {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-progress {
+          animation: progress 1.5s linear infinite;
+        }
+      `}
+    </style>
+  </button>
+) : (
+  <button
+    type="submit"
+    className="rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg hover:bg-red-600"
+  >
+    Proceed
+  </button>
+)}
+ */}
+
+
+
+
+
+
+
+
+    {/* <button
+  type="submit"
+  disabled={loading}
+  className="flex items-center justify-center rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg hover:bg-red-600 disabled:cursor-not-allowed min-w-[140px]"
+>
+  {loading ? (
+    <>
+      <svg
+        className="animate-spin h-5 w-5 mr-2 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v8H4z"
+        />
+      </svg>
+      Loading...
+    </>
+  ) : (
+    "Proceed"
+  )}
+</button> */}
+
+  {/* <button
+  type="submit"
+  disabled={loading}
+  className="flex items-center justify-center rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg hover:bg-red-600 disabled:cursor-not-allowed"
+>
+  {loading ? (
+    <>
+      <svg
+        className="animate-spin h-5 w-5 mr-2 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v8H4z"
+        ></path>
+      </svg>
+      Uploading...
+    </>
+  ) : (
+    "Proceed"
+  )}
+</button> */}
+
+
+
+
+            {/* <button
               type="submit"
               disabled={loading}
               className={`rounded-full px-12 py-3 text-white font-semibold text-lg transition ${
@@ -304,14 +435,36 @@ export function ProjectAuction() {
               }`}
             >
               {loading ? "Uploading..." : "Proceed"}
-            </button>
+            </button> */}
           </div>
         </form>
       </main>
-
-
      <div>
-     
+
+
+<style jsx>{`
+  @keyframes rotateIn {
+    0% {
+      transform: rotate(-10deg) scale(0.95);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 1;
+    }
+  }
+`}</style>
+
+
+
+
+
+
+
+
+
+
+
      
      {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -322,7 +475,10 @@ export function ProjectAuction() {
           ></div>
 
           {/* Modal Panel */}
-          <div className="relative bg-white rounded-xl shadow-2xl transform transition-all sm:my-8 sm:w-full sm:max-w-md z-10 scale-100 animate-fadeIn">
+         <div className="relative bg-white rounded-xl shadow-2xl transform animate-[rotateIn_0.4s_ease-out]     sm:my-8 sm:w-full sm:max-w-md z-10">
+
+
+          {/* <div className="relative bg-white rounded-xl shadow-2xl transform transition-all sm:my-8 sm:w-full sm:max-w-md z-10 scale-100 animate-fadeIn"> */}
             <div className="px-6 pt-6 pb-4 sm:p-8 sm:pb-6">
               <div className="sm:flex sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
                 {/* Icon */}
@@ -367,10 +523,8 @@ export function ProjectAuction() {
             </div>
           </div>
         </div>
-      )}
-     
+      )}     
     </div>
-
-    </div>
+</div>
   );
 }

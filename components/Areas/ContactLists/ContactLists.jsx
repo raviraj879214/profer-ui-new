@@ -77,6 +77,9 @@ export function MyContacts() {
 
 
   const deleteSelected = async () => {
+     if (!confirm("Are you sure you want to delete the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
     setDeleterow(true);
     if (selectedIds.length === 0) return;
 const idParam = selectedIds.join(",");

@@ -56,7 +56,7 @@ export function AdminSubHeader({ onMenuClick }) {
         <div className="flex items-center gap-4 ml-auto">
           {/* Notifications */}
           <div className="relative" ref={notificationRef}>
-            <button
+            {/* <button
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative focus:outline-none p-1.5 hover:bg-gray-100 rounded-md transition"
               aria-label="View notifications"
@@ -67,7 +67,7 @@ export function AdminSubHeader({ onMenuClick }) {
                   {notifications.length}
                 </span>
               )}
-            </button>
+            </button> */}
  
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[70vh] overflow-hidden">

@@ -223,15 +223,15 @@ export function ProsCheckout({ clientSecret, amount }) {
     <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
   )}
 </div>
-
-        </fieldset>
-
-        <button
+ <button
           type="submit"
-          className="w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition"
+          className="mt-4 w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition"
           disabled={button}>
           {button ? "Processing..." : "Proceed To Payment"}
         </button>
+        </fieldset>
+
+       
 
       
       </form>

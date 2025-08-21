@@ -120,7 +120,7 @@ const router = useRouter();
       
       
       {isOpen && (
-  <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
+  <div className="fixed inset-0 flex items-center justify-center z-50  bg-opacity-30">
     <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md w-full transform transition-all scale-100 animate-fadeIn">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">
         Confirm Submission

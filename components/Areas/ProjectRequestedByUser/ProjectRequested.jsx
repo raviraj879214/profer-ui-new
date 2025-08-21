@@ -52,6 +52,9 @@ export function ProjectRequest() {
   };
 
   const deleteSelected = async () => {
+     if (!confirm("Are you sure you want to delete the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
     setDeleterow(true);
     if (selectedIds.length === 0) return;
 
@@ -138,6 +141,9 @@ export function ProjectRequest() {
 
 
 const rejectprojectrequested = async (id) => {
+   if (!confirm("Are you sure you want to reject the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
   setLoading(true);
   if (confirm("Are you sure you want to reject?")) {
     try {
@@ -177,6 +183,9 @@ const rejectprojectrequested = async (id) => {
 
 
      const createproject = async (data)=>{
+       if (!confirm("Are you sure you want to create the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
         setapprovecreate(true);
         // alert(data);
 

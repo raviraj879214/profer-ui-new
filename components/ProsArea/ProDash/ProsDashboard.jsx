@@ -19,7 +19,7 @@ const widgets = [
     href: "/pro/pro-overview",
     label: "Profile Overview",
    
-    sub: "Profile Completeness",
+    sub: "Profile Overview",
     color: "indigo",
     icon: (
       <path
@@ -145,14 +145,14 @@ export function ProDash() {
               <Bid />
             </Card>
 
-            {/* Profile Update */}
+            {/* Profile Update
             <Card className="mt-6">
               <div className="flex items-center gap-2 ">
                 <PencilLine className="h-5 w-5" />
                 <h3 className="font-semibold">Profile Update</h3>
               </div>
               <ProUpdate />
-            </Card>
+            </Card> */}
           </div>
         </section>
       </main>

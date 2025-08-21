@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PencilIcon , EyeIcon  } from "@heroicons/react/24/outline";
-
+import { Plus, Minus } from "lucide-react";
 
 const statusLabels = {
    
@@ -313,6 +313,7 @@ export function Projectmanagement() {
             aria-label="Filter projects by status"
           >
             <option value="All">All</option>
+             <option value="DRAFT">Draft</option>
             <option value="Not Started">Not Started</option>
             <option value="Auction Active">Auction Active</option>
             <option value="Auction Completed">Auction Completed</option>
@@ -860,7 +861,7 @@ function BidsModal({ bidList, expandedBids, toggleExpand, logBidsMap, onClose })
                     <th className="py-3 px-4 text-gray-700 font-medium">Bid Amount</th>
                     <th className="py-3 px-4 text-gray-700 font-medium">Message</th>
                     <th className="py-3 px-4 text-gray-700 font-medium">Contact</th>
-                    <th className="py-3 px-4 text-gray-700 font-medium">Logs</th>
+                    <th className="py-3 px-4 text-gray-700 font-medium">Bid Activity</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -881,10 +882,10 @@ function BidsModal({ bidList, expandedBids, toggleExpand, logBidsMap, onClose })
                         <td className="py-3 px-4">
                           <button
                             onClick={() => toggleExpand(bid.projectId, bid.proId, bid.id)}
-                            className="text-xl font-bold rounded-full w-7 h-7 flex items-center justify-center border border-gray-400 hover:bg-gray-200"
+                            className="rounded-full w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 border border-gray-300 transition"
                             aria-label={expandedBids.has(bid.id) ? "Collapse logs" : "Expand logs"}
                           >
-                            {expandedBids.has(bid.id) ? "−" : "+"}
+                            {expandedBids.has(bid.id) ? <Minus size={16} /> : <Plus size={16} />}
                           </button>
                         </td>
                       </tr>

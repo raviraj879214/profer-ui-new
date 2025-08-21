@@ -10,40 +10,34 @@ export function Bid() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true); // <-- loader state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      const timer = setTimeout(() => setMessage(""), 5000);
       return () => clearTimeout(timer);
     }
   }, [message]);
 
   const fetchprojectlist = async () => {
     try {
-      setLoading(true); // start loading
+      setLoading(true);
       const UserID = localStorage.getItem("UserID");
       const token = localStorage.getItem("token");
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/get-project-details/${UserID}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (res.ok) {
         const result = await res.json();
-        if (result.status === 200) {
-          setClosedProjects(result.data);
-        }
+        if (result.status === 200) setClosedProjects(result.data);
       }
     } catch (err) {
       console.error("Error fetching projects:", err);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
 
@@ -82,42 +76,66 @@ export function Bid() {
               </p>
             )}
 
-            {/* Loader */}
             {loading ? (
               <div className="flex justify-center items-center py-20">
                 <div className="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : (
-              <table className="w-full border-collapse table-auto">
-                <thead className="border-b border-gray-200">
+              <table className="min-w-full divide-y divide-gray-200 table-auto">
+                <thead className="bg-gray-100">
                   <tr>
-                    <th className="py-3 px-4">Project Title</th>
-                    <th className="py-3 px-4">Property Type</th>
-                    <th className="py-3 px-4">Start Date</th>
-                    <th className="py-3 px-4">End Date</th>
-                    <th className="py-3 px-4">Budget</th>
-                    <th className="py-3 px-4">Actions</th>
-                    <th className="py-3 px-4">Bid</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Project Title
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Property Type
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Start Date
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      End Date
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Budget
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Actions
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Latest Bid
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                      Bid
+                    </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white divide-y divide-gray-200">
                   {closedProjects.length > 0 ? (
                     closedProjects.map((project) => (
                       <tr
                         key={project.id}
-                        className="even:bg-gray-50 odd:bg-white hover:bg-gray-100 cursor-pointer"
+                        className="hover:bg-gray-50 cursor-pointer"
                       >
-                        <td className="py-3 px-4">{project.projectTitle}</td>
-                        <td className="py-3 px-4">{project.propertyType}</td>
-                        <td className="py-3 px-4">{project.startdate}</td>
-                        <td className="py-3 px-4">{project.enddate}</td>
-                        <td className="py-3 px-4 font-semibold">
+                        <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                          {project.projectTitle}
+                        </td>
+                        <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                          {project.propertyType}
+                        </td>
+                        <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                          {project.startdate}
+                        </td>
+                        <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
+                          {project.enddate}
+                        </td>
+                        <td className="px-4 py-3 align-middle whitespace-nowrap font-semibold text-gray-900">
                           {project.budget ? `₹${project.budget}` : "N/A"}
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="px-4 py-3 align-middle text-center">
                           <button
                             onClick={() => openDetailsModal(project)}
-                            className="text-black font-semibold py-1 px-3 rounded-lg shadow text-sm flex items-center justify-center"
+                            className="text-black font-semibold py-1 px-3 rounded-lg shadow text-sm flex items-center justify-center mx-auto"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +158,18 @@ export function Bid() {
                             </svg>
                           </button>
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="px-4 py-3 align-middle text-center">
+                          {project.bids && project.bids.length > 0
+                            ? `₹${[...project.bids]
+                                .sort(
+                                  (a, b) =>
+                                    new Date(a.createdAt) -
+                                    new Date(b.createdAt)
+                                )
+                                .slice(-1)[0].amount}`
+                            : "N/A"}
+                        </td>
+                        <td className="px-4 py-3 align-middle text-center">
                           <button
                             onClick={() => goToBidPage(project.id)}
                             className="bg-green-600 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded-lg shadow text-sm"
@@ -152,7 +181,10 @@ export function Bid() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="10" className="py-6 text-center text-gray-500">
+                      <td
+                        colSpan="8"
+                        className="py-6 text-center text-gray-500"
+                      >
                         No records found
                       </td>
                     </tr>
@@ -166,47 +198,98 @@ export function Bid() {
         {/* Details Modal */}
         {isDetailsOpen && selectedProject && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-            <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-y-auto max-h-[80vh]">
+            <div className="relative w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
               {/* Header */}
-              <div className="flex items-center justify-between p-5 border-b border-gray-200">
-                <h3 className="text-2xl font-semibold text-gray-900">
-                  Project Details
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50 rounded-t-2xl">
+                <h3 className="text-2xl font-bold text-gray-900">
+                  📂 Project Details
                 </h3>
                 <button
                   onClick={closeDetailsModal}
-                  className="text-gray-500 hover:bg-gray-200 hover:text-gray-900 rounded-full w-8 h-8 flex items-center justify-center transition"
+                  className="text-gray-500 hover:bg-gray-200 hover:text-gray-900 rounded-full w-9 h-9 flex items-center justify-center transition"
                 >
-                  <svg
-                    className="w-4 h-4"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
+                  ✕
                 </button>
               </div>
 
               {/* Body */}
-              <div className="p-6 text-gray-700 text-base leading-relaxed">
-                <div className="space-y-3">
-                  <p><strong>Project Title:</strong> {selectedProject.projectTitle}</p>
-                  <p><strong>Property Type:</strong> {selectedProject.propertyType}</p>
-                  <p><strong>Product Type:</strong> {selectedProject.productType}</p>
-                  <p><strong>Product Color:</strong> {selectedProject.productColor}</p>
-                  <p><strong>Product Preference:</strong> {selectedProject.productPreference}</p>
-                  <p><strong>Work Description:</strong> {selectedProject.workDescription}</p>
-                  <p><strong>Budget:</strong> {selectedProject.budget ? `₹${selectedProject.budget}` : "N/A"}</p>
-                  <p><strong>Start Date:</strong> {selectedProject.startdate}</p>
-                  <p><strong>End Date:</strong> {selectedProject.enddate}</p>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-3 text-gray-700">
+                    <p>
+                      <strong>Project Title:</strong>{" "}
+                      {selectedProject.projectTitle}
+                    </p>
+                    <p>
+                      <strong>Property Type:</strong>{" "}
+                      {selectedProject.propertyType}
+                    </p>
+                    <p>
+                      <strong>Product Type:</strong>{" "}
+                      {selectedProject.productType}
+                    </p>
+                    <p>
+                      <strong>Product Color:</strong>{" "}
+                      {selectedProject.productColor}
+                    </p>
+                    <p>
+                      <strong>Product Preference:</strong>{" "}
+                      {selectedProject.productPreference}
+                    </p>
+                  </div>
+                  <div className="space-y-3 text-gray-700">
+                    <p>
+                      <strong>Work Description:</strong>{" "}
+                      {selectedProject.workDescription}
+                    </p>
+                    <p>
+                      <strong>Budget:</strong>{" "}
+                      {selectedProject.budget
+                        ? `₹${selectedProject.budget}`
+                        : "N/A"}
+                    </p>
+                    <p>
+                      <strong>Start Date:</strong> {selectedProject.startdate}
+                    </p>
+                    <p>
+                      <strong>End Date:</strong> {selectedProject.enddate}
+                    </p>
+                  </div>
                 </div>
+
+                {/* Documents / Images */}
+                {selectedProject.documents &&
+                  selectedProject.documents.length > 0 && (
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                        📸 Documents & Images
+                      </h4>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        {selectedProject.documents.map((doc) => (
+                          <div key={doc.id} className="relative group">
+                            <img
+                              src={doc.fileUrl}
+                              alt={doc.originalName}
+                              className="w-full h-32 object-cover rounded-lg shadow-md group-hover:opacity-80 transition"
+                            />
+                            <span className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded">
+                              {doc.fileType}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+              </div>
+
+              {/* Footer */}
+              <div className="flex justify-end p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+                <button
+                  onClick={closeDetailsModal}
+                  className="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium transition"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>

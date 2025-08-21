@@ -94,6 +94,9 @@ export function CompanyManagement() {
 
   const deleteSelected = async () => {
     debugger;
+      if (!confirm("Are you sure you want to delete the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
     setDeleterow(true);
     if (selectedIds.length === 0) return;
     try {
@@ -124,6 +127,12 @@ export function CompanyManagement() {
 
     const RejectSelected = async () => {
     debugger;
+      if (!confirm("Are you sure you want to reject the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
+
+
+
     setrejectrow(true);
     if (selectedIds.length === 0) return;
     try {
@@ -156,6 +165,9 @@ export function CompanyManagement() {
 
   const blockedSelected = async () => {
     debugger;
+      if (!confirm("Are you sure you want to block the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
     setBlockrow(true);
     if (selectedIds.length === 0) return;
     try {
@@ -187,6 +199,9 @@ export function CompanyManagement() {
   
   const unblockSelected = async () => {
     debugger;
+      if (!confirm("Are you sure you want to un-block the selected item(s)?")) {
+        return null; // user pressed Cancel
+      }
     setUnBlockrow(true);
     if (selectedIds.length === 0) return;
     try {

@@ -125,49 +125,57 @@ export function ProjectAuctionForm({ requestid = 0 }) {
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append("status", "0");
-
-      const ids = selectedCompanies.map((c) => c.value).join(",");
-      setlastselectcompanies(ids);
-      formData.append("prosId", ids);
-      formData.append("requestid", requestid);
-      Object.keys(data).forEach((key) => formData.append(key, data[key] || ''));
-
-      Object.keys(files).forEach((key) => {
-        const value = files[key];
-        if (value instanceof File) formData.append(key, value);
-      });
-
-      mediaFiles.forEach((file) => {
-        if (file instanceof File) formData.append("mediaFiles", file);
-      });
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-project`, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${token}` },
-        body: formData,
-      });
-
-      const result = await res.json();
-      if (res.ok) {
-        Setmessage(`Project ${requestid > 0 ? 'updated' : 'created'} successfully`);
-        router.push('/admin/projects');
-        reset();
-        setSelectedCompanies([]);
-        setFiles({ drawings: null, insurance: null, projectother: null });
-        setMediaFiles([]);
-      } else {
-        alert(result.message || "Submission failed");
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Failed to submit form');
+ const onSubmit = async (data) => {
+  try {
+    if (selectedCompanies.length === 0) {
+      alert("Please select at least one company before submitting.");
+      return;
     }
-  };
+
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("status", "0");
+
+    const ids = selectedCompanies.map((c) => c.value).join(",");
+    setlastselectcompanies(ids);
+    formData.append("prosId", ids);
+    formData.append("requestid", requestid);
+    Object.keys(data).forEach((key) => formData.append(key, data[key] || ""));
+
+    Object.keys(files).forEach((key) => {
+      const value = files[key];
+      if (value instanceof File) formData.append(key, value);
+    });
+
+    mediaFiles.forEach((file) => {
+      if (file instanceof File) formData.append("mediaFiles", file);
+    });
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/create-project`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      Setmessage(`Project ${requestid > 0 ? "updated" : "created"} successfully`);
+      router.push("/admin/projects");
+      reset();
+      setSelectedCompanies([]);
+      setFiles({ drawings: null, insurance: null, projectother: null });
+      setMediaFiles([]);
+    } else {
+      alert(result.message || "Submission failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Failed to submit form");
+  }
+};
+
+
+
 
   const renderPreview = (fileObj) => {
     const fileUrl = fileObj instanceof File ? URL.createObjectURL(fileObj) : fileObj?.url;

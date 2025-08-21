@@ -33,9 +33,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  
           {/* Main Content */}
           <div className="flex-1 flex flex-col">
-            <AdminSubHeader onMenuClick={() => setIsMobileSidebarOpen(true)} />
+           
  
             <main className="flex-1 p-0 bg-gray-50 overflow-auto z-0">
+               <AdminSubHeader onMenuClick={() => setIsMobileSidebarOpen(true)} />
               <AuthGuard>
                 {children}
               </AuthGuard>

@@ -497,21 +497,18 @@ export function Projectmanagement() {
                         </button>
                       </td>
 
-                      <td className="px-4 py-4">
+                     <td className="px-4 py-4">
                         <select
-                         className={`px-2 py-1 rounded-full text-xs font-semibold border border-gray-300 focus:outline-none focus:ring-2 ${
-                            project.status === 3
-                              ? "bg-gray-200 text-gray-700"          // Draft color - grayish
+                          className={`appearance-none px-2 py-1 rounded-full text-xs font-semibold border border-gray-300 focus:outline-none focus:ring-2 
+                            ${project.status === 3
+                              ? "bg-gray-200 text-gray-700"          // Draft
                               : project.status === 0
-                              ? "bg-yellow-100 text-yellow-800"     // Not Started - yellow
+                              ? "bg-yellow-100 text-yellow-800"     // Not Started
                               : project.status === 1
-                              ? "bg-blue-100 text-blue-800"         // Auction Active - blue
-                              : "bg-green-100 text-green-800"       // Auction Completed - green (or default)
-                          }`
-
-                          
-                        }
-                          disabled ={true}
+                              ? "bg-blue-100 text-blue-800"         // Auction Active
+                              : "bg-green-100 text-green-800"       // Auction Completed
+                            }`}
+                          disabled={true}
                           value={project.status}
                           onChange={(e) => updatestatus(project.id, e.target.value)}
                           aria-label={`Change status for ${project.projectTitle}`}
@@ -523,22 +520,38 @@ export function Projectmanagement() {
                             Auction Active
                           </option>
                           <option className="bg-white text-black" value={2}>
-                           Auction  Completed
+                            Auction Completed
                           </option>
-                            <option className="bg-white text-black" value={3}>
-                             Draft
+                          <option className="bg-white text-black" value={3}>
+                            Draft
                           </option>
                         </select>
                       </td>
+
 
                      <td className="px-4 py-4 flex items-center space-x-2">
                       <EyeIcon
                         className="h-5 w-5 text-gray-500 cursor-pointer"
                         onClick={() => openModal(project)}
                       />
-                      <PencilIcon className="h-5 w-5 text-gray-500 cursor-pointer"
-                        onClick={()=> router.push(`/admin/create-project/${project.id}`) }
-                      />
+
+                    
+
+                       {(project.status === 0 || project.status === 3) ? (
+                              // Editable pencil
+                              <PencilIcon
+                                className="h-5 w-5 text-gray-500 cursor-pointer hover:text-gray-700"
+                                onClick={() => router.push(`/admin/create-project/${project.id}`)}
+                              />
+                            ) : (
+                              // Disabled pencil (not clickable, faded look)
+                              <PencilIcon
+                                className="h-5 w-5 text-gray-300 cursor-not-allowed opacity-50"
+                                title="Editing not allowed"
+                              />
+                            )}
+
+
                     </td>
 
                     </tr>

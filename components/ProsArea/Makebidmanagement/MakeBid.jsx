@@ -138,9 +138,11 @@ export function MakeBids({ projectid, proId: propProId }) {
 
   if (!project) {
     return (
-      <div className="flex justify-center items-center h-40 text-red-500">
-        <p>No project details found.</p>
-      </div>
+      <div className="flex justify-center items-center py-20">
+                <div className="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin"></div>
+       </div>
+
+
     );
   }
 

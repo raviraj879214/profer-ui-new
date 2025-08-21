@@ -5,9 +5,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Check, CheckCheck } from "lucide-react";
 dayjs.extend(relativeTime);
 
-export default function ChatSystem({ currentUserId = 1 }) {
+export default function ChatSystem() {
   const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:8000";
-
+  let currentUserId= 0;
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);

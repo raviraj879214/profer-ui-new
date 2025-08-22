@@ -22,9 +22,9 @@ export function MainHeader() {
 
   useEffect(() => {
     // ✅ Restrict admin to only /admin routes
-    // if (role === "admin" && !pathname.startsWith("/admin")) {
-    //   router.push("/admin/dashboard"); // force redirect
-    // }
+    if (role === "admin" && !pathname.startsWith("/admin")) {
+      router.push("/admin/dashboard"); // force redirect
+    }
   }, [role, pathname, router]);
 
   // ✅ Hide header for admin inside /admin

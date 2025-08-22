@@ -13,6 +13,8 @@ export function ForgotPassword() {
   const [fade, setFade] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+
   // Auto-hide messages after 6s
   useEffect(() => {
     if (message) {

@@ -39,7 +39,7 @@ export function ProsCheckout({ clientSecret, amount }) {
 
       if (res.ok && result.status === 200) {
         console.log("Payment successful:", result);
-        handleCheckout(`price_1RtQ5YDCJHVBcMfdTFtcf94y`);
+        handleCheckout(`price_1RyrzyGdOIhoJtRKUFrwTpon`);
       }
     }
     catch (error) {

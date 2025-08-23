@@ -7,6 +7,8 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import {NotesTimeLine} from "../../Areas/ProjectRequestedByUser/Notesmanagent.jsx";
 import {formatDateToUS } from "../../../lib/utils/dateFormatter.js";
 
+
+
 export function ProjectRequest() {
 
 
@@ -30,6 +32,7 @@ export function ProjectRequest() {
 
   const [requestinfo, setrequestinfo] = useState(false);
 
+  const [isZoomed, setIsZoomed] = useState(false);
 
 
 
@@ -535,7 +538,7 @@ export function ProjectRequest() {
                   </div>
                 )} */}
 
-
+   
                 {/* Grouped Files */}
                 {selectedUser.files &&
                   selectedUser.files.length > 0 &&
@@ -547,36 +550,117 @@ export function ProjectRequest() {
                         </dt>
                         <dd className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                           {files.map((file, idx) => {
-                            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(
-                              file.originalName
-                            );
+                            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(file.originalName);
                             const isPDF = /\.pdf$/i.test(file.originalName);
                             return (
                               <div
                                 key={idx}
                                 className="flex flex-col items-start border rounded p-2 bg-gray-50"
                               >
-                                {isImage && (
-                                  <a
-                                    href={`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full"
+                             {isImage && (
+                                  <div
+                                    className="relative w-full h-40 overflow-hidden rounded group"
+                                    onMouseMove={(e) => {
+                                      const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+                                      const x = ((e.pageX - left) / width) * 100;
+                                      const y = ((e.pageY - top) / height) * 100;
+                                      e.currentTarget.querySelector("img").style.transformOrigin = `${x}% ${y}%`;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.querySelector("img").style.transformOrigin = "center center";
+                                    }}
                                   >
                                     <img
                                       src={`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`}
                                       alt={file.originalName}
-                                      className="w-full h-40 object-contain bg-white border rounded"
+                                      className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-150"
                                     />
-                                  </a>
+
+                                    {/* Eye Button */}
+                                    <button
+                                      onClick={() =>
+                                        window.open(`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`, "_blank")
+                                      }
+                                      className="absolute top-2 right-2 bg-white/80 p-1 rounded-full shadow hover:bg-white"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-5 h-5 text-gray-700"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 
+                                            12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 
+                                            0 .639C20.577 16.49 16.64 19.5 12 
+                                            19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                        />
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
                                 )}
-                                {isPDF && (
-                                  <iframe
-                                    src={`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`}
-                                    title={file.originalName}
-                                    className="w-full h-40 border rounded bg-white"
-                                  ></iframe>
+                               {isPDF && (
+  <div
+    className="relative w-full h-40 overflow-hidden rounded group border bg-white"
+    onMouseMove={(e) => {
+      const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+      const x = ((e.pageX - left) / width) * 100;
+      const y = ((e.pageY - top) / height) * 100;
+      e.currentTarget.querySelector("iframe").style.transformOrigin = `${x}% ${y}%`;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.querySelector("iframe").style.transformOrigin = "center center";
+    }}
+  >
+    <iframe
+      src={`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`}
+      title={file.originalName}
+      className="w-full h-full transition-transform duration-300 group-hover:scale-150 pointer-events-none"
+    ></iframe>
+
+    {/* Open Full PDF Button */}
+    <button
+      onClick={() =>
+        window.open(`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`, "_blank")
+      }
+      className="absolute top-2 right-2 bg-white/80 p-1 rounded-full shadow hover:bg-white"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-5 h-5 text-gray-700"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 
+            12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 
+            0 .639C20.577 16.49 16.64 19.5 12 
+            19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+      </svg>
+    </button>
+  </div>
                                 )}
+
+
                                 <div className="flex items-center space-x-2 mt-2">
                                   <ArrowDownTrayIcon className="w-5 h-5 text-gray-700" />
                                   <a
@@ -592,6 +676,7 @@ export function ProjectRequest() {
                               </div>
                             );
                           })}
+
                         </dd>
                       </div>
                     )

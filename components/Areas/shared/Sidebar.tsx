@@ -185,6 +185,7 @@ export function Sidebar() {
       <SideNavButton icon={Qualification} label="Qualification" href="/admin/qualification" />
       <SideNavButton icon={ServicesIcon} label="Services" href="/admin/services" />
       <SideNavButton icon={TimeIcon} label="Prefered Time" href="/admin/prefered-time" />
+       <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros" />
        <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>

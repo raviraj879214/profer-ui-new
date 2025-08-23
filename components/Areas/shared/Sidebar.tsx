@@ -14,6 +14,22 @@ function DashboardIcon(props: any) {
     </svg>
   );
 }
+function TimeIcon(props: any) {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </svg>
+  );
+}
+
+
 function CompaniesIcon(props: any) {
   return (
     <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
@@ -168,6 +184,7 @@ export function Sidebar() {
       <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
       <SideNavButton icon={Qualification} label="Qualification" href="/admin/qualification" />
       <SideNavButton icon={ServicesIcon} label="Services" href="/admin/services" />
+      <SideNavButton icon={TimeIcon} label="Prefered Time" href="/admin/prefered-time" />
        <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>

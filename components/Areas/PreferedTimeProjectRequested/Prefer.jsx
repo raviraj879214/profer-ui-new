@@ -1,0 +1,19 @@
+
+
+
+
+export function PreferTime(){
+
+
+
+    return(<>
+    
+        
+
+
+
+
+    
+    
+    </>);
+}

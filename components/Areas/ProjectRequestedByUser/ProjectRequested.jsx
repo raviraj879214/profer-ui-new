@@ -2,6 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import {RejectPopup} from "../../Areas/ProjectRequestedByUser/RejectPopup.jsx";
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import {NotesTimeLine} from "../../Areas/ProjectRequestedByUser/Notesmanagent.jsx";
+import {formatDateToUS } from "../../../lib/utils/dateFormatter.js";
 
 export function ProjectRequest() {
 
@@ -22,13 +26,18 @@ export function ProjectRequest() {
 
   const [approvecreate,setapprovecreate] = useState(false);
 
+  const [rejectPopup,setRejectPopup] = useState(false);
+
+  const [requestinfo, setrequestinfo] = useState(false);
+
+
 
 
 
   const filteredUsers = users.filter(
     (user) =>
       (filter === "All" || user.status === filter) &&
-      ((user.fullName ?? "").toLowerCase().includes(searchTerm.toLowerCase()))
+      ((user.RequestID ?? "").toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const totalPages = Math.ceil(filteredUsers.length / pageSize);
@@ -140,43 +149,6 @@ export function ProjectRequest() {
   };
 
 
-const rejectprojectrequested = async (id) => {
-   if (!confirm("Are you sure you want to reject the selected item(s)?")) {
-        return null; // user pressed Cancel
-      }
-  setLoading(true);
-  if (confirm("Are you sure you want to reject?")) {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/reject-request`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ id }),
-      });
-
-      if (!res.ok) {
-        console.error("Failed to reject project request");
-        return;
-      }
-
-      const result = await res.json();
-
-      if (result.data) {
-        setUsers((prev) =>
-          prev.map((user) =>
-            user.id === id ? { ...user, status: result.data.status } : user
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error rejecting project request:", error);
-    }
-  }
-  setLoading(false);
-};
-
 
 
 
@@ -216,7 +188,21 @@ const rejectprojectrequested = async (id) => {
 
 
 
+  const handleDataFromChild = (value) => {
+     
+     setIsModalOpen(false);
+    setRejectPopup(false);
 
+     if(value == "reject"){
+      
+       setMessage("Project Rejected Successfully");
+     }
+
+     if(value == "rejected"){
+      setRejectPopup(false);
+      fetchRoofRequest();
+     }
+  };
 
 
 
@@ -246,7 +232,23 @@ const rejectprojectrequested = async (id) => {
         <p style={{ color: "green" }}>{messgae}</p>
 
         <div className="overflow-auto rounded-lg border border-gray-200">
+          {/* Search Filter */}
+          {/* Search Filter */}
+          
+            <div className="flex items-center mb-4 w-full">
+              <input
+                type="text"
+                placeholder="Search by request id..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="border border-gray-300 rounded px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+
+
           <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
+            
             <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
               <tr>
                 <th className="px-4 py-3">
@@ -346,16 +348,19 @@ const rejectprojectrequested = async (id) => {
                     </td>
                     <td className="px-4 py-4">{user.projectTitle || "N/A"}</td>
                     <td className="px-4 py-4 text-sm text-gray-600">
-                      {user.createdAt
+                      {/* {user.createdAt
                         ? new Date(user.createdAt).toLocaleDateString(
-                            "en-IN",
+                            "en-US",
                             {
                               day: "2-digit",
                               month: "short",
                               year: "numeric",
                             }
                           )
-                        : "N/A"}
+                        : "N/A"} */}
+
+
+                        {formatDateToUS(user.createdAt)}
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-600">
                      
@@ -373,9 +378,7 @@ const rejectprojectrequested = async (id) => {
                         </p>
                       ) : null;
                     })()}
-
                     </td>
-
 
                     <td className="px-4 py-4 space-x-2">
                       <button
@@ -445,7 +448,22 @@ const rejectprojectrequested = async (id) => {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col max-h-[90vh]">
             <div className="flex justify-between items-center border-b px-6 py-4">
               <h2 className="text-xl font-semibold text-gray-900">
-                Request Details
+                 {(() => {
+                      const statusMap = {
+                        "0": { label: "Request Need Review", color: "text-xl" },
+                        "1": { label: "Request Created / Approved", color: "text-xl" },
+                        "2": { label: "Request Rejected", color: "text-xl" },
+                      };
+                      const status = statusMap[selectedUser.status];
+                      return status ? (
+                        <p className={`${status.color} px-2 py-1 rounded inline-block text-sm font-medium`}>
+                          {status.label}
+                        </p>
+                      ) : null;
+                    })()} : {selectedUser.RequestID}
+
+              
+                
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -457,8 +475,18 @@ const rejectprojectrequested = async (id) => {
 
             <div className="p-6 overflow-y-auto flex-1">
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                {[
+                  {selectedUser.Reason && (
+                  <div className="border rounded-lg p-4 sm:col-span-2 border-red-500">
+                    <dt className="font-semibold text-gray-900">
+                      Reason For Rejection
+                    </dt>
+                    <dd className="text-gray-700">{selectedUser.Reason}</dd>
+                  </div>
+                )}
+                {[  
+                 
                   ["Full Name", selectedUser.fullName],
+                   ["Request ID", selectedUser.RequestID],
                   ["Email Address", selectedUser.emailAddress],
                   ["Phone Number", selectedUser.phoneNumber],
                   ["Preferred Contact Method", selectedUser.preferredContactMethod],
@@ -468,6 +496,7 @@ const rejectprojectrequested = async (id) => {
                   ["Product Type", selectedUser.productType],
                   ["Product Color", selectedUser.productColor],
                   ["Product Preference", selectedUser.productPreference],
+                   ["Posted Date", formatDateToUS(selectedUser.createdAt)],
                 ].map(
                   ([label, value], idx) =>
                     value && (
@@ -477,6 +506,8 @@ const rejectprojectrequested = async (id) => {
                       </div>
                     )
                 )}
+                  
+                
 
                 {selectedUser.projectDetails && (
                   <div className="border rounded-lg p-4 sm:col-span-2">
@@ -494,6 +525,16 @@ const rejectprojectrequested = async (id) => {
                     <dd className="text-gray-700">{selectedUser.workDescription}</dd>
                   </div>
                 )}
+
+                {/* {selectedUser.Reason && (
+                  <div className="border rounded-lg p-4 sm:col-span-2 border-red-500">
+                    <dt className="font-semibold text-gray-900">
+                      Reason For Rejection
+                    </dt>
+                    <dd className="text-gray-700">{selectedUser.Reason}</dd>
+                  </div>
+                )} */}
+
 
                 {/* Grouped Files */}
                 {selectedUser.files &&
@@ -558,45 +599,59 @@ const rejectprojectrequested = async (id) => {
               </dl>
             </div>
 
-             <div className="border-t px-6 py-4 flex justify-end space-x-3">
-                {selectedUser.status == "0" && (
+            <div className="border-t px-6 py-4 flex justify-end space-x-3">
+              {selectedUser.status == "0" && (
                 <>
-                             <button
-                                onClick={() => {
-                                  createproject(selectedUser.id);
-                                }}
-                                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-                              >
-                                Approve & Create Project
-                              </button>
-
-                              <button
-                                  onClick={() => {
-                                    setIsModalOpen(false),
-                                    rejectprojectrequested(selectedUser.id);
-                                  }}
-                                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                                >
-                                  Reject
-                                </button>
-
-                    
+                  <button
+                    onClick={() => {
+                      createproject(selectedUser.id);
+                    }}
+                    className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-[#1E1E3E] transition"
+                  >
+                    Approve & Create Project
+                  </button>
+                  <button
+                    onClick={() => {
+                      // setIsModalOpen(false),
+                      // rejectprojectrequested(selectedUser.id);
+                      setrequestinfo(true)
+                    }}
+                    className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-[#1E1E3E] transition">
+                    Request More Info
+                  </button>
+                  <button
+                    onClick={() => {
+                      // setIsModalOpen(false),
+                      // rejectprojectrequested(selectedUser.id);
+                      setRejectPopup(true)
+                    }}
+                    className=" text-white px-4 py-2 rounded bg-purple-500 hover:bg-purple-600 transition">
+                    Reject
+                  </button>
                 </>
+              )}
 
-                ) }
+              {(selectedUser.status === "2" || selectedUser.status === "1") && (
+                <>
 
-               <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
-                >
-                  Close
-                </button>
+                  <button
+                    onClick={() => {
+                      // setIsModalOpen(false),
+                      // rejectprojectrequested(selectedUser.id);
+                      setrequestinfo(true)
+                    }}
+                    className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-[#1E1E3E] transition">
+                    Requested Logs
+                  </button>
 
+                </>
+              )}
             </div>
+
           </div>
-          
+               {rejectPopup && <RejectPopup  sendData={handleDataFromChild} id={selectedUser.id}   />}
+               {requestinfo && (<NotesTimeLine companyid={selectedUser.id} setrequestinfo={setrequestinfo} projectstatus={selectedUser.status}></NotesTimeLine>)}
         </div>
-        
       )}  
 
            

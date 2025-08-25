@@ -1,116 +1,79 @@
- "use client";
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import { useForm } from "react-hook-form";
+import ListOfPros from "@/components/Areas/InviteForPros/ListOfPros"; 
 
-
-export const InviteForm = () => {
+export const InviteForm = ({ onSuccess }) => {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [emailId, setEmailId] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [submitError, setSubmitError] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  
 
-  const validate = () => {
-    let isValid = true;
-    setNameError("");
-    setEmailError("");
-    setSubmitError("");
-    setSubmitMessage("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    if (!name.trim()) {
-      setNameError("Name is required.");
-      isValid = false;
-    }
-    if (!emailId.trim()) {
-      setEmailError("Email Address is required.");
-      isValid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(emailId)) {
-      setEmailError("Enter a valid email address.");
-      isValid = false;
-    }
-
-    return isValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-
+  const onSubmit = async (data) => {
     setSubmitting(true);
     setSubmitError("");
     setSubmitMessage("");
 
-   try {
-  try {
-  const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/add-pros`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token ? `Bearer ${token}` : "",  // optional token
-    },
-    body: JSON.stringify({
-      name: name.trim(),
-      emailId: emailId.trim(),
-    }),
-  });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/add-pros`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+        body: JSON.stringify(data),
+      });
 
-  const contentType = res.headers.get("content-type");
+      const contentType = res.headers.get("content-type");
 
-  if (!contentType || !contentType.includes("application/json")) {
-    const text = await res.text();
-    console.error("Expected JSON but got:", text);
-    throw new Error("Unexpected response format");
-  }
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await res.text();
+        console.error("Expected JSON but got:", text);
+        throw new Error("Unexpected response format");
+      }
 
-  const result = await res.json();
+      const result = await res.json();
 
-  if (res.ok) {
-    setName("");
-    setEmailId("");
-    setSubmitMessage(result.message || "Invitation added successfully!");
-    setNameError("");
-    setEmailError("");
-    setSubmitError("");
-    // window.location.reload();
-    //await router.replace('/admin/invitepros');
-//router.push('/admin/invitepros');
-
-    // router.push(`/admin/invitepros?refresh=${Date.now()}`);
-
-  } else {
-    if (result.error?.includes("already exists")) {
-      setEmailError("Email ID already exists.");
-    } else {
-      throw new Error(result.error || "Failed to submit");
+      if (res.ok) {
+        reset(); // Reset the form
+        setSubmitMessage(result.message || "Invitation added successfully!");
+        if (onSuccess) onSuccess();
+        setTimeout(() => {
+    setSubmitMessage(""); 
+  }, 3000);
+        // Optional: router.push(`/admin/invitepros?refresh=${Date.now()}`);
+        //window.location.reload();
+      } else {
+        if (result.error?.includes("already exists")) {
+          setSubmitError("Email ID already exists.");
+        } else {
+          throw new Error(result.error || "Failed to submit");
+        }
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+      setSubmitError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-  }
-} catch (err) {
-  console.error("Submit error:", err);
-  setSubmitError(err.message || "Something went wrong. Please try again.");
-} finally {
-  setSubmitting(false);
-}
-
-} catch (err) {
-  console.error("Submit error:", err);
-  setSubmitError(err.message || "Something went wrong. Please try again.");
-} finally {
-  setSubmitting(false);
-}
-
   };
 
   return (
     <div className="px-4 py-8">
       <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 w-full max-w-xl">
         <h2 className="text-2xl font-semibold text-gray-800">Invite Pro</h2>
+
         {submitMessage && (
           <div className="text-green-600 font-medium">{submitMessage}</div>
         )}
@@ -118,7 +81,7 @@ export const InviteForm = () => {
           <div className="text-red-600 font-medium">{submitError}</div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Name
@@ -126,12 +89,11 @@ export const InviteForm = () => {
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               placeholder="Enter name"
+              {...register("name", { required: "Name is required." })}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
-            {nameError && <p className="text-red-600 text-sm mt-1">{nameError}</p>}
+            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
           </div>
 
           <div>
@@ -141,12 +103,17 @@ export const InviteForm = () => {
             <input
               id="emailId"
               type="email"
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
               placeholder="Enter email"
+              {...register("emailId", {
+                required: "Email Address is required.",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Enter a valid email address.",
+                },
+              })}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
-            {emailError && <p className="text-red-600 text-sm mt-1">{emailError}</p>}
+            {errors.emailId && <p className="text-red-600 text-sm mt-1">{errors.emailId.message}</p>}
           </div>
 
           <button

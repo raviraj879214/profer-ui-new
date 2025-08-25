@@ -74,7 +74,7 @@ const filteredUsers = (users || []).filter((user) => {
     if (selectedIds.length === paginatedUsers.length) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(paginatedUsers.map((u) => u.ContactId));
+      setSelectedIds(paginatedUsers.map((u) => u.id));
     }
   };
 
@@ -183,8 +183,7 @@ const idParam = selectedIds.join(",");
       <div className="bg-white rounded-2xl shadow-md p-6">
          <div className="flex justify-between items-center mb-6">
         </div>
-        
-        <InviteForPros></InviteForPros>
+        <InviteForPros onSuccess={fetchContacts}></InviteForPros>
  </div>
  <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 mt-6">
    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -308,7 +307,15 @@ const idParam = selectedIds.join(",");
             </td>
             <td className="px-4 py-4 font-medium">{user.name  || "N/A"}</td>
             <td className="px-4 py-4 text-sm text-blue-600">{user.emailID || "N/A"}</td>
-            <td className="px-4 py-4 text-sm">{user.inviteDate || "N/A"}</td>
+            <td className="px-4 py-4 text-sm text-gray-600">
+              {user.inviteDate
+                ? new Date(user.inviteDate).toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
+                : "N/A"}
+            </td>
                          <td className="px-4 py-4 text-sm">
   {user.Status === 0 ? (
     <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">

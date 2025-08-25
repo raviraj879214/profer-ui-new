@@ -1,20 +1,31 @@
 "use client"
 import { useRouter } from "next/navigation";
-
-
+import { useEffect, useState } from "react";
 
 
 
 
 export function SelectProPlan(){
-
     const router = useRouter();
-
+    const [price, setPrice] = useState(null);
     const handleplan=()=>{
         router.push("/email-verify");
     }
 
-    
+
+
+        useEffect(() => {
+        async function fetchPrice() {
+          try {
+            const res = await fetch("/api/stripe-price"); // works in localhost and production
+            const data = await res.json();
+            setPrice(data);
+          } catch (error) {
+            console.error("Error fetching price:", error);
+          }
+        }
+        fetchPrice();
+      }, []);
 
 
 
@@ -55,7 +66,7 @@ export function SelectProPlan(){
                 pay 10% when you win the job.
               </li>
             </ul>
-            <p className="text-blue-400 font-semibold">$300 per year</p>
+            <p className="text-blue-400 font-semibold">$ {price ? price.amount : "..."}  per year</p>
             <button onClick={handleplan}
                 className="bg-red-500 text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-red-600 transition">
               Select

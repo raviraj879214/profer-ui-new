@@ -83,6 +83,12 @@ const filteredUsers = (users || []).filter((user) => {
      if (!confirm("Are you sure you want to delete the selected item(s)?")) {
         return null; // user pressed Cancel
       }
+
+      const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage({ text: "No auth token found. Please login.", type: "error" });
+      return;
+    }
     setDeleterow(true);
     if (selectedIds.length === 0) return;
 const idParam = selectedIds.join(",");
@@ -93,6 +99,7 @@ const idParam = selectedIds.join(",");
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -112,10 +119,15 @@ const idParam = selectedIds.join(",");
   };
 
  const handleEmailReminder = async (user) => {
+  
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/email-reminder/${user.id}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}` : "",
+      },
       body: JSON.stringify({ email: user.emailID, name: user.name }),
     });
 
@@ -136,7 +148,9 @@ const idParam = selectedIds.join(",");
       return;
     }
 
-    alert("Reminder sent!");
+    //alert("Reminder sent!");
+     setMessage(`Reminder email sent to ${user.name}!`);
+    setTimeout(() => setMessage(""), 3000);
   } catch (err) {
     console.error("Fetch failed:", err);
     alert("Failed to send reminder.");
@@ -169,14 +183,16 @@ const idParam = selectedIds.join(",");
       <div className="bg-white rounded-2xl shadow-md p-6">
          <div className="flex justify-between items-center mb-6">
         </div>
+        
         <InviteForPros></InviteForPros>
-
+ </div>
+ <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 mt-6">
+   <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <h2 className="text-2xl font-semibold text-gray-800">List Of Pros</h2>
 
         {/* Header */}
       
-        <p style={{ color: "green" }}>{message}</p>
-
+        
         {selectedIds.length > 0 && (
   <div className="mb-4 flex justify-end">
     <button
@@ -190,6 +206,8 @@ const idParam = selectedIds.join(",");
     </button>
   </div>
 )}
+</div>
+<p style={{ color: "green" }}>{message}</p>
 
         {/* Search */}
         <div className="mb-4">
@@ -304,28 +322,29 @@ const idParam = selectedIds.join(",");
     "N/A"
   )}
 </td>
-            <td className="px-4 py-4 space-x-2 text-center">
+           <td className="px-4 py-4 space-x-2 text-center">
   <button
     title="Send Email Reminder"
     onClick={() => handleEmailReminder(user)}
     className="p-2 rounded hover:bg-gray-100"
   >
-    {/* Bell-into-envelope icon */}
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="24"
-      width="24"
+      className="h-6 w-6 text-blue-600"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      className="text-blue-600"
+      strokeWidth={2}
     >
-      <path d="M3 8l7.89 5.26L3 18V8z" />  {/* envelope */}
-      <path d="M21 8v8l-7.89-5.26L21 8z" /> {/* envelope flipped */}
-      <circle cx="12" cy="6" r="3" fill="red" /> {/* bell notification dot */}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+      />
     </svg>
   </button>
 </td>
+
 
        
 
@@ -560,7 +579,7 @@ const idParam = selectedIds.join(",");
             </button>
           </div>
         </div>
-      </div>
+     
 
       {/* View Modal */}
     {isModalOpen && selectedUser && (
@@ -641,6 +660,7 @@ const idParam = selectedIds.join(",");
 )}
 
 
+    </div>
     </div>
   );
 }

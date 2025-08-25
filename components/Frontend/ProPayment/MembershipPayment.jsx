@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckoutForm from "../../checkout";
+import Link from "next/link";
 
 export function ProsCheckout({ clientSecret, amount }) {
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
@@ -213,9 +214,17 @@ export function ProsCheckout({ clientSecret, amount }) {
     className="mt-1 mr-2 rounded border-gray-300 focus:ring-indigo-500"
     {...register("terms", { required: "You must agree to the terms and conditions" })}
   />
-  <label htmlFor="terms" className="text-xs text-gray-500 cursor-pointer">
-    I agree with the terms and conditions of the Pro Purchase Agreement
-  </label>
+        <label htmlFor="terms" className="text-xs text-gray-500 cursor-pointer">
+        I agree with the{" "}
+        <Link
+          href="/terms"
+          className="text-blue-600 underline hover:text-blue-800"
+          target="_blank"
+        >
+          terms and conditions
+        </Link>{" "}
+        of the Pro Purchase Agreement
+      </label>
 </div>
 
 

@@ -178,6 +178,26 @@ export function EmailProVerify() {
             </div>
           )}
 
+          {/* Terms & Conditions */}
+  <div className="flex items-start space-x-2 text-sm text-gray-600">
+    <input
+      type="checkbox"
+      id="terms"
+      {...register("terms", { required: "You must agree to continue" })}
+      className="mt-1"
+    />
+    <label htmlFor="terms" className="leading-5">
+      I agree to the{" "}
+      <a href="/terms" target="_blank" className="text-blue-600 hover:underline">
+        Terms & Conditions
+      </a>{" "}
+      and{" "}
+      <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
+        Privacy Policy
+      </a>
+    </label>
+  </div>
+  {errors.terms && <p className="text-red-500 text-sm">{errors.terms.message}</p>}
           {/* Initial Verify Button */}
           {!stage && (
             <button

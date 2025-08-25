@@ -1,8 +1,11 @@
  "use client";
 
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+
 
 export const InviteForm = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [nameError, setNameError] = useState("");
@@ -10,6 +13,7 @@ export const InviteForm = () => {
   const [submitError, setSubmitError] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  
 
   const validate = () => {
     let isValid = true;
@@ -43,7 +47,6 @@ export const InviteForm = () => {
 
    try {
   try {
-
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/add-pros`, {
@@ -75,9 +78,12 @@ export const InviteForm = () => {
     setNameError("");
     setEmailError("");
     setSubmitError("");
-     setTimeout(() => {
-    window.location.reload();
-  }, 1000);
+    // window.location.reload();
+    //await router.replace('/admin/invitepros');
+//router.push('/admin/invitepros');
+
+    // router.push(`/admin/invitepros?refresh=${Date.now()}`);
+
   } else {
     if (result.error?.includes("already exists")) {
       setEmailError("Email ID already exists.");
@@ -148,7 +154,7 @@ export const InviteForm = () => {
             disabled={submitting}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
           >
-            {submitting ? "Submitting..." : "Add"}
+            {submitting ? "Adding..." : "Add"}
           </button>
         </form>
       </div>

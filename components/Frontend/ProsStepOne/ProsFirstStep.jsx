@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import Image from "next/image";
 
 export function Companyprofile({ paymentIntentId }) {
   const [prosName, setProsName] = useState("");
@@ -143,23 +144,25 @@ export function Companyprofile({ paymentIntentId }) {
       <main className="flex-grow flex flex-col justify-center items-center text-center px-6">
         
         {/* Success Icon */}
-        <CheckCircleIcon className="w-20 h-20 text-green-500 animate-bounce" />
+       <CheckCircleIcon className="w-20 h-20 text-[#21afbc] animate-bounce" />
 
+      
         {/* Heading */}
-        <h2 className="mt-6 text-3xl font-bold text-green-600">
-          Payment Successful 🎉
+        <h2 className="mt-6 text-3xl font-bold text-[#21afbc]">
+          Payment Successful 
         </h2>
 
         {/* Description */}
-        <p className="mt-4 text-gray-600 text-lg max-w-md">
-          Thank you for your purchase! Your Pro Membership is now active.  
-          Please log in to start using your new features.
+        <p className="mt-4 text-[#21afbc] text-lg max-w-md">
+          Your Pro Membership is now active!
+Thank you for your payment.
+Log in to explore and start using your new features right away.
         </p>
 
         {/* Action Button */}
         <button
           onClick={() => router.push('/sign-in')}
-          className="mt-8 bg-green-600 shadow-lg text-white py-3 px-10 rounded-full text-base font-semibold hover:bg-green-700 transition transform hover:scale-105"
+          className="mt-8 bg-gray-900 shadow-lg text-white py-3 px-10 rounded-full text-base font-semibold  transition transform "
         >
           Log In to Continue
         </button>

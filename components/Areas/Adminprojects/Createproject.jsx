@@ -217,20 +217,47 @@ export function ProjectAuctionForm({ requestid = 0 }) {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {[
+      { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
+      { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
+      { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' }
+    ].map((field, i) => (
+      <div key={i} className="flex flex-col gap-1">
+        <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
+        <input
+          id={field.id}
+          type={field.type}
+          {...register(field.id, {
+            required: field.required || false,
+            pattern: field.pattern ? { value: field.pattern, message: field.patternMessage } : undefined
+          })}
+          className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'}`}
+        />
+        {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
+      </div>
+    ))}
+        </div>
+
+
+
+
+
         {/* Inputs */}
         {[ 
-          { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
-          { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
-          { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
+          // { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
+          // { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
+          // { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
           { id: 'projectTitle', label: 'Project Title', type: 'text', required: 'Project title is required' },
-          { id: 'propertyType', label: 'Property Type', type: 'text', required: 'Property type is required' },
-          { id: 'budget', label: 'Project Budget', type: 'number', required: 'Project budget is required', inputMode: 'numeric', pattern: '[0-9]*' },
-          { id: 'projectAddress', label: 'Project Address', type: 'text', required: 'Project address is required' },
-          { id: 'projectDetails', label: 'Project Details', type: 'text', required: 'Project details are required' },
-          { id: 'productType', label: 'Product Type', type: 'text', required: 'Product type is required' },
-          { id: 'productColor', label: 'Product Color', type: 'text', required: 'Product color is required' },
-          { id: 'startdate', label: 'Start Date', type: 'date', required: 'Start date is required' },
-          { id: 'enddate', label: 'End Date', type: 'date', required: 'End date is required' }
+          // { id: 'propertyType', label: 'Property Type', type: 'text', required: 'Property type is required' },
+          // { id: 'budget', label: 'Project Budget', type: 'number', required: 'Project budget is required', inputMode: 'numeric', pattern: '[0-9]*' },
+          // // { id: 'projectAddress', label: 'Project Address', type: 'text', required: 'Project address is required' },
+          // // { id: 'projectDetails', label: 'Project Details', type: 'text', required: 'Project details are required' },
+          // { id: 'productType', label: 'Product Type', type: 'text', required: 'Product type is required' },
+          // { id: 'productColor', label: 'Product Color', type: 'text', required: 'Product color is required' },
+          // { id: 'startdate', label: 'Start Date', type: 'date', required: 'Start date is required' },
+          // { id: 'enddate', label: 'End Date', type: 'date', required: 'End date is required' }
         ].map((field, i) => (
           <div key={i} className="flex flex-col gap-1">
             <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
@@ -247,9 +274,70 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           </div>
         ))}
 
+
+{/* Property Type + Project Budget side by side */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {[
+    { id: 'propertyType', label: 'Property Type', type: 'text', required: 'Property type is required' },
+    { id: 'budget', label: 'Project Budget', type: 'number', required: 'Project budget is required', inputMode: 'numeric', pattern: '[0-9]*' }
+  ].map((field, i) => (
+    <div key={i} className="flex flex-col gap-1">
+      <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
+      <input
+        id={field.id}
+        type={field.type}
+        inputMode={field.inputMode}
+        pattern={field.pattern}
+        {...register(field.id, { required: field.required })}
+        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'}`}
+      />
+      {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
+    </div>
+  ))}
+</div>
+
+{/* Product Type + Product Color side by side */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {[
+    { id: 'productType', label: 'Product Type', type: 'text', required: 'Product type is required' },
+    { id: 'productColor', label: 'Product Color', type: 'text', required: 'Product color is required' }
+  ].map((field, i) => (
+    <div key={i} className="flex flex-col gap-1">
+      <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
+      <input
+        id={field.id}
+        type={field.type}
+        {...register(field.id, { required: field.required })}
+        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'}`}
+      />
+      {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
+    </div>
+  ))}
+</div>
+
+ <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+{[ 
+          { id: 'projectAddress', label: 'Project Address', rows: 3, required: 'Project address is required' },
+          { id: 'projectDetails', label: 'Project Details', rows: 3, required: 'Project details are required' }
+        ].map((field, i) => (
+          <div key={i} className="flex flex-col gap-1">
+            <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
+            <textarea
+              id={field.id}
+              rows={field.rows}
+              {...register(field.id, { required: field.required })}
+              className="border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
+            {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
+          </div>
+        ))}
+        </div>
+
+
         {/* Textareas */}
-        {[ 
-          { id: 'productPreference', label: 'Product preference (Brand, Name, Color)', rows: 2, required: 'Project preference is required' },
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+{[ 
+          { id: 'productPreference', label: 'Product preference (Brand, Name, Color)', rows: 3, required: 'Project preference is required' },
           { id: 'workDescription', label: 'Description of work to be completed', rows: 3, required: 'Work description is required' }
         ].map((field, i) => (
           <div key={i} className="flex flex-col gap-1">
@@ -263,9 +351,44 @@ export function ProjectAuctionForm({ requestid = 0 }) {
             {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
           </div>
         ))}
+        </div>
+        
 
-        {/* Companies */}
-        <CompanyMultiSelect value={selectedCompanies} onChange={setSelectedCompanies} setOptions={setCompanyOptions} />
+        {/* Start & End Date side by side */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {[
+    { id: 'startdate', label: 'Start Date', type: 'date', required: 'Start date is required' },
+    { id: 'enddate', label: 'End Date', type: 'date', required: 'End date is required' }
+  ].map((field, i) => (
+    <div key={i} className="flex flex-col gap-1">
+      <label htmlFor={field.id} className="text-gray-700 text-sm">{field.label}</label>
+      <input
+        id={field.id}
+        type={field.type}
+        {...register(field.id, {
+          required: field.required || false
+        })}
+        className={`border rounded px-3 py-2 focus:outline-none focus:ring-2 ${errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'}`}
+      />
+      {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
+    </div>
+  ))}
+</div>
+
+
+
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Select Companies for Bidding
+          </label>
+          <CompanyMultiSelect 
+            value={selectedCompanies} 
+            onChange={setSelectedCompanies} 
+            setOptions={setCompanyOptions} 
+          />
+        </div>
+
 
         {/* File Uploads */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-gray-500">
@@ -328,6 +451,10 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           </button>
         </div>
       </form>
+
+
+
+      
     </div>
   );
 }

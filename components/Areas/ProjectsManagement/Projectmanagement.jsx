@@ -6,9 +6,9 @@ import { Plus, Minus } from "lucide-react";
 
 const statusLabels = {
    
-  0: "Not Started",
-  1: "Auction Active",
-  2: "Auction Completed",
+  0: "Bidding Not Started",
+  1: "Bidding Active",
+  2: "Bidding Completed",
   3 : "Draft"
 };
 
@@ -314,9 +314,9 @@ export function Projectmanagement() {
           >
             <option value="All">All</option>
              <option value="DRAFT">Draft</option>
-            <option value="Not Started">Not Started</option>
-            <option value="Auction Active">Auction Active</option>
-            <option value="Auction Completed">Auction Completed</option>
+            <option value="Bidding Not Started">Bidding Not Started</option>
+            <option value="Bidding Active">Bidding Active</option>
+            <option value="Biding Completed">Bidding Completed</option>
           </select>
 
           <input
@@ -448,22 +448,37 @@ export function Projectmanagement() {
                   </tr>
                 ) : (
                   paginatedProjects.map((project) => (
-                    <tr key={project.id} className="hover:bg-gray-50">
+                    <tr key={project.id} className="hover:bg-gray-50" >
                       <td className="p-2 text-center">
+
                         <input
                           type="checkbox"
                           aria-label={`Select project ${project.projectTitle}`}
                           checked={selected.includes(project.id)}
                           onChange={() => handleSelect(project.id)}
                         />
+
+
                       </td>
 
                       <td className="px-4 py-4">
+                        <p className="font-semibold">{project.projectid || "PRJ-XXXX-XXX"}</p>
+
                         <p className="font-semibold">{project.projectTitle}</p>
-                        <p className="text-xs text-gray-500">{project.projectDescription}</p>
+                        <p className="font-semibold">{project.propertyType}</p>
+
                       </td>
 
-                      <td className="px-4 py-4">{project.fullName}</td>
+                      <td className="px-4 py-4">
+                          <div className="flex flex-col text-sm text-gray-700">
+                            <span className="font-medium">{project.fullName}</span>
+                            <span>{project.emailAddress}</span>
+                            <span>{project.phoneNumber}</span>
+                          </div>
+                        </td>
+
+
+
                       <td className="px-4 py-4">{project.projectAddress}</td>
 
                       <td className="px-4 py-4">
@@ -515,13 +530,13 @@ export function Projectmanagement() {
                           aria-label={`Change status for ${project.projectTitle}`}
                         >
                           <option className="bg-white text-black" value={0}>
-                            Not Started
+                            Bidding Not Started
                           </option>
                           <option className="bg-white text-black" value={1}>
-                            Auction Active
+                            Bidding Active
                           </option>
                           <option className="bg-white text-black" value={2}>
-                            Auction Completed
+                            Bidding Completed
                           </option>
                           <option className="bg-white text-black" value={3}>
                             Draft
@@ -773,7 +788,7 @@ function ProjectDetailsModal({ project, onClose }) {
           {/* Assigned Pros Section */}
           {project.pros && project.pros.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold mb-3 text-gray-800">Assigned Pros</h3>
+              <h3 className="text-lg font-semibold mb-3 text-gray-800">Companies Selected for Bidding</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {project.pros.map((pro) => (
                   <div
@@ -789,15 +804,11 @@ function ProjectDetailsModal({ project, onClose }) {
                       <p className="font-semibold text-gray-800">{pro.companyName}</p>
                       <p className="text-gray-600">{pro.companyEmail}</p>
                       <p className="text-gray-600">{pro.companyPhone}</p>
+                      <p className="text-gray-600">{pro.streetAddress} {pro.state} {pro.zip}</p>
                       <p>
                         <strong>Owner:</strong> {pro.ownerFirstName} {pro.ownerLastName}
                       </p>
-                      <p>
-                        <strong>Services:</strong> {JSON.parse(pro.services).join(", ")}
-                      </p>
-                      <p>
-                        <strong>Qualifications:</strong> {JSON.parse(pro.qualifications).join(", ")}
-                      </p>
+                     
                     </div>
                   </div>
                 ))}

@@ -74,7 +74,7 @@ export function ProDashBoardHero() {
         {/* Company info */}
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-extrabold text-[#012C43]">
-            {company.companyName || "Company Name"}
+            {company.companyName || "Not Updated"}
             {company.verified && (
               <VerifiedCheckIcon />
             )}
@@ -88,14 +88,14 @@ export function ProDashBoardHero() {
       </div>
 
       {/* Right Side: View Public ProFile™ */}
-      {/* <div>
+      <div>
         <a
           href="/public-profile" // Adjust this link accordingly
           className="text-cyan-500 text-sm sm:text-base hover:underline font-medium cursor-pointer"
         >
           View Public ProFile<span className="text-xs">™</span>
         </a>
-      </div> */}
+      </div>
     </div>
   );
 }

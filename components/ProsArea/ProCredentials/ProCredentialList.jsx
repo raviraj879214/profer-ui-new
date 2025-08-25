@@ -98,8 +98,7 @@ const router = useRouter();
               section.highlight
                 ? "border border-red-300 shadow-[0_4px_12px_rgba(255,0,0,0.08)]"
                 : "shadow-lg shadow-black/60"
-            } bg-white p-4 sm:p-6`}
-          >
+            } bg-white p-4 sm:p-6`}>
             <CredentialSection {...section} />
           </div>
           {section.note && (
@@ -150,6 +149,8 @@ const router = useRouter();
   );
 }
 
+
+
 function CredentialSection({ title, icon, section }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [loadingStates, setLoadingStates] = useState([]);
@@ -157,6 +158,7 @@ function CredentialSection({ title, icon, section }) {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
+  // Fetch existing credentials
   const fetchExisting = async () => {
     try {
       const res = await fetch(
@@ -174,6 +176,7 @@ function CredentialSection({ title, icon, section }) {
         id: doc.id,
         title: doc.name,
         uploadedFile: `${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`,
+        expirationDate: doc.expirationDate || "",
       }));
       setUploadedFiles(files);
       setLoadingStates(new Array(files.length).fill(false));
@@ -186,19 +189,30 @@ function CredentialSection({ title, icon, section }) {
     fetchExisting();
   }, [section]);
 
+  // Upload file
   const handleUpload = async (e, index) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (!uploadedFiles[index]?.title?.trim()) {
-      alert("Please enter a document name first before uploading.");
+    const doc = uploadedFiles[index];
+
+    // Validation checks
+    if (!doc?.title?.trim()) {
+      alert("Please enter a document name before uploading.");
       inputRefs.current[index]?.focus();
+      return;
+    }
+
+    if (!doc?.expirationDate?.trim()) {
+      alert("Please set an expiration date before uploading.");
       return;
     }
 
     const formData = new FormData();
     formData.append("section", title);
-    formData.append("names", JSON.stringify([uploadedFiles[index].title]));
+    formData.append("names", JSON.stringify([doc.title]));
+    const expirationDate = new Date(doc.expirationDate).toISOString();
+    formData.append("expirationDates", expirationDate);
     formData.append("documents", file);
 
     const newLoading = [...loadingStates];
@@ -229,6 +243,7 @@ function CredentialSection({ title, icon, section }) {
     }
   };
 
+  // Remove document
   const handleRemove = async (index, e) => {
     e.stopPropagation();
     const fileToDelete = uploadedFiles[index];
@@ -272,30 +287,45 @@ function CredentialSection({ title, icon, section }) {
     }
   };
 
+  // Change doc name
   const handleTitleChange = (e, index) => {
     const newFiles = [...uploadedFiles];
     newFiles[index].title = e.target.value;
     setUploadedFiles(newFiles);
   };
 
+  // Change expiration date
+  const handleExpirationChange = (e, index) => {
+    const newFiles = [...uploadedFiles];
+    newFiles[index].expirationDate = e.target.value;
+    setUploadedFiles(newFiles);
+  };
+
+  // Add empty slot
   const addNewSlot = () => {
-    setUploadedFiles([...uploadedFiles, { title: "", uploadedFile: null }]);
+    setUploadedFiles([
+      ...uploadedFiles,
+      { title: "", uploadedFile: null, expirationDate: "" },
+    ]);
     setLoadingStates([...loadingStates, false]);
   };
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4">
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-6">
         <img src={icon} alt="Icon" width={24} height={24} />
         <h3 className="font-semibold text-gray-800">{title}</h3>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-6 justify-center">
+      {/* Upload slots */}
+      <div className="mt-4 flex flex-wrap gap-6 justify-center">
         {uploadedFiles.map((doc, idx) => (
           <div
             key={idx}
-            className="flex flex-col items-center text-center min-w-[200px] max-w-[250px] space-y-2"
+            className="flex flex-col items-center text-center min-w-[220px] max-w-[260px] space-y-3 p-3 border rounded-lg shadow-sm bg-white"
           >
+            {/* Document Name */}
             <input
               type="text"
               placeholder="Enter document name"
@@ -305,7 +335,8 @@ function CredentialSection({ title, icon, section }) {
               className="text-sm text-gray-700 border rounded-md px-2 py-1 w-full text-center focus:ring-2 focus:ring-blue-400 outline-none"
             />
 
-            <div className="h-[140px] w-full rounded-md border overflow-hidden shadow-sm relative group">
+            {/* File Preview / Upload */}
+            <div className="h-[140px] w-full rounded-md border overflow-hidden shadow-sm relative group bg-gray-50">
               {loadingStates[idx] ? (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">
                   Uploading...
@@ -326,10 +357,13 @@ function CredentialSection({ title, icon, section }) {
                 )
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">
-                  {doc.title?.trim() ? "+ Upload File" : "Enter name first"}
+                  {doc.title?.trim() && doc.expirationDate?.trim()
+                    ? "+ Upload File"
+                    : "Enter name & date first"}
                 </div>
               )}
 
+              {/* Remove button overlay */}
               {!loadingStates[idx] && doc.uploadedFile && (
                 <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
                   <button
@@ -341,21 +375,45 @@ function CredentialSection({ title, icon, section }) {
                 </div>
               )}
 
+              {/* File input */}
               {!loadingStates[idx] && !doc.uploadedFile && (
                 <input
                   type="file"
                   accept="image/*,application/pdf"
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   onChange={(e) => handleUpload(e, idx)}
-                  disabled={!doc.title?.trim()}
+                  disabled={!doc.title?.trim() || !doc.expirationDate?.trim()}
                 />
               )}
+            </div>
+
+            {/* Expiration Date */}
+            <div className="w-full text-left">
+              <label
+                htmlFor={`expiration-date-${idx}`}
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Expiration Date 
+              </label>
+            <input
+                  type="date"
+                  id={`expiration-date-${idx}`}
+                  name={`expiration-date-${idx}`}
+                  value={
+                    doc.expirationDate
+                      ? new Date(doc.expirationDate).toISOString().split("T")[0] // 👉 "2025-08-22"
+                      : ""
+                  }
+                  onChange={(e) => handleExpirationChange(e, idx)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                />
+
             </div>
           </div>
         ))}
 
-        {/* Add more slot */}
-        <div className="flex flex-col items-center text-center min-w-[200px] max-w-[250px] space-y-2">
+        {/* Add More Slot */}
+        <div className="flex flex-col items-center text-center min-w-[220px] max-w-[260px] space-y-2">
           <div className="h-[34px]"></div>
           <button
             onClick={addNewSlot}
@@ -365,7 +423,6 @@ function CredentialSection({ title, icon, section }) {
           </button>
         </div>
       </div>
-      
     </div>
   );
 }

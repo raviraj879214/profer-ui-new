@@ -47,7 +47,7 @@ export function ProHeader() {
   };
 
   return (
-    <header className="w-full border-b border-gray-200 bg-white shadow-sm px-4 md:px-8 py-3">
+    <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-4 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" prefetch={false}>

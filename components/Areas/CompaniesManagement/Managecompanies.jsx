@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {NotesTimeLine} from "../../Areas/CompaniesManagement/Notesmanagent";
-
-
-
+import {RejectPopup} from "../../Areas/CompaniesManagement/RejectModal";
+import {BlockPopup} from "../../Areas/CompaniesManagement/BlockModal";
+import {CompanyInfoTimeLine} from "../../Areas/CompaniesManagement/Companyinfo";
 
 
 export function CompanyManagement() {
@@ -32,8 +32,11 @@ export function CompanyManagement() {
   const [companiesid,setcompaniesid] = useState(0);
 
 
+  const [rejectmodal,setrejectmodal] = useState(false);
+  const [blockmodal,setblockmodal] = useState(false);
 
 
+  const [companyinfomodal , setcompanyinfomodal] = useState(false);
 
   // Fetch companies
   const fetchCompanies = async (status) => {
@@ -264,8 +267,28 @@ export function CompanyManagement() {
     }
 
 
-
+  const handleDataFromChild = (value) => {
+    setrejectmodal(false);   
     
+
+    if(value == "reject"){
+      setIsModalOpen(false);
+     setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
+      setSelectedIds([]);
+      setMessage("Selected companies rejected successfully.");
+    }
+  };
+    
+  const handleDataBlockChild= (value) =>{
+    setIsModalOpen(false);
+    setblockmodal(false);
+    if(value == "block"){
+      setIsModalOpen(false);
+     setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
+      setSelectedIds([]);
+      setMessage("Selected companies rejected successfully.");
+    }
+  }
 
 
 
@@ -332,13 +355,13 @@ export function CompanyManagement() {
     </button>
 
     {/* Block Button */}
-    <button
+    {/* <button
       onClick={RejectSelected}
       className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
       disabled={blockrow}
     >
       {rejectrow ? "Loading..." : `Reject Selected (${selectedIds.length})`}
-    </button>
+    </button> */}
   </div>
 )}
 
@@ -589,7 +612,7 @@ export function CompanyManagement() {
               </div>
               <button
                 onClick={() => {
-                setIsModalOpen(false), setSelectedIds([]),  setNotePopup(false)
+                setIsModalOpen(false), setSelectedIds([]),  setNotePopup(false) , setrejectmodal(false)
                 }}
                 className="text-gray-500 hover:text-gray-800 text-lg"
               >
@@ -600,18 +623,29 @@ export function CompanyManagement() {
             <div className="p-6 overflow-y-auto flex-1 space-y-4">
               {/* Overview */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Description</dt>
-                  <dd className="text-gray-700">
-                    {selectedUser.businessDetails?.companyDescription || "N/A"}
-                  </dd>
-                </div>
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Year Established</dt>
-                  <dd className="text-gray-700">
-                    {selectedUser.businessDetails?.experienceYears || "Not Added"} 
-                  </dd>
-                </div>
+
+               
+
+               {selectedUser.rejectReason && (
+  <div className="border rounded-lg p-4 sm:col-span-2">
+    <dt className="font-semibold text-gray-900">Rejected Reason</dt>
+    <dd className="text-gray-700">{selectedUser.rejectReason}</dd>
+  </div>
+)}
+
+{selectedUser.blockReason && (
+  <div className="border rounded-lg p-4 sm:col-span-2">
+    <dt className="font-semibold text-gray-900">Blocked Reason</dt>
+    <dd className="text-gray-700">{selectedUser.blockReason}</dd>
+  </div>
+)}
+
+                
+
+                 
+
+
+                
               
                 <div className="border rounded-lg p-4">
                   <dt className="font-semibold text-gray-900">Joined</dt>
@@ -870,7 +904,7 @@ export function CompanyManagement() {
             <div className="border-t px-6 py-3 flex justify-end space-x-3">
                  {selectedUser.status === "0" && (
                     <>
-                      <button className="bg-green-500 text-white px-3 py-1 rounded" 
+                      <button className="bg-gray-900 text-white px-3 py-1 rounded" 
                       onClick={() => {
                         
                           deleteSelected();
@@ -878,23 +912,41 @@ export function CompanyManagement() {
                         }}
                       >{deleterow ? "Deleting .." : "Approve"}</button>
                       <button className="bg-red-500 text-white px-3 py-1 rounded ml-2" onClick={()=>{
-                        blockedSelected();
-                        setIsModalOpen(false);
-                      }}>{deleterow ? "Blocking..." : "Block"}</button>
+                        setrejectmodal(true);
+                        
+                      }}>{deleterow ? "Rejecting..." : "Reject"}</button>
                     </>
                   )}
+
+
                   {selectedUser.status === "4" && (
+
                     <button className="bg-red-500 text-white px-3 py-1 rounded" onClick={()=> {
-                       blockedSelected();
-                        setIsModalOpen(false);
+                      
+                        setblockmodal(true);
                     }}>{deleterow ? "Blocking..." : "Block"}</button>
+
+
+
                   )}
+
+
+                  
                   {selectedUser.status === "5" && (
                     <button className="bg-yellow-500 text-white px-3 py-1 rounded" onClick={()=> {
                          unblockSelected();
                         setIsModalOpen(false);
                     }}>{deleterow ? "UnBlocking..." : "UnBlock"}</button>
                   )}
+
+               <button
+                onClick={() => {
+                 setcompanyinfomodal(true)
+                }}
+                className="bg-gray-900 text-white px-4 py-2 rounded ">
+                Request More Info
+              </button>
+
                <button
                 onClick={() => {
                   setNotePopup(true),
@@ -903,19 +955,13 @@ export function CompanyManagement() {
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-300">
                 Notes
               </button>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false),
-                  setNotePopup(false),
-                  setSelectedIds([])
-                }} className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
-                Close
-              </button>
+             
             </div>
           </div>
-           {NotePopup && (
-                  <NotesTimeLine companyid={companiesid} setNotePopup={setNotePopup}></NotesTimeLine>
-           )}
+           {NotePopup && (<NotesTimeLine companyid={companiesid} setNotePopup={setNotePopup}></NotesTimeLine>)}
+           {rejectmodal && <RejectPopup  sendData={handleDataFromChild} userid ={selectedUser.id}   />}
+           {blockmodal && <BlockPopup sendData={handleDataBlockChild} userid ={selectedUser.id} />}     
+            {companyinfomodal && <CompanyInfoTimeLine companyid={selectedUser.id} setcompanyinfomodal={setcompanyinfomodal} projectstatus={selectedUser.status} />}     
         </div>
     )}
    

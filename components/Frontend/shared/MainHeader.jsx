@@ -38,5 +38,9 @@ export function MainHeader() {
   }
 
   // ✅ Default header for everyone else
+    
+  
+    
+  
   return <Header />;
 }

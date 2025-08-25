@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import {MultiSelect} from "../../ProsArea/Prossteps/MultiSelectDropdown";
+        
 
 export function ProsStepBusinessDetails({ userId }) {
   const router = useRouter();
@@ -259,127 +261,26 @@ export function ProsStepBusinessDetails({ userId }) {
           <input {...register("ein", { required: "EIN is required" })} placeholder="EIN" className="w-full border p-2 rounded" />
           <input {...register("experienceYears", { required: "Established year is required" })} placeholder="Established Year" className="w-full border p-2 rounded" />
 
-          {/* Dropdowns */}
-          <div className="col-span-2 grid grid-cols-2 gap-x-10">
-            {/* Services */}
-            <div ref={serviceRef}>
-              <label className="block text-xs mb-1 text-gray-600">Services</label>
-              <div className="relative">
-                <div
-                  className="border p-2 rounded cursor-pointer bg-white"
-                  onClick={() => {
-                    setIsServiceOpen(!isServiceOpen);
-                    setIsQualificationOpen(false);
-                  }}
-                >
-                  {selectedServices.length > 0
-                    ? selectedServices.join(", ")
-                    : "Select options"}
-                </div>
-                {isServiceOpen && (
-                  <div className="absolute w-full border bg-white mt-1 rounded shadow z-10">
-                    {serviceOptions.map((option) => (
-                      <label
-                        key={option}
-                        className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedServices.includes(option)}
-                          onChange={() =>
-                            toggleOption(setSelectedServices, selectedServices, option)
-                          }
-                          className="mr-2"
-                        />
-                        {option}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="grid grid-cols-2 gap-4 col-span-2">
+  <MultiSelect
+    label="Services"
+    options={serviceOptions}
+    selected={selectedServices}
+    setSelected={setSelectedServices}
+  />
 
-            {/* Qualifications */}
-            <div ref={qualificationRef}>
-              <label className="block text-xs mb-1 text-gray-600">Qualifications</label>
-              <div className="relative">
-                <div
-                  className="border p-2 rounded cursor-pointer bg-white"
-                  onClick={() => {
-                    setIsQualificationOpen(!isQualificationOpen);
-                    setIsServiceOpen(false);
-                  }}
-                >
-                  {selectedQualifications.length > 0
-                    ? selectedQualifications.join(", ")
-                    : "Select options"}
-                </div>
-                {isQualificationOpen && (
-                  <div className="absolute w-full border bg-white mt-1 rounded shadow z-10">
-                    {qualificationOptions.map((option) => (
-                      <label
-                        key={option}
-                        className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedQualifications.includes(option)}
-                          onChange={() =>
-                            toggleOption(setSelectedQualifications, selectedQualifications, option)
-                          }
-                          className="mr-2"
-                        />
-                        {option}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+  <MultiSelect
+    label="Qualifications"
+    options={qualificationOptions}
+    selected={selectedQualifications}
+    setSelected={setSelectedQualifications}
+  />
+</div>
 
-          {/* File Uploads */}
-          <div className="col-span-2 flex gap-10">
-            {/* Company Logo */}
-            <div>
-              <label className="block text-xs mb-2 text-gray-600">Company Logo</label>
-              <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
-                {companyLogo ? (
-                  <img src={URL.createObjectURL(companyLogo)} className="w-full h-full object-cover rounded-md" />
-                ) : previewCompanyLogo ? (
-                  <img src={previewCompanyLogo} className="w-full h-full object-cover rounded-md" />
-                ) : (
-                  <span className="text-gray-400 text-3xl">+</span>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setCompanyLogo(e.target.files[0])}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-              </div>
-            </div>
 
-            {/* Owner License */}
-            <div>
-              <label className="block text-xs mb-2 text-gray-600">Owner License</label>
-              <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
-                {ownerLicense ? (
-                  <img src={URL.createObjectURL(ownerLicense)} className="w-full h-full object-cover rounded-md" />
-                ) : previewOwnerLicense ? (
-                  <img src={previewOwnerLicense} className="w-full h-full object-cover rounded-md" />
-                ) : (
-                  <span className="text-gray-400 text-3xl">+</span>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setOwnerLicense(e.target.files[0])}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
+
+
+        
 
           {/* Links Section */}
           <div className="col-span-2">

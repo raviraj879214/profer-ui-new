@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="en">
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen pt-20">
         <main className="flex-grow">
           <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
             <SiteLayout>{children}</SiteLayout>

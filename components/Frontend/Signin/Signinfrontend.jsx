@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "react-modal";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 
 const SignIn = () => {
   const {
@@ -23,8 +23,8 @@ const SignIn = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [userId, setUserId] = useState(null); // ✅ inside component
-const [modalUserId, setModalUserId] = useState(null);
-
+  const [modalUserId, setModalUserId] = useState(null);
+  const [price, setPrice] = useState(null);  
 
   const router = useRouter();
 
@@ -41,6 +41,19 @@ const [modalUserId, setModalUserId] = useState(null);
       if (storedId) setUserId(Number(storedId));
     }
   }, [modalOpen]);
+
+  useEffect(() => {
+        async function fetchPrice() {
+          try {
+            const res = await fetch("/api/stripe-price"); // works in localhost and production
+            const data = await res.json();
+            setPrice(data);
+          } catch (error) {
+            console.error("Error fetching price:", error);
+          }
+        }
+        fetchPrice();
+      }, []);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -147,14 +160,14 @@ const handleRenewSubscription = async () => {
       alert("User ID not found");
       return;
     }
-
+    //from stripe
+    const paymentid = await getStripeActivePlan();
     const res = await fetch("/api/stripe/renew-stripe-checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId, 
-        priceId: "price_1RyrzyGdOIhoJtRKUFrwTpon"
-  
+        priceId: paymentid
       }),
     });
 
@@ -259,7 +272,7 @@ const handleRenewSubscription = async () => {
       </div>
 
       {/* Modal */}
-               <Modal
+            <Modal
   isOpen={modalOpen}
   onRequestClose={() => setModalOpen(false)}
   contentLabel="Subscription Error"
@@ -275,32 +288,50 @@ const handleRenewSubscription = async () => {
     &times;
   </button>
 
-  <div className="flex flex-col space-y-6">
-    <p className="text-gray-900 text-xl font-medium">{modalMessage}</p>
-<p className="text-gray-900 text-xl">
-  Thank you for being a valued member of Profer. To continue enjoying uninterrupted access to all premium features and benefits, please renew your subscription for another year.  
-  <br /><br />
-  If you subscribe, your subscription will be valid from{" "}
-  <span className="font-semibold">{new Date().toLocaleDateString()}</span> until{" "}
-  <span className="font-semibold">{new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</span>.
-</p>
+  <div className="flex flex-col space-y-6 text-center">
+    {/* Title */}
+    <h2 className="text-2xl font-semibold text-gray-900">
+      Renew Your Subscription
+    </h2>
 
+    {/* Message */}
+    <p className="text-gray-700 text-lg">
+      Thank you for being a valued member of <span className="font-semibold">Profer</span>.
+      To continue enjoying uninterrupted access to all premium features and benefits, please renew your subscription.
+    </p>
 
-    
+    {/* Price Block - Stripe Style */}
+    <div className="bg-gray-50 rounded-xl p-6 shadow-sm border">
+      <p className="text-5xl font-extrabold text-gray-900 tracking-tight">
+        $ {price ? price.amount : "..."} 
+        <span className="text-lg font-medium text-gray-600">/year</span>
+      </p>
+      
+    </div>
 
+    {/* Duration Info */}
+    <p className="text-gray-800 text-base">
+      If you subscribe now, your subscription will be valid from{" "}
+      <span className="font-semibold">{new Date().toLocaleDateString()}</span> until{" "}
+      <span className="font-semibold">
+        {new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}
+      </span>.
+    </p>
+
+    {/* Renew Button */}
     {modalUserId && (
-      <div className="flex justify-start mt-4">
-     <button
-  className="bg-[#0C0C2D] hover:bg-[#1E1E3E] text-white w-full py-3 rounded transition text-xl"
-  onClick={() => handleRenewSubscription(modalUserId)}
->
-  Renew Subscription
-</button>
-
+      <div className="mt-4">
+        <button
+          className="bg-[#0C0C2D] hover:bg-[#1E1E3E] text-white w-full py-4 rounded-lg transition text-xl font-semibold shadow-md"
+          onClick={() => handleRenewSubscription(modalUserId)}
+        >
+          Renew Subscription
+        </button>
       </div>
     )}
   </div>
 </Modal>
+
     </>
   );
 };

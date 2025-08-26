@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckoutForm from "../../checkout";
 import Link from "next/link";
+import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 
 export function ProsCheckout({ clientSecret, amount }) {
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
@@ -40,13 +41,20 @@ export function ProsCheckout({ clientSecret, amount }) {
 
       if (res.ok && result.status === 200) {
         console.log("Payment successful:", result);
-        handleCheckout(`price_1RyrzyGdOIhoJtRKUFrwTpon`);
+         const priceId = await getStripeActivePlan();
+        handleCheckout(`${priceId}`);
       }
     }
     catch (error) {
       console.log("Error during payment:", error);
     }
   };
+
+
+
+
+
+
 
   const handleCheckout = async (priceId) => {
     const res = await fetch('/api/checkout', {

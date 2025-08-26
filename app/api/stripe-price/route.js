@@ -1,12 +1,13 @@
 // app/api/stripe-price/route.js
 import Stripe from "stripe";
-
+import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function GET(request) {
   try {
-    const price = await stripe.prices.retrieve("price_1RyrzyGdOIhoJtRKUFrwTpon");
+    const priceid= await getStripeActivePlan();
+    const price = await stripe.prices.retrieve(`${priceid}`);
 
     return new Response(
       JSON.stringify({

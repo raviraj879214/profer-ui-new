@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import {SiteLayout} from "./SiteLayout";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
+
+
 export default function RootLayout({ children }) {
 
    const pathname = usePathname();

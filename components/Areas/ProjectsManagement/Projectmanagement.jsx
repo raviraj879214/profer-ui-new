@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PencilIcon , EyeIcon  } from "@heroicons/react/24/outline";
 import { Plus, Minus } from "lucide-react";
+import {formatDateToUS} from "../../../lib/utils/dateFormatter";
+import {formatAmountUSD} from "../../../lib/utils/formatAmountUSD";
 
 const statusLabels = {
    
@@ -484,24 +486,22 @@ export function Projectmanagement() {
                       <td className="px-4 py-4">
                         {project.startdate && project.enddate ? (
                           <>
-                            {new Date(project.startdate).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })}{" "}
-                            -{" "}
-                            {new Date(project.enddate).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                              <span className="px-2 py-1 bg-gray-100 rounded-md">
+                                {formatDateToUS(project.startdate)}
+                              </span>
+                              <span className="text-gray-500">→</span>
+                              <span className="px-2 py-1 bg-gray-100 rounded-md">
+                                {formatDateToUS(project.enddate)}
+                              </span>
+                            </div>
                           </>
                         ) : (
                           "N/A"
                         )}
                       </td>
 
-                      <td className="px-4 py-4">{project.budget ? `$${project.budget}` : "N/A"}</td>
+                      <td className="px-4 py-4">{formatAmountUSD(project.budget) ? `${formatAmountUSD(project.budget)}` : "N/A"}</td>
 
                       <td className="px-4 py-4">
                         <button
@@ -726,26 +726,22 @@ function ProjectDetailsModal({ project, onClose }) {
               </p>
               <p>
                 <strong className="text-gray-700">Budget:</strong>{" "}
-                {project.budget ? `$${project.budget}` : "N/A"}
+                {project.budget ? `${formatAmountUSD(project.budget)}` : "N/A"}
               </p>
               <p>
                 <strong className="text-gray-700">Status:</strong> {statusLabels[project.status]}
               </p>
               <p className="sm:col-span-2">
                 <strong className="text-gray-700">Timeline:</strong>{" "}
-                {project.startdate &&
-                  new Date(project.startdate).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}{" "}
-                -{" "}
-                {project.enddate &&
-                  new Date(project.enddate).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                        <span className="px-2 py-1 bg-gray-100 rounded-md">
+                          {formatDateToUS(project.startdate)}
+                        </span>
+                        <span className="text-gray-500">→</span>
+                        <span className="px-2 py-1 bg-gray-100 rounded-md">
+                          {formatDateToUS(project.enddate)}
+                        </span>
+                      </div>
               </p>
             </div>
           </div>

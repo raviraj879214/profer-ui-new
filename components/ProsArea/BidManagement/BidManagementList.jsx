@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {formatDateToUS} from "../../../lib/utils/dateFormatter";
+import {formatAmountUSD} from "../../../lib/utils/formatAmountUSD";
+import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
+
 
 export function Bid() {
   const router = useRouter();
@@ -99,14 +103,14 @@ export function Bid() {
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                       Budget
                     </th>
-                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                    {/* <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
                       Actions
-                    </th>
+                    </th> */}
                     <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
                       Latest Bid
                     </th>
                     <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                      Bid
+                      Action
                     </th>
                   </tr>
                 </thead>
@@ -124,15 +128,15 @@ export function Bid() {
                           {project.propertyType}
                         </td>
                         <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
-                          {project.startdate}
+                          {formatDateToUS(project.startdate)}
                         </td>
                         <td className="px-4 py-3 align-middle whitespace-nowrap text-gray-700">
-                          {project.enddate}
+                          {formatDateToUS(project.enddate)}
                         </td>
                         <td className="px-4 py-3 align-middle whitespace-nowrap font-semibold text-gray-900">
-                          {project.budget ? `₹${project.budget}` : "N/A"}
+                          {project.budget ? `${ formatAmountUSD(project.budget)}` : "N/A"}
                         </td>
-                        <td className="px-4 py-3 align-middle text-center">
+                        {/* <td className="px-4 py-3 align-middle text-center">
                           <button
                             onClick={() => openDetailsModal(project)}
                             className="text-black font-semibold py-1 px-3 rounded-lg shadow text-sm flex items-center justify-center mx-auto"
@@ -157,25 +161,50 @@ export function Bid() {
                               />
                             </svg>
                           </button>
-                        </td>
-                        <td className="px-4 py-3 align-middle text-center">
+                        </td> */}
+                        <td className="px-4 py-3 align-middle text-center font-bold">
                           {project.bids && project.bids.length > 0
-                            ? `₹${[...project.bids]
-                                .sort(
-                                  (a, b) =>
-                                    new Date(a.createdAt) -
-                                    new Date(b.createdAt)
+                              ? formatAmountUSD(
+                                  [...project.bids]
+                                    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                                    .slice(-1)[0].amount
                                 )
-                                .slice(-1)[0].amount}`
-                            : "N/A"}
+                              : "N/A"}
+
+
                         </td>
                         <td className="px-4 py-3 align-middle text-center">
-                          <button
-                            onClick={() => goToBidPage(project.id)}
-                            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded-lg shadow text-sm"
-                          >
-                            Place Bid
-                          </button>
+                         
+                         <div>
+                              {project.bids && project.bids.length > 0 ? (
+                                <div
+                                  onClick={() => goToBidPage(project.id)}
+                                  className="cursor-pointer flex items-center gap-3 px-5 py-4 border rounded-xl bg-blue-50 hover:bg-blue-100 transition shadow-sm"
+                                >
+                                  <PencilSquareIcon className="w-6 h-6 text-blue-600" />
+                                  <span className="text-blue-700 font-medium">
+                                    Edit Bid (
+                                    {formatAmountUSD(
+                                      [...project.bids]
+                                        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                                        .slice(-1)[0].amount
+                                    )}
+                                    )
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  onClick={() => goToBidPage(project.id)}
+                                  className="cursor-pointer flex items-center gap-3 px-5 py-4 border rounded-xl bg-green-50 hover:bg-green-100 transition shadow-sm"
+                                >
+                                  <PlusCircleIcon className="w-6 h-6 text-green-600" />
+                                  <span className="text-green-700 font-medium">Make Bid</span>
+                                </div>
+                              )}
+                            </div>
+
+
+                         
                         </td>
                       </tr>
                     ))
@@ -245,14 +274,14 @@ export function Bid() {
                     <p>
                       <strong>Budget:</strong>{" "}
                       {selectedProject.budget
-                        ? `₹${selectedProject.budget}`
+                        ? `${formatAmountUSD(selectedProject.budget)}`
                         : "N/A"}
                     </p>
                     <p>
-                      <strong>Start Date:</strong> {selectedProject.startdate}
+                      <strong>Start Date:</strong> {formatDateToUS(selectedProject.startdate)}
                     </p>
                     <p>
-                      <strong>End Date:</strong> {selectedProject.enddate}
+                      <strong>End Date:</strong> {formatDateToUS(selectedProject.enddate)}
                     </p>
                   </div>
                 </div>

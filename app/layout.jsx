@@ -10,13 +10,17 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 export default function RootLayout({ children }) {
 
+   const pathname = usePathname();
+   const isAdmin = pathname.startsWith("/admin");
+
 
 
   return (
 
     <html lang="en">
-      <body className="flex flex-col min-h-screen pt-20">
+     <body className={`${isAdmin ? "flex flex-col min-h-screen" : "flex flex-col min-h-screen pt-20"}`}>
         <main className="flex-grow">
+          
           <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
             <SiteLayout>{children}</SiteLayout>
         </GoogleReCaptchaProvider>

@@ -187,6 +187,7 @@ export function Sidebar() {
       <SideNavButton icon={TimeIcon} label="Prefered Time" href="/admin/prefered-time" />
        <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros" />
        <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
+        <SideNavButton icon={ServicesIcon} label="Plans" href="/admin/stripeplans" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );

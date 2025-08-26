@@ -14,6 +14,8 @@ export function MakeBids({ projectid, proId: propProId }) {
   // For showing validation messages above Bid Price input
   const [validationMsg, setValidationMsg] = useState("");
 
+const [isEditing, setIsEditing] = useState(false); // controls edit/view mode
+const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user already has a bid
 
 
     useEffect(() => {
@@ -59,13 +61,18 @@ export function MakeBids({ projectid, proId: propProId }) {
           (bid) => bid.proId.toString() === currentProId?.toString()
         );
 
-        if (existingBid) {
-          setBidPrice(existingBid.amount.toString());
-          setMessage(existingBid.message || "");
-        } else {
-          setBidPrice("");
-          setMessage("");
-        }
+          if (existingBid) {
+              setBidPrice(existingBid.amount.toString());
+              setMessage(existingBid.message || "");
+              setHasExistingBid(true);
+              setIsEditing(false); // start in read-only mode
+            } else {
+              setBidPrice("");
+              setMessage("");
+              setHasExistingBid(false);
+              setIsEditing(true); // new bid → show form immediately
+            }
+
       } else {
         setProject(null);
         setBidPrice("");
@@ -205,52 +212,78 @@ export function MakeBids({ projectid, proId: propProId }) {
             </div>
 
             {/* Right - Bid Input */}
-            <div className="p-5 bg-gray-50 space-y-4">
-              {/* Validation message above bid price */}
-              {validationMsg && (
-                <p className="text-sm text-red-600 font-semibold mb-1">{validationMsg}</p>
+            {hasExistingBid && !isEditing ? (
+                /* Read-only Mode */
+                <div className="space-y-4 bg-gray-50 border border-gray-200 rounded-lg p-5 shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-800">Your Bid</h3>
+                  <div className="flex flex-col sm:flex-row sm:gap-10">
+                    <p className="text-sm text-gray-700">
+                      <span className="block text-xs uppercase text-gray-500">Bid Price</span>
+                      <span className="text-lg font-bold text-blue-600">${bidPrice}</span>
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      <span className="block text-xs uppercase text-gray-500">Message</span>
+                      <span className="text-base">{message}</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="mt-3 inline-block bg-gray-600  text-white font-semibold px-6 py-2 rounded-lg shadow-md transition"
+                  >
+                     Edit Bid
+                  </button>
+                </div>
+              ) : (
+                /* Editable Form Mode */
+                <div className="space-y-6 bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {hasExistingBid ? "Update Your Bid" : "Make a New Bid"}
+                  </h3>
+
+                  {validationMsg && (
+                    <p className="text-sm text-red-600 font-semibold bg-red-50 border border-red-200 rounded-md p-2">
+                      {validationMsg}
+                    </p>
+                  )}
+
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-medium text-gray-700">💰 Bid Price</label>
+                    <input
+                      type="number"
+                      className="border border-gray-300 rounded-lg px-4 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm"
+                      value={bidPrice}
+                      onChange={(e) => setBidPrice(e.target.value)}
+                      placeholder="Enter your bid amount"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <label className="text-sm font-medium text-gray-700">📝 Bid Message</label>
+                    <textarea
+                      className="border border-gray-300 rounded-lg px-4 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm"
+                      rows={3}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Write a message to support your bid"
+                    />
+                  </div>
+
+                  <button
+                    onClick={async () => {
+                      await handleMakeBid();
+                      setIsEditing(false); // go back to read-only mode after update
+                    }}
+                    disabled={submitting}
+                    className="w-full sm:w-auto bg-gray-900   text-white font-semibold px-6 py-2 rounded-lg shadow-md transition"
+                  >
+                    {submitting ? "Submitting..." : hasExistingBid ? "Update Bid" : "Make Bid"}
+                  </button>
+                </div>
               )}
 
-              <div className="flex flex-col gap-1">
-  <p className="text-green-500 text-sm font-semibold">{successmessage}</p>
-  <div className="flex flex-col md:flex-row md:items-center gap-2">
-    <label htmlFor="bidPrice" className="text-base text-gray-900 md:w-64">
-      Bid Price
-    </label>
-    <input
-      type="number"
-      id="bidPrice"
-      className="border border-gray-300 rounded-md px-4 py-2 w-full md:w-48 text-center text-gray-900 text-sm"
-      value={bidPrice}
-      onChange={(e) => setBidPrice(e.target.value)}
-      placeholder="Enter your bid"
-    />
-  </div>
-</div>
 
 
-              <div className="flex flex-col md:flex-row md:items-center gap-2">
-                <label htmlFor="bidMessage" className="text-base text-gray-900 md:w-64">
-                  Bid Message
-                </label>
-                <textarea
-                  id="bidMessage"
-                  className="border border-gray-300 rounded-md px-4 py-2 w-full md:w-48 text-gray-900 text-sm"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write a message for your bid"
-                  rows={3}
-                />
-              </div>
 
-              <button
-                onClick={handleMakeBid}
-                disabled={submitting}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold px-6 py-2 rounded-md w-full md:w-auto"
-              >
-                {submitting ? "Submitting..." : "Make Bid"}
-              </button>
-            </div>
           </div>
         </div>
       </div>

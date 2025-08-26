@@ -278,7 +278,47 @@ export function ProsStepBusinessDetails({ userId }) {
 </div>
 
 
-
+<div className="col-span-2 flex gap-10">
+            {/* Company Logo */}
+            <div>
+              <label className="block text-xs mb-2 text-gray-600">Company Logo</label>
+              <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+                {companyLogo ? (
+                  <img src={URL.createObjectURL(companyLogo)} className="w-full h-full object-cover rounded-md" />
+                ) : previewCompanyLogo ? (
+                  <img src={previewCompanyLogo} className="w-full h-full object-cover rounded-md" />
+                ) : (
+                  <span className="text-gray-400 text-3xl">+</span>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setCompanyLogo(e.target.files[0])}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </div>
+            </div>
+ 
+            {/* Owner License */}
+            <div>
+              <label className="block text-xs mb-2 text-gray-600">Owner License</label>
+              <div className="relative w-40 h-40 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+                {ownerLicense ? (
+                  <img src={URL.createObjectURL(ownerLicense)} className="w-full h-full object-cover rounded-md" />
+                ) : previewOwnerLicense ? (
+                  <img src={previewOwnerLicense} className="w-full h-full object-cover rounded-md" />
+                ) : (
+                  <span className="text-gray-400 text-3xl">+</span>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setOwnerLicense(e.target.files[0])}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
 
         
 

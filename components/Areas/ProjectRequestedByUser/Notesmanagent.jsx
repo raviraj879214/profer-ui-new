@@ -122,10 +122,10 @@ export function NotesTimeLine({ companyid , setrequestinfo ,projectstatus   }) {
                     />
                     <button
                         onClick={postOrUpdateNote}
-                        className={`self-end bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`self-end bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={loading}
                     >
-                        {loading ? "Sending..." : editingNoteId ? "Update" : "Send"}
+                        {loading ? "Requesting..." : editingNoteId ? "Update" : "Request"}
                     </button>
                 </div>
 

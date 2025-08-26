@@ -4,7 +4,9 @@ import {NotesTimeLine} from "../../Areas/CompaniesManagement/Notesmanagent";
 import {RejectPopup} from "../../Areas/CompaniesManagement/RejectModal";
 import {BlockPopup} from "../../Areas/CompaniesManagement/BlockModal";
 import {CompanyInfoTimeLine} from "../../Areas/CompaniesManagement/Companyinfo";
-
+import VerifiedLog from "../../../public/images/4.png";
+import Image from "next/image";
+import {formatDateToUS} from "../../../lib/utils/dateFormatter";
 
 export function CompanyManagement() {
   const [statusFilter, setStatusFilter] = useState("0"); // 0: Pending, 1: Approved, 2: Rejected
@@ -269,7 +271,7 @@ export function CompanyManagement() {
 
   const handleDataFromChild = (value) => {
     setrejectmodal(false);   
-    
+    debugger;
 
     if(value == "reject"){
       setIsModalOpen(false);
@@ -280,11 +282,11 @@ export function CompanyManagement() {
   };
     
   const handleDataBlockChild= (value) =>{
-    setIsModalOpen(false);
+    
     setblockmodal(false);
     if(value == "block"){
       setIsModalOpen(false);
-     setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
+      setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
       setSelectedIds([]);
       setMessage("Selected companies rejected successfully.");
     }
@@ -429,8 +431,8 @@ export function CompanyManagement() {
                 <th className="px-4 py-3">Contact</th>
                 <th className="px-4 py-3">Location</th>
                 <th className="px-4 py-3">Joined</th>
-               
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Verified/UnVerified</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
             </thead>
@@ -512,13 +514,15 @@ export function CompanyManagement() {
           {user.city ? `${user.city}, ${user.state}` : "N/A"}
         </td>
         <td className="px-4 py-4 text-sm text-gray-600">
-          {user.createdAt
+          {/* {user.createdAt
             ? new Date(user.createdAt).toLocaleDateString("en-US", {
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
               })
-            : "N/A"}
+            : "N/A"} */}
+
+           {formatDateToUS(user.createdAt)}
         </td>
         
         <td className="px-4 py-4 text-sm">
@@ -537,6 +541,22 @@ export function CompanyManagement() {
           
           }
         </td>
+        <td className={`px-4 py-4 font-medium ${
+          0 === 1 ? "text-green-700 bg-green-100" : "text-red-700"
+        } rounded-full text-center`}>
+          <span
+              className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                user.verifiedStatus == 0
+                  ? "bg-red-100 text-red-700"
+                  : "bg-green-100 text-green-700"
+              }`}
+            >
+              {user.verifiedStatus == 0 ? "UnVerified" : "Verified"}
+            </span>
+
+        </td>
+
+
         <td className="px-4 py-4 space-x-2">
           <button
             onClick={() => {handleView(user); toggleSelect(user.id)}}
@@ -605,8 +625,10 @@ export function CompanyManagement() {
             {/* Header */}
             <div className="flex justify-between items-center border-b px-6 py-4">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                   {selectedUser.businessDetails?.companyName || "Company Details"}
+                  
+                  {selectedUser.verifiedStatus == 1 && <Image src={VerifiedLog} alt="Verified Logo" width={24} height={24} />}
                 </h2>
               
               </div>
@@ -623,47 +645,39 @@ export function CompanyManagement() {
             <div className="p-6 overflow-y-auto flex-1 space-y-4">
               {/* Overview */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-               
-
                {selectedUser.rejectReason && (
-  <div className="border rounded-lg p-4 sm:col-span-2">
-    <dt className="font-semibold text-gray-900">Rejected Reason</dt>
-    <dd className="text-gray-700">{selectedUser.rejectReason}</dd>
-  </div>
-)}
+                    <div className="border rounded-lg p-4 sm:col-span-2">
+                      <dt className="font-semibold text-gray-900">Rejected Reason</dt>
+                      <dd className="text-gray-700">{selectedUser.rejectReason}</dd>
+                    </div>
+                  )}
 
-{selectedUser.blockReason && (
-  <div className="border rounded-lg p-4 sm:col-span-2">
-    <dt className="font-semibold text-gray-900">Blocked Reason</dt>
-    <dd className="text-gray-700">{selectedUser.blockReason}</dd>
-  </div>
-)}
-
+                  {selectedUser.blockReason && (
+                    <div className="border rounded-lg p-4 sm:col-span-2">
+                      <dt className="font-semibold text-gray-900">Blocked Reason</dt>
+                      <dd className="text-gray-700">{selectedUser.blockReason}</dd>
+                    </div>
+                  )}
                 
-
-                 
-
-
-                
-              
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Joined</dt>
-                  <dd className="text-gray-700">
-                    {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </dd>
-                </div>
               </div>
+
               {/* Contact Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Contact Person</dt>
+                  <dt className="font-semibold text-gray-900">Full Name</dt>
                   <dd className="text-gray-700">
                     {selectedUser.firstname} {selectedUser.lastname}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Joined</dt>
+                  <dd className="text-gray-700">
+                    {/* {new Date(selectedUser.createdAt).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })} */}
+                    {formatDateToUS(selectedUser.createdAt)}
                   </dd>
                 </div>
                 <div className="border rounded-lg p-4">
@@ -680,6 +694,22 @@ export function CompanyManagement() {
                   <dt className="font-semibold text-gray-900">Location</dt>
                   <dd className="text-gray-700">
                     {selectedUser.city}, {selectedUser.state} {selectedUser.zipCode}
+                  </dd>
+                </div>
+                <div className="border rounded-lg p-4">
+                  <dt className="font-semibold text-gray-900">Pro Verified</dt>
+                  <dd className="text-gray-700">
+                   <span
+                      className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        selectedUser.verifiedStatus == 0
+                          ? "bg-red-100 text-red-700"
+                          : "bg-green-100 text-green-700"
+                      }`}
+                    >
+                      {selectedUser.verifiedStatus == 0 ? "UnVerified" : "Verified"}
+                    </span>
+
+
                   </dd>
                 </div>
               </div>
@@ -700,24 +730,38 @@ export function CompanyManagement() {
                     {selectedUser.businessDetails?.ownerEmail}
                   </dd>
                 </div>
-                <div className="border rounded-lg p-4 sm:col-span-2">
-                  <dt className="font-semibold text-gray-900">Services</dt>
-                  <dd className="text-gray-700">
-                    {selectedUser.businessDetails?.services
-                      ? JSON.parse(selectedUser.businessDetails.services).join(", ")
-                      : "N/A"}
-                  </dd>
-                </div>
-                <div className="border rounded-lg p-4 sm:col-span-2">
-                  <dt className="font-semibold text-gray-900">Qualifications</dt>
-                  <dd className="text-gray-700">
-                    {selectedUser.businessDetails?.qualifications
-                      ? JSON.parse(selectedUser.businessDetails.qualifications).join(
-                          ", "
-                        )
-                      : "N/A"}
-                  </dd>
-                </div>
+               <div className="border rounded-lg p-4 sm:col-span-2">
+  <dt className="font-semibold text-gray-900 mb-2">Services</dt>
+  <dd className="flex flex-wrap gap-2">
+    {selectedUser.businessDetails?.services
+      ? JSON.parse(selectedUser.businessDetails.services).map((service, idx) => (
+          <span
+            key={idx}
+            className="bg-indigo-100 text-indigo-800 text-sm font-medium px-2.5 py-0.5 rounded-full"
+          >
+            {service}
+          </span>
+        ))
+      : "N/A"}
+  </dd>
+</div>
+
+<div className="border rounded-lg p-4 sm:col-span-2">
+  <dt className="font-semibold text-gray-900 mb-2">Qualifications</dt>
+  <dd className="flex flex-wrap gap-2">
+    {selectedUser.businessDetails?.qualifications
+      ? JSON.parse(selectedUser.businessDetails.qualifications).map((qualification, idx) => (
+          <span
+            key={idx}
+            className="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded-full"
+          >
+            {qualification}
+          </span>
+        ))
+      : "N/A"}
+  </dd>
+</div>
+
               </div>
               {/* Images */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -890,7 +934,51 @@ export function CompanyManagement() {
                             </svg>
                           </button>
                         </div>
+                       <p className="text-xs font-medium mt-1 flex items-center gap-2">
+  {cred.expirationDate ? (
+    (() => {
+      const expDate = new Date(cred.expirationDate);
+      const today = new Date();
+      const soon = new Date();
+      soon.setDate(today.getDate() + 30);
+
+      if (expDate < today) {
+        return (
+          <>
+            <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-semibold">
+              Expired
+            </span>
+            <span>{formatDateToUS(cred.expirationDate)}</span>
+          </>
+        );
+      } else if (expDate < soon) {
+        return (
+          <>
+            <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-semibold">
+              Expires Soon
+            </span>
+            <span>{formatDateToUS(cred.expirationDate)}</span>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-semibold">
+              Valid
+            </span>
+            <span>{formatDateToUS(cred.expirationDate)}</span>
+          </>
+        );
+      }
+    })()
+  ) : (
+    <span className="text-gray-500">N/A</span>
+  )}
+</p>
+
+
                       </div>
+                      
                     );
                   })}
                 </div>
@@ -898,7 +986,7 @@ export function CompanyManagement() {
             ))}
           </div>
         </div>
-      )}
+              )}
             </div>
             {/* Footer */}
             <div className="border-t px-6 py-3 flex justify-end space-x-3">
@@ -920,14 +1008,9 @@ export function CompanyManagement() {
 
 
                   {selectedUser.status === "4" && (
-
                     <button className="bg-red-500 text-white px-3 py-1 rounded" onClick={()=> {
-                      
                         setblockmodal(true);
                     }}>{deleterow ? "Blocking..." : "Block"}</button>
-
-
-
                   )}
 
 

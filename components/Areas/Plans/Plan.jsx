@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-
-
+import {dateFormatter, formatDateToUS} from "../../../lib/utils/dateFormatter";
+import {formatAmountUSD} from "../../../lib/utils/formatAmountUSD";
 
 
 export  function PlansPage() {
@@ -279,6 +279,10 @@ export  function PlansPage() {
           prev.map((p) => (p.id === plan.id ? { ...p, status: plan.status } : p))
         );
       }
+      else
+      {
+         fetchPlans();
+      }
     } catch (err) {
       console.error(err);
       alert("Server error");
@@ -293,55 +297,58 @@ export  function PlansPage() {
     <>
        
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Add / Update Form */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6">
-        {/* <h2 className="text-2xl font-semibold text-gray-800">{editId ? "Update Plan" : "Add Plan"}</h2> */}
+    
+  
 
-        {submitMessage && (
-          <div className="text-green-600 font-medium">{submitMessage}</div>
-        )}
-        {submitError && (
-          <div className="text-red-600 font-medium">{submitError}</div>
-        )}
-        {/* {message.text && (
-          <div className={`mt-2 mb-4 ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>
-            {message.text}
-          </div>
-        )} */}
-        <div className="space-y-4">
-          <button
-            onClick={handleFetchPlans}
-            disabled={submitting}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
-          >
-            {submitting ? "Fetching..." : "Fetch Plans"}
-          </button>
-        </div>
+     <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+  {submitMessage && (
+    <div className="text-green-600 font-medium">{submitMessage}</div>
+  )}
+  {submitError && (
+    <div className="text-red-600 font-medium">{submitError}</div>
+  )}
+  <div className="flex items-center space-x-4">
+    <button
+      onClick={handleFetchPlans}
+      disabled={submitting}
+      className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 flex items-center"
+    >
+      {submitting ? "Fetching from stripe..." : "Fetch Products"}
+    </button>
+    {submitting && (
+      <svg
+        className="animate-spin h-5 w-5 text-blue-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        ></path>
+      </svg>
+    )}
+    
+   
 
-        {/* <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            value={priceId}
-            onChange={(e) => setPriceId(e.target.value)}
-            placeholder="Enter Price ID ex:price_XXXXXXXXXXXXX"
-            className="w-full max-w-md border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-          />
-          <br/>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
-          >
-            {submitting ? (editId ? "Updating..." : "Adding...") : editId ? "Update" : "Add Plan"}
-          </button>
-        </form> */}
-      </div>
+  </div>
+</div>
+
 
       {/* Plans Table */}
    
 <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 space-y-6 mt-6">
   <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-    <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">Plans</h2>
+    <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">List of Products</h2>
 
     {selectedIds.length > 0 && (
       <button
@@ -373,12 +380,12 @@ export  function PlansPage() {
               onChange={handleSelectAll}
             />
           </th>
-          <th className="px-2 py-2 sm:px-4 sm:py-3">Price ID</th>
+         <th className="px-2 py-2 sm:px-4 sm:py-3">Image</th>
           <th className="px-2 py-2 sm:px-4 sm:py-3">Product Name</th>
           <th className="px-2 py-2 sm:px-4 sm:py-3">Amount</th>
           <th className="px-2 py-2 sm:px-4 sm:py-3">Interval</th>
           <th className="px-2 py-2 sm:px-4 sm:py-3">Status</th>
-          <th className="px-2 py-2 sm:px-4 sm:py-3">Image</th>
+        
           <th className="px-2 py-2 sm:px-4 sm:py-3">Created At</th>
           <th className="px-2 py-2 sm:px-4 sm:py-3">Description</th>
           {/* <th className="px-2 py-2 sm:px-4 sm:py-3 w-20 sm:w-1/4 text-center">Edit</th> */}
@@ -404,10 +411,16 @@ export  function PlansPage() {
                   onChange={() => handleSelectOne(plan.id)}
                 />
               </td>
-              <td className="px-2 py-2 sm:px-4 sm:py-4">{plan.priceId}</td>
+             <td className="px-2 py-2 sm:px-4 sm:py-4">
+                {plan.image ? (
+                  <img src={plan.image} alt={plan.productName} className="h-6 w-6 sm:h-8 sm:w-8 object-contain rounded" />
+                ) : (
+                  "-"
+                )}
+              </td>
               <td className="px-2 py-2 sm:px-4 sm:py-4">{plan.productName}</td>
-              <td className="px-2 py-2 sm:px-4 sm:py-4">${plan.amount}</td>
-              <td className="px-2 py-2 sm:px-4 sm:py-4">{plan.interval}</td>
+              <td className="px-2 py-2 sm:px-4 sm:py-4">{formatAmountUSD(plan.amount)}</td>
+              <td className="px-2 py-2 sm:px-4 sm:py-4">{plan.interval ? plan.interval : "--"}</td>
               <td className="px-2 py-2 sm:px-4 sm:py-4">
                 <button
                   onClick={() => handleToggleStatus(plan)}
@@ -423,23 +436,9 @@ export  function PlansPage() {
                   />
                 </button>
               </td>
+             
               <td className="px-2 py-2 sm:px-4 sm:py-4">
-                {plan.image ? (
-                  <img src={plan.image} alt={plan.productName} className="h-6 w-6 sm:h-8 sm:w-8 object-contain rounded" />
-                ) : (
-                  "-"
-                )}
-              </td>
-              <td className="px-2 py-2 sm:px-4 sm:py-4">
-                {new Date(plan.createdAt).toLocaleString("en-US", {
-                  month: "2-digit",
-                  day: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                  hour12: true,
-                })}
+                {formatDateToUS(plan.createdAt)}
               </td>
               <td className="px-2 py-2 sm:px-4 sm:py-4 align-middle">
                 <div className="max-w-[200px] sm:max-w-[350px] text-gray-700 text-xs sm:text-sm">

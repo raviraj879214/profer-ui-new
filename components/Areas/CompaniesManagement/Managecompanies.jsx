@@ -409,7 +409,7 @@ export function CompanyManagement() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full border px-3 py-2 rounded-lg text-sm"
-            style={{display : "none" }}
+            style={{display : "block" }}
           />
         </div>
 

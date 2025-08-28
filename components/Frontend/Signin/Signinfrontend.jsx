@@ -122,6 +122,9 @@ if (response.status === 403) {
         // Redirect based on role and status
         if (result.user.role === "Pro") {
           switch (result.user.status) {
+             case "-1":
+              window.location.href = "/pro/step-1";
+              break;
             case "0":
               window.location.href = "/pro/step-1";
               break;

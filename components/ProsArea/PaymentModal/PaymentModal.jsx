@@ -33,7 +33,6 @@ export function UpgradeModal() {
           setTimeout(() => {
             router.push("/pro/pro-credentials");
           }, 3000);
-          
         } 
       }
     }

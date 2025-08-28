@@ -253,7 +253,7 @@ export function CompanyManagement() {
     }
   }, [message]);
 
-   const statusLabels = { 0: "Pending", 4: "Approved", 5: "Blocked" , 6 : "Expired" , 7 : "Rejected" };
+   const statusLabels = { "-1": "Free Trial", 0: "Pending", 4: "Approved", 5: "Blocked" , 6 : "Expired" , 7 : "Rejected" };
 
 
     const approvesingle = (id)=>{
@@ -309,6 +309,7 @@ export function CompanyManagement() {
         {/* Tabs */}
         <div className="flex space-x-4 mb-6 border-b">
           {[
+            { label: "Free Trial", value: "-1" },
             { label: "Pending", value: "0" },
             { label: "Approved", value: "4" },
             { label: "Blocked", value: "5" },
@@ -525,24 +526,24 @@ export function CompanyManagement() {
            {formatDateToUS(user.createdAt)}
         </td>
         
-        <td className="px-4 py-4 text-sm">
-          {user.status === "0" ? (
-            <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
-          ) : user.status === "4" ? (
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Approved</span>
-          )
-          : user.status === "5" ? (
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Blocked</span>
-          ): user.status === "6" ? (
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Expired</span>
-          ) : (
-            <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Rejected</span>
-          )
-          
-          }
-        </td>
+       <td className="px-4 py-4 text-sm">
+  {user.status === "-1" ? (
+    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Free Trial</span>
+  ) : user.status === "0" ? (
+    <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
+  ) : user.status === "4" ? (
+    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Approved</span>
+  ) : user.status === "5" ? (
+    <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Blocked</span>
+  ) : user.status === "6" ? (
+    <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">Expired</span>
+  ) : (
+    <span className="px-2 py-1 bg-pink-100 text-pink-800 rounded-full text-xs">Rejected</span>
+  )}
+</td>
+
         <td className={`px-4 py-4 font-medium ${
-          0 === 1 ? "text-green-700 bg-green-100" : "text-red-700"
+          user.verifiedStatus === 1 ? "text-green-700 bg-green-100" : "text-red-700"
         } rounded-full text-center`}>
           <span
               className={`px-3 py-1 rounded-full text-sm font-semibold ${

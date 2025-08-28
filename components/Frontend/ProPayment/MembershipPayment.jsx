@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import CheckoutForm from "../../checkout";
 import Link from "next/link";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
+import Cookies from "js-cookie";
+import { CreditCard, Gift } from "lucide-react"; // if using lucide-react icons
 
 export function ProsCheckout({ clientSecret, amount }) {
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
@@ -15,6 +17,16 @@ export function ProsCheckout({ clientSecret, amount }) {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // NEW: password visibility state
+  const [activeTab, setActiveTab] = useState("pro");
+   
+
+    useEffect(()=>{
+      const trialStatus = Cookies.get("FreeTrial");
+      setActiveTab(trialStatus);
+
+     
+    },[]);
+
 
   const onSubmit = async (data) => {
     try {
@@ -42,7 +54,13 @@ export function ProsCheckout({ clientSecret, amount }) {
       if (res.ok && result.status === 200) {
         console.log("Payment successful:", result);
          const priceId = await getStripeActivePlan();
-        handleCheckout(`${priceId}`);
+         if(activeTab == "free"){
+            handleFreeregistration();
+         }
+         else if(activeTab == "pro"){
+            handleCheckout(`${priceId}`);
+         }
+        
       }
     }
     catch (error) {
@@ -52,11 +70,17 @@ export function ProsCheckout({ clientSecret, amount }) {
 
 
 
+  const handleFreeregistration=()=>{
+    
+
+  }
 
 
 
 
   const handleCheckout = async (priceId) => {
+
+
     const res = await fetch('/api/checkout', {
       method: 'POST',
       body: JSON.stringify({ priceId }),
@@ -64,6 +88,7 @@ export function ProsCheckout({ clientSecret, amount }) {
     });
     const data = await res.json();
     window.location.href = data.url;
+    
   };
 
   const fetchprodetails = async () => {
@@ -90,6 +115,10 @@ export function ProsCheckout({ clientSecret, amount }) {
   useEffect(() => {
     fetchprodetails();
   }, []);
+
+
+
+
 
   return (
     <main className="max-w-xl mx-auto px-6 py-20 text-gray-800 relative">
@@ -212,6 +241,14 @@ export function ProsCheckout({ clientSecret, amount }) {
               )}
             </div>
           </div>
+              
+         
+            <PlanSelector activeTab ={activeTab} setActiveTab = {setActiveTab}></PlanSelector>
+
+            
+          
+
+                
 
           {/* Terms & Conditions */}
           <div className="flex flex-col mt-6">
@@ -233,19 +270,33 @@ export function ProsCheckout({ clientSecret, amount }) {
         </Link>{" "}
         of the Pro Purchase Agreement
       </label>
-</div>
+          </div>
 
 
-  {errors.terms && (
-    <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
-  )}
-</div>
- <button
-          type="submit"
-          className="mt-4 w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition"
-          disabled={button}>
-          {button ? "Processing..." : "Proceed To Payment"}
-        </button>
+            {errors.terms && (
+              <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
+            )}
+          </div>
+
+
+            
+
+
+
+
+
+          <button
+                type="submit"
+                className="mt-4 w-full bg-[#0a113c] text-white font-semibold px-5 py-2 rounded-full hover:bg-[#080d2b] transition"
+                disabled={button}>
+               {button 
+                  ? "Processing..." 
+
+                  : activeTab === "pro" 
+                    ? "Proceed To Payment" 
+                    : "Click To Register"
+                }
+          </button>
         </fieldset>
 
        
@@ -264,5 +315,67 @@ export function ProsCheckout({ clientSecret, amount }) {
         )}
       </div>
     </main>
+  );
+}
+
+
+
+
+function PlanSelector({ activeTab, setActiveTab }) {
+const [price, setPrice] = useState(null);
+    
+  useEffect(()=>{
+ async function fetchPrice() {
+          try {
+            const res = await fetch("/api/stripe-price"); // works in localhost and production
+            const data = await res.json();
+            setPrice(data);
+          } catch (error) {
+            console.error("Error fetching price:", error);
+          }
+        }
+        fetchPrice();
+  },[]);
+  return (
+    <div className="w-full mt-5">
+      {/* Label */}
+      <p className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+        <CreditCard className="w-5 h-5 text-blue-600" />
+        Select Account Method
+      </p>
+
+      {/* Toggle Buttons */}
+      <ul className="flex w-full text-sm font-medium text-gray-600 dark:text-gray-300 gap-3">
+        {/* Pro Plan Tab */}
+        <li className="w-1/2">
+          <button
+            onClick={() => setActiveTab("pro")}
+            className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
+              activeTab === "pro"
+                ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
+                : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
+            }`}
+          >
+            <CreditCard className="w-5 h-5 mb-1" />
+            Current Plan $ {price ? price.amount : "..."}
+          </button>
+        </li>
+
+        {/* Free Version Tab */}
+        <li className="w-1/2">
+          <button
+            onClick={() => setActiveTab("free")}
+            className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
+              activeTab === "free"
+                ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
+                : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
+            }`}
+          >
+            <Gift className="w-5 h-5 mb-1" />
+            Free Version
+          </button>
+        </li>
+      </ul>
+    </div>
   );
 }

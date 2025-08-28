@@ -2,14 +2,22 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
-
+import Cookies from "js-cookie";
 
 
 export function SelectProPlan(){
     const router = useRouter();
+
+
     const [price, setPrice] = useState(null);
     const handleplan=()=>{
+        Cookies.set("FreeTrial", "pro", { expires: 7, path: "/" });
         router.push("/email-verify");
+    }
+
+    const freeplan=()=>{
+       Cookies.set("FreeTrial", "free", { expires: 7, path: "/" });
+       router.push("/email-verify");
     }
 
 
@@ -86,8 +94,13 @@ export function SelectProPlan(){
               </li>
             </ul>
             <p className="text-blue-400 font-semibold">Free to use</p>
-            <button  className="bg-red-500 text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-red-600 transition">
-              Coming Soon
+            <button
+            onClick={()=>[
+              freeplan()
+            ]}
+            
+            className="bg-red-500 text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-red-600 transition">
+              Select
             </button>
           </div>
         </div>

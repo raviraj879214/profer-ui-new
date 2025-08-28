@@ -1,4 +1,5 @@
 
+import { UpgradeModal } from "@/components/ProsArea/PaymentModal/PaymentModal";
 import ProsStepNextCredentials from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
 
 
@@ -17,7 +18,7 @@ export default function Page(){
 
     return(<>
        
-
+      <UpgradeModal></UpgradeModal>
       <ProsStepNextCredentials></ProsStepNextCredentials>
 
     </>);

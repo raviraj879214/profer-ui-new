@@ -23,8 +23,6 @@ export function ProsCheckout({ clientSecret, amount }) {
     useEffect(()=>{
       const trialStatus = Cookies.get("FreeTrial");
       setActiveTab(trialStatus);
-
-     
     },[]);
 
 
@@ -66,12 +64,14 @@ export function ProsCheckout({ clientSecret, amount }) {
     catch (error) {
       console.log("Error during payment:", error);
     }
+      setbutton(false);
   };
 
 
 
   const handleFreeregistration=()=>{
     
+    router.push("/create-free-account")
 
   }
 
@@ -243,7 +243,7 @@ export function ProsCheckout({ clientSecret, amount }) {
           </div>
               
          
-            <PlanSelector activeTab ={activeTab} setActiveTab = {setActiveTab}></PlanSelector>
+            <PlanSelector activeTab ={activeTab} setActiveTab = {setActiveTab} />
 
             
           
@@ -277,12 +277,6 @@ export function ProsCheckout({ clientSecret, amount }) {
               <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>
             )}
           </div>
-
-
-            
-
-
-
 
 
           <button
@@ -347,34 +341,38 @@ const [price, setPrice] = useState(null);
       {/* Toggle Buttons */}
       <ul className="flex w-full text-sm font-medium text-gray-600 dark:text-gray-300 gap-3">
         {/* Pro Plan Tab */}
-        <li className="w-1/2">
-          <button
-            onClick={() => setActiveTab("pro")}
-            className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
-              activeTab === "pro"
-                ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
-                : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
-            }`}
-          >
-            <CreditCard className="w-5 h-5 mb-1" />
-            Current Plan $ {price ? price.amount : "..."}
-          </button>
-        </li>
+       {/* Pro Plan Tab */}
+<li className="w-1/2">
+  <button
+    type="button"   // <-- ADD THIS
+    onClick={() => setActiveTab("pro")}
+    className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
+      activeTab === "pro"
+        ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
+        : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
+    }`}
+  >
+    <CreditCard className="w-5 h-5 mb-1" />
+    Current Plan $ {price ? price.amount : "..."}
+  </button>
+</li>
 
-        {/* Free Version Tab */}
-        <li className="w-1/2">
-          <button
-            onClick={() => setActiveTab("free")}
-            className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
-              activeTab === "free"
-                ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
-                : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
-            }`}
-          >
-            <Gift className="w-5 h-5 mb-1" />
-            Free Version
-          </button>
-        </li>
+{/* Free Version Tab */}
+<li className="w-1/2">
+  <button
+    type="button"   // <-- ADD THIS
+    onClick={() => setActiveTab("free")}
+    className={`flex flex-col items-center justify-center w-full px-4 py-3 rounded-xl border transition shadow-sm ${
+      activeTab === "free"
+        ? "border-blue-600 text-blue-600 bg-blue-50 font-semibold shadow-md"
+        : "border-gray-300 hover:border-blue-400 hover:text-blue-500"
+    }`}
+  >
+    <Gift className="w-5 h-5 mb-1" />
+    Free Version
+  </button>
+</li>
+
       </ul>
     </div>
   );

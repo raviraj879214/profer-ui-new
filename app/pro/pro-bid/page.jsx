@@ -1,7 +1,7 @@
 
 
 import { Bid } from "../../../components/ProsArea/BidManagement/BidManagementList";
-
+import {UpgradeModal} from "../../../components/ProsArea/PaymentModal/PaymentModal";
 
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-      
+      <UpgradeModal></UpgradeModal>
     
       <Bid></Bid>
       

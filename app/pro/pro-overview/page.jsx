@@ -2,7 +2,7 @@
 
 import {ProDash} from "../../../components/ProsArea/ProDashboard/ProfileDashboard";
 
-
+import {UpgradeModal} from "../../../components/ProsArea/PaymentModal/PaymentModal";
 
 
 
@@ -17,7 +17,7 @@ export const metadata = {
 export default function ProProfile() {
   return (
     <>
-     
+     <UpgradeModal></UpgradeModal>
      <ProDash></ProDash>
     </>
   );

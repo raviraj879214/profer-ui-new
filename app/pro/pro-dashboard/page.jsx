@@ -1,6 +1,6 @@
 import { ProDash } from "../../../components/ProsArea/ProDash/ProsDashboard";
 import { ProDashBoardHero } from "../../../components/ProsArea/shared/ProDashBoardCard";
-
+import {UpgradeModal} from "../../../components/ProsArea/PaymentModal/PaymentModal";
 
 
 
@@ -19,12 +19,8 @@ export default function Page(){
 
     return(<>
 
+        <UpgradeModal />
       <ProDash></ProDash>
     
-
-
-
-
-
     </>);
 }

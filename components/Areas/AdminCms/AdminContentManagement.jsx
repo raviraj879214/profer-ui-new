@@ -48,7 +48,7 @@ export function AdminCms() {
         try {
             setLoading(true);
             if (!selectedCategory) {
-                setMessage({ text: "Please select a category.", type: "error" });
+                setMessage({ text: "Please select a page.", type: "error" });
                 return;
             }
 
@@ -131,7 +131,7 @@ export function AdminCms() {
                 {/* Category Dropdown */}
                 <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">
-                        Select Category
+                        Select page
                     </label>
                     <select
                         value={selectedCategory || ""}
@@ -139,7 +139,7 @@ export function AdminCms() {
                         className="w-full md:w-64 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                         <option value="" disabled>
-                            Choose a category
+                            Choose a page
                         </option>
                         {categories.map((cat) => (
                             <option key={cat.value} value={cat.value}>

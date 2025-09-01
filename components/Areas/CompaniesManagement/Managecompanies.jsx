@@ -100,9 +100,10 @@ export function CompanyManagement() {
 
   const deleteSelected = async () => {
     debugger;
-      if (!confirm("Are you sure you want to delete the selected item(s)?")) {
+      if (!confirm("Are you sure you want to approve the selected item(s)?")) {
         return null; // user pressed Cancel
       }
+
     setDeleterow(true);
     if (selectedIds.length === 0) return;
     try {
@@ -283,13 +284,14 @@ export function CompanyManagement() {
   };
     
   const handleDataBlockChild= (value) =>{
-    
+    debugger;
     setblockmodal(false);
+
     if(value == "block"){
       setIsModalOpen(false);
       setUsers((prev) => prev.filter((u) => !selectedIds.includes(u.id)));
       setSelectedIds([]);
-      setMessage("Selected companies rejected successfully.");
+      setMessage("Selected companies blocked successfully.");
     }
   }
 
@@ -370,31 +372,8 @@ export function CompanyManagement() {
 )}
 
 
-    {statusFilter === "4" && (
-      <>
-        {/* Block Button for Approved */}
-        <button
-          onClick={blockedSelected}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
-          disabled={blockrow}
-        >
-          {blockrow ? "Loading..." : `Block Selected (${selectedIds.length})`}
-        </button>
-      </>
-    )}
-
-    {statusFilter === "5" && (
-      <>
-        {/* Unblock Button for Blocked */}
-        <button
-          onClick={unblockSelected}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
-          disabled={unblockrow}
-        >
-          {unblockrow ? "Loading..." : `Unblock Selected (${selectedIds.length})`}
-        </button>
-      </>
-    )}
+    
+   
   </>
 )}
 
@@ -652,7 +631,7 @@ export function CompanyManagement() {
               </div>
               <button
                 onClick={() => {
-                setIsModalOpen(false), setSelectedIds([]),  setNotePopup(false) , setrejectmodal(false)
+                setIsModalOpen(false), setSelectedIds([]),  setNotePopup(false) , setrejectmodal(false) 
                 }}
                 className="text-gray-500 hover:text-gray-800 text-lg"
               >
@@ -882,21 +861,7 @@ export function CompanyManagement() {
           </dd>
         </div>
       </div>
-              {/* Subscription */}
-              {selectedUser.subscriptions && selectedUser.subscriptions.length > 0 && (
-                <div className="border rounded-lg p-4">
-                  <dt className="font-semibold text-gray-900">Subscription</dt>
-                  <dd className="text-gray-700">
-                    Plan: {selectedUser.subscriptions[0].PlanName} (
-                    {selectedUser.subscriptions[0].PlanType})
-                    <br />
-                    Status: {selectedUser.subscriptions[0].Status}
-                    <br />
-                    Amount: {selectedUser.subscriptions[0].Amount}{" "}
-                    {selectedUser.subscriptions[0].Currency}
-                  </dd>
-                </div>
-              )}
+             
               {/* Credentials */}
             {selectedUser.credentials && selectedUser.credentials.length > 0 && (
         <div className="border rounded-lg p-4">
@@ -1016,7 +981,7 @@ export function CompanyManagement() {
                           deleteSelected();
                           setIsModalOpen(false);
                         }}
-                      >{deleterow ? "Deleting .." : "Approve"}</button>
+                      >{deleterow ? "Approving .." : "Approve"}</button>
                       <button className="bg-red-500 text-white px-3 py-1 rounded ml-2" onClick={()=>{
                         setrejectmodal(true);
                         

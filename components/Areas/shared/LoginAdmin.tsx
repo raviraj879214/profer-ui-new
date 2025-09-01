@@ -16,15 +16,15 @@ export function LoginAdminFrontend() {
 
 
 
-  useEffect(()=>{ 
-    const loginstatus = localStorage.getItem("LoginStatus");
-    if(loginstatus === "true"){
-      router.push("/admin/dashboard");
-    }
-    else{
-       router.push("/admin-login");
-    }
-  },[]);
+  // useEffect(()=>{ 
+  //   const loginstatus = localStorage.getItem("LoginStatus");
+  //   if(loginstatus === "true"){
+  //     router.push("/admin/dashboard");
+  //   }
+  //   else{
+  //      router.push("/admin-login");
+  //   }
+  // },[]);
 
 
 

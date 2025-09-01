@@ -344,7 +344,7 @@ export function SearchForPros({ companyname, zipcode }) {
                         {status == "0" ? "Unverified" : "Verified"}
                       </td>
                       <td className="py-3" onClick={()=>{
-                        router.push(`/pro-profile-details/${id}`)
+                        router.push(`/pro-overview/${id}`)
                       }}>
 
                         <img

@@ -76,9 +76,15 @@ export function Projectmanagement() {
   const filteredProjects = projects.filter((project) => {
     const projectStatusLabel = statusLabels[project.status];
     const matchesStatus = filter === "All" || projectStatusLabel === filter;
-    const matchesSearch =
-      project.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+  const matchesSearch =
+  project.projectid?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+  project.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  project.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+
+
+
+
+
     return matchesStatus && matchesSearch;
   });
 
@@ -318,7 +324,7 @@ export function Projectmanagement() {
              <option value="DRAFT">Draft</option>
             <option value="Bidding Not Started">Bidding Not Started</option>
             <option value="Bidding Active">Bidding Active</option>
-            <option value="Biding Completed">Bidding Completed</option>
+            <option value="Bidding Completed">Bidding Completed</option>
           </select>
 
           <input

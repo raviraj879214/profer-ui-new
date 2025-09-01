@@ -7,7 +7,12 @@ export function BlockPopup({sendData , userid}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [button,setbutton]= useState(false);
     const onSubmit =async (data) => {
-        if(confirm("Are you sure you want to reject this?"))
+       
+
+
+           if (!confirm("Are you sure you want to block this?")) {
+        return null; // user pressed Cancel
+      }
        setbutton(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/block-companies/${userid}`,
             {
@@ -24,7 +29,7 @@ export function BlockPopup({sendData , userid}) {
         if(res.ok){
             const result  = await res.json();
             if(result.status == 200){
-                sendData("reject");
+                sendData("block");
             }
         }
         setbutton(true);

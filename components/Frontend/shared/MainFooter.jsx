@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { Header } from "../../Frontend/shared/Header";
 import { ProHeader } from "../../ProsArea/shared/ProHeader";
 import { usePathname, useRouter } from "next/navigation";
+import { Footer } from "./Footer";
+import {AdminFooter} from "../../Areas/shared/Footer";
 
-export function MainHeader() {
+export function MainFooter() {
   const [role, setRole] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -29,19 +31,8 @@ export function MainHeader() {
 
   // ✅ Hide header for admin inside /admin
   if (role === "admin" && pathname.startsWith("/admin")) {
-    return null;
-  }
-
-  // ✅ Show ProHeader for Pros
-  if (role === "Pro") {
-    return <ProHeader />;
+    return <AdminFooter />;
   }
   
-
-  // ✅ Default header for everyone else
-    
-  
-    
-  
-  return <Header />;
+  return <Footer />;
 }

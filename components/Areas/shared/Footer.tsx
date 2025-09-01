@@ -3,18 +3,14 @@ import { Logo } from "./Logo";
 
 
 
-export function Footer() {
+export function AdminFooter() {
   return (
     <footer className="bg-gray-900 text-gray-200 py-10 px-6 flex flex-wrap items-center justify-between">
         <div className="flex items-center space-x-2">
           <Logo isFooter />
           <span className="text-sm">© 2025 Profer</span>
         </div>
-        <div className="space-x-6 text-sm underline flex items-center">
-          <a href="/terms">Terms</a>
-          <a href="/privacy">Privacy</a>
-          <a href="#">Contact</a>
-        </div>
+        
 
         <div className="flex-shrink-0">
           <img

@@ -1,30 +1,22 @@
-"use client"; // <-- Add this at the top
+"use client";
 
 import "./globals.css";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import {SiteLayout} from "./SiteLayout";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-
-
+import { SiteLayout } from "./SiteLayout";
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-   const pathname = usePathname();
-   const isAdmin = pathname.startsWith("/admin");
-   const searchParams = useSearchParams();
-   const isExportMode = searchParams.get("export") === "true";
- 
-
+  const isAdmin = pathname?.startsWith("/admin");
+  const isExportMode = searchParams?.get("export") === "true";
 
   return (
-
     <html lang="en">
-     <body className={`flex flex-col min-h-screen ${!isAdmin && !isExportMode ? "pt-20" : ""}`}>
-
-       <main className="flex-grow">
+      <body className={`flex flex-col min-h-screen ${!isAdmin && !isExportMode ? "pt-20" : ""}`}>
+        <main className="flex-grow">
           {isExportMode ? (
-           
             children
           ) : (
             <GoogleReCaptchaProvider
@@ -34,12 +26,7 @@ export default function RootLayout({ children }) {
             </GoogleReCaptchaProvider>
           )}
         </main>
-
-       
       </body>
     </html>
-
-
-    
   );
 }

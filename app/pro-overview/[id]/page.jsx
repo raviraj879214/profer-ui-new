@@ -119,6 +119,7 @@ export default function ProOverviewPage() {
 
 
 
+{!isExportMode && (
  <nav className="flex justify-center space-x-6">
     <Link
       href={`/pro-overview/${id}`}
@@ -140,6 +141,8 @@ export default function ProOverviewPage() {
     </Link>
    
   </nav>
+  )}
+ 
   <br/>
 
 

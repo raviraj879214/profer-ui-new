@@ -19,7 +19,9 @@ export  function SiteLayout({ children }) {
    
       <>
       { <MainHeader />}
+      
         {children}
+
       {<MainFooter />}
       </>
         

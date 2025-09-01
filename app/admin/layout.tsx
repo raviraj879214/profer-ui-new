@@ -2,7 +2,6 @@
  
 import { useState } from "react";
 import { AuthGuard } from "@/components/adminguard/AuthGuard";
-import { Footer } from "@/components/Areas/shared/Footer";
 import { Sidebar } from "@/components/Areas/shared/Sidebar";
 import { SidebarProvider } from "@/components/context/SidebarContext";
 import { AdminSubHeader } from "../../components/Areas/shared/AdminSubHeader";

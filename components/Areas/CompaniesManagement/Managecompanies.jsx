@@ -7,6 +7,7 @@ import {CompanyInfoTimeLine} from "../../Areas/CompaniesManagement/Companyinfo";
 import VerifiedLog from "../../../public/images/4.png";
 import Image from "next/image";
 import {formatDateToUS} from "../../../lib/utils/dateFormatter";
+import { useRouter } from "next/navigation";
 
 export function CompanyManagement() {
   const [statusFilter, setStatusFilter] = useState("0"); // 0: Pending, 1: Approved, 2: Rejected
@@ -20,7 +21,7 @@ export function CompanyManagement() {
   const [blockrow, setBlockrow] = useState(false);
   const [unblockrow,setUnBlockrow] = useState(false);
   const [rejectrow , setrejectrow] = useState(false);
-
+  const router = useRouter();
 
 
 
@@ -434,6 +435,7 @@ export function CompanyManagement() {
                 <th className="px-4 py-3">Joined</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Verified/UnVerified</th>
+                <th className="px-4 py-3">Subscription Details</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
             </thead>
@@ -556,7 +558,22 @@ export function CompanyManagement() {
             </span>
 
         </td>
-
+              <td className="px-4 py-4 space-x-2">
+           {user.status === "-1" ? (
+              <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
+                Free Trial
+              </span>
+            ) : (
+              <button
+                onClick={() =>
+                  router.push(`/admin/subscription-details?userId=${user.id}`)
+                }
+                className="border border-gray-300 text-gray-700 rounded-md px-3 py-1 text-xs hover:bg-gray-100"
+              >
+                View
+              </button>
+            )}
+         </td>
 
         <td className="px-4 py-4 space-x-2">
           <button

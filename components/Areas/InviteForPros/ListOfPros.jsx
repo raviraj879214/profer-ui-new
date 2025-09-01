@@ -329,15 +329,20 @@ const idParam = selectedIds.join(",");
     "N/A"
   )}
 </td>
-           <td className="px-4 py-4 space-x-2 text-center">
+          <td className="px-4 py-4 space-x-2 text-center">
   <button
     title="Send Email Reminder"
     onClick={() => handleEmailReminder(user)}
-    className="p-2 rounded hover:bg-gray-100"
+    className={`p-2 rounded hover:bg-gray-100 ${
+      user.Status === 1 ? 'cursor-not-allowed' : ''
+    }`}
+    disabled={user.Status === 1}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6 text-blue-600"
+      className={`h-6 w-6 ${
+        user.Status === 1 ? 'text-gray-300' : 'text-blue-600'
+      }`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -351,6 +356,7 @@ const idParam = selectedIds.join(",");
     </svg>
   </button>
 </td>
+
 
 
        

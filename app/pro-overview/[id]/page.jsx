@@ -37,7 +37,7 @@ export default function ProOverviewPage() {
   // Fetch Pro details
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/get-pros/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-pros/${id}`)
         .then((res) => res.json())
         .then((data) => setPro(data));
     }
@@ -46,7 +46,7 @@ export default function ProOverviewPage() {
   // Fetch Pro credentials
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/pro/${id}/credentials`)
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/pro/${id}/credentials`)
         .then((res) => res.json())
         .then((data) => setCredentials(data.data || [])); // <-- use data.data
     }
@@ -70,9 +70,9 @@ export default function ProOverviewPage() {
   return (
     <>
          
-    <div className={isExportMode ? "print-content w-[1200px] mx-auto" : ""}>
+    <div className={isExportMode ? "p-4 md:p-6" : "p-4 md:p-6"}>
 
-    <div className=" relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md  w-full">
+    <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
       {/* Left Side: Logo + Info */}
       <div className="flex items-center space-x-4 sm:space-x-6">
         {/* Logo with rounded corners */}
@@ -305,7 +305,7 @@ export default function ProOverviewPage() {
                   <p className="font-semibold text-gray-700 text-l">{cred.name}</p>
                   {cred.fileUrl?.endsWith(".pdf") ? (
                     <embed
-                      src={`http://localhost:8000${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                      src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                       type="application/pdf"
                       width="100%"
                       height="200px"
@@ -313,7 +313,7 @@ export default function ProOverviewPage() {
                     />
                   ) : (
                     <img
-                      src={`http://localhost:8000${cred.fileUrl}`}
+                      src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
                       alt={cred.name}
                       className="w-full h-32 object-contain border rounded"
                     />

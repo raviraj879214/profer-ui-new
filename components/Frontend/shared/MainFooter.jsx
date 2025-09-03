@@ -10,6 +10,7 @@ export function MainFooter() {
   const [role, setRole] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
+  const isProOverview = pathname.startsWith("/prooverview");
 
   useEffect(() => {
     // Get cookie value for role
@@ -29,10 +30,19 @@ export function MainFooter() {
     }
   }, [role, pathname, router]);
 
+  
+  if(isProOverview){
+    return null;
+  }
+
+
+  
   // ✅ Hide header for admin inside /admin
   if (role === "admin" && pathname.startsWith("/admin")) {
     return <AdminFooter />;
   }
+
+  
   
   return <Footer />;
 }

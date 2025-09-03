@@ -29,7 +29,7 @@ export async function POST(request) {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
     
     // Navigate to the pro overview page
-    await page.goto(`${process.env.NEXT_FORNTEND_PUBLIC_URL}/pro-overview/${id}?export=true`, {
+    await page.goto(`${process.env.NEXT_FORNTEND_PUBLIC_URL}/prooverview/${id}?export=true`, {
       waitUntil: 'networkidle0'
     });
     

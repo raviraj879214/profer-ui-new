@@ -34,7 +34,6 @@ export function AdminCms() {
                     CmsText: page.CmsText,
                 }));
                 setCategories(options);
-                
             } else {
                 setMessage({ text: "Failed to fetch categories: " + result.message, type: "error" });
             }
@@ -73,6 +72,11 @@ export function AdminCms() {
             const result = await res.json();
             if (res.ok && result.status === 200) {
                 setMessage({ text: "Content saved successfully!", type: "success" });
+
+                // ✅ Reload categories
+                await fetchCmsCategories();
+
+                // ✅ Reset dropdown + editor
                 setSelectedCategory(null);
                 setText("");
             } else {
@@ -85,17 +89,20 @@ export function AdminCms() {
         }
     };
 
-    const onchnageCategory = (data) => {
+    const onChangeCategory = (data) => {
         setSelectedCategory(data);
         const selectedPage = categories.find((x) => x.value === data);
         if (selectedPage) {
             setText(selectedPage.CmsText);
+        } else {
+            setText("");
         }
     };
 
+    // Run only once on mount
     useEffect(() => {
         fetchCmsCategories();
-    }, [selectedCategory]);
+    }, []);
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -135,7 +142,7 @@ export function AdminCms() {
                     </label>
                     <select
                         value={selectedCategory || ""}
-                        onChange={(e) => onchnageCategory(parseInt(e.target.value))}
+                        onChange={(e) => onChangeCategory(parseInt(e.target.value))}
                         className="w-full md:w-64 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                         <option value="" disabled>
@@ -156,7 +163,11 @@ export function AdminCms() {
                     </label>
                     <Editor
                         value={text}
-                        onTextChange={(e) => setText(e.htmlValue)}
+                        onTextChange={(e) => {
+                            if (e.htmlValue !== text) {
+                                setText(e.htmlValue);
+                            }
+                        }}
                         style={{ height: "400px" }}
                         className="border rounded-md"
                     />

@@ -22,7 +22,7 @@ export  function SiteLayout({ children }) {
       
         {children}
 
-      {<MainFooter />}
+        {<MainFooter />}
       </>
         
    

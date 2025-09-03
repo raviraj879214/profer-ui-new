@@ -38,7 +38,7 @@ export default function RenewSuccess() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       userId,
-      sessionId: sessionData.id, // Checkout Session ID
+      stripeSubscriptionId: sessionData.id, // Checkout Session ID
       planName: sessionData.plan?.name || "P",
       planType: sessionData.plan?.type || "Y",
       amount: sessionData.amount_total / 100,

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import {ActivityLog} from "../../reusable/Loging";
 import {Dashboardwidgets} from "../../Areas/Dashboard/Dashboardwidgets";
+import {DoughnutChartDemo} from "../../Areas/Dashboard/Platformactivity";
 // Dummy Stats
 
 
@@ -46,7 +47,7 @@ export function AdminDashboard() {
         {/* Tab Buttons */}
         <div className="border-b px-4 sm:px-6">
           <nav className="flex flex-wrap gap-2 sm:space-x-8 text-sm font-medium">
-            {['Recent Activity', 'Platform Analytics'].map((tab) => (
+            {['Recent Activity', 'Projects Analytics' , 'Companies Analytics'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -78,9 +79,23 @@ export function AdminDashboard() {
           )}
 
           {/* Platform Analytics Placeholder */}
-          {activeTab === 'Platform Analytics' && (
-            <div className="text-gray-500 text-sm">Platform analytics content goes here.</div>
+          {activeTab === 'Projects Analytics' && (
+            <div className="text-gray-500 text-sm">
+              
+                <DoughnutChartDemo></DoughnutChartDemo>
+
+            </div>
           )}
+          
+           {activeTab === 'Companies Analytics' && (
+            <div className="text-gray-500 text-sm">
+              
+                <DoughnutChartDemo></DoughnutChartDemo>
+
+            </div>
+          )}
+
+
         </div>
       </div>
     </main>

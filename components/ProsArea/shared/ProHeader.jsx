@@ -10,7 +10,8 @@ import {
   BuildingOffice2Icon,
   ShieldCheckIcon,
   ClipboardDocumentListIcon,
-  CreditCardIcon 
+  CreditCardIcon ,
+  BellIcon
 } from "@heroicons/react/24/outline";
 import { Logo } from "@/components/Areas/shared/Logo";
 
@@ -31,7 +32,9 @@ export function ProHeader() {
     { name: "ProFile™ Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
     { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
+     { name: "Subscription Details", href: "/pro/pro-subscribe", icon: CreditCardIcon },
     { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
+   
     // { name: "Subscription Details", href: "/pro/pro-subscription", icon: CreditCardIcon }
   ];
 

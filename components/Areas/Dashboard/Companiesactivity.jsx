@@ -14,7 +14,7 @@ export function CompaniesChartDemo() {
   useEffect(() => {
     // Fetch analytics from backend
     axios
-      .get("http://localhost:8000/api/get-companies-analytics")
+      .get(`${process.env.NEXT_PUBLIC_URL}/api/get-companies-analytics`)
       .then((res) => {
         if (res.data.status === 200) {
           setYearlyData(res.data.data.yearlyData || {});

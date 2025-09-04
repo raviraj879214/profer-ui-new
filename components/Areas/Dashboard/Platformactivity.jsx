@@ -13,7 +13,7 @@ export function DoughnutChartDemo() {
   useEffect(() => {
     // Fetch analytics from backend
     axios
-      .get("http://localhost:8000/api/get-project-analytics")
+      .get(`${process.env.NEXT_PUBLIC_URL}/api/get-project-analytics`)
       .then((res) => {
         if (res.data.status === 200) {
           setYearlyData(res.data.data.yearlyData || {});

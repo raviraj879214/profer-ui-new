@@ -25,7 +25,9 @@ export function AuthGuardPro({ children }: { children: React.ReactNode }) {
           },
         });
 
-        if (res.ok) { 
+
+        if (res.ok)
+        { 
           const data = await res.json();
           console.log("Protected check response:", data);
 
@@ -37,13 +39,18 @@ export function AuthGuardPro({ children }: { children: React.ReactNode }) {
           {
               router.push('/admin/dashboard');
           }
-        } else {
+        } 
+        else
+        {
           router.push('/admin-login');
         }
-      } catch (err) {
+      } 
+      catch (err)
+      {
         console.error('Auth check failed:', err);
         router.push('/admin-login');
-      } finally {
+      } finally
+      {
         setIsLoading(false);
       }
     };

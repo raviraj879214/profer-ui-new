@@ -113,6 +113,7 @@ if (response.status === 403) {
         localStorage.setItem("FrontendRole", JSON.stringify(result.user.role));
         localStorage.setItem("Frontendtoken", result.token || "");
         localStorage.setItem("FrontendLoginStatus", "true");
+        
         localStorage.setItem("token", result.token || "");
 
         document.cookie = `role=${result.user.role}; path=/; max-age=${

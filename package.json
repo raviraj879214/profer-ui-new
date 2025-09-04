@@ -11,6 +11,10 @@
   "dependencies": {
     "@chatscope/chat-ui-kit-react": "^2.1.1",
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/interaction": "^6.1.19",
+    "@fullcalendar/react": "^6.1.19",
+    "@fullcalendar/timegrid": "^6.1.19",
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -57,6 +61,7 @@
     "socket.io-client": "^4.8.1",
     "stripe": "^18.3.0",
     "tailwind-merge": "^3.3.1",
+    "uuid": "^11.1.0",
     "zustand": "^5.0.7"
   },
   "devDependencies": {

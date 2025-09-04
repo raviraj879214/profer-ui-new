@@ -16,22 +16,6 @@ export function LoginAdminFrontend() {
 
 
 
-  // useEffect(()=>{ 
-  //   const loginstatus = localStorage.getItem("LoginStatus");
-  //   if(loginstatus === "true"){
-  //     router.push("/admin/dashboard");
-  //   }
-  //   else{
-  //      router.push("/admin-login");
-  //   }
-  // },[]);
-
-
-
-
-
-
-
   const onSubmit = async (data: any) => {
     setLoading(true);
     setErrorMsg(null);
@@ -50,7 +34,9 @@ export function LoginAdminFrontend() {
         localStorage.setItem("Role", JSON.stringify(result.user.role.name));
         localStorage.setItem("token", result.token);
         localStorage.setItem("LoginStatus", "true");
-        document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
+         document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
+         
          window.location.href = ("/admin/dashboard");
       } else {
         throw new Error(result.error || "Invalid credentials");

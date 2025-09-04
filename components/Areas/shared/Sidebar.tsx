@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
+import { Calendar1Icon } from "lucide-react";
 
 // ---- Icons ----
 function DashboardIcon(props: any) {
@@ -187,7 +188,8 @@ export function Sidebar() {
       <SideNavButton icon={TimeIcon} label="Prefered Time" href="/admin/prefered-time" />
        <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros" />
        <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
-        <SideNavButton icon={ServicesIcon} label="Plans" href="/admin/stripeplans" />
+      <SideNavButton icon={ServicesIcon} label="Plans" href="/admin/stripeplans" />
+       <SideNavButton icon={Calendar1Icon} label="Calendar" href="/admin/calendar" />
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );

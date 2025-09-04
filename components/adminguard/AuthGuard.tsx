@@ -12,6 +12,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("token");
@@ -27,22 +28,35 @@ export function AuthGuard({ children }: AuthGuardProps) {
         if (res.ok) {
           const data = await res.json();
           console.log("Protected check response:", data);
-          if (data.status == 401) {
+
+
+          if (data.status == 401) 
+          {
             router.push('/admin-login');
             return;
-          } else if (data.user.role == "Pro") {
+          }
+          else if (data.user.role == "Pro")
+          {
             router.push('/pro/step-1');
             return;
           }
-        } else {
+
+
+        }
+         else
+       {
           router.push('/admin-login');
           return;
         }
-      } catch (err) {
+      }
+     catch (err)
+     {
         console.error('Auth check failed:', err);
         router.push('/admin-login');
         return;
-      } finally {
+      } 
+      finally 
+      {
         setIsLoading(false);
       }
     };

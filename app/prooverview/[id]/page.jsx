@@ -37,7 +37,7 @@ export default function ProOverviewPage() {
   // Fetch Pro details
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/get-pros/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-pros/${id}`)
         .then((res) => res.json())
         .then((data) => setPro(data));
     }
@@ -46,7 +46,7 @@ export default function ProOverviewPage() {
   // Fetch Pro credentials
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/pro/${id}/credentials`)
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/pro/${id}/credentials`)
         .then((res) => res.json())
         .then((data) => setCredentials(data.data || [])); // <-- use data.data
     }
@@ -99,15 +99,7 @@ if (!pro) {
           <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-extrabold text-[#012C43]">
             {pro.companyName || "Not Updated"}
             <span className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full">
-              <svg
-                className="w-4 h-4 text-white"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={3}
-                viewBox="0 0 24 24"
-              >
-                <path d="M5 13l4 4L19 7" />
-              </svg>
+               <img src={"/images/4.png"}></img>
             </span>
           </h2>
 
@@ -117,10 +109,7 @@ if (!pro) {
           </p>
 
           {/* Favorite Pro */}
-          <p className="text-gray-800 font-semibold text-lg sm:text-xl flex items-center gap-1 mt-2">
-            <span>Favorite Pro</span>
-            <span className="text-red-500 text-lg">❤️</span>
-          </p>
+         
         </div>
       </div>
     </div>

@@ -81,15 +81,7 @@ export default function CredentialsPage() {
             className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full"
             title="Verified"
           >
-            <svg
-              className="w-4 h-4 text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={3}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+             <img src={"/images/4.png"}></img>
           </span>
         </h2>
       ) : (
@@ -105,16 +97,11 @@ export default function CredentialsPage() {
         <div className="h-4 w-32 mt-2 bg-gray-200 rounded animate-pulse" />
       )}
  
-      {/* Favorite Pro */}
-      {pro ? (
-        <p className="text-gray-800 font-semibold text-lg sm:text-xl flex items-center gap-1 mt-2">
-          <span>Favorite Pro</span>
-          <span className="text-red-500 text-lg">❤️</span>
-        </p>
-      ) : (
-        <div className="h-5 w-28 mt-3 bg-gray-200 rounded animate-pulse" />
-      )}
+      
+
+
     </div>
+
   </div>
 </div>
  

@@ -4,6 +4,7 @@ import { useState } from "react";
 import {ActivityLog} from "../../reusable/Loging";
 import {Dashboardwidgets} from "../../Areas/Dashboard/Dashboardwidgets";
 import {DoughnutChartDemo} from "../../Areas/Dashboard/Platformactivity";
+import {CompaniesChartDemo} from "../../Areas/Dashboard/Companiesactivity";
 // Dummy Stats
 
 
@@ -90,7 +91,7 @@ export function AdminDashboard() {
            {activeTab === 'Companies Analytics' && (
             <div className="text-gray-500 text-sm">
               
-                <DoughnutChartDemo></DoughnutChartDemo>
+                <CompaniesChartDemo></CompaniesChartDemo>
 
             </div>
           )}

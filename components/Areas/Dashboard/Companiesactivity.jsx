@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import { Chart } from "primereact/chart";
 import { Dropdown } from "primereact/dropdown";
 import axios from "axios";
 
-export function DoughnutChartDemo() {
+
+export function CompaniesChartDemo() {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
   const [selectedYear, setSelectedYear] = useState(null);
@@ -13,7 +14,7 @@ export function DoughnutChartDemo() {
   useEffect(() => {
     // Fetch analytics from backend
     axios
-      .get("http://localhost:8000/api/get-project-analytics")
+      .get("http://localhost:8000/api/get-companies-analytics")
       .then((res) => {
         if (res.data.status === 200) {
           setYearlyData(res.data.data.yearlyData || {});
@@ -46,7 +47,7 @@ export function DoughnutChartDemo() {
       ],
       datasets: [
         {
-          label: `Projects for ${selectedYear}`,
+          label: `Companies for ${selectedYear}`,
           data: yearlyData[selectedYear],
           fill: false,
           borderColor: documentStyle.getPropertyValue("--blue-500"),

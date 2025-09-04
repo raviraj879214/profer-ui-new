@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export function ProDashBoardHero() {
   const [company, setCompany] = useState({
+    id : "",
     companyName: "",
     companyLogo: "",
     streetAddress: "",
@@ -37,6 +38,7 @@ export function ProDashBoardHero() {
         if (result.status === 200 && result.data.length > 0) {
           const data = result.data[0];
           setCompany({
+            id : data?.id,
             companyName: data?.companyName || "",
             companyLogo: data?.companyLogo || "",
             city: data?.city || "",
@@ -90,7 +92,7 @@ export function ProDashBoardHero() {
       {/* Right Side: View Public ProFile™ */}
       <div>
         <a
-          href="/public-profile" // Adjust this link accordingly
+          href={`/pro-overview/${company.id}`} // Adjust this link accordingly
           className="text-cyan-500 text-sm sm:text-base hover:underline font-medium cursor-pointer"
         >
           View Public ProFile<span className="text-xs">™</span>

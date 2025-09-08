@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import {dateFormatter, formatDateToUS} from "../../../lib/utils/dateFormatter";
 import {formatAmountUSD} from "../../../lib/utils/formatAmountUSD";
-
+import {ProductModal} from "../../../components/Areas/Plans/ProductModal";
 
 export  function PlansPage() {
+
   const [plans, setPlans] = useState([]);
   const [priceId, setPriceId] = useState("");
   const [editId, setEditId] = useState(null);
@@ -24,6 +25,16 @@ export  function PlansPage() {
   const totalPages = Math.ceil(plans.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedPlans = plans.slice(startIndex, startIndex + pageSize);
+
+
+  const [open, setOpen] = useState(false);
+
+
+
+
+
+
+
 
   const {
     register,
@@ -293,6 +304,27 @@ export  function PlansPage() {
     }
   };
 
+
+
+  const createproductmodal = (data)=>{
+    debugger;
+    if(data == true){
+      handleFetchPlans();
+       fetchPlans();
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
        
@@ -307,14 +339,25 @@ export  function PlansPage() {
   {submitError && (
     <div className="text-red-600 font-medium">{submitError}</div>
   )}
+   <div className="space-y-2">
+
+  <p className="text-sm text-gray-600">
+    You can <span className="font-semibold">add new products</span> directly to your Stripe Dashboard using{" "}
+    <span className="font-semibold">"Add Product"</span>.  
+    To keep this list in sync, click{" "}
+    <span className="font-semibold">"Fetch Products"</span> — products will only update when you fetch them.
+  </p>
+
+  {/* Action Buttons */}
   <div className="flex items-center space-x-4">
     <button
       onClick={handleFetchPlans}
       disabled={submitting}
       className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 flex items-center"
     >
-      {submitting ? "Fetching from stripe..." : "Fetch Products"}
+      {submitting ? "Fetching from Stripe..." : "Fetch Products"}
     </button>
+
     {submitting && (
       <svg
         className="animate-spin h-5 w-5 text-blue-500"
@@ -337,10 +380,16 @@ export  function PlansPage() {
         ></path>
       </svg>
     )}
-    
-   
 
+    <button
+      onClick={() => setOpen(true)}
+      className="bg-[#0C0C2D] text-white px-4 py-2 rounded-lg"
+    >
+      Add Product
+    </button>
   </div>
+</div>
+
 </div>
 
 
@@ -499,7 +548,12 @@ export  function PlansPage() {
   </div>
 </div>
 
+
     </div>
+
+     <ProductModal isOpen={open} onClose={() => setOpen(false)}  sendData = {createproductmodal} />
+
+
     </>
   );
 }

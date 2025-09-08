@@ -286,84 +286,67 @@ const handleRenewSubscription = async () => {
 
       {/* Modal */}
             <Modal
-  isOpen={modalOpen}
-  onRequestClose={() => setModalOpen(false)}
-  contentLabel="Subscription Error"
-  ariaHideApp={false}
-  className="relative bg-white p-8 rounded-lg max-w-md mx-auto shadow-lg z-50 max-h-[90vh] overflow-auto"
-  overlayClassName="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
->
-  {/* Close Icon */}
-  <button
-    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-    onClick={() => setModalOpen(false)}
-  >
-    &times;
-  </button>
+                    isOpen={modalOpen}
+                    onRequestClose={() => setModalOpen(false)}
+                    contentLabel="Subscription Error"
+                    ariaHideApp={false}
+                    className="relative bg-white p-8 rounded-lg max-w-md mx-auto shadow-lg z-50 max-h-[90vh] overflow-auto"
+                    overlayClassName="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+                  >
+                    {/* Close Icon */}
+                    <button
+                      className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                      onClick={() => setModalOpen(false)}
+                    >
+                      &times;
+                    </button>
 
-  <div className="flex flex-col space-y-6 text-center">
-    {/* Title */}
-    <h2 className="text-2xl font-semibold text-gray-900">
-      Renew Your Subscription
-    </h2>
+                    <div className="flex flex-col space-y-6 text-center">
+                      {/* Title */}
+                      <h2 className="text-2xl font-semibold text-gray-900">
+                        Renew Your Subscription
+                      </h2>
 
-    {/* Message */}
-    <p className="text-gray-700 text-lg">
-      Thank you for being a valued member of <span className="font-semibold">Profer</span>.
-      To continue enjoying uninterrupted access to all premium features and benefits, please renew your subscription.
-    </p>
+                      {/* Message */}
+                      <p className="text-gray-700 text-lg">
+                        Thank you for being a valued member of <span className="font-semibold">Profer</span>.
+                        To continue enjoying uninterrupted access to all premium features and benefits, please renew your subscription.
+                      </p>
 
-    {/* Price Block - Stripe Style */}
-    <div className="bg-gray-50 rounded-xl p-6 shadow-sm border">
-      <p className="text-5xl font-extrabold text-gray-900 tracking-tight">
-        $ {price ? price.amount : "..."} 
-        <span className="text-lg font-medium text-gray-600">/year</span>
-      </p>
-      
-    </div>
+                      {/* Price Block - Stripe Style */}
+                      <div className="bg-gray-50 rounded-xl p-6 shadow-sm border">
+                        <p className="text-5xl font-extrabold text-gray-900 tracking-tight">
+                          $ {price ? price.amount : "..."} 
+                          <span className="text-lg font-medium text-gray-600">/year</span>
+                        </p>
+                        
+                      </div>
 
-    {/* Duration Info */}
-    <p className="text-gray-800 text-base">
-      If you subscribe now, your subscription will be valid from{" "}
-      <span className="font-semibold">{new Date().toLocaleDateString()}</span> until{" "}
-      <span className="font-semibold">
-        {new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}
-      </span>.
-    </p>
+                      {/* Duration Info */}
+                      <p className="text-gray-800 text-base">
+                        If you subscribe now, your subscription will be valid from{" "}
+                        <span className="font-semibold">{new Date().toLocaleDateString()}</span> until{" "}
+                        <span className="font-semibold">
+                          {new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}
+                        </span>.
+                      </p>
 
-    {/* Renew Button */}
-    {modalUserId && (
-      <div className="mt-4">
-        <button
-          className="bg-[#0C0C2D] hover:bg-[#1E1E3E] text-white w-full py-4 rounded-lg transition text-xl font-semibold shadow-md"
-          onClick={() => handleRenewSubscription(modalUserId)}
-        >
-          Renew Subscription
-        </button>
-      </div>
-    )}
-  </div>
-</Modal>
+                      {/* Renew Button */}
+                      {modalUserId && (
+                        <div className="mt-4">
+                          <button
+                            className="bg-[#0C0C2D] hover:bg-[#1E1E3E] text-white w-full py-4 rounded-lg transition text-xl font-semibold shadow-md"
+                            onClick={() => handleRenewSubscription(modalUserId)}
+                          >
+                            Renew Subscription
+                          </button>
+                        </div>
+                      )}
+                    </div>
+            </Modal>
 
-<div className="flex justify-center items-center min-h-screen  ">
-      {/* Button to open modal */}
-      <button
-        onClick={() => setIsOpenterms(true)}
-        className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-        dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Toggle Modal
-      </button>
-
-      {/* Modal */}
-     <TermsConditionModal
-        isOpen={isOpenterms}
-        onClose={() => setIsOpenterms(false)}
-        
-        userid = {modalUserId}
-      />
-      
+    <div className="flex justify-center items-center ">
+        <TermsConditionModal isOpen={isOpenterms} onClose={() => setIsOpenterms(false)} userid = {modalUserId}/>
     </div>
     </>
   );

@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-// Tiny notification component
+// 🔔 Small toast notification
 function Toast({ message, onClose }) {
   useEffect(() => {
     const timer = setTimeout(() => onClose(), 4000);
@@ -49,10 +49,14 @@ export function Calendar() {
     fetchEvents();
   }, []);
 
-  // ➡️ Add or Update
+  // ➡️ Add or Update with validation
   const handleSaveEvent = async () => {
     if (!newEvent.title.trim()) {
       setToast("⚠️ Please enter a task title.");
+      return;
+    }
+    if (!newEvent.startTime) {
+      setToast("⚠️ Please select a start time.");
       return;
     }
 
@@ -62,21 +66,16 @@ export function Calendar() {
       description: newEvent.description,
       start: `${date}T${newEvent.startTime}`,
       end: newEvent.endTime ? `${date}T${newEvent.endTime}` : null,
-      reminder: newEvent.reminderTime
-        ? `${date}T${newEvent.reminderTime}`
-        : null,
+      reminder: newEvent.reminderTime ? `${date}T${newEvent.reminderTime}` : null,
     };
 
     try {
       if (isEditing) {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/api/tasks/${newEvent.id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(eventToAdd),
-          }
-        );
+        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tasks/${newEvent.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(eventToAdd),
+        });
         setToast("✅ Task updated successfully.");
       } else {
         await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tasks`, {
@@ -97,10 +96,9 @@ export function Calendar() {
   // ➡️ Delete
   const handleDeleteEvent = async () => {
     try {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/tasks/${newEvent.id}`,
-        { method: "DELETE" }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tasks/${newEvent.id}`, {
+        method: "DELETE",
+      });
       await fetchEvents();
       setIsModalOpen(false);
       setToast("🗑️ Task deleted.");
@@ -134,9 +132,7 @@ export function Calendar() {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowStr = tomorrow.toISOString().split("T")[0];
 
-    const tomorrowTasks = events.filter((ev) =>
-      ev.start.startsWith(tomorrowStr)
-    );
+    const tomorrowTasks = events.filter((ev) => ev.start.startsWith(tomorrowStr));
 
     if (tomorrowTasks.length > 0) {
       setToast(`📅 You have ${tomorrowTasks.length} task(s) scheduled for tomorrow.`);
@@ -152,8 +148,6 @@ export function Calendar() {
 
   return (
     <div className="p-4">
-    
-
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -175,13 +169,11 @@ export function Calendar() {
           const event = info.event;
           setSelectedDate(event.startStr.split("T")[0]);
           setNewEvent({
-            id: event.id,
+            id: event.id, // string id
             title: event.title,
             description: event.extendedProps.description,
             startTime: event.startStr.split("T")[1]?.slice(0, 5) || "",
-            endTime: event.endStr
-              ? event.endStr.split("T")[1].slice(0, 5)
-              : "",
+            endTime: event.endStr ? event.endStr.split("T")[1].slice(0, 5) : "",
             reminderTime: event.extendedProps.reminder
               ? event.extendedProps.reminder.split("T")[1].slice(0, 5)
               : "",
@@ -193,9 +185,11 @@ export function Calendar() {
         eventContent={(eventInfo) => (
           <div>
             <b>{eventInfo.event.title}</b>
-            <p className="text-xs text-gray-500">
-              {eventInfo.event.extendedProps.description}
-            </p>
+            {eventInfo.event.extendedProps.description && (
+              <p className="text-xs text-gray-500">
+                {eventInfo.event.extendedProps.description}
+              </p>
+            )}
           </div>
         )}
       />
@@ -214,61 +208,44 @@ export function Calendar() {
                 placeholder="Title"
                 className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                 value={newEvent.title}
-                onChange={(e) =>
-                  setNewEvent({ ...newEvent, title: e.target.value })
-                }
+                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
               />
 
               <textarea
                 placeholder="Description"
                 className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                 value={newEvent.description}
-                onChange={(e) =>
-                  setNewEvent({ ...newEvent, description: e.target.value })
-                }
+                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
               />
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Start Time:
-                </label>
+                <label className="block text-sm font-medium mb-1">Start Time:</label>
                 <input
                   type="time"
                   className="w-full p-2 border rounded-md"
                   value={newEvent.startTime}
-                  onChange={(e) =>
-                    setNewEvent({ ...newEvent, startTime: e.target.value })
-                  }
+                  onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  End Time:
-                </label>
+                <label className="block text-sm font-medium mb-1">End Time:</label>
                 <input
                   type="time"
                   className="w-full p-2 border rounded-md"
                   value={newEvent.endTime}
-                  onChange={(e) =>
-                    setNewEvent({ ...newEvent, endTime: e.target.value })
-                  }
+                  onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Reminder Time:
-                </label>
+                <label className="block text-sm font-medium mb-1">Reminder Time:</label>
                 <input
                   type="time"
                   className="w-full p-2 border rounded-md"
                   value={newEvent.reminderTime}
                   onChange={(e) =>
-                    setNewEvent({
-                      ...newEvent,
-                      reminderTime: e.target.value,
-                    })
+                    setNewEvent({ ...newEvent, reminderTime: e.target.value })
                   }
                 />
               </div>

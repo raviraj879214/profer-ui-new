@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {SiteLayout} from "./SiteLayout";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-
+import {CookieConsent} from "../components/CookiesManagement/Cookiesterms";
 
 
 export default function RootLayout({ children }) {
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
             <SiteLayout>{children}</SiteLayout>
         </GoogleReCaptchaProvider>
         </main>
-       
+       <CookieConsent></CookieConsent>
       </body>
     </html>
 

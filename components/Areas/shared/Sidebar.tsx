@@ -86,6 +86,22 @@ function SettingsIcon(props: any) {
       <path d="M19.4 15a1.7 1.7 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.82-.33 1.7 1.7 0 00-1 1.51V21a2 2 0 01-4 0v-.18a1.7 1.7 0 00-1-1.51 1.7 1.7 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.7 1.7 0 00.33-1.82 1.7 1.7 0 00-1.51-1H3a2 2 0 010-4h.18a1.7 1.7 0 001.51-1 1.7 1.7 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.7 1.7 0 001.82.33h.01a1.7 1.7 0 001-1.51V3a2 2 0 014 0v.18a1.7 1.7 0 001 1.51z" />
     </svg>
   );
+  
+}
+
+function SubscriberIcon(props: any) {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path d="M4 4h16v16H4z" /> {/* envelope outline */}
+      <path d="M4 4l8 8 8-8" /> {/* envelope flap */}
+    </svg>
+  );
 }
 
 // Chevron Icon
@@ -189,7 +205,8 @@ export function Sidebar() {
        <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros" />
        <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
       <SideNavButton icon={ServicesIcon} label="Plans" href="/admin/stripeplans" />
-       <SideNavButton icon={Calendar1Icon} label="Calendar" href="/admin/calendar" />
+      <SideNavButton icon={SubscriberIcon} label="Subscribers" href="/admin/subscribers" />
+       {/* <SideNavButton icon={Calendar1Icon} label="Calendar" href="/admin/calendar" /> */}
       <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
     </nav>
   );

@@ -70,8 +70,8 @@ export const InviteForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="px-4 py-8">
-      <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 w-full max-w-xl">
+    <div className="px-4 ">
+      <div className="bg-white rounded-2xl space-y-6 w-full max-w-xl">
         <h2 className="text-2xl font-semibold text-gray-800">Invite Pro</h2>
 
         {submitMessage && (

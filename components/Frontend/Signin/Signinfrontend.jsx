@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Modal from "react-modal";
 import { loadStripe } from "@stripe/stripe-js";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
-
+import {TermsConditionModal} from "../../../components/Frontend/Signin/TermsConditionModal";
 const SignIn = () => {
   const {
     register,
@@ -25,6 +25,10 @@ const SignIn = () => {
   const [userId, setUserId] = useState(null); // ✅ inside component
   const [modalUserId, setModalUserId] = useState(null);
   const [price, setPrice] = useState(null);  
+
+
+  const [isOpenterms, setIsOpenterms] = useState(false);
+  const [termuserid,settermuserid] = useState(0);
 
   const router = useRouter();
 
@@ -84,26 +88,31 @@ const SignIn = () => {
       const result = await response.json();
 
       const id = result.user?.id;
-      if (id) {
-        localStorage.setItem("UserID", id);
-        localStorage.setItem("FrontendEmail", result.user.email || "");
-        setUserId(Number(id));
-      }
+        if (id) {
+          localStorage.setItem("UserID", id);
+          localStorage.setItem("FrontendEmail", result.user.email || "");
+          setUserId(Number(id));
+        }
 
-if (response.status === 403) {
-  setModalMessage(result.error || "Subscription required");
+        if (response.status === 403) {
+          setModalMessage(result.error || "Subscription required");
 
-  // Make sure the backend returns a proper `user.id`
-  if (result.user?.id) {
-    setModalUserId(Number(result.user.id));
-  } else {
-    console.error("No user id returned in result");
-  }
+          // Make sure the backend returns a proper `user.id`
+          if (result.user?.id) {
+            setModalUserId(Number(result.user.id));
+          } else {
+            console.error("No user id returned in result");
+          }
 
-  setModalOpen(true);
-  return;
-}
+          setModalOpen(true);
+          return;
+        }
+        else if(response.status === 409){
+          setIsOpenterms(true);
+          setModalUserId(Number(result.user.id));
+        }
 
+        
 
 
 
@@ -336,6 +345,26 @@ const handleRenewSubscription = async () => {
   </div>
 </Modal>
 
+<div className="flex justify-center items-center min-h-screen  ">
+      {/* Button to open modal */}
+      <button
+        onClick={() => setIsOpenterms(true)}
+        className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+        dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Toggle Modal
+      </button>
+
+      {/* Modal */}
+     <TermsConditionModal
+        isOpen={isOpenterms}
+        onClose={() => setIsOpenterms(false)}
+        
+        userid = {modalUserId}
+      />
+      
+    </div>
     </>
   );
 };

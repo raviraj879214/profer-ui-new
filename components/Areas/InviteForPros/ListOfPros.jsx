@@ -187,7 +187,7 @@ const idParam = selectedIds.join(",");
  </div>
  <div className="bg-white rounded-2xl shadow-lg p-6 space-y-6 mt-6">
    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-        <h2 className="text-2xl font-semibold text-gray-800">List Of Pros</h2>
+        <h2 className="text-2xl font-semibold text-gray-800">List of Pros</h2>
 
         {/* Header */}
       

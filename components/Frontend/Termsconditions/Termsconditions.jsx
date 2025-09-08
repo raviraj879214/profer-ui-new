@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-
 import { useRouter } from "next/navigation";
+import {formatDateToUS} from "../../../lib/utils/dateFormatter";
+
+
 export default function PrivacyPolicyPage() {
   const [cmsText, setCmsText] = useState('');
+  const [updatedAt,setupdatedAt] = useState();
   const [error, setError] = useState(null);
  const router = useRouter();
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function PrivacyPolicyPage() {
       if (!data.CmsText) {
         throw new Error('CmsText not found in response');
       }
-
+      setupdatedAt(data.lastmodified);
       setCmsText(data.CmsText);
     } catch (err) {
       console.error('Error fetching CMS content:', err);
@@ -37,8 +39,10 @@ export default function PrivacyPolicyPage() {
 }, []);
 
   return (
-    <main className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4 text-center">Terms And Conditions</h1>
+    <main className="max-w-3xl mx-auto p-6 mt-10">
+      <h1 className="text-3xl font-bold mb-4 text-center">Profer, Inc. Terms of Use & Privacy Policy</h1>
+
+      <h3 className=''>Last Modified: {formatDateToUS(updatedAt)}</h3>
 
       {error ? (
         <p className="text-red-500">{error}</p>

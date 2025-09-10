@@ -13,27 +13,7 @@ export function Backgroundcheck() {
   const [successMessage, setSuccessMessage] = useState("");
   const [userstatus, setUserstatus] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      date_of_birth: "",
-      email: "",
-      address: "",
-      city: "",
-      county: "",
-      province_state: "",
-      postal_code: "",
-      country: "US",
-      sin_ssn: "",
-      position_location_address: "",
-      position_location_city: "",
-      position_location_county: "",
-      position_location_state: "",
-      position_location_postal: "",
-      position_location_country: "US",
-    },
-  });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   useEffect(() => {
     backgroundusergetdetails();
@@ -56,6 +36,28 @@ export function Backgroundcheck() {
     return age >= 18;
   };
 
+  const fillTestData = () => {
+    reset({
+      first_name: "John",
+      last_name: "Doe",
+      date_of_birth: "1990-01-01",
+      email: "testuser@example.com",
+      address: "123 Main St",
+      city: "Seattle",
+      county: "King",
+      province_state: "WA",
+      postal_code: "98101",
+      country: "US",
+      sin_ssn: "123456789",
+      position_location_address: "500 Market St",
+      position_location_city: "Seattle",
+      position_location_county: "King",
+      position_location_state: "WA",
+      position_location_postal: "98104",
+      position_location_country: "US",
+    });
+  };
+
   const onSubmit = async (form) => {
     setError(null);
     setResponse(null);
@@ -69,7 +71,7 @@ export function Backgroundcheck() {
 
     try {
       const body = {
-        request_us_criminal_record_check_tier_2: true,
+        request_us_criminal_record_check_tier_1: true,
         email: form.email || "example@certn.co",
         information: {
           first_name: form.first_name,
@@ -134,13 +136,12 @@ export function Backgroundcheck() {
       if (!res.ok) throw new Error("Failed to fetch user details.");
       const result = await res.json();
       if (result.status === 200) {
-      if (result.data.verifiedStatus === "1") {
-        router.push("/pro/pro-credentials");
-      }
-      // ✅ If already submitted but not yet verified, show "waiting" screen
-      else if (result.data.certapplicationid) {
-        setUserstatus(true);
-      }
+        if (result.data.verifiedStatus === "1") {
+          router.push("/pro/pro-credentials");
+        }
+        else if (result.data.certapplicationid) {
+          setUserstatus(true);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -194,34 +195,39 @@ export function Backgroundcheck() {
           </p>
 
           <div className="mt-12 flex justify-between items-center max-w-4xl mx-auto">
-              <button
-                type="button"
-                onClick={() => router.push("/pro/step-2")}
-                className="text-blue-600 underline text-sm font-semibold hover:text-blue-800"
-              >
-                Back
-              </button>
+            <button
+              type="button"
+              onClick={() => router.push("/pro/step-2")}
+              className="text-blue-600 underline text-sm font-semibold hover:text-blue-800"
+            >
+              Back
+            </button>
 
-             
-              <button
-                type="button"
-                onClick={() => router.push("/pro/pro-credentials")}
-                className="bg-[#0B0E26] text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600"
-              >
-                NEXT
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => router.push("/pro/pro-credentials")}
+              className="bg-[#0B0E26] text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600"
+            >
+              NEXT
+            </button>
+          </div>
         </div>
       ) : (
         <div>
           <div className="text-center mb-10">
             <img src="/images/certn-logo.jpg" alt="Certn Logo" className="mx-auto w-40 mb-4" />
-            <h2 className="font-semibold text-xl">Run US Criminal Record Check (Tier 2)</h2>
+            <h2 className="font-semibold text-xl">Run US Criminal Record Check </h2>
             <p className="text-gray-600 text-sm mt-2 max-w-xl mx-auto">
               Enter your basic details below. Once submitted, Certn will contact you by email.
+              (You can also click <b>Fill Test Data</b> to auto-fill sample data for sandbox use.)
             </p>
-
-            
+            <button
+              type="button"
+              onClick={fillTestData}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
+            >
+              Fill Test Data
+            </button>
           </div>
 
           <form className="space-y-12 max-w-4xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
@@ -265,7 +271,6 @@ export function Backgroundcheck() {
                 Back
               </button>
 
-              {/* Show Submit only before submission */}
               {!userstatus && (
                 <button
                   type="submit"

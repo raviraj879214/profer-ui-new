@@ -14,7 +14,7 @@ export function ProDashBoardHero() {
   });
   const [logoSrc, setLogoSrc] = useState("/placeholder-logo.png");
   const [logoLoaded, setLogoLoaded] = useState(false);
-
+  const [verified,setvierified] = useState(0);
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -45,8 +45,9 @@ export function ProDashBoardHero() {
             state: data?.state || "",
             zip: data?.zip || "",
             streetAddress: data?.streetAddress || "",
-            verified: data?.verified || true,
+            verified: data?.verifiedStatus || true,
           });
+          setvierified(data.verifiedStatus);
           if (data?.companyLogo) {
             setLogoSrc(data.companyLogo);
           }
@@ -77,9 +78,11 @@ export function ProDashBoardHero() {
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-extrabold text-[#012C43]">
             {company.companyName || "Not Updated"}
-            {company.verified && (
+
+            {verified == "1" && (
               <VerifiedCheckIcon />
             )}
+
           </h1>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">
             {company.city && company.state

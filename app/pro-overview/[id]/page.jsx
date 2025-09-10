@@ -172,25 +172,57 @@ export default function ProOverviewPage() {
     </div>
 
     {/* Detailed ProVerified™ Section */}
-    <div className="flex flex-col">
-      <div className="flex items-center space-x-4">
-        <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-        <h3 className="text-2xl font-bold">
-          Pro<span className="text-red-600">Verified</span>™
-        </h3>
-      </div>
+   
 
-      <div className="pl-14 mt-2">
-        <p className="text-gray-800 text-xl leading-relaxed font-normal">
-          This professional is fully vetted using our extensive
-          <span className="font-bold"> Pro</span>
-          <span className="text-red-600 font-bold">Verified</span>
-          <span className="font-bold">™</span>
-          process. Identification, licenses, and insurance. It's all there.
-          You can see for yourself.
-        </p>
-      </div>
-    </div>
+
+
+
+            {pro.verifiedStatus == "0" ? (<>
+
+             <div className="flex flex-col">
+  <div className="flex items-center space-x-4">
+    <h3 className="text-2xl font-bold">
+      Un<span className="text-red-600">Verified</span>™
+    </h3>
+  </div>
+
+  <div className="pl-14 mt-2">
+    <p className="text-gray-800 text-xl leading-relaxed font-normal">
+      This professional has <span className="font-bold">not completed</span> our 
+      <span className="font-bold"> Pro</span>
+      <span className="text-red-600 font-bold">Verify</span>
+      <span className="font-bold">™</span> process. 
+      Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
+    </p>
+  </div>
+</div>
+
+            </>) : (<>
+
+              <div className="flex flex-col">
+                <div className="flex items-center space-x-4">
+                  <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
+                  <h3 className="text-2xl font-bold">
+                    Pro<span className="text-red-600">Verified</span>™
+                  </h3>
+                </div>
+
+                <div className="pl-14 mt-2">
+                  <p className="text-gray-800 text-xl leading-relaxed font-normal">
+                    This professional is fully vetted using our extensive
+                    <span className="font-bold"> Pro</span>
+                    <span className="text-red-600 font-bold">Verified</span>
+                    <span className="font-bold">™</span>
+                    process. Identification, licenses, and insurance. It's all there.
+                    You can see for yourself.
+                  </p>
+                </div>
+              </div>
+            </>)}
+
+
+
+
 
   </div>
 </div>

@@ -81,6 +81,7 @@ export function ProDash() {
 
   });
    const [year,setyear] = useState("");
+   const [verified,setverified] = useState(0);
   const [message, setMessage] = useState("");
 
   /* Fetch social links */
@@ -108,6 +109,7 @@ export function ProDash() {
       console.log("API result:", result);
 
       if (result.status === 200 && result.data) {
+
         setAboutInfo({
           phone: result?.data?.phone || "",
           website: result?.data?.website || "",
@@ -118,7 +120,10 @@ export function ProDash() {
           linkedin: result?.data?.linkedin || "",
           linktoyourwebsite: result?.data?.linktoyourwebsite || "",
         });
+
+
         setyear(result.data.experienceYears);
+        setverified(result.data.verifiedStatus);
       } else {
         setAboutInfo({
           phone: "",
@@ -209,30 +214,57 @@ export function ProDash() {
           </div>
 
           
-          <div className="flex items-center space-x-4">
-            <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
-            <span className="text-base md:text-lg text-gray-700">ProVerified™</span>
-          </div>
+          
+          {verified == "0" ? (<>
+            <div className="flex items-center space-x-4">
+              <span className="text-base md:text-lg text-gray-700">UnVerified™</span>
+            </div>
+          </>) :(
+            <div className="flex items-center space-x-4">
+              <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
+              <span className="text-base md:text-lg text-gray-700">ProVerified™</span>
+            </div>
+          )}
 
 
 
         </div>
 
-        {/* Detailed ProVerified™ Section */}
-        <div className="flex flex-col">
-          <div className="flex items-center space-x-4">
-            <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
-            <h3 className="text-lg font-bold">
-              Pro<span className="text-red-600">Verified</span>™
-            </h3>
-          </div>
-          <p className="mt-2 text-gray-700 text-sm leading-relaxed font-normal">
-            This professional is fully vetted using our extensive
-            <span className="font-semibold text-red-600"> ProVerify™ </span>
-            process. Identification, licenses, and insurance. It's all there.
-            You can see for yourself.
-          </p>
-        </div>
+        
+
+
+         {verified == "0" ? (<>
+            {/* Detailed UnVerified™ Section */}
+<div className="flex flex-col">
+  <div className="flex items-center space-x-4">
+    
+    <h3 className="text-lg font-bold text-gray-600">
+      Un<span className="text-gray-500">Verified</span>™
+    </h3>
+  </div>
+  <p className="mt-2 text-gray-600 text-sm leading-relaxed font-normal">
+    This professional has <span className="font-semibold">not yet completed</span> 
+    our <span className="font-semibold">ProVerify™</span> process. 
+    Identification, licenses, and insurance have not been confirmed by Profer.
+  </p>
+</div>
+
+          </>) :(<>
+                <div className="flex flex-col">
+                  <div className="flex items-center space-x-4">
+                    <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
+                    <h3 className="text-lg font-bold">
+                      Pro<span className="text-red-600">Verified</span>™
+                    </h3>
+                  </div>
+                  <p className="mt-2 text-gray-700 text-sm leading-relaxed font-normal">
+                    This professional is fully vetted using our extensive
+                    <span className="font-semibold text-red-600"> ProVerify™ </span>
+                    process. Identification, licenses, and insurance. It's all there.
+                    You can see for yourself.
+                  </p>
+                </div>
+              </>)}
       </div>
 
       {/* About + Credentials */}

@@ -13,23 +13,25 @@ export function Backgroundcheck() {
   const [successMessage, setSuccessMessage] = useState("");
   const [userstatus, setUserstatus] = useState(false);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       first_name: "",
       last_name: "",
       date_of_birth: "",
+      email: "",
       address: "",
       city: "",
       county: "",
       province_state: "",
       postal_code: "",
-      country: "",
+      country: "US",
+      sin_ssn: "",
       position_location_address: "",
       position_location_city: "",
       position_location_county: "",
       position_location_state: "",
       position_location_postal: "",
-      position_location_country: "",
+      position_location_country: "US",
     },
   });
 
@@ -67,17 +69,8 @@ export function Backgroundcheck() {
 
     try {
       const body = {
-        request_softcheck: false, // US always false
-        position_or_property_location: {
-          location_type: "Position Location",
-          address: form.position_location_address,
-          city: form.position_location_city,
-          county: form.position_location_county,
-          province_state: form.position_location_state,
-          country: form.position_location_country,
-          postal_code: form.position_location_postal,
-        },
-        checks: [{ type: "us_criminal_record_tier_1" }],
+        request_us_criminal_record_check_tier_2: true,
+        email: form.email || "example@certn.co",
         information: {
           first_name: form.first_name,
           last_name: form.last_name,
@@ -86,13 +79,24 @@ export function Backgroundcheck() {
             {
               address: form.address,
               city: form.city,
-              county: form.county,
+              county: form.county || "",
               province_state: form.province_state,
               country: form.country,
               postal_code: form.postal_code,
               current: true,
             },
           ],
+          sin_ssn: form.sin_ssn || "123456789",
+          us_criminal_consent_given: true,
+        },
+        position_or_property_location: {
+          location_type: "Position Location",
+          address: form.position_location_address,
+          city: form.position_location_city,
+          county: form.position_location_county || "",
+          province_state: form.position_location_state,
+          country: form.position_location_country,
+          postal_code: form.position_location_postal,
         },
       };
 
@@ -182,7 +186,7 @@ export function Backgroundcheck() {
         <div>
           <div className="text-center mb-10">
             <img src="/images/certn-logo.jpg" alt="Certn Logo" className="mx-auto w-40 mb-4" />
-            <h2 className="font-semibold text-xl">Run US Criminal Record Check (Tier 1)</h2>
+            <h2 className="font-semibold text-xl">Run US Criminal Record Check (Tier 2)</h2>
             <p className="text-gray-600 text-sm mt-2 max-w-xl mx-auto">
               Enter your basic details below. Once submitted, Certn will contact you by email.
             </p>
@@ -196,6 +200,8 @@ export function Backgroundcheck() {
                 <input {...register("first_name", { required: true })} placeholder="First Name" className="w-full border p-2 rounded" />
                 <input {...register("last_name", { required: true })} placeholder="Last Name" className="w-full border p-2 rounded" />
                 <input type="date" {...register("date_of_birth", { required: true })} className="w-full border p-2 rounded" />
+                <input type="email" {...register("email", { required: true })} placeholder="Email" className="w-full border p-2 rounded col-span-2" />
+                <input {...register("sin_ssn", { required: true })} placeholder="SSN (9 digits)" className="w-full border p-2 rounded col-span-2" />
                 <input {...register("address", { required: true })} placeholder="Street Address" className="w-full border p-2 rounded col-span-2" />
                 <input {...register("city", { required: true })} placeholder="City" className="w-full border p-2 rounded" />
                 <input {...register("county")} placeholder="County" className="w-full border p-2 rounded" />
@@ -213,6 +219,7 @@ export function Backgroundcheck() {
                 <input {...register("position_location_county")} placeholder="County" className="w-full border p-2 rounded" />
                 <input {...register("position_location_state", { required: true })} placeholder="State" className="w-full border p-2 rounded" />
                 <input {...register("position_location_postal", { required: true })} placeholder="ZIP Code" className="w-full border p-2 rounded" />
+                <input {...register("position_location_country")} placeholder="Country" className="w-full border p-2 rounded" />
               </div>
             </section>
 

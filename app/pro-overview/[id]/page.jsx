@@ -147,12 +147,14 @@ export default function ProOverviewPage() {
 
       
       {pro.verifiedStatus == "0" ? (<div className="flex items-center space-x-4">
-        <img  src="/images/proverified.avif" alt="Pro Verified Icon" className="w-12 h-12 object-contain invisible" />
+        <img  src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain invisible" />
         <span className="font-semibold text-base md:text-lg">UnVerified™</span>
       </div>) : (
         <div className="flex items-center space-x-4">
-        <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-        <span className="font-semibold text-base md:text-lg">ProVerified™</span>
+        <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
+          <h3 className="text-lg font-bold">
+                      Pro<span className="text-green-600">Verified</span>™
+                    </h3>
       </div>
       )}
 
@@ -202,9 +204,9 @@ export default function ProOverviewPage() {
               <div className="flex flex-col">
                 <div className="flex items-center space-x-4">
                   <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-                  <h3 className="text-2xl font-bold">
-                    Pro<span className="text-red-600">Verified</span>™
-                  </h3>
+                    <h3 className="text-lg font-bold">
+                      Pro<span className="text-green-600">Verified</span>™
+                    </h3>
                 </div>
 
                 <div className="pl-14 mt-2">

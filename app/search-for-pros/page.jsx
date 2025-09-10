@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { SearchForPros } from "@/components/Frontend/Searchforpros/Searchforpros";
 
+
+
 // Inner component that actually uses useSearchParams
 function SearchForContent() {
   const searchParams = useSearchParams();
@@ -13,6 +15,10 @@ function SearchForContent() {
 
   return <SearchForPros companyname={name} zipcode={zip} />;
 }
+
+
+
+
 
 // Page component with Suspense boundary
 export default function SearchFor() {

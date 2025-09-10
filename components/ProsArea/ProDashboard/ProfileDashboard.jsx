@@ -221,8 +221,10 @@ export function ProDash() {
             </div>
           </>) :(
             <div className="flex items-center space-x-4">
-              <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
-              <span className="text-base md:text-lg text-gray-700">ProVerified™</span>
+              <img src="/images/4.png" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
+               <h3 className="text-lg font-bold">
+                      Pro<span className="text-green-600">Verified</span>™
+                    </h3>
             </div>
           )}
 
@@ -252,9 +254,9 @@ export function ProDash() {
           </>) :(<>
                 <div className="flex flex-col">
                   <div className="flex items-center space-x-4">
-                    <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
+                    <img src="/images/4.png" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
                     <h3 className="text-lg font-bold">
-                      Pro<span className="text-red-600">Verified</span>™
+                      Pro<span className="text-green-600">Verified</span>™
                     </h3>
                   </div>
                   <p className="mt-2 text-gray-700 text-sm leading-relaxed font-normal">

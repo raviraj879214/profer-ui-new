@@ -1,7 +1,7 @@
 
-import { UpgradeModal } from "@/components/ProsArea/PaymentModal/PaymentModal";
-import ProsStepNextCredentials from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
-
+// import { UpgradeModal } from "@/components/ProsArea/PaymentModal/PaymentModal";
+// import ProsStepNextCredentials from "../../../../components/ProsArea/Prossteps/ProsthirdStep";
+import {Backgroundcheck} from "../../../../components/ProsArea/CertnBackgroundCheck/BackgroundIDCheck";
 
 
 
@@ -18,8 +18,10 @@ export default function Page(){
 
     return(<>
        
-      <UpgradeModal></UpgradeModal>
-      <ProsStepNextCredentials></ProsStepNextCredentials>
+      {/* <UpgradeModal></UpgradeModal>
+      <ProsStepNextCredentials></ProsStepNextCredentials> */}
+
+        <Backgroundcheck></Backgroundcheck>
 
     </>);
 }

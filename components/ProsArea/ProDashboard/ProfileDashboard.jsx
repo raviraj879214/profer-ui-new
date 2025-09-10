@@ -207,10 +207,15 @@ export function ProDash() {
             <img src="/images/insured.avif" alt="Insured Icon" className="w-8 h-8 object-contain" />
             <span className="font-semibold text-base md:text-lg">Insured</span>
           </div>
+
+          
           <div className="flex items-center space-x-4">
             <img src="/images/proverified.avif" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
             <span className="text-base md:text-lg text-gray-700">ProVerified™</span>
           </div>
+
+
+
         </div>
 
         {/* Detailed ProVerified™ Section */}

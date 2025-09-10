@@ -134,8 +134,13 @@ export function Backgroundcheck() {
       if (!res.ok) throw new Error("Failed to fetch user details.");
       const result = await res.json();
       if (result.status === 200) {
-        if (result.data.certapplicationid) setUserstatus(true);
-        else if (result.data.verifiedStatus === "1") router.push('/pro/pro-credentials');
+      if (result.data.verifiedStatus === "1") {
+        router.push("/pro/pro-credentials");
+      }
+      // ✅ If already submitted but not yet verified, show "waiting" screen
+      else if (result.data.certapplicationid) {
+        setUserstatus(true);
+      }
       }
     } catch (err) {
       console.error(err);
@@ -161,7 +166,11 @@ export function Backgroundcheck() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-12">
       {successMessage && (
-        <div ref={successRef} tabIndex="-1" className="mb-6 p-4 text-center bg-green-100 text-green-800 rounded font-medium">
+        <div
+          ref={successRef}
+          tabIndex="-1"
+          className="mb-6 p-4 text-center bg-green-100 text-green-800 rounded font-medium"
+        >
           {successMessage}
         </div>
       )}
@@ -179,8 +188,29 @@ export function Backgroundcheck() {
             Waiting for verification...
           </p>
           <p className="text-sm text-gray-500 mt-2 max-w-xl mx-auto">
-            Your background check request has been submitted. Certn will contact you by email shortly — please check your inbox (and spam folder) for instructions. Verification may take some time, and you will be notified once it is complete.
+            Your background check request has been submitted. Certn will contact you by email
+            shortly — please check your inbox (and spam folder) for instructions. Verification may
+            take some time, and you will be notified once it is complete.
           </p>
+
+          <div className="mt-12 flex justify-between items-center max-w-4xl mx-auto">
+              <button
+                type="button"
+                onClick={() => router.push("/pro/step-2")}
+                className="text-blue-600 underline text-sm font-semibold hover:text-blue-800"
+              >
+                Back
+              </button>
+
+             
+              <button
+                type="button"
+                onClick={() => router.push("/pro/pro-credentials")}
+                className="bg-[#0B0E26] text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600"
+              >
+                NEXT
+              </button>
+            </div>
         </div>
       ) : (
         <div>
@@ -190,6 +220,8 @@ export function Backgroundcheck() {
             <p className="text-gray-600 text-sm mt-2 max-w-xl mx-auto">
               Enter your basic details below. Once submitted, Certn will contact you by email.
             </p>
+
+            
           </div>
 
           <form className="space-y-12 max-w-4xl mx-auto" onSubmit={handleSubmit(onSubmit)}>
@@ -225,13 +257,30 @@ export function Backgroundcheck() {
 
             {/* Buttons */}
             <div className="mt-12 flex justify-between items-center max-w-4xl mx-auto">
-              <button type="button" onClick={() => router.push("/pro/step-2")} className="text-blue-600 underline text-sm font-semibold hover:text-blue-800">
+              <button
+                type="button"
+                onClick={() => router.push("/pro/step-2")}
+                className="text-blue-600 underline text-sm font-semibold hover:text-blue-800"
+              >
                 Back
               </button>
-              <button type="submit" disabled={loading} className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md disabled:opacity-50 mx-4">
-                {loading ? "Submitting..." : "Submit Check"}
-              </button>
-              <button type="button" onClick={() => router.push("/pro/pro-credentials")} className="bg-gray-500 text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600">
+
+              {/* Show Submit only before submission */}
+              {!userstatus && (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md disabled:opacity-50 mx-4"
+                >
+                  {loading ? "Submitting..." : "Submit Check"}
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => router.push("/pro/pro-credentials")}
+                className="bg-gray-500 text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600"
+              >
                 Skip & Continue
               </button>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export function Backgroundcheck() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export function Backgroundcheck() {
   const [successMessage, setSuccessMessage] = useState("");
   const [userstatus, setUserstatus] = useState(false);
 
-  const { register, handleSubmit, watch, control, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
       first_name: "Andrew",
       last_name: "McLeod",
@@ -32,9 +32,6 @@ export function Backgroundcheck() {
       position_location_country: "US",
     },
   });
-
-  const selectedCountry = watch("country");
-  const selectedPositionCountry = watch("position_location_country");
 
   useEffect(() => {
     backgroundusergetdetails();
@@ -70,7 +67,7 @@ export function Backgroundcheck() {
 
     try {
       const body = {
-        request_softcheck: form.country === "US" ? false : true, // US false, Canada true
+        request_softcheck: false, // US always false
         position_or_property_location: {
           location_type: "Position Location",
           address: form.position_location_address,
@@ -80,7 +77,7 @@ export function Backgroundcheck() {
           country: form.position_location_country,
           postal_code: form.position_location_postal,
         },
-        checks: [{ type: form.country === "US" ? "us_criminal_record_tier_1" : "ca_criminal_record" }],
+        checks: [{ type: "us_criminal_record_tier_1" }],
         information: {
           first_name: form.first_name,
           last_name: form.last_name,
@@ -185,7 +182,7 @@ export function Backgroundcheck() {
         <div>
           <div className="text-center mb-10">
             <img src="/images/certn-logo.jpg" alt="Certn Logo" className="mx-auto w-40 mb-4" />
-            <h2 className="font-semibold text-xl">Run Criminal Record Check</h2>
+            <h2 className="font-semibold text-xl">Run US Criminal Record Check (Tier 1)</h2>
             <p className="text-gray-600 text-sm mt-2 max-w-xl mx-auto">
               Enter your basic details below. Once submitted, Certn will contact you by email.
             </p>
@@ -202,12 +199,8 @@ export function Backgroundcheck() {
                 <input {...register("address", { required: true })} placeholder="Street Address" className="w-full border p-2 rounded col-span-2" />
                 <input {...register("city", { required: true })} placeholder="City" className="w-full border p-2 rounded" />
                 <input {...register("county")} placeholder="County" className="w-full border p-2 rounded" />
-                <input {...register("province_state", { required: true })} placeholder={selectedCountry === "US" ? "State" : "Province"} className="w-full border p-2 rounded" />
-                <input {...register("postal_code", { required: true })} placeholder={selectedCountry === "US" ? "ZIP Code" : "Postal Code"} className="w-full border p-2 rounded" />
-                <select {...register("country", { required: true })} className="w-full border p-2 rounded col-span-2">
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                </select>
+                <input {...register("province_state", { required: true })} placeholder="State" className="w-full border p-2 rounded" />
+                <input {...register("postal_code", { required: true })} placeholder="ZIP Code" className="w-full border p-2 rounded" />
               </div>
             </section>
 
@@ -218,12 +211,8 @@ export function Backgroundcheck() {
                 <input {...register("position_location_address", { required: true })} placeholder="Street Address" className="w-full border p-2 rounded col-span-2" />
                 <input {...register("position_location_city", { required: true })} placeholder="City" className="w-full border p-2 rounded" />
                 <input {...register("position_location_county")} placeholder="County" className="w-full border p-2 rounded" />
-                <input {...register("position_location_state", { required: true })} placeholder={selectedPositionCountry === "US" ? "State" : "Province"} className="w-full border p-2 rounded" />
-                <input {...register("position_location_postal", { required: true })} placeholder={selectedPositionCountry === "US" ? "ZIP Code" : "Postal Code"} className="w-full border p-2 rounded" />
-                <select {...register("position_location_country", { required: true })} className="w-full border p-2 rounded col-span-2">
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                </select>
+                <input {...register("position_location_state", { required: true })} placeholder="State" className="w-full border p-2 rounded" />
+                <input {...register("position_location_postal", { required: true })} placeholder="ZIP Code" className="w-full border p-2 rounded" />
               </div>
             </section>
 

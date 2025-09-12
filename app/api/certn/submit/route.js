@@ -2,18 +2,25 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    // Get JSON body from frontend
-    const body = await req.json();
+    let body = await req.json();
 
-    // Call Certn API from server-side
-    const res = await fetch("https://demo-api.certn.co/hr/v1/applications/quick/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.CERTN_API_KEY}`, // server-only
-      },
-      body: JSON.stringify(body),
-    });
+    // --- DEMO OVERRIDE ---
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      body.request_us_criminal_record_check_tier_1 = true;
+    }
+    // ----------------------
+
+    const res = await fetch(
+      "https://demo-api.certn.co/hr/v1/applications/invite/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CERTN_API_KEY}`,
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
     if (!res.ok) {
       const errData = await res.json();

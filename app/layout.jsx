@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
             <SiteLayout>{children}</SiteLayout>
         </GoogleReCaptchaProvider>
         </main>
-       <CookieConsent></CookieConsent>
+       {/* <CookieConsent></CookieConsent> */}
       </body>
     </html>
 

@@ -213,7 +213,7 @@ export default function ProOverviewPage() {
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
                     This professional is fully vetted using our extensive
                     <span className="font-bold"> Pro</span>
-                    <span className="text-red-600 font-bold">Verified</span>
+                    <span className="text-green-600 font-bold">Verified</span>
                     <span className="font-bold">™</span>
                     process. Identification, licenses, and insurance. It's all there.
                     You can see for yourself.

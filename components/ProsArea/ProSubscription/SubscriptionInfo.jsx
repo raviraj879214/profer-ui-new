@@ -190,95 +190,67 @@ export function ProSubscription() {
         </section>
 
         {/* Right: Transaction History */}
-        <section className="bg-white p-8 rounded-xl shadow border">
-          <header className="mb-6">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              Transaction History
-            </h2>
-          </header>
+<section className="bg-white p-6 rounded-xl shadow border">
+  <header className="mb-4">
+    <h2 className="text-xl font-semibold text-gray-800">
+      Transaction History
+    </h2>
+  </header>
 
-          {subscriptions.length > 0 ? (
-            <div className="max-h-80 overflow-y-auto pr-2">
-              <ul className="space-y-6">
-                {subscriptions.map((txn) => (
-                  <li
-                    key={txn.SubscriptionID}
-                    className="text-sm text-gray-800 border-b pb-5 last:border-b-0 break-words"
-                  >
-                    <div className="flex justify-between font-medium flex-wrap gap-y-2">
-                      <span>#{txn.invoiceId}</span>
-                      <span>
-                        {txn.Amount
-                          ? `$${Number(txn.Amount).toFixed(2)}`
-                          : "N/A"}{" "}
-                        {txn.Currency || ""}
-                      </span>
-                    </div>
-
-                    <div className="text-gray-500 text-xs mt-2 space-y-1">
-                      <div>
-                        {txn.StartDate
-                          ? `Start Date: ${new Date(
-                              txn.StartDate
-                            ).toLocaleDateString()}`
-                          : "Start Date: N/A"}
-                      </div>
-                      <div>
-                        {txn.EndDate
-                          ? `End Date: ${new Date(
-                              txn.EndDate
-                            ).toLocaleDateString()}`
-                          : "End Date: N/A"}
-                      </div>
-                      <div>Status: {txn.Status || "N/A"}</div>
-                    </div>
-
-                    <div className="text-xs text-gray-600 mt-3 space-y-1">
-                      <div>Plan: {txn.PlanName || "N/A"}</div>
-                      <div>Type: {txn.PlanType || "N/A"}</div>
-                      <div>
-                        Renewal: {txn.RenewalPeriod || "N/A"} year
-                        {txn.RenewalPeriod > 1 ? "s" : ""}
-                      </div>
-                    </div>
-
-                    <div className="text-xs text-gray-600 mt-3 space-y-1 break-words">
-                      <div>Customer ID: {txn.customerId || "N/A"}</div>
-                      <div>
-                        Stripe Sub ID: {txn.StripeSubscriptionID || "N/A"}
-                      </div>
-                      <div>Email: {txn.email || "N/A"}</div>
-                    </div>
-
-                    <div className="mt-3 text-xs space-x-5">
-                      {txn.invoiceUrl && (
-                        <a
-                          href={txn.invoiceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          View Invoice
-                        </a>
-                      )}
-                      {txn.invoicePdf && (
-                        <button
-                          onClick={() => window.open(txn.invoicePdf, "_blank")}
-                          className="text-blue-600 hover:underline"
-                          type="button"
-                        >
-                          Invoice PDF
-                        </button>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+  {subscriptions.length > 0 ? (
+    <div className="max-h-80 overflow-y-auto pr-2">
+      <ul className="space-y-4">
+        {subscriptions.map((txn) => (
+          <li
+            key={txn.SubscriptionID}
+            className="text-sm text-gray-800 border-b pb-3 last:border-b-0"
+          >
+            <div className="flex justify-between font-medium">
+              <span>#{txn.invoiceId}</span>
+              <span>
+                {txn.Amount
+                  ? `$${Number(txn.Amount).toFixed(2)}`
+                  : "N/A"}{" "}
+                {txn.Currency || ""}
+              </span>
             </div>
-          ) : (
-            <p className="text-sm text-gray-500">No transactions available.</p>
-          )}
-        </section>
+
+            <div className="text-gray-500 text-xs mt-1">
+              <div>
+                {txn.StartDate
+                  ? `Start: ${new Date(txn.StartDate).toLocaleDateString()}`
+                  : "Start: N/A"}
+              </div>
+              <div>
+                {txn.EndDate
+                  ? `End: ${new Date(txn.EndDate).toLocaleDateString()}`
+                  : "End: N/A"}
+              </div>
+              <div>Status: {txn.Status || "N/A"}</div>
+            </div>
+
+            {txn.invoiceUrl && (
+              <div className="mt-2">
+                <a
+                  href={txn.invoiceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline text-xs"
+                >
+                  View Invoice
+                </a>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p className="text-sm text-gray-500">No transactions available.</p>
+  )}
+</section>
+
+
       </div>
 
       {/* Modal */}

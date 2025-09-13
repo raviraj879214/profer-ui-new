@@ -352,13 +352,13 @@ export function CompanyManagement() {
     {statusFilter === "0" && (
   <div className="flex gap-3">
     {/* Approve Button */}
-    <button
+    {/* <button
       onClick={deleteSelected}
       className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
       disabled={deleterow}
     >
       {deleterow ? "Loading..." : `Approve Selected (${selectedIds.length})`}
-    </button>
+    </button> */}
 
     {/* Block Button */}
     {/* <button

@@ -472,8 +472,8 @@ export function Projectmanagement() {
                       <td className="px-4 py-4">
                         <p className="font-semibold">{project.projectid || "PRJ-XXXX-XXX"}</p>
 
-                        <p className="font-semibold">{project.projectTitle}</p>
-                        <p className="font-semibold">{project.propertyType}</p>
+                        {/* <p className="font-semibold">{project.projectTitle}</p>
+                        <p className="font-semibold">{project.propertyType}</p> */}
 
                       </td>
 

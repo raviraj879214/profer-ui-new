@@ -191,10 +191,8 @@ export function EmailProVerify() {
       <a href="/terms" target="_blank" className="text-blue-600 hover:underline">
         Terms & Conditions
       </a>{" "}
-      and{" "}
-      <a href="/privacy" target="_blank" className="text-blue-600 hover:underline">
-        Privacy Policy
-      </a>
+      
+      
     </label>
   </div>
   {errors.terms && <p className="text-red-500 text-sm">{errors.terms.message}</p>}

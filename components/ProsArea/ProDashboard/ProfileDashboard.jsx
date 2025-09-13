@@ -123,7 +123,9 @@ export function ProDash() {
 
 
         setyear(result.data.experienceYears);
+        
         setverified(result.data.verifiedStatus);
+
       } else {
         setAboutInfo({
           phone: "",

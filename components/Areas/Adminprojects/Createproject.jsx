@@ -177,22 +177,52 @@ export function ProjectAuctionForm({ requestid = 0 }) {
 
 
 
-  const renderPreview = (fileObj) => {
-    const fileUrl = fileObj instanceof File ? URL.createObjectURL(fileObj) : fileObj?.url;
-    if (!fileUrl) return null;
-    if (fileUrl.toLowerCase().endsWith(".pdf")) {
-      return <embed src={fileUrl} type="application/pdf" className="absolute inset-0 w-full h-full rounded" />;
-    }
-    return <img src={fileUrl} alt="Preview" className="absolute inset-0 w-full h-full object-cover rounded" />;
-  };
+const renderPreview = (fileObj) => {
+  if (!fileObj) return null;
 
-  const renderMultiplePreview = (file) => {
-    const fileUrl = file instanceof File ? URL.createObjectURL(file) : file.url;
-    if (fileUrl.toLowerCase().endsWith(".pdf")) {
-      return <embed src={fileUrl} type="application/pdf" className="w-full h-full rounded" />;
-    }
-    return <img src={fileUrl} alt={file.name} className="w-full h-full object-cover" />;
-  };
+  let fileUrl = null;
+
+  if (fileObj instanceof File) {
+    fileUrl = URL.createObjectURL(fileObj);
+  } else if (typeof fileObj.url === "string") {
+    fileUrl = fileObj.url;
+  }
+
+  if (!fileUrl) return <div className="flex items-center justify-center w-full h-full text-gray-400">No Preview</div>;
+
+  const lowerUrl = fileUrl.toLowerCase();
+
+  if (lowerUrl.endsWith(".pdf")) {
+    return <embed src={fileUrl} type="application/pdf" className="absolute inset-0 w-full h-full rounded" />;
+  }
+
+  return <img src={fileUrl} alt={fileObj?.name || "Preview"} className="absolute inset-0 w-full h-full object-cover rounded" />;
+};
+
+const renderMultiplePreview = (file) => {
+  if (!file) return null;
+
+  let fileUrl = null;
+
+  if (file instanceof File) {
+    fileUrl = URL.createObjectURL(file);
+  } else if (typeof file.url === "string") {
+    fileUrl = file.url;
+  }
+
+  if (!fileUrl) return <div className="flex items-center justify-center w-full h-full text-gray-400">No Preview</div>;
+
+  const lowerUrl = fileUrl.toLowerCase();
+
+  if (lowerUrl.endsWith(".pdf")) {
+    return <embed src={fileUrl} type="application/pdf" className="w-full h-full rounded" />;
+  }
+
+  return <img src={fileUrl} alt={file?.name || "Preview"} className="w-full h-full object-cover" />;
+};
+
+
+
 
   const deletimagesprojectdocuments = async (requestid, field, fileUrl) => {
     await fetch(`${process.env.NEXT_PUBLIC_URL}/api/delete-images-project-document`, {

@@ -413,9 +413,10 @@ export function CompanyManagement() {
                 <th className="px-4 py-3">Location</th>
                 <th className="px-4 py-3">Joined</th>
                 <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Verified/UnVerified</th>
+                <th className="px-4 py-3">certnVerification</th>
                 <th className="px-4 py-3">Subscription Details</th>
                 <th className="px-4 py-3">Actions</th>
+                
               </tr>
             </thead>
             
@@ -554,11 +555,18 @@ export function CompanyManagement() {
             )}
          </td>
 
-        <td className="px-4 py-4 space-x-2">
+        {/* <td className="px-4 py-4 space-x-2">
           <button
             onClick={() => {handleView(user); toggleSelect(user.id)}}
             className="border border-gray-300 text-gray-700 rounded-md px-3 py-1 text-xs hover:bg-gray-100"
           >
+            View
+          </button>
+        </td> */}
+        <td>
+          <button
+            onClick={() =>router.push(`/admin/companies/${user.id}`) }
+            className="border border-gray-300 text-gray-700 rounded-md px-3 py-1 text-xs hover:bg-gray-100">
             View
           </button>
         </td>
@@ -975,13 +983,9 @@ export function CompanyManagement() {
             <div className="border-t px-6 py-3 flex justify-end space-x-3">
                  {selectedUser.status === "0" && (
                     <>
-                      <button className="bg-gray-900 text-white px-3 py-1 rounded" 
-                      onClick={() => {
-                        
-                          deleteSelected();
-                          setIsModalOpen(false);
-                        }}
-                      >{deleterow ? "Approving .." : "Approve"}</button>
+                      <button className="bg-gray-900 text-white px-3 py-1 rounded" onClick={() => {deleteSelected();setIsModalOpen(false);}}>{deleterow ? "Approving .." : "Approve"}</button>
+
+
                       <button className="bg-red-500 text-white px-3 py-1 rounded ml-2" onClick={()=>{
                         setrejectmodal(true);
                         
@@ -1024,10 +1028,17 @@ export function CompanyManagement() {
              
             </div>
           </div>
+
+
+
            {NotePopup && (<NotesTimeLine companyid={companiesid} setNotePopup={setNotePopup}></NotesTimeLine>)}
+
            {rejectmodal && <RejectPopup  sendData={handleDataFromChild} userid ={selectedUser.id}   />}
-           {blockmodal && <BlockPopup sendData={handleDataBlockChild} userid ={selectedUser.id} />}     
-            {companyinfomodal && <CompanyInfoTimeLine companyid={selectedUser.id} setcompanyinfomodal={setcompanyinfomodal} projectstatus={selectedUser.status} />}     
+           {blockmodal && <BlockPopup sendData={handleDataBlockChild} userid ={selectedUser.id} />}    
+            
+           {companyinfomodal && <CompanyInfoTimeLine companyid={selectedUser.id} setcompanyinfomodal={setcompanyinfomodal} projectstatus={selectedUser.status} />}     
+
+
         </div>
     )}
    

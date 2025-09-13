@@ -86,8 +86,8 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-2xl w-96 h-[90vh] ml-4 p-5 relative flex flex-col">
-            <button onClick={() => setcompanyinfomodal(false)} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
+        <div className="bg-white rounded-2xl shadow-2xl  h-[90vh] ml-4 p-5 relative flex flex-col">
+            
             <h2 className="font-semibold text-gray-900 mb-5 text-lg"> {projectstatus == "0" ? "Request More Info" : "Requested Logs"}</h2>
 
             <div ref={scrollRef} className="relative border-l-2 border-gray-200 pl-6 space-y-8 flex-1 overflow-y-auto pr-3">

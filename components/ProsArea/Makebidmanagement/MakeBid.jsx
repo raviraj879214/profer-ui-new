@@ -311,7 +311,7 @@ const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user a
                   </p>
                   <div className="w-full rounded-md border overflow-hidden shadow-sm">
                     <Image
-                      src={doc.fileUrl}
+                     src={`${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`} 
                       alt={doc.originalName}
                       width={400}
                       height={200}
@@ -343,7 +343,7 @@ const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user a
               mediaFiles.map((media) => (
                 <div key={media.id} className="w-full sm:w-[30%] max-w-[400px] rounded-md border overflow-hidden shadow-sm">
                   <Image
-                    src={media.fileUrl}
+                    src={`${process.env.NEXT_PUBLIC_URL}${media.fileUrl}`}
                     alt={media.originalName}
                     width={400}
                     height={200}

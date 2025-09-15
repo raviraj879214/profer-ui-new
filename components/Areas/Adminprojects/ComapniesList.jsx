@@ -136,7 +136,15 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions }) {
                         />
                       )}
                       <div>
-                        <span className="font-medium">{option.label}   </span>
+
+                        <span className="font-medium">{option.label}    {option.verifiedStatus === "0" ? (
+                      "unverified"
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <img src="/images/4.png" alt="Verified" className="w-4 h-4" />
+                        verified
+                      </span>
+                    )}</span>
                         {option.address && (
                           <p className="text-xs text-gray-500">{option.address}</p>
                         )}
@@ -145,9 +153,10 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions }) {
                     </div>
 
                     {/* Show check icon if selected */}
-                    {!isSelected && (
-                      <span className="">✔</span>
-                    )}
+                    
+                  
+
+
                   </div>
                 );
               })
@@ -176,6 +185,14 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions }) {
                   )}
                   <span>
                     {tag.label}
+                     {tag.verifiedStatus === "0" ? (
+                      "unverified"
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <img src="/images/4.png" alt="Verified" className="w-4 h-4" />
+                        verified
+                      </span>
+                    )}
                     {tag.address && (
                       <p className="text-xs text-gray-500">{tag.address}</p>
                     )}

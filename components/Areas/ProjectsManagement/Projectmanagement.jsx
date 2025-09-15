@@ -391,6 +391,8 @@ export function Projectmanagement() {
                 <th className="px-4 py-3">View Bids</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Actions</th>
+              
+
               </tr>
             </thead>
 
@@ -554,7 +556,7 @@ export function Projectmanagement() {
                      <td className="px-4 py-4 flex items-center space-x-2">
                       <EyeIcon
                         className="h-5 w-5 text-gray-500 cursor-pointer"
-                        onClick={() => openModal(project)}
+                        onClick={() => router.push(`/admin/projects/${project.id}`) }
                       />
 
                     
@@ -575,7 +577,7 @@ export function Projectmanagement() {
 
 
                     </td>
-
+                   
                     </tr>
                   ))
                 )}
@@ -817,6 +819,7 @@ function ProjectDetailsModal({ project, onClose }) {
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>

@@ -15,6 +15,7 @@ const [NotePopup,setNotePopup] = useState(false);
   const [companyinfomodal , setcompanyinfomodal] = useState(false);
   const [unblockrow,setUnBlockrow] = useState(false);
   const [userId, setUserId] = useState(id);
+
   const tabs = [
     { id: "notes", label: "Notes" },
     { id: "requests for more info", label: "Request More Info" },
@@ -481,10 +482,9 @@ const handleDataBlockChild= (value) =>{
        <div className="text-gray-500 p-4 border rounded">Allows only when user is Approved</div>
       )
     )}
-
-
-
   </div>
+
+  
 </div>
 
 

@@ -58,17 +58,11 @@ export function RejectPopup({sendData , id}) {
 
   return (
 <form onSubmit={handleSubmit(onSubmit)} className="">
-        <div className="bg-white rounded-2xl shadow-2xl w-96  ml-4 p-5 relative flex flex-col">
-      {/* Close */}
-      <button className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
-      onClick={()=>sendData ("cancel")}
+        <div className="bg-white rounded-2xl shadow-2xl  ml-4 p-5 relative flex flex-col">
       
-      >✕</button>
-
-      {/* Header */}
       <h2 className="font-semibold text-gray-900 mb-3 text-lg">Enter Reason</h2>
 
-      {/* Textarea */}
+    
       <textarea
         placeholder="Type your rejection reason..."
         className="w-full h-40 px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"

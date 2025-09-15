@@ -4,6 +4,7 @@ import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import {NotesTimeLine} from "../../Areas/ProjectRequestedByUser/Notesmanagent.jsx";
 import {RejectPopup} from "../../Areas/ProjectRequestedByUser/RejectPopup.jsx";
 import { useRouter } from "next/navigation";
+import {formatDateToUS } from "../../../lib/utils/dateFormatter.js";
 
 export function RequestDet({ projectid }) {
 
@@ -164,7 +165,7 @@ export function RequestDet({ projectid }) {
           ["Product Type", projectdetails.productType],
           ["Product Color", projectdetails.productColor],
           ["Product Preference", projectdetails.productPreference],
-          ["Posted Date", new Date(projectdetails.createdAt).toLocaleString()],
+          ["Posted Date", formatDateToUS(projectdetails.createdAt)],
         ].map(
           ([label, value], idx) =>
             value && (

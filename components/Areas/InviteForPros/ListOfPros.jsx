@@ -119,7 +119,7 @@ const idParam = selectedIds.join(",");
   };
 
  const handleEmailReminder = async (user) => {
-  
+    
   try {
     const token = localStorage.getItem("token");
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/email-reminder/${user.id}`, {
@@ -128,7 +128,7 @@ const idParam = selectedIds.join(",");
         "Content-Type": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
       },
-      body: JSON.stringify({ email: user.emailID, name: user.name }),
+      body: JSON.stringify({ email: user.emailID, name: user.name , projectid : user.projectid == null ? 0 : user.projectid  }),
     });
 
     if (!res.ok) {
@@ -224,7 +224,7 @@ const idParam = selectedIds.join(",");
   <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
     <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
       <tr>
-        <th className="px-4 py-3">
+        <th className="px-4 py-3 text-center">
           <input
             type="checkbox"
             checked={
@@ -234,11 +234,12 @@ const idParam = selectedIds.join(",");
             onChange={toggleSelectAll}
           />
         </th>
-        <th className="px-4 py-3">Name</th>
-        <th className="px-4 py-3">Email</th>
-        <th className="px-4 py-3">Invite Date</th>
-        <th className="px-4 py-3">Reg Status</th>
-        <th className="px-4 py-3">Email Remainder</th>
+        <th className="px-4 py-3 text-center">Name</th>
+        <th className="px-4 py-3 text-center">Email</th>
+        <th className="px-4 py-3 text-center">Invite Date</th>
+        <th className="px-4 py-3 text-center">Reg Status</th>
+         <th className="px-4 py-3 text-center">Invited project</th>
+        <th className="px-4 py-3 text-center">Email Remainder</th>
       </tr>
     </thead>
 
@@ -298,16 +299,16 @@ const idParam = selectedIds.join(",");
       <tbody className="divide-y divide-gray-100">
         {paginatedUsers.map((user) => (
           <tr key={user. id } className="hover:bg-gray-50">
-            <td className="px-4 py-4">
+            <td className="px-4 py-4 text-center">
               <input
                 type="checkbox"
                 checked={selectedIds.includes(user. id )}
                 onChange={() => toggleSelect(user. id )}
               />
             </td>
-            <td className="px-4 py-4 font-medium">{user.name  || "N/A"}</td>
-            <td className="px-4 py-4 text-sm text-blue-600">{user.emailID || "N/A"}</td>
-            <td className="px-4 py-4 text-sm text-gray-600">
+            <td className="px-4 py-4 font-medium text-center">{user.name  || "N/A"}</td>
+            <td className="px-4 py-4 text-sm text-blue-600 text-center">{user.emailID || "N/A"}</td>
+            <td className="px-4 py-4 text-sm text-gray-600 text-center">
               {user.inviteDate
                 ? new Date(user.inviteDate).toLocaleDateString("en-US", {
                     day: "2-digit",
@@ -316,7 +317,7 @@ const idParam = selectedIds.join(",");
                   })
                 : "N/A"}
             </td>
-                         <td className="px-4 py-4 text-sm">
+                         <td className="px-4 py-4 text-sm text-center">
   {user.Status === 0 ? (
     <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
       Pending
@@ -329,7 +330,9 @@ const idParam = selectedIds.join(",");
     "N/A"
   )}
 </td>
-          <td className="px-4 py-4 space-x-2 text-center">
+
+          <td className="text-center">{user.projectname}</td>
+          <td className="px-4 py-4 space-x-2 text-center text-center">
   <button
     title="Send Email Reminder"
     onClick={() => handleEmailReminder(user)}
@@ -355,7 +358,7 @@ const idParam = selectedIds.join(",");
       />
     </svg>
   </button>
-</td>
+          </td>
 
 
 

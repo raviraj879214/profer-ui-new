@@ -18,7 +18,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   const [lastselectcompanies, setlastselectcompanies] = useState(""); // keep raw prosId
   const [companyOptions, setCompanyOptions] = useState([]);
 
-  const [stepvar,setstepvar] = useState(true);
+  const [stepvar,setstepvar] = useState(false);
 
   const [createdprojectid,setcreatedprojectid] = useState(0);
 

@@ -117,7 +117,7 @@ export function AdminPassword() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+          className=" p-3 bg-[#0C0C2D] text-white rounded font-semibold hover:bg-[#1E1E3E] disabled:opacity-50"
           disabled={loading}
         >
           {loading ? "Updating..." : "Update Password"}

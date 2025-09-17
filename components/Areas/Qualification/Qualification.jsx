@@ -241,7 +241,7 @@ export function Adminqualification() {
           <button
             type="submit"
             disabled={submitting}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg disabled:opacity-50"
+            className=" p-3 bg-[#0C0C2D] text-white rounded font-semibold hover:bg-[#1E1E3E] disabled:opacity-50"
           >
             {submitting
               ? editId

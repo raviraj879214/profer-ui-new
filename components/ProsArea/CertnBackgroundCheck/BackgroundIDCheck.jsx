@@ -14,9 +14,16 @@ export function Backgroundcheck() {
   const [applicantEmail, setapplicationemail] = useState("");
 
   const [jsonResult, setJsonResult] = useState(null);
+  const [certapplicationid, setcertapplicationid] = useState(null);
+
+  // ✅ Ref guard to stop double execution in React Strict Mode
+  const effectRan = useRef(false);
 
   useEffect(() => {
-    backgroundusergetdetails();
+    if (!effectRan.current) {
+      backgroundusergetdetails();
+      effectRan.current = true;
+    }
   }, []);
 
   useEffect(() => {
@@ -26,13 +33,14 @@ export function Backgroundcheck() {
     }
   }, [successMessage]);
 
-  const sendInvite = async () => {
+  const sendInvite = async (emailaddress) => {
+    debugger;
     setError(null);
     setLoading(true);
 
     try {
       const body = {
-        email: applicantEmail,
+        email: emailaddress,
         request_us_criminal_record_check_tier_1: true,
       };
 
@@ -72,9 +80,17 @@ export function Backgroundcheck() {
       );
       if (!res.ok) throw new Error("Failed to fetch user details.");
       const result = await res.json();
+      console.log("result verified", result);
+      debugger;
+      setcertapplicationid(result.data.certapplicationid);
 
       if (result.status === 200) {
         setapplicationemail(result.data.email);
+
+        if (result.data.certapplicationid == "null") {
+          sendInvite(result.data.email);
+        }
+
         if (result.data.verifiedStatus === "1") {
           setVerified(true);
           // Delay 2 seconds before redirect
@@ -212,32 +228,26 @@ export function Backgroundcheck() {
               Back
             </button>
 
-            <button
+            {/* Optional resend button */}
+            {/* <button
               type="button"
-              onClick={sendInvite}
+              onClick={() => sendInvite(applicantEmail)}
               disabled={loading}
               className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md disabled:opacity-50 mx-4"
             >
               {loading ? "Resending..." : "Resend Invite"}
-            </button>
+            </button> */}
 
             <button
               type="button"
               onClick={() => router.push("/pro/pro-credentials")}
-              className="bg-gray-500 text-white font-mono py-3 px-6 rounded-full shadow-md hover:bg-gray-600"
+              className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md disabled:opacity-50 mx-4"
             >
-              Continue
+              Next
             </button>
           </div>
         </>
       )}
-
-      {/* {jsonResult && (
-  <pre className="mt-6 p-4 bg-gray-100 rounded text-sm overflow-x-auto">
-    {JSON.stringify(jsonResult, null, 2)}
-  </pre>
-)} */}
-
     </main>
   );
 }

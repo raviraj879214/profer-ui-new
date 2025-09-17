@@ -4,8 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CompanyMultiSelect } from "../../Areas/Adminprojects/ComapniesList";
+import {AssignCompany} from "../../../components/Areas/Adminprojects/AssignCompanies";
+
 
 export function ProjectAuctionForm({ requestid = 0 }) {
+
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
   const [files, setFiles] = useState({ drawings: null, insurance: null, projectother: null });
   const [mediaFiles, setMediaFiles] = useState([]);
@@ -14,6 +17,12 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [lastselectcompanies, setlastselectcompanies] = useState(""); // keep raw prosId
   const [companyOptions, setCompanyOptions] = useState([]);
+
+  const [stepvar,setstepvar] = useState(true);
+
+  const [createdprojectid,setcreatedprojectid] = useState(0);
+
+
 
   useEffect(() => {
     if (success) {
@@ -92,6 +101,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
     }
   };
 
+
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
     if (file) setFiles(prev => ({ ...prev, [field]: file }));
@@ -126,20 +136,26 @@ export function ProjectAuctionForm({ requestid = 0 }) {
   };
 
  const onSubmit = async (data) => {
+  debugger;
   try {
-    if (selectedCompanies.length === 0) {
-      alert("Please select at least one company before submitting.");
-      return;
-    }
+
+    // if (selectedCompanies.length === 0) {
+    //   alert("Please select at least one company before submitting.");
+    //   return;
+    // }
 
     const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("status", "0");
+    
+    formData.append("stepstatus", "step1");
+    // const ids = selectedCompanies.map((c) => c.value).join(",");
+    // setlastselectcompanies(ids);
+    // formData.append("prosId", ids);
 
-    const ids = selectedCompanies.map((c) => c.value).join(",");
-    setlastselectcompanies(ids);
-    formData.append("prosId", ids);
+
     formData.append("requestid", requestid);
+
     Object.keys(data).forEach((key) => formData.append(key, data[key] || ""));
 
     Object.keys(files).forEach((key) => {
@@ -160,11 +176,17 @@ export function ProjectAuctionForm({ requestid = 0 }) {
     const result = await res.json();
     if (res.ok) {
       Setmessage(`Project ${requestid > 0 ? "updated" : "created"} successfully`);
-      router.push("/admin/projects");
-      reset();
+      // router.push("/admin/projects");
+      // reset();
       setSelectedCompanies([]);
       setFiles({ drawings: null, insurance: null, projectother: null });
       setMediaFiles([]);
+
+      setstepvar(true);
+
+    
+      setcreatedprojectid(result.data.id);
+
     } else {
       alert(result.message || "Submission failed");
     }
@@ -239,16 +261,65 @@ const renderMultiplePreview = (file) => {
     });
   };
 
-  return (
-    <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200 mt-10">
+  return (<>
+    
+    
+
+     {stepvar == false ? (<>
+ 
+
+    <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200 mt-5">
+      
+      
+
+
       <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
+
         {requestid > 0 ? "Update" : "Create"} your <span className="text-red-600">Project <sup className="text-sm">™</sup></span>
+        
         <p className='text-sm text-green-400'>{success}</p>
+         <div className="mt-5 mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6">
+        <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+          {/* Step 1 */}
+          <li className="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+            <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+              <svg
+                className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              Project <span className="hidden sm:inline-flex sm:ms-2">Details</span>
+            </span>
+          </li>
+
+          {/* Step 2 */}
+          <li className="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+            <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+              <span className="me-2">2</span>
+              Assign <span className="hidden sm:inline-flex sm:ms-2">Companies</span>
+            </span>
+          </li>
+
+          {/* Step 3 (optional) */}
+          {/* <li className="flex items-center">
+            <span className="me-2">3</span>
+            Confirmation
+          </li> */}
+        </ol>
+  </div>
+
+
+    
+
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
     {[
       { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
       { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
@@ -403,12 +474,11 @@ const renderMultiplePreview = (file) => {
       {errors[field.id] && <p className="text-red-500 text-xs">{errors[field.id].message}</p>}
     </div>
   ))}
+
 </div>
 
 
-
-
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Select Companies for Bidding
           </label>
@@ -417,7 +487,7 @@ const renderMultiplePreview = (file) => {
             onChange={setSelectedCompanies} 
             setOptions={setCompanyOptions} 
           />
-        </div>
+        </div> */}
 
 
         {/* File Uploads */}
@@ -475,16 +545,33 @@ const renderMultiplePreview = (file) => {
         </div>
 
         {/* Submit */}
-        <div className="flex justify-center mt-6">
-          <button type="submit" className="bg-red-500 rounded-full px-12 py-3 text-white font-semibold text-lg hover:bg-red-600 transition">
-            {requestid > 0 ? "Update" : "Create"} Project
-          </button>
-        </div>
-      </form>
+     <div className="flex justify-end mt-6">
+  <button
+    type="submit"
+  
+    className="bg-[#0C0C2D] rounded-full px-8 py-3 text-white font-semibold text-lg  transition"
+  >
+    {requestid > 0 ? "Next Step →" : "Next Step →"}
+  </button>
+</div>
 
-
-
-      
+     </form>
     </div>
-  );
+
+     </> ) : (<>
+        <div>
+          
+         
+
+         <AssignCompany requestid={requestid > 0 ? requestid : createdprojectid} />
+
+        </div>
+      </>)}
+
+         
+
+
+
+
+ </>);
 }

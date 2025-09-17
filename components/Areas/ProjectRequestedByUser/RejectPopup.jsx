@@ -71,17 +71,17 @@ export function RejectPopup({sendData , id}) {
     {errors.reason && <p className="text-red-500 text-xs mt-2">{errors.reason.message}</p>
     }
       {/* Footer */}
-      <div className="mt-2 border-t border-gray-200 pt-3 flex flex-col gap-2">
-        <button
-         className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-[#1E1E3E]"
-        >
-          
-          {button ? "Loading..." : "Confirm & Send"}
-        </button>
-        <p className="text-xs text-gray-500">
-          Please ensure the reason is clear and concise before submitting.
-        </p>
-      </div>
+     <div className="mt-2 border-t border-gray-200 pt-3 flex flex-col gap-2">
+  <p className="text-xs text-gray-500">
+    Please ensure the reason is clear and concise before submitting.
+  </p>
+  <button
+    className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-[#1E1E3E] self-end"
+  >
+    {button ? "Loading..." : "Confirm & Send"}
+  </button>
+</div>
+
     </div>
 </form>
   );

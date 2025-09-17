@@ -301,7 +301,7 @@ export function Projectmanagement() {
               </button>
             )}
             <button
-              className="bg-blue-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-blue-700"
+              className=" p-3 bg-[#0C0C2D] text-white rounded  hover:bg-[#1E1E3E] disabled:opacity-50"
               onClick={() => router.push("/admin/create-project")}
             >
               + Add Project

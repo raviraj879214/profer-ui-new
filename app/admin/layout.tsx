@@ -9,6 +9,7 @@ import { AdminSubHeader } from "../../components/Areas/shared/AdminSubHeader";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
  
+  
   return (
     <div className="relative  bg-white font-sans overflow-hidden">
       <SidebarProvider>

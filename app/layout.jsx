@@ -23,8 +23,8 @@ export default function RootLayout({ children }) {
   <body
     className={`flex flex-col min-h-screen ${
       isAdmin
-        ? "px-1 sm:px-1 lg:px-8"       // Responsive horizontal padding
-        : "pt-20 px-1 sm:px-1 lg:px-1" // Add top padding for non-admins + responsive sides
+        ? ""       // Responsive horizontal padding
+        : "" // Add top padding for non-admins + responsive sides
     }`}
   >
     <main className="flex-grow">

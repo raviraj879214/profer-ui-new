@@ -563,7 +563,7 @@ const renderMultiplePreview = (file) => {
           
          
 
-         <AssignCompany requestid={requestid > 0 ? requestid : createdprojectid} />
+         <AssignCompany requestid={requestid > 0 ? requestid : createdprojectid} onStep={() => setstepvar(false)}   />
 
         </div>
       </>)}

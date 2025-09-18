@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { ProjectInvite } from "../../../components/Areas/Adminprojects/InviteProjectPros";
 
-
+import { EyeIcon } from "@heroicons/react/24/outline";
 
 
 export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteClick , projectrequestid = 0 , comapnystatus }) {
@@ -17,6 +17,13 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteC
   const [invitedcompanies,setinvitedcompanies] = useState([]);
 
   const selectedValues = Array.isArray(value) ? value : [];
+
+
+
+
+
+
+
 
   const toggleSelect = (option) => {
     debugger
@@ -74,7 +81,8 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteC
               img: item.companyLogo,
               description: item.description || null,
               address: `${item.streetAddress}, ${item.city}, ${item.state} ${item.zip}`,
-              verifiedStatus: item.verifiedStatus,
+              verifiedStatus: item.verifiedStatus
+             
             })),
           ];
 
@@ -178,54 +186,66 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteC
           </div>
 
           {/* Available list */}
-          <div className="overflow-y-auto">
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((option) => {
-                const isSelected = selectedValues.some(
-                  (val) => val.value === option.value
-                );
-                return (
-                  <div
-                    key={option.value}
-                    onClick={() => toggleSelect(option)}
-                    className={`flex items-center justify-between p-2 cursor-pointer rounded hover:bg-gray-100 ${
-                      isSelected ? "bg-blue-50 border border-blue-300" : ""
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {option.img && (
-                        <img
-                          src={option.img}
-                          alt={option.label}
-                          className="w-6 h-6 rounded-full"
-                        />
-                      )}
-                      <div>
-                        <span className="font-medium">{option.label}</span>
-                        {option.verifiedStatus === "0" ? (
-                          <span className="block text-red-500">unverified</span>
-                        ) : (
-                          <span className="flex items-center gap-1 text-green-600 text-sm">
-                            <img
-                              src="/images/4.png"
-                              alt="Verified"
-                              className="w-4 h-4"
-                            />
-                            verified
-                          </span>
-                        )}
-                        {option.address && (
-                          <p className="text-xs text-gray-500">{option.address}</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p className="text-gray-400">No matching companies</p>
+        <div className="overflow-y-auto">
+  {filteredOptions.length > 0 ? (
+    filteredOptions.map((option) => {
+      const isSelected = selectedValues.some(
+        (val) => val.value === option.value
+      );
+      return (
+        <div
+          key={option.value}
+          onClick={() => toggleSelect(option)}
+          className={`relative flex items-center justify-between p-2 cursor-pointer rounded hover:bg-gray-100 ${
+            isSelected ? "bg-blue-50 border border-blue-300" : ""
+          }`}
+        >
+          {/* Eye icon - top right */}
+         <button
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            onClick={(e) => {
+              e.stopPropagation(); // prevent triggering parent click handlers if needed
+              window.open(`/admin/companies/${option.value}`, "_blank");
+            }}
+          >
+            <EyeIcon className="w-5 h-5" />
+          </button>
+
+
+          <div className="flex items-center gap-2">
+            {option.img && (
+              <img
+                src={option.img}
+                alt={option.label}
+                className="w-6 h-6 rounded-full"
+              />
             )}
+            <div>
+              <span className="font-medium">{option.label}</span>
+              {option.verifiedStatus === "0" ? (
+                <span className="block text-red-500">unverified</span>
+              ) : (
+                <span className="flex items-center gap-1 text-green-600 text-sm">
+                  <img
+                    src="/images/4.png"
+                    alt="Verified"
+                    className="w-4 h-4"
+                  />
+                  verified
+                </span>
+              )}
+              {option.address && (
+                <p className="text-xs text-gray-500">{option.address}</p>
+              )}
+            </div>
           </div>
+        </div>
+      );
+    })
+  ) : (
+    <p className="text-gray-400">No matching companies</p>
+  )}
+</div>
         </div>
 
         {/* Right: Selected Companies */}

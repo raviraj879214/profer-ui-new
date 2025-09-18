@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {ProjectInvite} from "../../../components/Areas/Adminprojects/InviteProjectPros";
 
 
-export function AssignCompany({ requestid = 0 }) {
+export function AssignCompany({ requestid = 0 , onStep  }) {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [companyOptions, setCompanyOptions] = useState([]);
@@ -203,7 +203,7 @@ export function AssignCompany({ requestid = 0 }) {
           <div className="flex justify-between mt-6">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={onStep}
               className="bg-gray-300 rounded-full px-6 py-3 text-gray-800 font-semibold text-lg hover:bg-gray-400 transition"
             >
               ← Back

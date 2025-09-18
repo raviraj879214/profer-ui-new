@@ -20,15 +20,14 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="en">
-  {/* <body
+  <body
     className={`flex flex-col min-h-screen ${
       isAdmin
-        ? "px-4 sm:px-6 lg:px-8"       // Responsive horizontal padding
-        : "pt-20 px-4 sm:px-6 lg:px-8" // Add top padding for non-admins + responsive sides
-    }`}> */}
- <body>
-
-    <main className="">
+        ? "px-1 sm:px-1 lg:px-8"       // Responsive horizontal padding
+        : "pt-20 px-1 sm:px-1 lg:px-1" // Add top padding for non-admins + responsive sides
+    }`}
+  >
+    <main className="flex-grow">
       <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
         <SiteLayout>{children}</SiteLayout>
       </GoogleReCaptchaProvider>

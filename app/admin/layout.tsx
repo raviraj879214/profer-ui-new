@@ -10,9 +10,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
  
   return (
-    <div className="relative flex  bg-white font-sans overflow-hidden">
+    <div className="relative  bg-white font-sans overflow-hidden">
       <SidebarProvider>
-        <div className="flex flex-1 flex-col md:flex-row relative z-10">
+        <div className="flex flex-1 flex-col md:flex-row relative ">
           {/* Sidebar */}
           <aside
             className={`transition-transform duration-300 ease-in-out md:translate-x-0 ${

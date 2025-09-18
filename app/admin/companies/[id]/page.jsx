@@ -19,17 +19,17 @@ export default function Page({ params }){
     return(<>
       
         
-     <div className="flex items-center mt-10 justify-between px-5">
+     <div className="flex flex-col sm:flex-row items-start sm:items-center mt-6 sm:mt-10 px-4 sm:px-5 justify-between gap-3 sm:gap-0">
   {/* Breadcrumb */}
   <nav className="flex" aria-label="Breadcrumb">
-    <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <ol className="inline-flex items-center space-x-1 sm:space-x-2 md:space-x-3 rtl:space-x-reverse text-sm sm:text-base">
       <li className="inline-flex items-center">
         <Link
           href="/admin/dashboard"
-          className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+          className="inline-flex items-center text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
         >
           <svg
-            className="w-3 h-3 me-2.5"
+            className="w-3 h-3 sm:w-4 sm:h-4 me-2.5"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -43,7 +43,7 @@ export default function Page({ params }){
       <li>
         <div className="flex items-center">
           <svg
-            className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1"
+            className="rtl:rotate-180 w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mx-1 sm:mx-2"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -59,16 +59,16 @@ export default function Page({ params }){
           </svg>
           <Link
             href="/admin/companies"
-            className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+            className="ms-1 sm:ms-2 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
           >
             Companies
           </Link>
         </div>
       </li>
-       <li>
+      <li>
         <div className="flex items-center">
           <svg
-            className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1"
+            className="rtl:rotate-180 w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mx-1 sm:mx-2"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -84,7 +84,7 @@ export default function Page({ params }){
           </svg>
           <Link
             href="#"
-            className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+            className="ms-1 sm:ms-2 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
           >
             Companies Details
           </Link>
@@ -93,10 +93,10 @@ export default function Page({ params }){
     </ol>
   </nav>
 
-  {/* Back Link */}
+  {/* Back Button */}
   <Link
     href="/admin/companies"
-    className="bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300 text-sm flex items-center"
+    className="bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300 text-sm flex items-center self-start sm:self-auto"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -111,6 +111,7 @@ export default function Page({ params }){
     Back
   </Link>
 </div>
+
 
 
             

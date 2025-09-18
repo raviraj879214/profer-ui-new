@@ -115,23 +115,28 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
                 )) : <p className="text-gray-400 text-sm">No notes yet.</p>}
             </div>
             {projectstatus === "0" && (
-                <div className="mt-4 border-t border-gray-200 pt-4 flex flex-col gap-2">
-                    <textarea
-                        placeholder="Add your request..."
-                        value={newComment}
-                        rows={5}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={loading} // 🔹 Disable while loading
-                    />
-                    <button
-                        onClick={postOrUpdateNote}
-                        className={`self-end bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        disabled={loading}
-                    >
-                        {loading ? "Requesting..." : editingNoteId ? "Update" : "Request"}
-                    </button>
-                </div>
+               <div className="mt-4 border-t border-gray-200 pt-4 flex flex-col gap-2">
+  <textarea
+    placeholder="Add your request..."
+    value={newComment}
+    rows={5}
+    onChange={(e) => setNewComment(e.target.value)}
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    disabled={loading} // 🔹 Disable while loading
+  />
+  <div className="flex justify-end">
+    <button
+      onClick={postOrUpdateNote}
+      className={`bg-gray-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 w-full sm:w-auto ${
+        loading ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+      disabled={loading}
+    >
+      {loading ? "Requesting..." : editingNoteId ? "Update" : "Request"}
+    </button>
+  </div>
+</div>
+
 
             )}
            

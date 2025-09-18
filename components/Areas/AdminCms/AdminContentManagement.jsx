@@ -115,8 +115,8 @@ export function AdminCms() {
                     <button
                         onClick={handleSave}
                         disabled={loading}
-                        className={`mt-3 md:mt-0 px-5 py-2 rounded-lg font-medium text-white shadow 
-                            ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+                        className={`bg-[#0C0C2D] text-white px-4 py-2 rounded-lg w-full sm:w-auto 
+                            ${loading ? "bg-[#0C0C2D] cursor-not-allowed" : "bg-[#0C0C2D]-600 hover:bg-[#0C0C2D]"}`}
                     >
                         {loading ? "Saving..." : "Save"}
                     </button>

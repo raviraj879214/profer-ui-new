@@ -20,16 +20,21 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="en">
-     <body className={`${isAdmin ? "flex flex-col min-h-screen" : "flex flex-col min-h-screen pt-20"}`}>
-        <main className="flex-grow">
-          
-          <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
-            <SiteLayout>{children}</SiteLayout>
-        </GoogleReCaptchaProvider>
-        </main>
-       {/* <CookieConsent></CookieConsent> */}
-      </body>
-    </html>
+  <body
+    className={`flex flex-col min-h-screen ${
+      isAdmin
+        ? "px-4 sm:px-6 lg:px-8"       // Responsive horizontal padding
+        : "pt-20 px-4 sm:px-6 lg:px-8" // Add top padding for non-admins + responsive sides
+    }`}
+  >
+    <main className="flex-grow">
+      <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
+        <SiteLayout>{children}</SiteLayout>
+      </GoogleReCaptchaProvider>
+    </main>
+  </body>
+</html>
+
 
 
     

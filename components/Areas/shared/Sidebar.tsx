@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { Calendar1Icon } from "lucide-react";
 
 // ---- Icons ----
 function DashboardIcon(props: any) {
@@ -17,20 +16,12 @@ function DashboardIcon(props: any) {
 }
 function TimeIcon(props: any) {
   return (
-    <svg
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      {...props}
-    >
+    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
     </svg>
   );
 }
-
-
 function CompaniesIcon(props: any) {
   return (
     <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
@@ -86,66 +77,39 @@ function SettingsIcon(props: any) {
       <path d="M19.4 15a1.7 1.7 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.82-.33 1.7 1.7 0 00-1 1.51V21a2 2 0 01-4 0v-.18a1.7 1.7 0 00-1-1.51 1.7 1.7 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.7 1.7 0 00.33-1.82 1.7 1.7 0 00-1.51-1H3a2 2 0 010-4h.18a1.7 1.7 0 001.51-1 1.7 1.7 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.7 1.7 0 001.82.33h.01a1.7 1.7 0 001-1.51V3a2 2 0 014 0v.18a1.7 1.7 0 001 1.51z" />
     </svg>
   );
-  
 }
-
 function SubscriberIcon(props: any) {
   return (
-    <svg
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path d="M4 4h16v16H4z" /> {/* envelope outline */}
-      <path d="M4 4l8 8 8-8" /> {/* envelope flap */}
+    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" {...props}>
+      <path d="M4 4h16v16H4z" />
+      <path d="M4 4l8 8 8-8" />
     </svg>
   );
 }
-
-// Chevron Icon
 function ChevronDownIcon({ open }: { open: boolean }) {
   return (
-    <svg
-      className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-    >
+    <svg className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
       <path d="M6 9l6 6 6-6" />
     </svg>
   );
 }
-
-
-
 function ContactsIcon(props: any) {
   return (
-     <svg 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      viewBox="0 0 24 24" 
-      {...props}
-    >
+    <svg fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...props}>
       <circle cx="12" cy="7" r="4" />
       <path d="M5.5 21a6.5 6.5 0 0113 0" />
     </svg>
   );
 }
 
-// ---- SideNavButton Component ----
+// ---- SideNavButton ----
 interface SideNavButtonProps {
   icon?: React.ComponentType<any>;
   label: string;
   href: string;
   isSubItem?: boolean;
 }
-export function SideNavButton({ icon: Icon, label, href, isSubItem = false }: SideNavButtonProps) {
+function SideNavButton({ icon: Icon, label, href, isSubItem = false }: SideNavButtonProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -162,11 +126,18 @@ export function SideNavButton({ icon: Icon, label, href, isSubItem = false }: Si
   );
 }
 
-// ---- Sidebar Component ----
+// ---- Sidebar ----
 export function Sidebar() {
   const router = useRouter();
   const [projectsOpen, setProjectsOpen] = useState(false);
+  const [generalOpen, setGeneralOpen] = useState(false);
 
+
+
+
+
+
+  
   return (
     <nav className="flex flex-col w-60 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
       <div
@@ -179,35 +150,61 @@ export function Sidebar() {
       <SideNavButton icon={DashboardIcon} label="Dashboard" href="/admin/dashboard" />
       <SideNavButton icon={CompaniesIcon} label="Companies" href="/admin/companies" />
 
-      {/* Collapsible Projects */}
+      {/* Projects collapsible */}
       <button
         onClick={() => setProjectsOpen(!projectsOpen)}
         className="flex items-center justify-between w-full px-5 py-3 hover:bg-gray-800 focus:outline-none"
       >
         <span className="flex items-center gap-2">
           <ProjectsIcon className="w-5 h-5" />
-          Projects
+          Project Management
         </span>
         <ChevronDownIcon open={projectsOpen} />
       </button>
       {projectsOpen && (
         <div className="flex flex-col">
+           <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" isSubItem />
           <SideNavButton label="All Projects" href="/admin/projects" isSubItem />
-          <SideNavButton label="Create Project" href="/admin/create-project" isSubItem />
+          {/* <SideNavButton label="Create Project" href="/admin/create-project" isSubItem /> */}
+         
+          <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros"  isSubItem/>
         </div>
       )}
 
-      <SideNavButton icon={CmsIcon} label="CMS" href="/admin/cms" />
-      <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" />
-      <SideNavButton icon={Qualification} label="Qualification" href="/admin/qualification" />
-      <SideNavButton icon={ServicesIcon} label="Services" href="/admin/services" />
-      <SideNavButton icon={TimeIcon} label="Prefered Time" href="/admin/prefered-time" />
-       <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros" />
-       <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
-      <SideNavButton icon={ServicesIcon} label="Plans" href="/admin/stripeplans" />
+      
+
+      <button
+        onClick={() => setGeneralOpen(!generalOpen)}
+        className="flex items-center justify-between w-full px-5 py-3 hover:bg-gray-800 focus:outline-none"
+      >
+        <span className="flex items-center gap-2">
+          <SettingsIcon className="w-5 h-5" />
+          General Settings
+        </span>
+        <ChevronDownIcon open={generalOpen} />
+      </button>
+
+
+       {generalOpen && (
+        <div className="flex flex-col">
+          <SideNavButton label="Preferred Time" href="/admin/prefered-time" isSubItem icon={TimeIcon} />
+          <SideNavButton label="Plans" href="/admin/stripeplans" isSubItem icon={ServicesIcon} />
+          <SideNavButton label="CMS" href="/admin/cms" isSubItem icon={CmsIcon} />
+          <SideNavButton label="Qualification" href="/admin/qualification" isSubItem icon={Qualification} />
+          <SideNavButton label="Services" href="/admin/services" isSubItem icon={ServicesIcon} />
+        </div>
+      )}
+
+
+      <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
       <SideNavButton icon={SubscriberIcon} label="Subscribers" href="/admin/subscribers" />
-       {/* <SideNavButton icon={Calendar1Icon} label="Calendar" href="/admin/calendar" /> */}
-      <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" />
+      
+
+   
+      
+     
+
+      {/* <SideNavButton icon={SettingsIcon} label="Settings" href="/admin/settings" /> */}
     </nav>
   );
 }

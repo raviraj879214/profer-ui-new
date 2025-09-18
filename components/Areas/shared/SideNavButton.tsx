@@ -9,7 +9,7 @@ interface SideNavButtonProps {
   href: string;
 }
 
-export function SideNavButton({ icon: Icon, label, href }: SideNavButtonProps) {
+export function SideNavButton({ icon: Icon, label, href }: SideNavButtonProps , ) {
   const pathname = usePathname();
   const isActive = pathname === href;
 

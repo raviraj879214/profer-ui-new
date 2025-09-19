@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
+import { CompanyBid } from "./CompaniesBidPrices";
 
 export function ProjectDet({ projectid }) {
   const [project, setProject] = useState(null);
@@ -158,34 +159,67 @@ const statusColors = {
         </div>
       )}
 
-      {/* Selected Pros */}
-      {selectedPros.length > 0 && (
-        <div>
-          <h3 className="text-lg font-semibold mb-3 text-gray-800">Companies Selected for Bidding</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {selectedPros.map((pro) => (
-              <div key={pro.id} className="border rounded-lg p-4 flex gap-4 items-start">
-                <img
-                  src={pro.companyLogo}
-                  alt={pro.companyName}
-                  className="w-16 h-16 object-cover rounded"
-                />
-                <div className="text-sm space-y-1">
-                  <p className={pro.verifiedStatus === "0" ? "text-red-600 font-semibold" : "text-green-600 font-semibold"}>
-  {pro.verifiedStatus === "0" ? "Unverified" : "Verified"}
-</p>
+        {selectedPros.length > 0 && (
+  <div>
+    <h3 className="text-lg font-semibold mb-3 text-gray-800">
+      Companies Selected for Bidding
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {selectedPros.map((pro) => (
+        <div
+          key={pro.id}
+          className="border rounded-lg p-4 flex flex-col md:flex-row justify-between"
+        >
+          {/* Left: Company Info */}
+          <div className="flex gap-4 items-start flex-1">
+            <img
+              src={pro.companyLogo}
+              alt={pro.companyName}
+              className="w-16 h-16 object-cover rounded"
+            />
+            <div className="text-sm space-y-1">
+              <p
+                className={
+                  pro.verifiedStatus === "0"
+                    ? "text-red-600 font-semibold"
+                    : "text-green-600 font-semibold"
+                }
+              >
+                {pro.verifiedStatus === "0" ? "Unverified" : "Verified"}
+              </p>
 
-                  <p className="font-semibold text-gray-800">{pro.companyName}</p>
-                  <p className="text-gray-600">{pro.companyEmail}</p>
-                  <p className="text-gray-600">{pro.companyPhone}</p>
-                  <p className="text-gray-600">{pro.streetAddress} {pro.state} {pro.zip}</p>
-                  <p><strong>Owner:</strong> {pro.ownerFirstName} {pro.ownerLastName}</p>
-                </div>
-              </div>
-            ))}
+              <p className="font-semibold text-gray-800">
+                {pro.companyName}
+              </p>
+              <p className="text-gray-600">{pro.companyEmail}</p>
+              <p className="text-gray-600">{pro.companyPhone}</p>
+              <p className="text-gray-600">
+                {pro.streetAddress} {pro.state} {pro.zip}
+              </p>
+              <p>
+                <strong>Owner:</strong> {pro.ownerFirstName}{" "}
+                {pro.ownerLastName}
+              </p>
+            </div>
+          </div>
+
+          {/* Left bottom: CompanyBid */}
+          <div className="mt-4 md:mt-0 md:ml-4 self-start md:self-end w-full md:w-auto">
+            <CompanyBid projectId={projectid} proId={pro.userId} />
           </div>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
+
+
+
+
+
+
+
+      
     </div>
   );
 }

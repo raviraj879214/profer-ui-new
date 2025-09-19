@@ -129,7 +129,10 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteC
   );
 
 
-
+  const clearfilter = ()=>{
+     setSearch("");        // reset search input
+      setZipcode("");       // reset zipcode filter
+  }
 
 
 
@@ -152,15 +155,21 @@ export function CompanyMultiSelect({ value = [], onChange, setOptions, onInviteC
   className={`grid gap-6 
     grid-cols-1 
     sm:grid-cols-2 
-    lg:${invitedcompanies && invitedcompanies.length > 0 ? "grid-cols-3" : "grid-cols-2"}`}
->
-  {/* Left: Available Companies */}
-  <div className="border rounded-lg p-4 flex flex-col max-h-[70vh]">
-    <div className="flex justify-between items-center mb-3">
-      <h2 className="font-semibold text-lg flex items-center gap-2">
-        Available Companies
-      </h2>
+    lg:${invitedcompanies && invitedcompanies.length > 0 ? "grid-cols-3" : "grid-cols-2"}`}>
+
+      <div className="border rounded-lg p-4 flex flex-col max-h-[70vh]">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="font-semibold text-lg flex items-center gap-2">
+            Available Companies
+          </h2>
+
+        <button type="button"
+        onClick={()=> clearfilter()}
+        className="text-sm px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700">
+          Clear Filters
+        </button>
     </div>
+
 
     {/* Search + Zip */}
     <div className="flex flex-col sm:flex-row gap-3 mb-3">

@@ -10,7 +10,7 @@ export function ProsStep(){
 
 
     return(<>
-     <div className="flex flex-col min-h-screen">
+     <div className="flex flex-col min-h-screen mt-20">
       {/* Main Content */}
       <main className="flex-grow max-w-5xl mx-auto px-6 sm:px-12 py-20 flex flex-col items-center text-center">
         <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-16 w-full">

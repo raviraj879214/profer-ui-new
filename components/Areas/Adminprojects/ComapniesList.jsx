@@ -55,7 +55,7 @@ export function CompanyMultiSelect({
             description: item.emailID,
             address: "Invited via email",
             verifiedStatus: "0",
-            status : "0"
+            Status : item.Status
           })),
         ];
 
@@ -69,8 +69,8 @@ export function CompanyMultiSelect({
             img: item.companyLogo,
             description: item.description || null,
             address: `${item.streetAddress}, ${item.city}, ${item.state} ${item.zip}`,
-            verifiedStatus: item.verifiedStatus,
-             status : item.status
+            verifiedStatus: item.verifiedStatus
+            
           })),
         ];
 
@@ -385,10 +385,10 @@ export function CompanyMultiSelect({
 
                       <span
                           className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            company.status === 0 ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"
+                            company.Status === 0 ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"
                           }`}
                         >
-                          {company.status === "0" ? "Pending" : "Registered"}
+                          {company.Status === 0 ? "Pending" : "Registered"}
                       </span>
 
 

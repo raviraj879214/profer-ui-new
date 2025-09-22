@@ -163,11 +163,11 @@ export function Sidebar() {
       </button>
       {projectsOpen && (
         <div className="flex flex-col">
-           <SideNavButton icon={ProjectrequestedIcon} label="Project Requested" href="/admin/project-requested" isSubItem />
-          <SideNavButton label="All Projects" href="/admin/projects" isSubItem />
+           <SideNavButton  label="Project Requested" href="/admin/project-requested" isSubItem />
+          <SideNavButton label="Project Management" href="/admin/projects" isSubItem />
           {/* <SideNavButton label="Create Project" href="/admin/create-project" isSubItem /> */}
          
-          <SideNavButton icon={ContactsIcon} label="Invite Pros" href="/admin/invitepros"  isSubItem/>
+          <SideNavButton  label="Invite Pros" href="/admin/invitepros"  isSubItem/>
         </div>
       )}
 

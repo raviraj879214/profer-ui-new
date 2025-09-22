@@ -55,7 +55,7 @@ export function ProjectInvite({ modalstatus, onClose , projectrequestid , onSucc
   if (!modalstatus) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center  bg-opacity-100 z-50">
+   <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
       <div className="bg-white rounded-3xl shadow-2xl p-6 w-80 sm:w-96 transform transition-transform duration-200 scale-100">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Invite Pros to Project</h2>
         {message}

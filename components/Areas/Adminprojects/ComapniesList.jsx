@@ -9,6 +9,7 @@ export function CompanyMultiSelect({
   onInviteClick,
   projectrequestid = 0,
   comapnystatus,
+
 }) {
   const [options, setLocalOptions] = useState([]); // all companies
   const [search, setSearch] = useState("");
@@ -54,6 +55,7 @@ export function CompanyMultiSelect({
             description: item.emailID,
             address: "Invited via email",
             verifiedStatus: "0",
+            status : "0"
           })),
         ];
 
@@ -68,6 +70,7 @@ export function CompanyMultiSelect({
             description: item.description || null,
             address: `${item.streetAddress}, ${item.city}, ${item.state} ${item.zip}`,
             verifiedStatus: item.verifiedStatus,
+             status : item.status
           })),
         ];
 
@@ -377,6 +380,18 @@ export function CompanyMultiSelect({
                     {company.address && (
                       <p className="text-xs text-gray-500">{company.address}</p>
                     )}
+
+
+
+                      <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            company.status === 0 ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"
+                          }`}
+                        >
+                          {company.status === "0" ? "Pending" : "Registered"}
+                      </span>
+
+
                   </div>
                 </div>
               </div>

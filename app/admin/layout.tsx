@@ -5,13 +5,14 @@ import { AuthGuard } from "@/components/adminguard/AuthGuard";
 import { Sidebar } from "@/components/Areas/shared/Sidebar";
 import { SidebarProvider } from "@/components/context/SidebarContext";
 import { AdminSubHeader } from "../../components/Areas/shared/AdminSubHeader";
- 
+
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
  
   
   return (
-    <div className="relative  bg-white font-sans overflow-hidden">
+    <div className="relative  bg-white font-sans overflow-hidden ">
       <SidebarProvider>
         <div className="flex flex-1 flex-col md:flex-row relative ">
           {/* Sidebar */}

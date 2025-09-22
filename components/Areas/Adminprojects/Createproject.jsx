@@ -22,6 +22,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
 
   const [createdprojectid,setcreatedprojectid] = useState(0);
 
+  const [createbutton,setcreatebutton] = useState(false);
 
 
   useEffect(() => {
@@ -138,7 +139,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
  const onSubmit = async (data) => {
   debugger;
   try {
-
+    setcreatebutton(true);
     // if (selectedCompanies.length === 0) {
     //   alert("Please select at least one company before submitting.");
     //   return;
@@ -194,6 +195,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
     console.error(err);
     alert("Failed to submit form");
   }
+  setcreatebutton(false);
 };
 
 
@@ -546,14 +548,19 @@ const renderMultiplePreview = (file) => {
 
         {/* Submit */}
      <div className="flex justify-end mt-6">
-  <button
-    type="submit"
-  
-    className="bg-[#0C0C2D] rounded-full px-8 py-3 text-white font-semibold text-lg  transition"
-  >
-    {requestid > 0 ? "Next Step →" : "Next Step →"}
-  </button>
-</div>
+        <button
+          type="submit"
+          disabled ={createbutton}
+          className="bg-[#0C0C2D] rounded-full px-8 py-3 text-white font-semibold text-lg  transition"
+        >
+          
+          {createbutton ? "Wait..." : (requestid > 0 ? "Next Step →" : "Next Step →")}
+
+
+        </button>
+     </div>
+
+
 
      </form>
     </div>

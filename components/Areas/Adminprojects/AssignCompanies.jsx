@@ -15,6 +15,12 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
   const [triggercompanyselect,settriggercompanyselect] = useState(0);
   const [stepname,setstepname] = useState("step2");
 
+  const [assigbutton,setassignbutton] = useState(false);
+
+  const [disablebutton,setdisablebutton] = useState(false);
+
+
+
   const router = useRouter();
 
   // Fetch project details and preselect companies
@@ -59,14 +65,29 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
     if (companyOptions.length > 0) {
       fetchRoofingRequestDetails();
     }
+    // if(selectedCompanies.length > 0){
+    //   setdisablebutton(false);
+    // }
+    // else{
+    //     setdisablebutton(true);
+    // }
   }, [companyOptions]);
+
+
 
   // Step 2 submission
   const onSubmitStepTwo = async (data) => {
     try {
+
+    
       if (selectedCompanies.length === 0) {
         alert("Please select at least one company before submitting.");
         return;
+      }
+
+
+      if(stepname == "step3"){
+          setassignbutton(true);
       }
 
       const token = localStorage.getItem("token");
@@ -107,13 +128,17 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
       console.error(err);
       alert("Something went wrong while assigning companies.");
     }
+       if(stepname == "step3"){
+          setassignbutton(false);
+      }
   };
 
 
   const inviteprosuccess= (data) =>{
-   setstepname("step2");
-   settriggercompanyselect(data);
+    setstepname("step2");
+    settriggercompanyselect(data);
     handleSubmit(onSubmitStepTwo)();
+
   }
 
 
@@ -167,8 +192,7 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
             setOptions={setCompanyOptions}
             onInviteClick={() => setinvitemodal(true)}
             projectrequestid ={requestid}
-            comapnystatus= {triggercompanyselect}
-          />
+            comapnystatus= {triggercompanyselect}/>
 
           {/* Dates */}
           {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
@@ -211,9 +235,13 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
 
             <button
               onClick={()=> setstepname("step3")}
+              disabled={!(selectedCompanies.length > 0)}
+
+
+
               type="submit"
               className="bg-[#0C0C2D] rounded-full px-8 py-3 text-white font-semibold text-lg hover:bg-[#1E1E3E] transition">
-              Finish →
+              {assigbutton ? "Wait..." : "Finish →"}
             </button>
           </div>
         </div>

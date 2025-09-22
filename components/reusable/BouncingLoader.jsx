@@ -6,7 +6,7 @@ import styles from '../../public/BouncingLoader.module.css';
 export  function BouncingLoader() {
 
   return (
-   <div className="flex flex-col items-center gap-4">
+   <div className="flex flex-col items-center gap-4 mt-25">
       <div className="">
       {/* Animated Profer Text */}
       <h1 className="text-6xl font-extrabold flex space-x-2">

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation"; // <-- Added usePathname
+import { useRouter, usePathname } from "next/navigation";
 import clsx from "clsx";
 import { Menu, X } from "lucide-react";
 import {
@@ -10,14 +10,13 @@ import {
   BuildingOffice2Icon,
   ShieldCheckIcon,
   ClipboardDocumentListIcon,
-  CreditCardIcon ,
-  BellIcon
+  CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { Logo } from "@/components/Areas/shared/Logo";
 
 export function ProHeader() {
   const router = useRouter();
-  const pathname = usePathname(); // <-- Get current path
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -28,29 +27,25 @@ export function ProHeader() {
   }, []);
 
   const navLinks = [
-    { name: "ProFile™ Dashboard", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
-    { name: "ProFile™ Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
+    { name: "Pro Dashboard", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
+    { name: "Pro Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
     { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
-     { name: "Subscription Details", href: "/pro/pro-subscribe", icon: CreditCardIcon },
+    { name: "Subscription", href: "/pro/pro-subscribe", icon: CreditCardIcon },
     { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
-   
-    // { name: "Subscription Details", href: "/pro/pro-subscription", icon: CreditCardIcon }
   ];
 
   const handleLogout = () => {
     localStorage.clear();
     document.cookie.split(";").forEach(cookie => {
-        const name = cookie.split("=")[0].trim();
-        document.cookie = `${name}=; path=/; max-age=0`;
-      });
-
-   window.location.href = "/";
-
+      const name = cookie.split("=")[0].trim();
+      document.cookie = `${name}=; path=/; max-age=0`;
+    });
+    window.location.href = "/";
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-4 z-50 shadow-sm">
+    <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-3 md:py-4 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
@@ -61,8 +56,8 @@ export function ProHeader() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 text-gray-600 font-medium text-sm mx-auto">
-          {navLinks.map((link) => {
-            const isActive = pathname.startsWith(link.href); // <-- Auto-detect active
+          {navLinks.map(link => {
+            const isActive = pathname.startsWith(link.href);
             return (
               <button
                 key={link.name}
@@ -76,7 +71,7 @@ export function ProHeader() {
                 <link.icon
                   className={clsx("w-5 h-5", link.highlight && "text-red-600")}
                 />
-                {link.name}
+                <span className="truncate">{link.name}</span>
                 {isActive && (
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full" />
                 )}
@@ -86,50 +81,34 @@ export function ProHeader() {
         </nav>
 
         {/* User Account Section */}
-        <div className="hidden md:flex items-center gap-3">
-          <div className="relative">
-            <button
-              onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-              className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 text-sm"
-            >
-              <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                <UserIcon className="w-4 h-4 text-gray-700" />
-              </div>
-              <span className="text-gray-700 truncate max-w-[120px]">
-                {user?.name || "My Account"}
-              </span>
-            </button>
-            {accountMenuOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-md z-50">
-                <Link
-                  href="/pro/pro-dashboard"
-                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
-                  Dashboard
-                </Link>
-                {/* <Link
-                  href="/pro/pro-update"
-                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
-                  Update Profile
-                </Link>
-                  <Link
-                  href="/pro/pro-bid"
-                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
-                   Bid Management
-                </Link>
-
-                <Link
-                  href="/pro/pro-credentials"
-                  className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
-                  Pros Credentials
-                </Link> */}
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="hidden md:flex items-center gap-3 relative">
+          <button
+            onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+            className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 text-sm"
+          >
+            <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+              <UserIcon className="w-4 h-4 text-gray-700" />
+            </div>
+            <span className="text-gray-700 truncate max-w-[120px]">
+              {user?.name || "My Account"}
+            </span>
+          </button>
+          {accountMenuOpen && (
+            <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-md z-50">
+              <Link
+                href="/pro/pro-dashboard"
+                className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -143,9 +122,9 @@ export function ProHeader() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-4 pt-4 pb-6 space-y-4 animate-slide-down">
-          <nav className="flex flex-col space-y-3 text-gray-700 font-medium text-sm">
-            {navLinks.map((link) => {
+        <div className="md:hidden px-4 pt-4 pb-6 space-y-4 animate-slide-down bg-white border-t border-gray-200">
+          <nav className="flex flex-col space-y-2 text-gray-700 font-medium text-sm">
+            {navLinks.map(link => {
               const isActive = pathname.startsWith(link.href);
               return (
                 <button
@@ -155,15 +134,14 @@ export function ProHeader() {
                     setMobileMenuOpen(false);
                   }}
                   className={clsx(
-                    "flex items-center gap-2 relative px-2 py-1 rounded-md hover:text-black text-left",
-                    isActive && "text-red-600 font-semibold",
-                    link.href === "#" && "opacity-70"
+                    "flex items-center gap-2 px-2 py-2 rounded-md hover:text-black text-left w-full",
+                    isActive && "text-red-600 font-semibold"
                   )}
                 >
                   <link.icon
                     className={clsx("w-5 h-5", link.highlight && "text-red-600")}
                   />
-                  {link.name}
+                  <span className="truncate">{link.name}</span>
                   {isActive && (
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full" />
                   )}
@@ -173,7 +151,7 @@ export function ProHeader() {
           </nav>
 
           {/* Mobile Account/Login */}
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t flex flex-col gap-2">
             {user ? (
               <>
                 <Link
@@ -192,11 +170,11 @@ export function ProHeader() {
               </>
             ) : (
               <Link
-                href="/login"
+                href="#"
                 className="block py-2 text-red-600 font-semibold text-sm"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={handleLogout}
               >
-                Login
+                Logout
               </Link>
             )}
           </div>

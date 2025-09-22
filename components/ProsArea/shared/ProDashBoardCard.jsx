@@ -59,7 +59,7 @@ export function ProDashBoardHero() {
   };
 
   return (
-    <div className=" relative bg-[#C1E5EC] rounded-b-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md">
+    <div className=" relative bg-[#C1E5EC] rounded-b-3xl p-6 sm:p-8 flex items-center justify-between mt-25 shadow-md ">
       {/* Left Side: Logo + Info */}
       <div className="flex items-center space-x-4 sm:space-x-6">
         {/* Logo with rounded corners */}

@@ -21,9 +21,7 @@ export default function ProLayout({ children }) {
     <AuthGuardPro>
 
         {!shouldHideHero && <ProDashBoardHero />}
-         
-
-
+   
         {/* <ProHeader></ProHeader> */}
         {children}
         {/* <ProFooter></ProFooter> */}

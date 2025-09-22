@@ -39,7 +39,7 @@ export function SelectProPlan(){
 
     return(<>
     
-     <section className="max-w-7xl mx-auto mt-12 px-6">
+     <section className="max-w-7xl mx-auto mt-12 px-6 mt-30">
         <div className="bg-blue-100 rounded-r-3xl py-8 px-12 flex flex-col md:flex-row md:justify-between md:items-center max-md:space-y-4">
           <h2 className="text-3xl font-semibold text-gray-900 max-w-md">
             Choose your plan

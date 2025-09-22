@@ -196,7 +196,7 @@ const handleRenewSubscription = async () => {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-white mt-10">
         <main className="flex flex-col items-center justify-center flex-grow relative">
           <div className="absolute top-0 w-full h-56 bg-[#D5F1F1] rounded-b-[80px]"></div>
 

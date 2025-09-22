@@ -186,7 +186,7 @@ export function ProDash() {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto my-10 px-6">
+    <section className="max-w-7xl mx-auto my-10 px-6 mt-10">
       {message && (
         <div className="mb-4 p-2 text-green-700 bg-green-100 rounded">
           {message}

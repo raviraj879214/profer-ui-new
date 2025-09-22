@@ -304,7 +304,7 @@ export function Projectmanagement() {
               className=" p-3 bg-[#0C0C2D] text-white rounded  hover:bg-[#1E1E3E] disabled:opacity-50"
               onClick={() => router.push("/admin/create-project")}
             >
-              + Add Project
+              + Create Project
             </button>
           </div>
         </div>

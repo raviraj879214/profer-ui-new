@@ -121,7 +121,7 @@ export function ProsCheckout({ clientSecret, amount }) {
 
 
   return (
-    <main className="max-w-xl mx-auto px-6 py-20 text-gray-800 relative">
+    <main className="max-w-xl mx-auto px-6 py-20 text-gray-800 relative mt-30">
       <h1 className="text-3xl font-semibold mb-10">Personal Details</h1>
 
       <form className="space-y-8 text-sm" onSubmit={handleSubmit(onSubmit)}>

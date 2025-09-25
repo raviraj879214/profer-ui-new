@@ -87,6 +87,7 @@ export function Backgroundcheck() {
       if (result.status === 200) {
         setapplicationemail(result.data.email);
 
+        
         if (result.data.certapplicationid == null) {
           sendInvite(result.data.email);
         }

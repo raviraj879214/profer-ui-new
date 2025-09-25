@@ -14,7 +14,7 @@ export default function Howitworks() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-white py-12 sm:py-16 relative overflow-hidden">
+      <section className="bg-white py-12 sm:py-16 relative overflow-hidden mt-20">
         <div className="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6">
           <h1 className="text-4xl sm:text-6xl font-semibold text-gray-900 mb-4">
             Pro right ahead.

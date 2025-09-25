@@ -108,7 +108,7 @@ export function SearchForPros({ companyname, zipcode }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-cyan-50 mt-20">
       <main className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-semibold text-center mb-4">
           Pro Directory - Search Results

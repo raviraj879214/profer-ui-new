@@ -6,10 +6,12 @@ import { SearchForPros } from "@/components/Frontend/Searchforpros/Searchforpros
 
 
 
+
 // Inner component that actually uses useSearchParams
 function SearchForContent() {
   const searchParams = useSearchParams();
 
+  
   const name = searchParams.get("name") || "";
   const zip = searchParams.get("zip") || "";
 

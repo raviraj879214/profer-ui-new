@@ -57,7 +57,7 @@ const result = await response.json();
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white mt-20">
       {/* Top Logo Section */}
       <div className="absolute top-6 left-6 z-20">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>

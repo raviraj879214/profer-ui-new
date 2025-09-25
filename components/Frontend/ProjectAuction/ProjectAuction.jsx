@@ -136,7 +136,7 @@ export function ProjectAuction() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white mt-20">
       <main className="w-full max-w-6xl mx-auto px-6 py-8 flex-grow">
         <section className="bg-sky-100 rounded-tr-3xl rounded-br-3xl p-6 mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">

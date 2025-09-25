@@ -20,7 +20,7 @@ export default function Profernetwork() {
   return (
     <>
       {/* First Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16 mt-20">
         {/* Left Heading */}
         <div className="flex-1 text-center md:text-left mb-6 md:mb-0">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">

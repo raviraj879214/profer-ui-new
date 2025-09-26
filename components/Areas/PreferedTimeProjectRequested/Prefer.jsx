@@ -42,7 +42,7 @@ export function PreferTime() {
   }, [updateMessage]);
 
   const fetchPreferTimes = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) return;
 
     setLoading(true);
@@ -70,7 +70,7 @@ export function PreferTime() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setUpdateMessage({
         text: "No auth token found. Please login.",
@@ -179,7 +179,7 @@ export function PreferTime() {
       return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setMessage({ text: "No auth token found. Please login.", type: "error" });
       return;

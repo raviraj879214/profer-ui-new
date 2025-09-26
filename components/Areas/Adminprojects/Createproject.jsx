@@ -51,7 +51,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
         },
       });
 
@@ -145,7 +145,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
     //   return;
     // }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     const formData = new FormData();
     formData.append("status", "0");
     
@@ -253,7 +253,7 @@ const renderMultiplePreview = (file) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
       },
       body: JSON.stringify({
         projectId: requestid,

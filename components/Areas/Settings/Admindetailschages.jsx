@@ -20,7 +20,7 @@ export function AdminDetails() {
         method: "POST",
        headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         body: JSON.stringify({
           id : id,
@@ -49,7 +49,7 @@ export function AdminDetails() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-user-details/${userId}`,{
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
       });
       const result = await res.json();

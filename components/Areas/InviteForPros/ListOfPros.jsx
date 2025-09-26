@@ -29,7 +29,7 @@ export function MyList() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         }
       );
@@ -84,7 +84,7 @@ const filteredUsers = (users || []).filter((user) => {
         return null; // user pressed Cancel
       }
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
     if (!token) {
       setMessage({ text: "No auth token found. Please login.", type: "error" });
       return;
@@ -121,7 +121,7 @@ const idParam = selectedIds.join(",");
  const handleEmailReminder = async (user) => {
     
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/email-reminder/${user.id}`, {
       method: "POST",
       headers: { 

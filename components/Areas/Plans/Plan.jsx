@@ -63,7 +63,7 @@ export  function PlansPage() {
 
   const fetchPlans = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       if (!token) {
         setMessage({ text: "No auth token found. Please login.", type: "error" });
         return;
@@ -99,7 +99,7 @@ export  function PlansPage() {
     setSubmitMessage("");
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/plans/fetch-stripe-products`, {
         method: "GET",
@@ -141,7 +141,7 @@ export  function PlansPage() {
   // Add / Update
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setMessage({ text: "No auth token found. Please login.", type: "error" });
       return;
@@ -212,7 +212,7 @@ export  function PlansPage() {
       return setTableMessage({ text: "No plans selected", type: "error" });
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setTableMessage({ text: "No auth token found. Please login.", type: "error" });
       return;
@@ -254,7 +254,7 @@ export  function PlansPage() {
 
   // Toggle plan status
   const handleToggleStatus = async (plan) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setTableMessage({ text: "No auth token found. Please login.", type: "error" });
       return;

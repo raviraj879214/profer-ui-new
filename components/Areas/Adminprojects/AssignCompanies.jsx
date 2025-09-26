@@ -33,7 +33,7 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
           }
         );
@@ -90,7 +90,7 @@ export function AssignCompany({ requestid = 0 , onStep  }) {
           setassignbutton(true);
       }
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const formData = new FormData();
 
       const ids = selectedCompanies.map((c) => c.value).join(",");

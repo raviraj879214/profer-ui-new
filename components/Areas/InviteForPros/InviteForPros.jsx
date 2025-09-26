@@ -24,7 +24,7 @@ export const InviteForm = ({ onSuccess }) => {
     setSubmitMessage("");
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/add-pros`, {
         method: "POST",

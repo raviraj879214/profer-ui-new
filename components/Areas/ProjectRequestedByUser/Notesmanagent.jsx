@@ -12,7 +12,7 @@ export function NotesTimeLine({ companyid  ,projectstatus   }) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-request-project-info/${companyid}`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
         });
         if (res.ok) {
@@ -37,7 +37,7 @@ export function NotesTimeLine({ companyid  ,projectstatus   }) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
             body: JSON.stringify(
                 editingNoteId

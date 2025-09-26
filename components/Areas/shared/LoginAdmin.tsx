@@ -31,10 +31,17 @@ export function LoginAdminFrontend() {
       if (!response.ok) throw new Error(result.error || "Login failed");
 
       if (result.status === 200) {
-        localStorage.setItem("Role", JSON.stringify(result.user.role.name));
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("LoginStatus", "true");
-         document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
+        // localStorage.setItem("Role", JSON.stringify(result.user.role.name));
+        // localStorage.setItem("token", result.token);
+        // localStorage.setItem("LoginStatus", "true");
+        // document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
+
+        localStorage.setItem("AdminRole", JSON.stringify(result.user.role.name));
+        localStorage.setItem("Admintoken", result.token);
+        localStorage.setItem("AdminLoginStatus", "true");
+        document.cookie = `Adminrole=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
          
          window.location.href = ("/admin/dashboard");

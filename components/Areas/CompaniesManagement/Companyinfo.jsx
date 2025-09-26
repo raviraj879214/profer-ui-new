@@ -16,7 +16,7 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-request-company-info/${companyid}`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
         });
         if (res.ok) {
@@ -41,7 +41,7 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
             body: JSON.stringify(
                 editingNoteId

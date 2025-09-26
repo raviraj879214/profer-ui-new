@@ -30,7 +30,7 @@ export function CompanyMultiSelect({
 
   const fetchCompaniesDetails = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/get-company-list-by-search-zipcode`,
         {

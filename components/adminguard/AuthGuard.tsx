@@ -15,7 +15,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   
   useEffect(() => {
     const checkLogin = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       if (!token) {
         router.push('/admin-login');
         return;

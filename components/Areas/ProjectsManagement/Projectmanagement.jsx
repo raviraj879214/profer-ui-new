@@ -45,7 +45,7 @@ export function Projectmanagement() {
   const fetchProjectsList = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-project-list`, {
         method: "GET",
         headers: {
@@ -139,7 +139,7 @@ export function Projectmanagement() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
         },
       });
 
@@ -168,7 +168,7 @@ export function Projectmanagement() {
   // Update project status
   const updatestatus = async (projectid, newStatus) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/update-project-status`, {
         method: "POST",
         headers: {
@@ -215,7 +215,7 @@ export function Projectmanagement() {
   const fetchBidList = async (projectId) => {
     setIsBidsModalOpen(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-bid-list`, {
         method: "POST",
         headers: {
@@ -257,7 +257,7 @@ export function Projectmanagement() {
     // Only fetch logs if not already fetched for this bidId
     if (!logBidsMap[bidId]) {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("Admintoken");
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_URL}/api/get-logs-bids-admin/${projectId}/${proId}`,
           {

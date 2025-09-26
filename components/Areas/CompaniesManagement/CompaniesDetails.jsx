@@ -30,7 +30,7 @@ const [NotePopup,setNotePopup] = useState(false);
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users/${id}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         });
         if (!res.ok) {
@@ -77,7 +77,7 @@ const approveselected = async (id) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
         },
       }
     );
@@ -115,7 +115,7 @@ const approveselected = async (id) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         }
       );

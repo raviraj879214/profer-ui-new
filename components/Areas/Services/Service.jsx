@@ -45,7 +45,7 @@ export function Adminservice() {
   }, [updateMessage]);
 
   const fetchQualifications = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) return;
 
     setLoading(true);
@@ -75,7 +75,7 @@ export function Adminservice() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setUpdateMessage({
         text: "No auth token found. Please login.",
@@ -198,7 +198,7 @@ export function Adminservice() {
       return; // cancel deletion
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     if (!token) {
       setMessage({ text: "No auth token found. Please login.", type: "error" });
       return;

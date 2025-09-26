@@ -27,7 +27,7 @@ export function Header() {
 
   // Check login state on mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Admintoken");
     const storedName = localStorage.getItem("username");
     if (token) {
       setIsLoggedIn(true);

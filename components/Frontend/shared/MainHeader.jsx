@@ -8,28 +8,33 @@ export function MainHeader() {
   const [role, setRole] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
+
    const isProOverview = pathname.startsWith("/prooverview");
 
   useEffect(() => {
-    // Get cookie value for role
-    const storedRole = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("role="))
-      ?.split("=")[1];
+   
+    debugger;
+    const storedRole = document.cookie.split("; ").find((row) => row.startsWith("role="))?.split("=")[1];
+
     if (storedRole) {
       setRole(storedRole);
     }
+    
   }, []);
 
   useEffect(() => {
-    // ✅ Restrict admin to only /admin routes
-    if (role === "admin" && !pathname.startsWith("/admin")) {
+   
+
+
+  if (role === "admin" && !pathname.startsWith("/admin")) {
       router.push("/admin/dashboard"); // force redirect
     }
   }, [role, pathname, router]);
 
-  // ✅ Hide header for admin inside /admin
-  if (role === "admin" && pathname.startsWith("/admin")) {
+
+
+
+  if (pathname.startsWith("/admin") && !pathname.startsWith('/admin-login')) {
     return null;
   }
 
@@ -37,16 +42,12 @@ export function MainHeader() {
     return null;
   }
 
-  // ✅ Show ProHeader for Pros
+
   if (role === "Pro") {
     return <ProHeader />;
   }
   
 
-  // ✅ Default header for everyone else
-    
-  
-    
   
   return <Header />;
 }

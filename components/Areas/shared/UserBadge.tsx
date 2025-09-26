@@ -23,9 +23,9 @@ export function UserBadge() {
 
   const handleLogout = () => {
     console.log("Logging out...");
-    localStorage.removeItem("Role");
-    localStorage.removeItem("token");
-    localStorage.removeItem("LoginStatus");
+    localStorage.removeItem("AdminRole");
+    localStorage.removeItem("Admintoken");
+    localStorage.removeItem("AdminLoginStatus");
     route.push("/admin-login");
 
   };

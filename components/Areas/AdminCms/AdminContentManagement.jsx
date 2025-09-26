@@ -12,7 +12,7 @@ export function AdminCms() {
     // Fetch CMS categories from backend
     const fetchCmsCategories = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("Admintoken");
             if (!token) {
                 setMessage({ text: "Authentication token missing. Please login.", type: "error" });
                 return;
@@ -51,7 +51,7 @@ export function AdminCms() {
                 return;
             }
 
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("Admintoken");
             if (!token) {
                 setMessage({ text: "No token found. Please log in again.", type: "error" });
                 return;

@@ -58,7 +58,7 @@ export function ProjectRequest() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
         },
       });
       if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
@@ -106,7 +106,7 @@ export function ProjectRequest() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         }
       );
@@ -139,7 +139,7 @@ export function ProjectRequest() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
           },
         }
       );

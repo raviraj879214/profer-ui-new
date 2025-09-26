@@ -12,7 +12,7 @@ export function NotesTimeLine({ companyid, setNotePopup  }) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-notes-company/${companyid}`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
         });
         if (res.ok) {
@@ -36,7 +36,7 @@ export function NotesTimeLine({ companyid, setNotePopup  }) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
             body: JSON.stringify(
                 editingNoteId
@@ -87,7 +87,7 @@ export function NotesTimeLine({ companyid, setNotePopup  }) {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
         });
         if(res.ok){

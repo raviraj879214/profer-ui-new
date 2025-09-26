@@ -10,7 +10,7 @@ export function ProjectDet({ projectid }) {
   const [project, setProject] = useState(null);
   const [selectedPros, setSelectedPros] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Admintoken");
 
   const fetchProjectDetails = async () => {
     const res = await fetch(

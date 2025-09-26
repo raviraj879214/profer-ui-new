@@ -14,7 +14,7 @@ export function CompanyBid({ projectId, proId }) {
       setLoading(true);
       setError("");
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Admintoken");
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/get-bids-company-price-only/${projectId}/${proId}`,
         {

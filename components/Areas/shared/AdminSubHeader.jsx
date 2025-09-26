@@ -32,12 +32,24 @@ export function AdminSubHeader({ onMenuClick }) {
   }, []);
  
   const handleLogout = () => {
-    localStorage.clear();   
+    // localStorage.clear();   
     
-     document.cookie.split(";").forEach(cookie => {
-        const name = cookie.split("=")[0].trim();
-        document.cookie = `${name}=; path=/; max-age=0`;
-    });
+    //  document.cookie.split(";").forEach(cookie => {
+    //     const name = cookie.split("=")[0].trim();
+    //     document.cookie = `${name}=; path=/; max-age=0`;
+    // });
+
+        // Clear localStorage items
+      localStorage.removeItem("AdminRole");
+      localStorage.removeItem("Admintoken");
+      localStorage.removeItem("AdminLoginStatus");
+
+      // Or clear all localStorage at once
+      // localStorage.clear();
+
+      // Clear the cookie by setting its expiry date in the past
+      document.cookie = "Adminrole=; path=/; max-age=0";
+
 
     window.location.href = ("/admin-login");
 

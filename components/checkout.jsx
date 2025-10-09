@@ -9,6 +9,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
+import { stripe } from '../lib/stripe';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -118,7 +119,33 @@ const handleSubmit = async (e) => {
   );
 }
 
-export default function CheckoutForm({ clientSecret , amount }) {
+export default async function CheckoutForm() {
+
+
+  const calculateOrderAmount = (items) => 1800; 
+  
+
+  const { client_secret: clientSecret } = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount([{ id: 'xl-tshirt' }]),
+    currency: 'eur', 
+    automatic_payment_methods: { enabled: true },
+    description: 'Export of digital service: Profer subscription plan', 
+    shipping: {
+      name: "John Doe",
+      address: {
+        line1: "123 Main Street",
+        city: "Berlin",
+        state: "Berlin",
+        postal_code: "10115",
+        country: "DE",
+      },
+    },
+  });
+
+
+
+
+
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
       <div className="w-full max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl border border-gray-200">

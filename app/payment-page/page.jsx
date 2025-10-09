@@ -1,4 +1,5 @@
 
+export const dynamic = 'force-dynamic';
 import {ProsCheckout} from "../../components/Frontend/ProPayment/MembershipPayment.jsx";
 import { stripe } from '../../lib/stripe.js';
 

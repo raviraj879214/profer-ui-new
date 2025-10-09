@@ -1,4 +1,6 @@
+export const dynamic = 'force-dynamic';
 // app/success/page.jsx
+
 import { stripe } from "../../lib/stripe";
 import { redirect } from "next/navigation";
 

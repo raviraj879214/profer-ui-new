@@ -8,10 +8,10 @@ import Link from "next/link";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 import Cookies from "js-cookie";
 import { CreditCard, Gift } from "lucide-react"; // if using lucide-react icons
-import { stripe } from '../../lib/stripe.js';
+import { stripe } from '../../../lib/stripe';
 
 export async function  ProsCheckout({ amount }) {
-  
+
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
   const [button, setbutton] = useState(false);
   const router = useRouter();

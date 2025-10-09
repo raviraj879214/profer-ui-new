@@ -1,7 +1,7 @@
 
 export const dynamic = 'force-dynamic';
 import {ProsCheckout} from "../../components/Frontend/ProPayment/MembershipPayment.jsx";
-import { stripe } from '../../lib/stripe.js';
+
 
 export const metadata = {
   title: "Checkout | Profer",
@@ -11,32 +11,15 @@ export const metadata = {
 
 
 
-export default async function Page(){
+export default function Page(){
 
 
    const calculateOrderAmount =  300; // Replace with real calculation
   
-  const { client_secret: clientSecret } = await stripe.paymentIntents.create({
-
-     amount: 30000,
-    currency: 'USD', 
-    automatic_payment_methods: { enabled: true },
-    description: 'Export of digital service: Profer subscription plan', 
-    shipping: {
-      name: "John Doe",
-      address: {
-        line1: "123 Main Street",
-        city: "Berlin",
-        state: "Berlin",
-        postal_code: "10115",
-        country: "DE",
-      },
-    },
-  });
 
   return(<>
   
-    <ProsCheckout clientSecret={clientSecret} amount={calculateOrderAmount} ></ProsCheckout>
+    <ProsCheckout  amount={calculateOrderAmount} ></ProsCheckout>
 
   </>);
 }

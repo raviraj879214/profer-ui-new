@@ -8,8 +8,10 @@ import Link from "next/link";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 import Cookies from "js-cookie";
 import { CreditCard, Gift } from "lucide-react"; // if using lucide-react icons
+import { stripe } from '../../lib/stripe.js';
 
-export function ProsCheckout({ clientSecret, amount }) {
+export async function  ProsCheckout({ amount }) {
+  
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
   const [button, setbutton] = useState(false);
   const router = useRouter();
@@ -19,6 +21,39 @@ export function ProsCheckout({ clientSecret, amount }) {
   const [showPassword, setShowPassword] = useState(false); // NEW: password visibility state
   const [activeTab, setActiveTab] = useState("pro");
    
+
+    const { client_secret: clientSecret } = await stripe.paymentIntents.create({
+
+     amount: 30000,
+    currency: 'USD', 
+    automatic_payment_methods: { enabled: true },
+    description: 'Export of digital service: Profer subscription plan', 
+    shipping: {
+      name: "John Doe",
+      address: {
+        line1: "123 Main Street",
+        city: "Berlin",
+        state: "Berlin",
+        postal_code: "10115",
+        country: "DE",
+      },
+    },
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     useEffect(()=>{
       const trialStatus = Cookies.get("FreeTrial");

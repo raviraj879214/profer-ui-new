@@ -6,11 +6,13 @@ import { NextResponse } from 'next/server';
 
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 
 
 export async function POST(req) {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
   const { priceId } = await req.json();
 
   const price = await stripe.prices.retrieve(priceId);

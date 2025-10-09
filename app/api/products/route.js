@@ -3,10 +3,11 @@ export const dynamic = 'force-dynamic';
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 export async function GET() {
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const prices = await stripe.prices.list({ expand: ['data.product'] });
 
     const products = prices.data.map((price) => ({

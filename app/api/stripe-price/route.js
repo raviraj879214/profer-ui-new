@@ -4,10 +4,11 @@ export const dynamic = 'force-dynamic';
 import Stripe from "stripe";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function GET(request) {
   try {
+    
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const priceid= await getStripeActivePlan();
     const price = await stripe.prices.retrieve(`${priceid}`);
 

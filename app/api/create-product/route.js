@@ -3,10 +3,12 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 export async function POST(req) {
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    
     const { name, description, price, currency, recurring, image } = await req.json();
 
     // Convert admin-entered amount into smallest currency unit

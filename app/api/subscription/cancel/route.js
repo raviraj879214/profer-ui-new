@@ -3,10 +3,11 @@ export const dynamic = 'force-dynamic';
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req) {
   try {
+    
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { subscriptionId } = await req.json();
 
     const canceled = await stripe.subscriptions.update(subscriptionId, {

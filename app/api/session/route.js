@@ -3,10 +3,12 @@ export const dynamic = 'force-dynamic';
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 export async function GET(req) {
+  
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { searchParams } = new URL(req.url);
     const sessionId = searchParams.get('session_id');
 

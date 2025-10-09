@@ -1,7 +1,10 @@
 
 export const dynamic = 'force-dynamic';
-import { stripe } from "../../lib/stripe";
+
+
+
 import {Companyprofile} from "../../components/Frontend/ProsStepOne/ProsFirstStep";
+
 
 export const metadata = {
   title: "Pros Company | Profer",

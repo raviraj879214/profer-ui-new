@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/generate-pdf/route.js
 import { NextResponse } from 'next/server';
 import puppeteer from 'puppeteer';

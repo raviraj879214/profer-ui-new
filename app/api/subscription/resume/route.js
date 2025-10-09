@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // /app/api/subscription/resume/route.js
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';

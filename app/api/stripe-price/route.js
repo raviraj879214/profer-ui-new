@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/stripe-price/route.js
 import Stripe from "stripe";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";

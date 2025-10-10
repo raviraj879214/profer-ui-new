@@ -17,6 +17,10 @@ export function LoginAdminFrontend() {
 
 
   const onSubmit = async (data: any) => {
+
+console.log('STRIPE_SECRET_KEY:', process.env.NEXT_PUBLIC_URL ? '✅ set' : '❌ undefined');
+
+    
     setLoading(true);
     setErrorMsg(null);
     try {

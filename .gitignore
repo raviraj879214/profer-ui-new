@@ -16,6 +16,10 @@ build/
 *.pem
 *.key
 
+!.env.production
+
+
+
 # =========================
 # Logs & Debugging
 # =========================

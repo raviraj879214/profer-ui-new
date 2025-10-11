@@ -66,6 +66,7 @@ export function RequestDet({ projectid }) {
 
 
    const createproject = async (data)=>{
+    debugger;
        if (!confirm("Are you sure you want to create the selected item(s)?")) {
         return null; // user pressed Cancel
       }
@@ -77,7 +78,7 @@ export function RequestDet({ projectid }) {
               method : "GET",
               headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
             },
         });
 

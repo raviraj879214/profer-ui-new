@@ -10,6 +10,8 @@ import Modal from "react-modal";
 import { loadStripe } from "@stripe/stripe-js";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 import {TermsConditionModal} from "../../../components/Frontend/Signin/TermsConditionModal";
+
+
 const SignIn = () => {
   const {
     register,

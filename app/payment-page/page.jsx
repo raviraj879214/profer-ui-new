@@ -19,7 +19,7 @@ export default function Page(){
 
   return(<>
   
-    <ProsCheckout  amount={calculateOrderAmount} ></ProsCheckout>
+    <ProsCheckout />
 
   </>);
 }

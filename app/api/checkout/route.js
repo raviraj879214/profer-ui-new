@@ -10,7 +10,7 @@ export async function POST(req) {
 
     // ✅ Gracefully skip if Stripe key missing
     if (!STRIPE_SECRET_KEY) {
-      console.warn("⚠️ Missing STRIPE_SECRET_KEY — skipping Stripe checkout session creation.");
+      console.log("⚠️ Missing STRIPE_SECRET_KEY — skipping Stripe checkout session creation.");
       return NextResponse.json(
         {
           success: false,
@@ -31,7 +31,7 @@ export async function POST(req) {
     try {
       price = await stripe.prices.retrieve(priceId);
     } catch (err) {
-      console.warn("⚠️ Invalid or missing Stripe price:", err.message);
+      console.log("⚠️ Invalid or missing Stripe price:", err.message);
       return NextResponse.json(
         { success: false, message: "Invalid Stripe priceId or key." },
         { status: 200 }
@@ -48,7 +48,7 @@ export async function POST(req) {
 
     return NextResponse.json({ success: true, url: session.url }, { status: 200 });
   } catch (err) {
-    console.error("⚠️ Error creating Stripe session:", err);
+    console.log("⚠️ Error creating Stripe session:", err);
     return NextResponse.json(
       { success: false, error: err.message || "Unexpected error" },
       { status: 200 }

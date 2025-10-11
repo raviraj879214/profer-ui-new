@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import CheckoutForm from "../../checkout";
+// import CheckoutForm from "../../checkout";
 import Link from "next/link";
 import { getStripeActivePlan } from "../../../lib/stripeactiveplan/store";
 import Cookies from "js-cookie";
 import { CreditCard, Gift } from "lucide-react"; // if using lucide-react icons
-import { stripe } from '../../../lib/stripe';
+// import { stripe } from '../../../lib/stripe';
 
-export async function  ProsCheckout({ amount }) {
+export  function  ProsCheckout({ amount }) {
 
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm();
   const [button, setbutton] = useState(false);
@@ -22,23 +22,23 @@ export async function  ProsCheckout({ amount }) {
   const [activeTab, setActiveTab] = useState("pro");
    
 
-    const { client_secret: clientSecret } = await stripe.paymentIntents.create({
+  //   const { client_secret: clientSecret } = await stripe.paymentIntents.create({
 
-     amount: 30000,
-    currency: 'USD', 
-    automatic_payment_methods: { enabled: true },
-    description: 'Export of digital service: Profer subscription plan', 
-    shipping: {
-      name: "John Doe",
-      address: {
-        line1: "123 Main Street",
-        city: "Berlin",
-        state: "Berlin",
-        postal_code: "10115",
-        country: "DE",
-      },
-    },
-  });
+  //    amount: 30000,
+  //   currency: 'USD', 
+  //   automatic_payment_methods: { enabled: true },
+  //   description: 'Export of digital service: Profer subscription plan', 
+  //   shipping: {
+  //     name: "John Doe",
+  //     address: {
+  //       line1: "123 Main Street",
+  //       city: "Berlin",
+  //       state: "Berlin",
+  //       postal_code: "10115",
+  //       country: "DE",
+  //     },
+  //   },
+  // });
 
 
 

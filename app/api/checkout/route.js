@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   try {
     const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
-    const FRONTEND_URL = process.env.NEXT_FRONTEND_PUBLIC_URL || "http://localhost:3000";
+    const FRONTEND_URL = process.env.NEXT_FRONTEND_PUBLIC_URL || "https://app.profer.com";
 
     // ✅ Gracefully skip if Stripe key missing
     if (!STRIPE_SECRET_KEY) {

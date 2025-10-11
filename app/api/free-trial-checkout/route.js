@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   try {
     const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
-    const FRONTEND_URL = process.env.NEXT_FORNTEND_PUBLIC_URL || "http://localhost:3000";
+    const FRONTEND_URL = process.env.NEXT_FORNTEND_PUBLIC_URL || "https://app.profer.com";
 
     // ✅ Skip gracefully if env not set
     if (!STRIPE_SECRET_KEY) {

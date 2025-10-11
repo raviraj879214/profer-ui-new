@@ -8,7 +8,7 @@ export async function GET(req) {
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
   const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
   const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
-  const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.profer.com";
 
   // If missing vars, skip the external call gracefully
   if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REDIRECT_URI) {

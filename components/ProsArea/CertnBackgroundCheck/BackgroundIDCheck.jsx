@@ -51,10 +51,14 @@ export function Backgroundcheck() {
       });
 
       const data = await res.json();
+
       setJsonResult(data);
       if (data.error) throw new Error(JSON.stringify(data.error));
+      console.log(data);
 
-      await updateApplicationId(data.id);
+
+      await updateApplicationId(data.data.id);
+
       setSuccessMessage("Background check invite sent again successfully!");
       successRef.current?.scrollIntoView({ behavior: "smooth" });
       successRef.current?.focus();
@@ -92,23 +96,31 @@ export function Backgroundcheck() {
           sendInvite(result.data.email);
         }
 
-        if (result.data.verifiedStatus === "1") {
+        if (result.data.verifiedStatus === "1") 
+        {
+
           setVerified(true);
-          // Delay 2 seconds before redirect
-          setTimeout(() => {
-            router.push("/pro/pro-credentials");
-          }, 2000);
-        } else if (result.data.certapplicationid) {
+          setTimeout(() => {router.push("/pro/pro-credentials");}, 2000);
+
+        } 
+        else if (result.data.certapplicationid)
+        {
+
           setUserstatus(true);
+
         }
       }
-    } catch (err) {
+    }
+    catch (err) 
+    {
       console.error(err);
     }
   };
 
   const updateApplicationId = async (appid) => {
     try {
+      debugger;
+
       const token = localStorage.getItem("token");
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/update-user-certn`,
@@ -122,8 +134,11 @@ export function Backgroundcheck() {
         }
       );
       if (!res.ok) throw new Error("Failed to update application ID.");
+
       const result = await res.json();
+
       if (result.status === 200) setUserstatus(true);
+
     } catch (err) {
       console.error(err);
     }

@@ -86,10 +86,10 @@ const approveselected = async (id) => {
       const result = await res.json();
       if (result.status === 200) {
         // Update user state with the new status
-        // setUser((prevUser) => ({
-        //   ...prevUser,
-        //   status: "4", // Approved
-        // }));
+        setUser((prevUser) => ({
+          ...prevUser,
+          status: "4", // Approved
+        }));
         fetchUser();
       }
     }

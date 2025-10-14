@@ -41,19 +41,17 @@ export function ProHeader() {
     //   const name = cookie.split("=")[0].trim();
     //   document.cookie = `${name}=; path=/; max-age=0`;
     // });
-
-
-
+    
     // Clear localStorage items
-localStorage.removeItem("Role");
-localStorage.removeItem("token");
-localStorage.removeItem("LoginStatus");
+      localStorage.removeItem("Role");
+      localStorage.removeItem("token");
+      localStorage.removeItem("FrontendLoginStatus");
 
-// Or clear all localStorage at once
-// localStorage.clear();
+    // Or clear all localStorage at once
+    // localStorage.clear();
 
-// Clear the cookie by setting its expiry date in the past
-document.cookie = "role=; path=/; max-age=0";
+    // Clear the cookie by setting its expiry date in the past
+    document.cookie = "role=; path=/; max-age=0";
 
 
     window.location.href = "/";

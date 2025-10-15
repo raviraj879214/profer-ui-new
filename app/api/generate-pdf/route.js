@@ -81,19 +81,21 @@ export async function POST(request) {
         'Content-Disposition': `attachment; filename="pro-overview-${id}.pdf"`,
       },
     });
-} catch (error) {
-  
-  console.log('❌ PDF generation error:', {
-    message: error.message,
-    stack: error.stack,
-    name: error.name,
-  });
 
-  return NextResponse.json(
-    {
-      error: 'Failed to generate PDF',
-      details: error.message,
-    },
-    { status: 500 }
-  );
+  } catch (error) {
+
+    console.error('❌ PDF generation error:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+
+    return NextResponse.json(
+      {
+        error: 'Failed to generate PDF',
+        details: error.message,
+      },
+      { status: 500 }
+    );
+  }
 }

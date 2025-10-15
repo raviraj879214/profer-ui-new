@@ -93,7 +93,7 @@ export default function ProOverviewPage() {
 
     <div className={isExportMode ? "p-4 md:p-6" : "p-4 md:p-6"}>
 
-    <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
+    <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full mt-15">
       {/* Left Side: Logo + Info */}
       <div className="flex items-center space-x-4 sm:space-x-6">
         {/* Logo with rounded corners */}
@@ -119,13 +119,13 @@ export default function ProOverviewPage() {
           <p className="text-gray-500 mt-1 text-sm sm:text-lg">
             {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
           </p>
-   <button
+   {/* <button
       onClick={takeScreenshot}
       className="px-4 py-2 bg-blue-500 text-white rounded"
     >
       Take Screenshot
     </button>
-         
+          */}
          
         </div>
       </div>
@@ -148,12 +148,17 @@ export default function ProOverviewPage() {
     >
       Credentials
     </Link>
-    <Link
-      href={`/pro-overview/${id}/download`}
-      className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500"
-    >
+   <a
+      href={`http://localhost:3000/prooverview/${id}`}
+     target="_blank"
+      className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500">
       Download
-    </Link>
+    </a>
+
+
+
+
+
    
   </nav>
   )}

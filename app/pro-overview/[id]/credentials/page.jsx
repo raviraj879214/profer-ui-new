@@ -112,7 +112,7 @@ export default function CredentialsPage() {
         {[
           { href: `/pro-overview/${id}`, label: "Overview" },
           { href: `/pro-overview/${id}/credentials`, label: "Credentials", active: true },
-          { href: `/pro-overview/${id}/download`, label: "Download" },
+          { href: `/prooverview/${id}`, label: "Download" },
          
         ].map((link, i) => (
           <Link

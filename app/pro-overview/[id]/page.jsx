@@ -68,7 +68,7 @@ export default function ProOverviewPage() {
   };
 
 
-   const takeScreenshot = async () => {
+ const takeScreenshot = async () => {
     const urlToCapture = "https://example.com"; // replace with any URL
     const res = await fetch(`/api/screenshot?url=${encodeURIComponent(urlToCapture)}`);
     if (!res.ok) return alert("Screenshot failed");
@@ -76,9 +76,13 @@ export default function ProOverviewPage() {
     const blob = await res.blob();
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "pro-overview-" + id ;
+    link.download = "screenshot.png";
     link.click();
   };
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@ import puppeteer from "puppeteer";
 export const dynamic = "force-dynamic"; // ensures server-side execution
 
 export async function GET(request) {
-  const url = request.nextUrl.searchParams.get("url");
+  const url = "http://localhost:3000/prooverview/67";
   if (!url) return NextResponse.json({ error: "URL is required" }, { status: 400 });
 
   try {

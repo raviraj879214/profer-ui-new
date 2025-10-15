@@ -75,6 +75,23 @@ if (!pro) {
     }));
   };
 
+
+
+    const handleDownload = () => {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "page.html";
+    link.click();
+  };
+
+
+
+
+
+
+
   return (
     <>
     <br/>
@@ -107,8 +124,7 @@ if (!pro) {
           <p className="text-gray-500 mt-1 text-sm sm:text-lg">
             {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
           </p>
-
-          {/* Favorite Pro */}
+         
          
         </div>
       </div>

@@ -67,9 +67,26 @@ export default function ProOverviewPage() {
     }));
   };
 
+
+   const takeScreenshot = async () => {
+    const urlToCapture = "https://example.com"; // replace with any URL
+    const res = await fetch(`/api/screenshot?url=${encodeURIComponent(urlToCapture)}`);
+    if (!res.ok) return alert("Screenshot failed");
+
+    const blob = await res.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "pro-overview-" + id ;
+    link.click();
+  };
+
+
+
+
   return (
     <>
-         
+       
+
     <div className={isExportMode ? "p-4 md:p-6" : "p-4 md:p-6"}>
 
     <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
@@ -98,7 +115,12 @@ export default function ProOverviewPage() {
           <p className="text-gray-500 mt-1 text-sm sm:text-lg">
             {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
           </p>
-
+   <button
+      onClick={takeScreenshot}
+      className="px-4 py-2 bg-blue-500 text-white rounded"
+    >
+      Take Screenshot
+    </button>
          
          
         </div>

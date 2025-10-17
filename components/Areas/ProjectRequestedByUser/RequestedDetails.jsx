@@ -218,14 +218,15 @@ export function RequestDet({ projectid }) {
                         {isImage && (
                           <div className="relative w-full h-40 overflow-hidden rounded group">
                             <img
-                              src={`${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`}
+                              src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${file.fileUrl}`}
+
                               alt={file.originalName}
                               className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-150"
                             />
                             <button
                               onClick={() =>
                                 window.open(
-                                  `${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`,
+                                  `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${file.fileUrl}`,
                                   "_blank"
                                 )
                               }

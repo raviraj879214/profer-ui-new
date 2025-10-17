@@ -133,12 +133,12 @@ const statusColors = {
                 {doc.fileUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                   <div className="relative">
                     <img
-                      src={`${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`}
+                      src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${doc.fileUrl}`}
                       alt={doc.originalName}
                       className="w-full h-32 object-cover rounded"
                     />
                     <button
-                      onClick={() => window.open(`${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`, "_blank")}
+                      onClick={() => window.open(`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${doc.fileUrl}`, "_blank")}
                       className="absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-100"
                       title="View Image"
                     >

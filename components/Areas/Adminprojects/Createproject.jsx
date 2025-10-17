@@ -84,7 +84,7 @@ export function ProjectAuctionForm({ requestid = 0 }) {
           (data.documents || []).forEach(file => {
             const fullUrl = file.fileUrl?.startsWith("http")
               ? file.fileUrl
-              : `${process.env.NEXT_PUBLIC_URL}${file.fileUrl}`;
+              : `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${file.fileUrl}`;
             if (file.fileType === "drawings") {
               drawingsFile = { url: fullUrl, name: file.originalName };
             } else if (file.fileType === "insurance") {
@@ -249,6 +249,7 @@ const renderMultiplePreview = (file) => {
 
 
   const deletimagesprojectdocuments = async (requestid, field, fileUrl) => {
+    debugger;
     await fetch(`${process.env.NEXT_PUBLIC_URL}/api/delete-images-project-document`, {
       method: "DELETE",
       headers: {
@@ -533,6 +534,7 @@ const renderMultiplePreview = (file) => {
               {mediaFiles.map((file, index) => (
                 <div key={index} className="relative w-full h-28 border rounded overflow-hidden">
                   {renderMultiplePreview(file)}
+
                   <button
                     type="button"
                     onClick={() => handleRemovemultiple(index, file, 'mediaFiles')}

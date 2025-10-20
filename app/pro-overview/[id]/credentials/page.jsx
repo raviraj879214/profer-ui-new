@@ -53,7 +53,7 @@ export default function CredentialsPage() {
   };
  
   return (
-    <div className="p-4 md:p-6">
+    <div className="p-4 md:p-6 mt-20">
  
 <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
   {/* Left Side: Logo + Info */}

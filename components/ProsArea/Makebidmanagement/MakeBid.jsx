@@ -160,7 +160,7 @@ const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user a
       doc.fileType === "projectother"
   ) || [];
 
-  const mediaFiles = project.documents?.filter((doc) => doc.fileType === "mediaFiles") || [];
+  const mediaFiles = project.documents?.filter((doc) => doc.fileType === "media") || [];
 
   return (
     <>
@@ -311,7 +311,7 @@ const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user a
                   </p>
                   <div className="w-full rounded-md border overflow-hidden shadow-sm">
                     <Image
-                     src={`${process.env.NEXT_PUBLIC_URL}${doc.fileUrl}`} 
+                     src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${doc.fileUrl}`} 
                       alt={doc.originalName}
                       width={400}
                       height={200}
@@ -343,7 +343,7 @@ const [hasExistingBid, setHasExistingBid] = useState(false); // tracks if user a
               mediaFiles.map((media) => (
                 <div key={media.id} className="w-full sm:w-[30%] max-w-[400px] rounded-md border overflow-hidden shadow-sm">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_URL}${media.fileUrl}`}
+                    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${media.fileUrl}`}
                     alt={media.originalName}
                     width={400}
                     height={200}

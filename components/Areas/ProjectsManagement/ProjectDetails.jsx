@@ -188,7 +188,7 @@ const statusColors = {
       {/* Left: Company Info */}
       <div className="flex gap-4 items-start flex-1">
         <img
-          src={pro.companyLogo}
+          src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
           alt={pro.companyName}
           className="w-16 h-16 object-cover rounded"
         />

@@ -60,7 +60,7 @@ if (!user) return <p className="p-4 text-red-500">User not found.</p>;
       <div className="mb-6 flex justify-center">
         {user.businessDetails?.companyLogo ? (
           <img
-            src={user.businessDetails.companyLogo}
+            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${user.businessDetails.companyLogo}`}
             alt="Company Logo"
             className="w-32 h-32 rounded-full object-cover shadow-lg"
           />

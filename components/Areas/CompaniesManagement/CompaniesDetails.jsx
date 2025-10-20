@@ -215,7 +215,7 @@ const handleDataBlockChild= (value) =>{
 
   {/* Company Logo */}
   <img
-    src={businessDetails?.companyLogo || "/default-avatar.png"}
+    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${businessDetails?.companyLogo}` || "/default-avatar.png"}
     alt="Company Logo"
     className="w-24 h-24 rounded-full border object-cover mb-4 md:mb-0"
   />
@@ -285,12 +285,13 @@ const handleDataBlockChild= (value) =>{
             <div className="bg-white rounded-xl shadow p-6 space-y-3">
               <div className="flex items-center space-x-4 mb-4">
                 {businessDetails.companyLogo && (
-                  <img src={businessDetails.companyLogo} alt="Company Logo" className="w-20 h-20 rounded border object-cover" />
+                  <img src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${businessDetails.companyLogo}`} alt="Company Logo" className="w-20 h-20 rounded border object-cover" />
                 )}
                 {businessDetails.ownerLicense && (
-                  <img src={businessDetails.ownerLicense} alt="Owner License" className="w-20 h-20 rounded border object-cover" />
+                  <img src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${businessDetails.ownerLicense}`} alt="Owner License" className="w-20 h-20 rounded border object-cover" />
                 )}
               </div>
+              
               <p><span className="font-semibold">Company Name:</span> {businessDetails.companyName}</p>
               <p><span className="font-semibold">Owner:</span> {businessDetails.ownerFirstName} {businessDetails.ownerLastName}</p>
               <p><span className="font-semibold">Email:</span> {businessDetails.ownerEmail}</p>

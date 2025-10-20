@@ -337,55 +337,60 @@ function CredentialSection({ title, icon, section }) {
 
             {/* File Preview / Upload */}
             <div className="h-[140px] w-full rounded-md border overflow-hidden shadow-sm relative group bg-gray-50">
-              {loadingStates[idx] ? (
-                <div className="flex items-center justify-center h-full text-gray-400 text-sm">
-                  Uploading...
-                </div>
-              ) : doc.uploadedFile ? (
-                doc.uploadedFile.toLowerCase().endsWith(".pdf") ? (
-                  <iframe
-                    src={doc.uploadedFile}
-                    title={doc.title || "Uploaded PDF"}
-                    className="w-full h-full"
-                  ></iframe>
-                ) : (
-                  <img
-                    src={doc.uploadedFile}
-                    alt={doc.title || "Uploaded file"}
-                    className="object-contain w-full h-full"
-                  />
-                )
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-400 text-sm">
-                  {doc.title?.trim() && doc.expirationDate?.trim()
-                    ? "+ Upload File"
-                    : "Enter name & date first"}
-                </div>
-              )}
+  {loadingStates[idx] ? (
+    <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+      Uploading...
+    </div>
+  ) : doc.uploadedFile ? (
+    doc.uploadedFile.toLowerCase().endsWith(".pdf") ? (
+      <iframe
+        src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${
+          doc.uploadedFile?.replace(process.env.NEXT_PUBLIC_URL, "") || ""
+        }`}
+        title={doc.title || "Uploaded PDF"}
+        className="w-full h-full"
+      ></iframe>
+    ) : (
+      <img
+        src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${
+          doc.uploadedFile?.replace(process.env.NEXT_PUBLIC_URL, "") || ""
+        }`}
+        alt={doc.title || "Uploaded file"}
+        className="object-contain w-full h-full"
+      />
+    )
+  ) : (
+    <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+      {doc.title?.trim() && doc.expirationDate?.trim()
+        ? "+ Upload File"
+        : "Enter name & date first"}
+    </div>
+  )}
 
-              {/* Remove button overlay */}
-              {!loadingStates[idx] && doc.uploadedFile && (
-                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
-                  <button
-                    onClick={(e) => handleRemove(idx, e)}
-                    className="bg-red-500 text-white text-xs px-3 py-1 rounded shadow"
-                  >
-                    Remove
-                  </button>
-                </div>
-              )}
+  {/* Remove button overlay */}
+  {!loadingStates[idx] && doc.uploadedFile && (
+    <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+      <button
+        onClick={(e) => handleRemove(idx, e)}
+        className="bg-red-500 text-white text-xs px-3 py-1 rounded shadow"
+      >
+        Remove
+      </button>
+    </div>
+  )}
 
-              {/* File input */}
-              {!loadingStates[idx] && !doc.uploadedFile && (
-                <input
-                  type="file"
-                  accept="image/*,application/pdf"
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                  onChange={(e) => handleUpload(e, idx)}
-                  disabled={!doc.title?.trim() || !doc.expirationDate?.trim()}
-                />
-              )}
-            </div>
+  {/* File input */}
+  {!loadingStates[idx] && !doc.uploadedFile && (
+    <input
+      type="file"
+      accept="image/*,application/pdf"
+      className="absolute inset-0 opacity-0 cursor-pointer"
+      onChange={(e) => handleUpload(e, idx)}
+      disabled={!doc.title?.trim() || !doc.expirationDate?.trim()}
+    />
+  )}
+</div>
+
 
             {/* Expiration Date */}
             <div className="w-full text-left">

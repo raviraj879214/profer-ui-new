@@ -65,7 +65,7 @@ export function ProDashBoardHero() {
         {/* Logo with rounded corners */}
         <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
           <img
-            src={logoSrc}
+            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${logoSrc}`}
             alt={company.companyName || "Company Logo"}
             className={`w-full h-full object-contain transition-opacity duration-500 ${
               logoLoaded ? "opacity-100" : "opacity-0"
@@ -73,6 +73,7 @@ export function ProDashBoardHero() {
             onLoad={() => setLogoLoaded(true)}
           />
         </div>
+        
 
         {/* Company info */}
         <div>

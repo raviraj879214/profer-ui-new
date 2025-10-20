@@ -255,7 +255,7 @@ export function ProsStepBusinessDetails({ userId }) {
                   />
                 ) : previewCompanyLogo ? (
                   <img
-                    src={previewCompanyLogo}
+                    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${previewCompanyLogo}`}
                     className="w-full h-full object-cover rounded-md"
                   />
                 ) : (
@@ -283,7 +283,7 @@ export function ProsStepBusinessDetails({ userId }) {
                   />
                 ) : previewOwnerLicense ? (
                   <img
-                    src={previewOwnerLicense}
+                    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${previewOwnerLicense}`}
                     className="w-full h-full object-cover rounded-md"
                   />
                 ) : (

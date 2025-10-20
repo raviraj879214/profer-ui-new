@@ -95,12 +95,14 @@ export function ProCredentialList() {
                 </div>
               </div>
               <div className="space-y-4">
+               
+
                 {section.contents.map((content, i) => (
                   <div key={i}>
                     <p className="text-xs text-gray-600 truncate mb-1">{content.text}</p>
                     {isPdf(content.image) ? (
                       <embed
-                        src={`${process.env.NEXT_PUBLIC_URL}${content.image}#toolbar=0&navpanes=0&scrollbar=0`}
+                        src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${content.image}#toolbar=0&navpanes=0&scrollbar=0`}
                         type="application/pdf"
                         width="100%"
                         height="400px"
@@ -108,13 +110,15 @@ export function ProCredentialList() {
                       />
                     ) : (
                       <img
-                        src={`${process.env.NEXT_PUBLIC_URL}${content.image}`}
+                        src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${content.image}`}
                         alt={content.alt}
                         className="w-full h-40 object-contain border border-gray-300 rounded"
                       />
                     )}
                   </div>
                 ))}
+
+
               </div>
             </div>
           ))

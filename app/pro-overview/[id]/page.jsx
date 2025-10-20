@@ -99,7 +99,7 @@ export default function ProOverviewPage() {
         {/* Logo with rounded corners */}
         <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
           <img
-            src={pro.companyLogo || "/placeholder-logo.png"}
+            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
             alt={pro.companyName || "Pro Logo"}
             className="w-full h-full object-contain"
           />
@@ -149,7 +149,7 @@ export default function ProOverviewPage() {
       Credentials
     </Link>
    <a
-      href={`http://localhost:3000/prooverview/${id}`}
+      href={`${process.env.NEXT_PUBLIC_URL}/prooverview/${id}`}
      target="_blank"
       className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500">
       Download
@@ -344,11 +344,11 @@ export default function ProOverviewPage() {
           <div key={idx} className="border border-gray-200 rounded-md p-4">
             {/* Section Header with icon */}
             <div className="flex items-center mb-3">
-              <img
+              {/* <img
                 src={icon}
                 alt={`${section} Icon`}
                 className="w-5 h-5 object-contain mr-2"
-              />
+              /> */}
               <h4 className="font-semibold text-gray-700 text-xl">{section}</h4>
             </div>
 
@@ -362,7 +362,7 @@ export default function ProOverviewPage() {
                   <p className="font-semibold text-gray-700 text-l">{cred.name}</p>
                   {cred.fileUrl?.endsWith(".pdf") ? (
                     <embed
-                      src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                      src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                       type="application/pdf"
                       width="100%"
                       height="200px"
@@ -370,7 +370,7 @@ export default function ProOverviewPage() {
                     />
                   ) : (
                     <img
-                      src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
+                      src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}`}
                       alt={cred.name}
                       className="w-full h-32 object-contain border rounded"
                     />

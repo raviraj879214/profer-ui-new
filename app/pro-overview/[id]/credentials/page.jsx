@@ -168,7 +168,7 @@ export default function CredentialsPage() {
                       <p className="font-semibold text-gray-700 text-l text-center">{cred.name}</p>
                       {cred.fileUrl?.endsWith(".pdf") ? (
                         <embed
-                          src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                          src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                           type="application/pdf"
                           width="100%"
                           height="200px"
@@ -176,7 +176,7 @@ export default function CredentialsPage() {
                         />
                       ) : (
                         <img
-                          src={`${process.env.NEXT_PUBLIC_URL}${cred.fileUrl}`}
+                          src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}`}
                           alt={cred.name}
                           className="w-full h-32 object-contain border rounded"
                         />

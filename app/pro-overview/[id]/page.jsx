@@ -91,7 +91,7 @@ export default function ProOverviewPage() {
     <>
        
 
-    <div className={isExportMode ? "p-4 md:p-6" : "p-4 md:p-6"}>
+    <div className={isExportMode ? "p-4 md:p-6 mt-20" : "p-4 md:p-6 mt-20"}>
 
     <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full mt-15">
       {/* Left Side: Logo + Info */}
@@ -149,7 +149,7 @@ export default function ProOverviewPage() {
       Credentials
     </Link>
    <a
-      href={`${process.env.NEXT_PUBLIC_URL}/prooverview/${id}`}
+      href={`https://app.profer.com/prooverview/${id}`}
      target="_blank"
       className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500">
       Download
@@ -266,7 +266,7 @@ export default function ProOverviewPage() {
 <br/>
 
 <div
-  className="w-full max-w-6xl min-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto items-stretch"
+  className="w-full max-w-6xl min-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto items-stretch mb-20"
 >
   {/* Left Side - About */}
   <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
@@ -315,9 +315,7 @@ export default function ProOverviewPage() {
     </div>
   </div>
 
-  {/* Right Side - Credentials */}
-  {/* Right Side - Credentials */}
-{/* Right Side - Credentials */}
+
 <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
   <h2 className="text-gray-800 font-medium mb-6 text-2xl">Credentials</h2>
     <div className="flex justify-end">

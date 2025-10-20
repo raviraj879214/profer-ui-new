@@ -134,8 +134,11 @@ export default function CredentialsPage() {
  
       {/* Credentials Sections */}
       <div className="space-y-4 max-w-6xl mx-auto px-2 sm:px-4">
+
         {Object.keys(grouped).length === 0 ? (
-          <p className="text-center text-gray-500 text-sm">No credentials found.</p>
+
+          <p className="text-center text-gray-500 text-sm mb-70">No credentials found.</p>
+
         ) : (
           Object.entries(grouped).map(([section, creds], idx) => {
             const expanded = expandedSections[section];

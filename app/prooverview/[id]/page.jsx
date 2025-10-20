@@ -134,7 +134,7 @@ if (!pro) {
 
 {!isExportMode && (
  <nav className="flex justify-center space-x-6">
-    <Link
+    {/* <Link
       href={`/pro-overview/${id}`}
       className="text-sm font-medium px-3 py-2 border-b-2  border-indigo-500 text-indigo-600 hover:text-indigo-600 hover:border-indigo-500"
     >
@@ -145,13 +145,13 @@ if (!pro) {
       className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500"
     >
       Credentials
-    </Link>
-    <Link
+    </Link> */}
+    {/* <Link
       href={`/pro-overview/${id}/download`}
       className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500"
     >
       Download
-    </Link>
+    </Link> */}
    
   </nav>
   )}

@@ -65,15 +65,15 @@ export function Bid() {
 
   return (
     <>
-      <main className="w-full max-w-7xl mx-auto flex flex-col p-4">
-        <section className="flex mt-6 w-full max-w-full">
+      <main className="w-full max-w-7xl mx-auto flex flex-col p-4 mt-20">
+        <section className="flex mt-6 w-full max-w-full ">
           <aside className="flex flex-col space-y-3 bg-sky-200 w-36 p-5 rounded-tl-lg rounded-bl-lg text-gray-600 text-sm font-medium">
             <span className="cursor-pointer font-bold text-gray-900 border-l-4 border-sky-500 pl-3">
               Projects
             </span>
           </aside>
 
-          <article className="flex-1 bg-white p-6 rounded-tr-lg rounded-br-lg drop-shadow-md overflow-x-auto">
+          <article className="flex-1 bg-white p-6 rounded-tr-lg rounded-br-lg drop-shadow-md overflow-x-auto ">
             {message && (
               <p className="text-green-500 transition-opacity duration-500">
                 {message}
@@ -212,7 +212,7 @@ export function Bid() {
                     <tr>
                       <td
                         colSpan="8"
-                        className="py-6 text-center text-gray-500"
+                        className="py-6 text-center text-gray-500 "
                       >
                         No records found
                       </td>

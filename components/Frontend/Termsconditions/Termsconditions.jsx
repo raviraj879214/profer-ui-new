@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
 }, []);
 
   return (
-    <main className="max-w-3xl mx-auto p-6 mt-10 mt-30">
+    <main className="flex-grow max-w-3xl mx-auto p-6 mt-24">
       <h1 className="text-3xl font-bold mb-4 text-center">Profer, Inc. Terms of Use & Privacy Policy</h1>
 
       <h3 className=''>Last Modified: {formatDateToUS(updatedAt)}</h3>

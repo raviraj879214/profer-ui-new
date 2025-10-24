@@ -5,7 +5,7 @@ import { SubscriberForm } from "../../Frontend/Subscriber/Subscriberui";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-200 py-10 px-6">
+    <footer className=" bg-gray-900 text-gray-200 py-10 px-6">
       <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-6">
         
         {/* Logo + Copyright */}

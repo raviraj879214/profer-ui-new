@@ -27,11 +27,11 @@ export default function RootLayout({ children }) {
         : "" // Add top padding for non-admins + responsive sides
     }`}
   >
-    <main className="flex-grow">
+    {/* <main className="flex-grow"> */}
       <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
         <SiteLayout>{children}</SiteLayout>
       </GoogleReCaptchaProvider>
-    </main>
+    {/* </main> */}
   </body>
 </html>
 

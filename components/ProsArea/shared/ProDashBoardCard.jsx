@@ -14,7 +14,7 @@ export function ProDashBoardHero() {
   });
   const [logoSrc, setLogoSrc] = useState("/placeholder-logo.png");
   const [logoLoaded, setLogoLoaded] = useState(false);
-  const [verified,setvierified] = useState(0);
+  
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -37,6 +37,7 @@ export function ProDashBoardHero() {
         const result = await res.json();
         if (result.status === 200 && result.data.length > 0) {
           const data = result.data[0];
+          debugger;
           setCompany({
             id : data?.id,
             companyName: data?.companyName || "",
@@ -45,9 +46,9 @@ export function ProDashBoardHero() {
             state: data?.state || "",
             zip: data?.zip || "",
             streetAddress: data?.streetAddress || "",
-            verified: data?.verifiedStatus || true,
+            verified: data?.verifiedStatus,
           });
-          setvierified(data.verifiedStatus);
+        
           if (data?.companyLogo) {
             setLogoSrc(data.companyLogo);
           }
@@ -75,14 +76,14 @@ export function ProDashBoardHero() {
         </div>
         
 
-        {/* Company info */}
+        
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-extrabold text-[#012C43]">
-            {company.companyName || "Not Updated"}
+            {company.companyName || "Not Updated"}   
 
-            {verified == "1" && (
+            {company.verified == "1" && (
               <VerifiedCheckIcon />
-            )}
+            )} 
 
           </h1>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">
@@ -90,6 +91,22 @@ export function ProDashBoardHero() {
               ? `${company.city}, ${company.state}`
               : "Location not available"}
           </p>
+         <div className="mt-1 text-sm sm:text-base">
+  {company.verified == "1" ? (
+    <h3 className="text-lg font-bold">
+      Pro<span className="text-green-600">Verified</span>™
+    </h3>
+  ) : (
+    <h3 className="text-lg font-bold">
+      Un <span className="text-red-600">Verified</span>™
+    </h3>
+  )}
+</div>
+
+
+
+
+
         </div>
       </div>
 

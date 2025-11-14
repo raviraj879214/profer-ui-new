@@ -131,7 +131,7 @@ export function Sidebar() {
   const router = useRouter();
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [generalOpen, setGeneralOpen] = useState(false);
-
+  const [prosopen,setProsopen]= useState(false);
 
 
 
@@ -148,7 +148,31 @@ export function Sidebar() {
       </div>
 
       <SideNavButton icon={DashboardIcon} label="Dashboard" href="/admin/dashboard" />
-      <SideNavButton icon={CompaniesIcon} label="Companies" href="/admin/companies" />
+
+
+
+      
+
+       <button
+        onClick={() => setProsopen(!prosopen)}
+        className="flex items-center justify-between w-full px-5 py-3 hover:bg-gray-800 focus:outline-none"
+      >
+        <span className="flex items-center gap-2">
+          <ProjectsIcon className="w-5 h-5" />
+          Pros Management
+        </span>
+        <ChevronDownIcon open={prosopen} />
+      </button>
+
+      {prosopen && (
+        <div className="flex flex-col">
+          <SideNavButton  label="Pros" href="/admin/companies"  isSubItem/>
+          <SideNavButton  label="Invite Pros" href="/admin/invitepros"  isSubItem/>
+         
+        </div>
+      )}
+
+
 
       {/* Projects collapsible */}
       <button
@@ -167,7 +191,7 @@ export function Sidebar() {
           <SideNavButton label="Project Management" href="/admin/projects" isSubItem />
           {/* <SideNavButton label="Create Project" href="/admin/create-project" isSubItem /> */}
          
-          <SideNavButton  label="Invite Pros" href="/admin/invitepros"  isSubItem/>
+          {/* <SideNavButton  label="Invite Pros" href="/admin/invitepros"  isSubItem/> */}
         </div>
       )}
 
@@ -190,7 +214,7 @@ export function Sidebar() {
           <SideNavButton label="Preferred Time" href="/admin/prefered-time" isSubItem icon={TimeIcon} />
           <SideNavButton label="Plans" href="/admin/stripeplans" isSubItem icon={ServicesIcon} />
           <SideNavButton label="CMS" href="/admin/cms" isSubItem icon={CmsIcon} />
-          <SideNavButton label="Qualification" href="/admin/qualification" isSubItem icon={Qualification} />
+          <SideNavButton label="Qualifications" href="/admin/qualification" isSubItem icon={Qualification} />
           <SideNavButton label="Services" href="/admin/services" isSubItem icon={ServicesIcon} />
         </div>
       )}

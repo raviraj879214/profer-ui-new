@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 export function ProCredential() {
 const [isOpen, setIsOpen] = useState(false);
-const [notifymessage , setnotifymessage] = useState("Please confirm: Have you uploaded all required documents?  Clicking Confirm will send an email notification tothe admin that your documents are ready for review.");
+const [notifymessage , setnotifymessage] = useState("Please confirm: Have you uploaded all required documents?  Clicking Confirm will send an email notification to the admin that your documents are ready for review.");
 const [notiloading,setnotiloading] = useState(false);
 const router = useRouter();
   const credentialSections = [
@@ -319,21 +319,51 @@ function CredentialSection({ title, icon, section }) {
       </div>
 
       {/* Upload slots */}
-      <div className="mt-4 flex flex-wrap gap-6 justify-center">
+      <div className="mt-4 flex flex-wrap gap-6 justify-center ">
         {uploadedFiles.map((doc, idx) => (
           <div
             key={idx}
             className="flex flex-col items-center text-center min-w-[220px] max-w-[260px] space-y-3 p-3 border rounded-lg shadow-sm bg-white"
           >
-            {/* Document Name */}
+           
+             
             <input
-              type="text"
-              placeholder="Enter document name"
-              value={doc.title}
-              onChange={(e) => handleTitleChange(e, idx)}
-              ref={(el) => (inputRefs.current[idx] = el)}
-              className="text-sm text-gray-700 border rounded-md px-2 py-1 w-full text-center focus:ring-2 focus:ring-blue-400 outline-none"
-            />
+           
+            type="text"
+            placeholder="Enter document name"
+            value={doc.title}
+            onChange={(e) => handleTitleChange(e, idx)}
+            ref={(el) => (inputRefs.current[idx] = el)}
+            disabled={!!doc.id}   // ✅ Disable only when loaded from DB
+            className={`text-sm text-gray-700 border rounded-md px-2 py-1 w-full text-center focus:ring-2 focus:ring-blue-400 outline-none
+              ${doc.id ? "bg-gray-100 cursor-not-allowed" : ""}`}
+          />
+
+ <div className="w-full text-left" >
+              <label
+                htmlFor={`expiration-date-${idx}`}
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Expiration Date 
+              </label>
+        <input
+  type="date"
+  id={`expiration-date-${idx}`}
+  name={`expiration-date-${idx}`}
+  value={
+    doc.expirationDate
+      ? new Date(doc.expirationDate).toISOString().split("T")[0]
+      : ""
+  }
+  onChange={(e) => handleExpirationChange(e, idx)}
+  disabled={!!doc.id}    // ✅ Disable only when loaded from DB
+  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 
+    ${doc.id ? "bg-gray-100 cursor-not-allowed" : ""}`}
+/>
+
+
+
+            </div>
 
             {/* File Preview / Upload */}
             <div className="h-[140px] w-full rounded-md border overflow-hidden shadow-sm relative group bg-gray-50">
@@ -393,27 +423,7 @@ function CredentialSection({ title, icon, section }) {
 
 
             {/* Expiration Date */}
-            <div className="w-full text-left">
-              <label
-                htmlFor={`expiration-date-${idx}`}
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Expiration Date 
-              </label>
-            <input
-                  type="date"
-                  id={`expiration-date-${idx}`}
-                  name={`expiration-date-${idx}`}
-                  value={
-                    doc.expirationDate
-                      ? new Date(doc.expirationDate).toISOString().split("T")[0] // 👉 "2025-08-22"
-                      : ""
-                  }
-                  onChange={(e) => handleExpirationChange(e, idx)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                />
-
-            </div>
+           
           </div>
         ))}
 

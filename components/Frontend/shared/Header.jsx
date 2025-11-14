@@ -27,10 +27,10 @@ export function Header() {
 
   const navLinks = [
     { name: `Search for Pros`, href: "/search-for-pros" },
-    { name: "Project Auction", href: "/auction" },
-    { name: "Why Profer", href: "/why-profer" },
-     { name: "How it Works", href: "/how-it-works" },
-     { name: "Profer Network", href: "/network" },
+     { name: "Project Auction", href: "/auction" },
+    // { name: "Why Profer", href: "/why-profer" },
+    //  { name: "How it Works", href: "/how-it-works" },
+    //  { name: "Profer Network", href: "/network" },
   ];
 
   return (
@@ -70,6 +70,7 @@ export function Header() {
         </nav>
 
         {/* Right Buttons - Desktop only */}
+        
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/sign-in"

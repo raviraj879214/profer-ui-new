@@ -16,14 +16,14 @@ export function Footer() {
 
         {/* Links */}
         <div className="flex flex-col sm:flex-row items-center gap-4 text-sm underline">
-          <a href="/terms">Terms & Privacy</a>
+          <a target="_blank" href="https://www.profer.com/terms">Terms & Privacy</a>
           <a href="/contact">Contact</a>
         </div>
 
         {/* Subscriber Form */}
-        <div className="w-full sm:w-auto">
+        {/* <div className="w-full sm:w-auto">
           <SubscriberForm />
-        </div>
+        </div> */}
 
         {/* Image */}
         <div className="flex-shrink-0">

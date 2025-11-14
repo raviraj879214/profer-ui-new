@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Header } from "../../Frontend/shared/Header";
 import { ProHeader } from "../../ProsArea/shared/ProHeader";
 import { usePathname, useRouter } from "next/navigation";
+import { AdminSubHeader } from "@/components/Areas/shared/AdminSubHeader";
+import { AdminHeader } from "@/components/Areas/shared/Header";
 
 export function MainHeader() {
   const [role, setRole] = useState(null);
@@ -34,9 +36,17 @@ export function MainHeader() {
 
 
 
-  if (pathname.startsWith("/admin") && !pathname.startsWith('/admin-login')) {
+  if (pathname.startsWith("/admin") && !pathname.startsWith('/admin-login'))
+ {
     return null;
   }
+  
+  if (pathname === "/admin-login") {
+  return <AdminHeader></AdminHeader>;
+}
+
+
+
 
   if(isProOverview){
     return null;

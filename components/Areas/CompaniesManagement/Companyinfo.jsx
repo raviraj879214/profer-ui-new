@@ -88,7 +88,7 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
     return (
         <div className="bg-white rounded-2xl shadow-2xl  h-[90vh] ml-4 p-5 relative flex flex-col">
             
-            <h2 className="font-semibold text-gray-900 mb-5 text-lg"> {projectstatus == "0" ? "Request More Info" : "Requested Logs"}</h2>
+            <h2 className="font-semibold text-gray-900 mb-5 text-lg"> {projectstatus == "0" ? "Message Pro" : "Requested Logs"}</h2>
 
             <div ref={scrollRef} className="relative border-l-2 border-gray-200 pl-6 space-y-8 flex-1 overflow-y-auto pr-3">
                 {noteslist.length > 0 ? noteslist.map((data) => (
@@ -114,7 +114,7 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
                     </div>
                 )) : <p className="text-gray-400 text-sm">No notes yet.</p>}
             </div>
-            {projectstatus === "0" && (
+            {/* {projectstatus === "0" && ( */}
                <div className="mt-4 border-t border-gray-200 pt-4 flex flex-col gap-2">
   <textarea
     placeholder="Add your request..."
@@ -138,7 +138,7 @@ export function CompanyInfoTimeLine({ companyid , setcompanyinfomodal ,projectst
 </div>
 
 
-            )}
+            {/* )} */}
            
 
         </div>

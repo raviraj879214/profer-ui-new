@@ -147,7 +147,7 @@ export function CompanyManagement() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
           <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
-            Companies ({statusLabels[statusFilter]})
+            Pros ({statusLabels[statusFilter]})
           </h1>
         </div>
 

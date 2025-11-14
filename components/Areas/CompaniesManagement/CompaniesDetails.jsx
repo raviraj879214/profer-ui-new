@@ -18,7 +18,7 @@ const [NotePopup,setNotePopup] = useState(false);
 
   const tabs = [
     { id: "notes", label: "Notes" },
-    { id: "requests for more info", label: "Request More Info" },
+    { id: "requests for more info", label: "Message Pro" },
     { id: "reject", label: "Reject" },
      { id: "block", label: "Block" },
   ];
@@ -136,6 +136,38 @@ const approveselected = async (id) => {
   };
 
 
+  const unReject = async(data)=>{
+    if (!confirm("Are you sure you want to reinstate the selected item(s)?")) {
+        return null; // user pressed Cancel
+    }
+
+     try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/un-reject-companies/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("Admintoken")}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const result = await res.json();
+        if (result.status === 200) {
+       
+         fetchUser();
+        }
+      }
+    } catch (err) {
+      console.error("Error deleting companies:", err);
+    }
+
+
+
+
+
+  }
 
 
 
@@ -204,13 +236,39 @@ const handleDataBlockChild= (value) =>{
         {approvebutton ? "Approving" : "Approve"}
       </button>
     )}
+
     {user.status === "5" && (
-      <button onClick={()=> unblockSelected(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
+
+      <>
+      <button onClick={()=> unReject(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
+         {unblockrow == false ? "Reinstate" : "Reinstating"}
+      </button>
+
+       <button onClick={()=> unblockSelected(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
 
          {unblockrow == false ? "UnBlock" : "UnBlocking"}
 
       </button>
+      </>
+     
     )}
+
+    {user.status === "7" && (<>
+      <button onClick={()=> unReject(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
+         {unblockrow == false ? "Reinstate" : "Reinstating"}
+      </button>
+
+       <button onClick={()=> unblockSelected(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
+
+         {unblockrow == false ? "Approve" : "Approving"}
+
+      </button>
+
+    </>)}
+
+
+
+
   </div>
 
   {/* Company Logo */}

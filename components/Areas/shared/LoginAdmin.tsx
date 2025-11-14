@@ -78,13 +78,13 @@ console.log('STRIPE_SECRET_KEY:', process.env.NEXT_PUBLIC_URL ? '✅ set' : '❌
         <div className="relative z-10 w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
           {/* Illustration */}
           <div className="flex justify-center mb-4">
-            <Image
+            {/* <Image
               src={signupimage}
               alt="Admin Login Illustration"
               width={120}
               height={120}
               priority
-            />
+            /> */}
           </div>
 
           <h1 className="text-center text-3xl font-bold text-gray-800 mb-6">

@@ -35,6 +35,10 @@ export function ProHeader() {
     { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
   ];
 
+
+  
+
+
   const handleLogout = () => {
     // localStorage.clear();
     // document.cookie.split(";").forEach(cookie => {
@@ -61,7 +65,7 @@ export function ProHeader() {
     <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-3 md:py-4 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+        <Link href="https://www.profer.com/" className="flex items-center gap-2" prefetch={false}>
           <div className="w-24 md:w-28">
             <Logo />
           </div>
@@ -107,7 +111,7 @@ export function ProHeader() {
             </span>
           </button>
           {accountMenuOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-md z-50">
+            <div className="absolute right-0 mt-30 w-44 bg-white border rounded-lg shadow-md z-50">
               <Link
                 href="/pro/pro-dashboard"
                 className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"

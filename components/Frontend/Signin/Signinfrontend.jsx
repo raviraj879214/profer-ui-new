@@ -278,7 +278,7 @@ const handleRenewSubscription = async () => {
 
             <p className="mt-4 text-center text-[#18A2AC] font-medium">
               Create new account?{" "}
-              <Link href="/email-verify" className="underline">
+              <Link href="/select-plan" className="underline">
                 Sign up here
               </Link>
             </p>
@@ -347,9 +347,9 @@ const handleRenewSubscription = async () => {
                     </div>
             </Modal>
 
-    <div className="flex justify-center items-center ">
-        <TermsConditionModal isOpen={isOpenterms} onClose={() => setIsOpenterms(false)} userid = {modalUserId}/>
-    </div>
+          <div className="flex justify-center items-center ">
+              <TermsConditionModal isOpen={isOpenterms} onClose={() => setIsOpenterms(false)} userid = {modalUserId}/>
+          </div>
     </>
   );
 };

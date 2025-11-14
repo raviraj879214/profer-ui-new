@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { Logo } from "@/components/Areas/shared/Logo";
 import { Menu, X, User } from "lucide-react";
 
-export function Header() {
+export function AdminHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,11 +18,11 @@ export function Header() {
   const dropdownRef = useRef(null);
 
   const navLinks = [
-    { name: "Search for Pros", href: "/search-for-pros" },
-    { name: "Project Auction", href: "/auction" },
-    { name: "Why Profer", href: "/why-profer" },
-    // { name: "Submit Project", href: "/submit-project" },
-    { name: "Select Plan", href: "/pro-select-plan" },
+    // { name: "Search for Pros", href: "/search-for-pros" },
+    // { name: "Project Auction", href: "/auction" },
+    // { name: "Why Profer", href: "/why-profer" },
+    // // { name: "Submit Project", href: "/submit-project" },
+    // { name: "Select Plan", href: "/pro-select-plan" },
   ];
 
   // Check login state on mount
@@ -90,7 +90,7 @@ export function Header() {
         </nav>
 
         {/* Right Section - Desktop */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* <div className="hidden md:flex items-center gap-3">
           {!isLoggedIn ? (
             <>
               <Link
@@ -136,7 +136,7 @@ export function Header() {
               )}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Menu Panel */}

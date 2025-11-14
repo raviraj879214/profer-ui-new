@@ -42,9 +42,13 @@ export function SearchForPros({ companyname, zipcode }) {
 
       if (res.ok) {
         const result = await res.json();
+        const filteredData = result.data.filter(
+              (item) => item.user?.status == 4
+            );
+        console.log(filteredData);
         if (result.status === 200) {
           setRoofingContractors(
-            result.data.map((item) => ({
+            filteredData.map((item) => ({
               id : item.id,
               name: item.companyName,
               status: item.verifiedStatus,

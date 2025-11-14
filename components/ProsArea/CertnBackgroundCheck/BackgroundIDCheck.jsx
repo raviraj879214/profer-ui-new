@@ -225,7 +225,10 @@ export function Backgroundcheck() {
                 />
               </svg>
               <span className="px-2 py-1 rounded bg-blue-50 text-blue-700">
-                {applicantEmail}
+                
+               <a target="_blank" href={`https://mail.google.com/mail`}>{applicantEmail}</a>
+
+
               </span>
             </div>
 

@@ -40,7 +40,7 @@ export function SelectProPlan(){
     return(<>
     
      <section className="max-w-7xl mx-auto mt-12 px-6 mt-30">
-        <div className="bg-blue-100 rounded-r-3xl py-8 px-12 flex flex-col md:flex-row md:justify-between md:items-center max-md:space-y-4">
+        <div className="bg-[#c3e6ea] rounded-r-3xl py-8 px-12 flex flex-col md:flex-row md:justify-between md:items-center max-md:space-y-4">
           <h2 className="text-3xl font-semibold text-gray-900 max-w-md">
             Choose your plan
           </h2>
@@ -141,7 +141,7 @@ export function SelectProPlan(){
      
 
       {/* Contact Section */}
-      <section className="bg-blue-100 py-8 mt-16 text-center">
+      <section className="bg-[#c3e6ea] py-8 mt-16 text-center">
         <p className="font-semibold text-lg">Questions about Profer?</p>
         <p className="text-gray-500 mt-2">
           Give us a shout. We are happy to help.

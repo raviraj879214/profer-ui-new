@@ -14,7 +14,7 @@ export function RequestDet({ projectid }) {
      const [activeTab, setActiveTab] = useState("requests for more info");
 
      const tabs = [
-    { id: "requests for more info", label: "Request More Info" },
+    { id: "requests for more info", label: "Message Pro" },
     { id: "reject", label: "Reject" },
      
   ];

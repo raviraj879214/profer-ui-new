@@ -62,9 +62,9 @@ export function ProjectAuction() {
   const onSubmit = async (data) => {
     // ✅ Validate mandatory file uploads
     const missing = {};
-    if (!files.drawings) missing.drawings = "Project drawings are required";
-    if (!files.insurance) missing.insurance = "Insurance paperwork is required";
-    if (!files.projectother) missing.projectother = "Project other document is required";
+    // if (!files.drawings) missing.drawings = "Project drawings are required";
+    // if (!files.insurance) missing.insurance = "Insurance paperwork is required";
+    // if (!files.projectother) missing.projectother = "Project other document is required";
     if (mediaFiles.length === 0) missing.mediaFiles = "At least one project photo is required";
 
     if (Object.keys(missing).length > 0) {

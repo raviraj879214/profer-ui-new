@@ -408,7 +408,7 @@ const handleDataBlockChild= (value) =>{
             <h4 className="text-md font-semibold text-gray-800 mb-2">{section}</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {creds.map((cred) => {
-                const fileUrl = `${process.env.NEXT_PUBLIC_URL}/${cred.fileUrl}`;
+                const fileUrl = `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}`;
                 const isPDF = fileUrl.toLowerCase().endsWith(".pdf");
                 return (
                   <div key={cred.id} className="border rounded-lg p-2 flex flex-col items-center text-center">

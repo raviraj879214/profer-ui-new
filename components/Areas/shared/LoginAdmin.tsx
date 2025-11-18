@@ -41,7 +41,7 @@ console.log('STRIPE_SECRET_KEY:', process.env.NEXT_PUBLIC_URL ? '✅ set' : '❌
         // localStorage.setItem("LoginStatus", "true");
         // document.cookie = `role=${result.user.role.name}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
-
+         localStorage.setItem("AdminID", JSON.stringify(result.user.id));
         localStorage.setItem("AdminRole", JSON.stringify(result.user.role.name));
         localStorage.setItem("Admintoken", result.token);
         localStorage.setItem("AdminLoginStatus", "true");

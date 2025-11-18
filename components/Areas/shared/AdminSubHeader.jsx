@@ -55,7 +55,7 @@ export function AdminSubHeader({ onMenuClick }) {
             </button>
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-100 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[70vh] overflow-hidden">
-                <Notifications />
+                <Notifications    />
               </div>
             )}
           </div>

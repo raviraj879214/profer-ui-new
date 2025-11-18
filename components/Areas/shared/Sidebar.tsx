@@ -221,7 +221,7 @@ export function Sidebar() {
 
 
       <SideNavButton icon={ContactsIcon} label="Contacts List" href="/admin/contacts" />
-      <SideNavButton icon={SubscriberIcon} label="Subscribers" href="/admin/subscribers" />
+      {/* <SideNavButton icon={SubscriberIcon} label="Subscribers" href="/admin/subscribers" /> */}
       
 
    

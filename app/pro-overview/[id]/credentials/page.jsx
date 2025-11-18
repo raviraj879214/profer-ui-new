@@ -62,7 +62,8 @@ export default function CredentialsPage() {
     <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
       {pro ? (
         <img
-          src={pro.companyLogo || "/images/default-logo.png"}
+         src={pro?.companyLogo? `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`: "/images/default-logo.png"}
+
           alt="Pro Logo"
           className="w-full h-full object-contain"
         />

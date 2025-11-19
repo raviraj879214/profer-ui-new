@@ -64,7 +64,7 @@ export function UpgradeModal() {
         setLoading(false);
       }
     } catch (error) {
-      console.error("Checkout error:", error.message);
+      console.log("Checkout error:", error.message);
       setLoading(false);
     }
   };

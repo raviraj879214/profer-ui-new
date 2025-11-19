@@ -139,9 +139,9 @@ export function Sidebar() {
 
   
   return (
-    <nav className="flex flex-col w-60 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
+    <nav className="flex flex-col w-65 bg-gray-900 text-gray-400 text-sm flex-shrink-0 select-none">
       <div
-        className="flex items-center justify-center cursor-pointer"
+        className="flex items-center justify-center cursor-pointer bg-white"
         onClick={() => router.push("/admin/dashboard")}
       >
         <Logo />
@@ -213,7 +213,7 @@ export function Sidebar() {
         <div className="flex flex-col">
           <SideNavButton label="Preferred Time" href="/admin/prefered-time" isSubItem icon={TimeIcon} />
           <SideNavButton label="Plans" href="/admin/stripeplans" isSubItem icon={ServicesIcon} />
-          <SideNavButton label="CMS" href="/admin/cms" isSubItem icon={CmsIcon} />
+          {/* <SideNavButton label="CMS" href="/admin/cms" isSubItem icon={CmsIcon} /> */}
           <SideNavButton label="Qualifications" href="/admin/qualification" isSubItem icon={Qualification} />
           <SideNavButton label="Services" href="/admin/services" isSubItem icon={ServicesIcon} />
         </div>

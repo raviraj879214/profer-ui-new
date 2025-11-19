@@ -23,6 +23,8 @@ export default function ProOverviewPage() {
   const [credentials, setCredentials] = useState([]);
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [services,setServices] = useState([]);
+    const [qualifications,setQualifications] = useState([]);
 
 
   const [expandedSections, setExpandedSections] = useState({});
@@ -39,10 +41,37 @@ export default function ProOverviewPage() {
     if (id) {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-pros/${id}`)
         .then((res) => res.json())
-        .then((data) => setPro(data));
+        .then((data) =>  {
+            debugger;
+            setPro(data);
+           setServices(safeParse(data.services));
+          setQualifications(safeParse(data.qualifications));
+        });
     }
   }, [id]);
 
+  const safeParse = (val) => {
+    if (!val) return [];
+    let parsed = val;
+    try {
+      while (typeof parsed === "string") parsed = JSON.parse(parsed);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .flat(Infinity)
+          .map((s) => String(s).replace(/['"]+/g, "").trim())
+          .filter(Boolean);
+      }
+      return [];
+    } catch {
+      return String(val)
+        .replace(/^\[|\]$/g, "")
+        .split(",")
+        .map((s) => s.replace(/['"]+/g, "").trim())
+        .filter(Boolean);
+    }
+  };
+
+  
   // Fetch Pro credentials
   useEffect(() => {
     if (id) {
@@ -102,28 +131,51 @@ if (!pro) {
       {/* Left Side: Logo + Info */}
       <div className="flex items-center space-x-4 sm:space-x-6">
         {/* Logo with rounded corners */}
-        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
-          <img
-            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
-            alt={pro.companyName || "Pro Logo"}
-            className="w-full h-full object-contain"
-          />
-        </div>
+       <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
+  <img
+    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
+    alt={pro.companyName || "Pro Logo"}
+    className="w-full h-full object-contain"
+  />
+
+  {pro.user.status == "4" && (
+    <span
+      className="absolute bottom-0 right-0 inline-flex items-center justify-center 
+                 w-8 h-8 bg-cyan-400 rounded-full shadow-lg"
+    >
+      <img src="/images/4.png" className="w-6 h-6" />
+    </span>
+  )}
+</div>
+
 
         {/* Pro Info */}
         <div>
           {/* Company Name + Verified Check */}
           <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-extrabold text-[#012C43]">
             {pro.companyName || "Not Updated"}
-            <span className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full">
-               <img src={"/images/4.png"}></img>
-            </span>
+
+            
+            
           </h2>
+
 
           {/* Location */}
           <p className="text-gray-500 mt-1 text-sm sm:text-lg">
             {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
           </p>
+            
+            {pro.user.status !== "4" ? (<div className="flex items-center space-x-4">
+       
+        <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+      </div>) : (
+        <div className="flex items-center space-x-4">
+      
+          <h3 className="text-lg font-bold">
+                      Pro<span className="text-red-600">Verified</span>™
+                    </h3>
+      </div>
+      )}
          
          
         </div>
@@ -169,14 +221,14 @@ if (!pro) {
       </div>
 
       
-      {pro.verifiedStatus == "0" ? (<div className="flex items-center space-x-4">
+      {pro.user.status !== "4" ? (<div className="flex items-center space-x-4">
         <img  src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain invisible" />
         <span className="font-semibold text-base md:text-lg">UnVerified™</span>
       </div>) : (
         <div className="flex items-center space-x-4">
-        <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
+        <img src="/images/checkmark.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
          <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
+                      Pro<span className="text-red-600">Verified</span>™
             </h3>
       </div>
       )}
@@ -197,25 +249,48 @@ if (!pro) {
     </div>
 
     {/* Detailed ProVerified™ Section */}
-    <div className="flex flex-col">
-      <div className="flex items-center space-x-4">
-        <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-        <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
-                    </h3>
-      </div>
+      {pro.user.status !== "4" ? (<>
 
-      <div className="pl-14 mt-2">
-        <p className="text-gray-800 text-xl leading-relaxed font-normal">
-          This professional is fully vetted using our extensive
-          <span className="font-bold"> Pro</span>
-          <span className="text-red-600 font-bold">Verified</span>
-          <span className="font-bold">™</span>
-          process. Identification, licenses, and insurance. It's all there.
-          You can see for yourself.
-        </p>
-      </div>
-    </div>
+             <div className="flex flex-col">
+  <div className="flex items-center space-x-4">
+    <h3 className="text-2xl font-bold">
+      Un<span className="text-red-600">Verified</span>™
+    </h3>
+  </div>
+
+  <div className="pl-14 mt-2">
+    <p className="text-gray-800 text-xl leading-relaxed font-normal">
+      This professional has <span className="font-bold">not completed</span> our 
+      <span className="font-bold"> Pro</span>
+      <span className="text-red-600 font-bold">Verify</span>
+      <span className="font-bold">™</span> process. 
+      Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
+    </p>
+  </div>
+</div>
+
+            </>) : (<>
+
+              <div className="flex flex-col">
+                <div className="flex items-center space-x-4">
+                  <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
+                    <h3 className="text-lg font-bold">
+                      Pro<span className="text-red-600">Verified</span>™
+                    </h3>
+                </div>
+
+                <div className="pl-14 mt-2">
+                  <p className="text-gray-800 text-xl leading-relaxed font-normal">
+                    This professional is fully vetted using our extensive
+                    <span className="font-medium"> Pro</span>
+                    <span className="text-black-600 font-medium">Verified</span>
+                    <span className="font-bold">™ </span>
+                    process. Identification, licenses, and insurance. It's all there.
+                    You can see for yourself.
+                  </p>
+                </div>
+              </div>
+            </>)}
 
   </div>
 </div>
@@ -232,45 +307,133 @@ if (!pro) {
   <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
     <h2 className="text-gray-800 font-medium mb-6 text-2xl">About</h2>
 
-    <div className="space-y-6 px-6">
-      <div className="flex items-center gap-6">
-        <PhoneIcon />
-        <span className="text-blue-600 text-xl">{pro.companyPhone}</span>
+     <div className="space-y-6 px-6">
+  <div className="flex items-center gap-6">
+    <PhoneIcon />
+    <a
+      href={`tel:${pro.companyPhone}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.companyPhone}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GlobeIcon />
+    <a
+      href={pro.website}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.website}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GoogleMapsIcon />
+    <a
+      href={pro.maps}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.maps}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <FacebookIcon />
+    <a
+      href={pro.facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.facebook}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GoogleBusinessIcon />
+    <a
+      href={pro.googlebusinesslisting}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.googlebusinesslisting}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <BingBusinessIcon />
+    <a
+      href={pro.bingbusinesslisting}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.bingbusinesslisting}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <LinkedInIcon />
+    <a
+      href={pro.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.linkedin}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <WebsiteIcon />
+    <a
+      href={pro.linktoyourwebsite}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.linktoyourwebsite}
+    </a>
+  </div>
+</div>
+ <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
+      {/* Services Section */}
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Services</h3>
+
+        <div className="flex flex-wrap gap-2">
+          {services.map((item) => (
+            <span
+              key={item}
+              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <GlobeIcon />
-        <span className="text-blue-600 text-xl">{pro.website}</span>
-      </div>
+      {/* Badges Section */}
+      <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
 
-      <div className="flex items-center gap-6">
-        <GoogleMapsIcon />
-        <span className="text-blue-600 text-xl">{pro.maps}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <FacebookIcon />
-        <span className="text-blue-600 text-xl">{pro.facebook}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <GoogleBusinessIcon />
-        <span className="text-blue-600 text-xl">{pro.googlebusinesslisting}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <BingBusinessIcon />
-        <span className="text-blue-600 text-xl">{pro.bingbusinesslisting}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <LinkedInIcon />
-        <span className="text-blue-600 text-xl">{pro.linkedin}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <WebsiteIcon />
-        <span className="text-blue-600 text-xl">{pro.linktoyourwebsite}</span>
+      <div className="flex flex-wrap gap-2">
+         {qualifications.map((item) => (
+            <span
+              key={item}
+              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+            >
+              {item}
+            </span>
+          ))}
+        
       </div>
     </div>
   </div>
@@ -279,16 +442,17 @@ if (!pro) {
   {/* Right Side - Credentials */}
 {/* Right Side - Credentials */}
 <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
-  <h2 className="text-gray-800 font-medium mb-6 text-2xl">Credentials</h2>
-    <div className="flex justify-end">
+<div className="flex items-center justify-between mb-6">
+  <h2 className="text-gray-800 font-medium text-2xl">Credentials</h2>
+
   <Link
     href={`/pro-overview/${id}/credentials`}
-    className="text-l font-medium px-3 py-2 border-b-2 border-transparent text-red-500 hover:text-indigo-600 hover:border-indigo-500"
+    className="text-lg font-medium px-3 py-2 border-b-2 border-transparent 
+               text-blue-400 hover:text-indigo-600 hover:border-indigo-500"
   >
     View Credentials
   </Link>
 </div>
-
   
 
   <div className="space-y-4 overflow-y-auto max-h-[600px]">

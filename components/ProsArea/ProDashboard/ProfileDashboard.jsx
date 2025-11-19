@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {QualandServe} from "../QualificationandServices/QualandService";
 import {ProCredentialList} from "../../../components/ProsArea/shared/ProCredentialsList";
 /* ---------- Editable Field Component ---------- */
 function EditableField({ icon, field, value, setValue, linkPrefix, onSave }) {
@@ -124,7 +125,7 @@ export function ProDash() {
 
         setyear(result.data.experienceYears);
         
-        setverified(result.data.verifiedStatus);
+        setverified(result.data.user.status);
 
       } else {
         setAboutInfo({
@@ -217,15 +218,15 @@ export function ProDash() {
 
           
           
-          {verified == "0" ? (<>
+          {verified !== "4" ? (<>
             <div className="flex items-center space-x-4">
               <span className="text-base md:text-lg text-gray-700">UnVerified™</span>
             </div>
           </>) :(
             <div className="flex items-center space-x-4">
-              <img src="/images/4.png" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
+              <img src="/images/checkmark.png" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
                <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
+                      Pro<span className="text-red-600">Verified</span>™
                     </h3>
             </div>
           )}
@@ -237,7 +238,7 @@ export function ProDash() {
         
 
 
-         {verified == "0" ? (<>
+         {verified !== "4" ? (<>
             {/* Detailed UnVerified™ Section */}
 <div className="flex flex-col">
   <div className="flex items-center space-x-4">
@@ -258,12 +259,12 @@ export function ProDash() {
                   <div className="flex items-center space-x-4">
                     <img src="/images/4.png" alt="Pro Verified Icon" className="w-10 h-10 object-contain" />
                     <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
+                      Pro<span className="text-red-600">Verified</span>™
                     </h3>
                   </div>
                   <p className="mt-2 text-gray-700 text-sm leading-relaxed font-normal">
                     This professional is fully vetted using our extensive
-                    <span className="font-semibold text-red-600"> ProVerify™ </span>
+                    <span className=" text-black-600"> ProVerify™ </span>
                     process. Identification, licenses, and insurance. It's all there.
                     You can see for yourself.
                   </p>
@@ -286,6 +287,15 @@ export function ProDash() {
             <EditableField icon={<LinkedInIcon />} field="linkedin" value={aboutInfo.linkedin} setValue={(val) => setAboutInfo((prev) => ({ ...prev, linkedin: val }))} onSave={handleSaveField} />
             <EditableField icon={<WebsiteIcon />} field="linktoyourwebsite" value={aboutInfo.linktoyourwebsite} setValue={(val) => setAboutInfo((prev) => ({ ...prev, linktoyourwebsite: val }))} onSave={handleSaveField} />
           </ul>
+
+
+              <QualandServe></QualandServe>
+
+
+
+
+
+
         </div>
 
         {/* Credentials Section */}

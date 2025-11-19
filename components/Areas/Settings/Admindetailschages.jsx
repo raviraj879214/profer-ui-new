@@ -68,8 +68,11 @@ export function AdminDetails() {
   };
 
   useEffect(() => {
+    
      const id = tokendecryptor();
+
      setId(id);
+
     fetchUserData(id);
 
   }, []);

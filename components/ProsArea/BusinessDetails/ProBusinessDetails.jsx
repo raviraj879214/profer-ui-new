@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { MultiSelect } from "../../ProsArea/Prossteps/MultiSelectDropdown";
 
 
-export function ProsStepBusinessDetails({ userId }) {
+export function BusinessDetails({  }) {
   const router = useRouter();
   const successRef = useRef(null);
 
@@ -24,6 +24,16 @@ export function ProsStepBusinessDetails({ userId }) {
   const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, setValue } = useForm();
+
+   const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("UserID");
+    if (storedId) setUserId(storedId);
+  }, []);
+
+
+  
 
   const fetchqualification = async () => {
     const res = await fetch(
@@ -105,6 +115,7 @@ export function ProsStepBusinessDetails({ userId }) {
         console.error(err);
       }
     }
+    
     fetchData();
     fetchqualification();
     fetchservices();
@@ -185,12 +196,12 @@ export function ProsStepBusinessDetails({ userId }) {
 
   const submitbusinessdetails = () => {
     if (!loading) {
-      router.push("/pro/step-3");
+    //   router.push("/pro/step-3");
     }
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-6 py-12 mt-20">
+    <main className="max-w-7xl mx-auto px-6 py-12 ">
       {/* Success Banner */}
       {successMessage && (
         <div
@@ -203,7 +214,7 @@ export function ProsStepBusinessDetails({ userId }) {
       )}
 
       <h2 className="text-center font-semibold text-lg mb-8">
-        Business Details
+       Update Business Details
       </h2>
 
       <form
@@ -319,11 +330,11 @@ export function ProsStepBusinessDetails({ userId }) {
         </div>
 
         {/* Buttons */}
-        <div className="mt-12 flex justify-between items-center max-w-4xl mx-auto">
+        <div className="mt-12 flex justify-between items-right max-w-4xl mx-auto">
           <button
             onClick={() => router.push("/pro/step-1")}
             type="button"
-            className="text-[#00BBD1] underline text-sm font-semibold hover:text-[#008a9a]"
+            className="hidden text-[#00BBD1] underline text-sm font-semibold hover:text-[#008a9a]"
           >
             Back
           </button>
@@ -332,7 +343,7 @@ export function ProsStepBusinessDetails({ userId }) {
             type="submit"
             className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md"
           >
-            {loading ? "saving ..." : "Save & Next"}
+            {loading ? "saving ..." : "Save"}
           </button>
         </div>
       </form>

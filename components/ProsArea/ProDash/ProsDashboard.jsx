@@ -1,5 +1,5 @@
 "use client"
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   User,
   BadgeCheck,
@@ -8,6 +8,7 @@ import {
   PencilLine,
   ShieldCheck,
   Wallet,
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { ProUpdate } from "../../ProsArea/ProUpdate/ProfileUpdate.jsx";
@@ -81,12 +82,64 @@ const widgets = [
 export function ProDash() {
 
     const router = useRouter();
+    const [userstatus,setUserstatus] = useState(0);
+  
+
+   const fetchprosdetails = async ()=>{
+        const userid = localStorage.getItem("UserID");
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/pros-get-details/${userid}`,{
+            headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+        });
+
+        if(res.ok)
+        {
+            const result  = await res.json();
+
+            if(result.status == 200){
+                console.log("pros details",result);
+                setUserstatus(result.data.status);
+              
+            }
+        }
+
+    }
+
+
+     useEffect(()=>{
+            fetchprosdetails();
+      },[]);
+
+
+
 
 
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+
+        
+        
+          {userstatus == "0" &&(
+             <div className="mb-3 w-full bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded-md mt-4">
+            <div className="flex items-start gap-3 mb-3">
+              <AlertCircle className="text-yellow-700 mt-1" />
+              <div>
+                <p className="font-semibold text-yellow-800">Profile Action Required</p>
+                <p className="text-sm text-yellow-700">
+                  Please complete your profile and upload all required credentials to get approved by the admin and unlock full access.
+                </p>
+              </div>
+            </div>
+          </div>
+          )}
+
+
+
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
       {widgets.map((w, idx) => {
         const active = router.pathname === w.href;
@@ -140,7 +193,11 @@ export function ProDash() {
         {/* Main Grid */}
         <section className="mt-6 grid grid-cols-12 gap-6 w-full">
           {/* Bids */}
+
+          
+
           <div className="col-span-12 xl:col-span-12">
+           
             <Card>
               <Bid />
             </Card>

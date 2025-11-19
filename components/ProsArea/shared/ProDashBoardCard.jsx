@@ -37,6 +37,7 @@ export function ProDashBoardHero() {
         const result = await res.json();
         if (result.status === 200 && result.data.length > 0) {
           const data = result.data[0];
+          console.log("business details",data);
           debugger;
           setCompany({
             id : data?.id,
@@ -46,7 +47,7 @@ export function ProDashBoardHero() {
             state: data?.state || "",
             zip: data?.zip || "",
             streetAddress: data?.streetAddress || "",
-            verified: data?.verifiedStatus,
+            verified: data?.user.status,
           });
         
           if (data?.companyLogo) {
@@ -64,16 +65,23 @@ export function ProDashBoardHero() {
       {/* Left Side: Logo + Info */}
       <div className="flex items-center space-x-4 sm:space-x-6">
         {/* Logo with rounded corners */}
-        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
-          <img
-            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${logoSrc}`}
-            alt={company.companyName || "Company Logo"}
-            className={`w-full h-full object-contain transition-opacity duration-500 ${
-              logoLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setLogoLoaded(true)}
-          />
-        </div>
+       <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
+  <img
+    src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${logoSrc}`}
+    alt={company.companyName || "Company Logo"}
+    className={`w-full h-full object-contain transition-opacity duration-500 ${
+      logoLoaded ? "opacity-100" : "opacity-0"
+    }`}
+    onLoad={() => setLogoLoaded(true)}
+  />
+
+  {company.verified == "4" && (
+    <span className="absolute bottom-0 right-0">
+      <VerifiedCheckIcon />
+    </span>
+  )}
+</div>
+
         
 
         
@@ -81,9 +89,7 @@ export function ProDashBoardHero() {
           <h1 className="flex items-center gap-2 text-2xl font-extrabold text-[#012C43]">
             {company.companyName || "Not Updated"}   
 
-            {company.verified == "1" && (
-              <VerifiedCheckIcon />
-            )} 
+           
 
           </h1>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">
@@ -92,9 +98,9 @@ export function ProDashBoardHero() {
               : "Location not available"}
           </p>
          <div className="mt-1 text-sm sm:text-base">
-  {company.verified == "1" ? (
+  {company.verified == "4" ? (
     <h3 className="text-lg font-bold">
-      Pro<span className="text-green-600">Verified</span>™
+      Pro<span className="text-red-600">Verified</span>™
     </h3>
   ) : (
     <h3 className="text-lg font-bold">
@@ -127,15 +133,7 @@ export function ProDashBoardHero() {
 function VerifiedCheckIcon() {
   return (
     <span className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full">
-      <svg
-        className="w-4 h-4 text-white"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={3}
-        viewBox="0 0 24 24"
-      >
-        <path d="M5 13l4 4L19 7" />
-      </svg>
+      <img src={"/images/4.png"}></img>
     </span>
   );
 }

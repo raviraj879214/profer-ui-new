@@ -10,7 +10,9 @@ export function AdminPassword() {
 
   const onSubmit = async (data) => {
     setLoading(true);
+
     setMessage(null);
+    
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/update-user-password`, {
         method: "POST",

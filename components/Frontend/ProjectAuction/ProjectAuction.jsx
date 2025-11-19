@@ -146,36 +146,56 @@ export function ProjectAuction() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 space-y-5">
 
-          {/* Basic Fields */}
-          {[ 
-            { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
-            { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
-            { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
-            { id: 'projectTitle', label: 'Project Title', type: 'text', required: 'Project title is required' },
-            { id: 'projectAddress', label: 'Project Address', type: 'text', required: 'Project address is required' },
-            { id: 'projectDetails', label: 'Project Details', type: 'text', required: 'Project details are required' },
-            { id: 'productType', label: 'Product Type', type: 'text', required: 'Product type is required' },
-            { id: 'productColor', label: 'Product Color', type: 'text', required: 'Product color is required' },
-          ].map((field, i) => (
-            <div key={i} className="grid grid-cols-3 items-start gap-4">
-              <label htmlFor={field.id} className="text-gray-700 text-sm mt-2">{field.label}</label>
-              <div className="col-span-2 flex flex-col">
-                <input
-                  id={field.id}
-                  type={field.type}
-                  placeholder={field.placeholder || ''}
-                  {...register(field.id, { 
-                    required: field.required || false, 
-                    pattern: field.pattern ? { value: field.pattern, message: field.patternMessage } : undefined 
-                  })}
-                  className={`border rounded px-3 py-1 focus:outline-none focus:ring-2 ${
-                    errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'
-                  }`}
-                />
-                {errors[field.id] && <p className="text-red-500 text-xs mt-1">{errors[field.id].message}</p>}
-              </div>
-            </div>
-          ))}
+         {[
+  { id: 'fullName', label: 'Full Name', type: 'text', required: 'Full name is required' },
+  { id: 'phoneNumber', label: 'Phone Number', type: 'text', required: 'Phone number is required' },
+  { id: 'emailAddress', label: 'Email Address', type: 'email', required: 'Email address is required', pattern: /^\S+@\S+$/i, patternMessage: 'Enter a valid email' },
+  { id: 'projectTitle', label: 'Project Title', type: 'text', required: 'Project title is required' },
+  { id: 'projectAddress', label: 'Project Address', type: 'text', required: 'Project address is required' },
+  { id: 'productType', label: 'Product Type', type: 'text' },
+  { id: 'productColor', label: 'Product Color', type: 'text' },
+  { id: 'projectDetails', label: 'Project Details', type: 'textarea', required: 'Project details are required' }
+].map((field, i) => (
+  <div key={i} className="grid grid-cols-3 items-start gap-4">
+    <label htmlFor={field.id} className="text-gray-700 text-sm mt-2">{field.label}</label>
+    
+    <div className="col-span-2 flex flex-col">
+
+      {field.type === "textarea" ? (
+        // -------- TEXTAREA --------
+        <textarea
+          id={field.id}
+          placeholder={field.placeholder || ''}
+          {...register(field.id, { 
+            required: field.required || false 
+          })}
+          className={`border rounded px-3 py-1 h-24 resize-none focus:outline-none focus:ring-2 ${
+            errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'
+          }`}
+        />
+      ) : (
+        // -------- INPUT --------
+        <input
+          id={field.id}
+          type={field.type}
+          placeholder={field.placeholder || ''}
+          {...register(field.id, { 
+            required: field.required || false, 
+            pattern: field.pattern ? { value: field.pattern, message: field.patternMessage } : undefined 
+          })}
+          className={`border rounded px-3 py-1 focus:outline-none focus:ring-2 ${
+            errors[field.id] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-red-400'
+          }`}
+        />
+      )}
+
+      {errors[field.id] && (
+        <p className="text-red-500 text-xs mt-1">{errors[field.id].message}</p>
+      )}
+    </div>
+  </div>
+))}
+
 
           {/* Preferred Calling Time */}
           <div className="grid grid-cols-3 items-start gap-4">

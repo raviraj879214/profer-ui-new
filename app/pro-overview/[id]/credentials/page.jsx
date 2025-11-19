@@ -26,7 +26,10 @@ export default function CredentialsPage() {
     if (id) {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-pros/${id}`)
         .then((res) => res.json())
-        .then((data) => setPro(data));
+        .then((data) =>{
+           setPro(data);
+           console.log("business details",data);
+        });
     }
   }, [id]);
  
@@ -54,41 +57,54 @@ export default function CredentialsPage() {
  
   return (
     <div className="p-4 md:p-6 mt-20">
- 
-<div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
-  {/* Left Side: Logo + Info */}
-  <div className="flex items-center space-x-4 sm:space-x-6">
-    {/* Logo */}
-    <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
-      {pro ? (
-        <img
-         src={pro?.companyLogo? `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`: "/images/default-logo.png"}
+      <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full">
+        {/* Left Side: Logo + Info */}
+        <div className="flex items-center space-x-4 sm:space-x-6">
+          {/* Logo */}
+          <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
+        {pro ? (
+          <>
+            <img
+              src={
+                pro?.companyLogo
+                  ? `${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`
+                  : "/images/default-logo.png"
+              }
+              alt="Pro Logo"
+              className="w-full h-full object-contain"
+            />
 
-          alt="Pro Logo"
-          className="w-full h-full object-contain"
-        />
-      ) : (
-        <div className="w-full h-full bg-gray-200 animate-pulse" />
-      )}
-    </div>
- 
+            {/* Bottom-right checkmark */}
+           {pro && pro.user?.status === "4" && (
+  <span
+    className="absolute bottom-0 right-0 inline-flex items-center justify-center 
+               w-8 h-8 bg-cyan-400 rounded-full shadow-lg"
+    title="Verified"
+  >
+    <img src="/images/4.png" className="w-6 h-6" />
+  </span>
+)}
+
+          </>
+        ) : (
+          <div className="w-full h-full bg-gray-200 animate-pulse" />
+        )}
+      </div>
+
+
     {/* Pro Info */}
     <div>
       {/* Company Name + Verified Check */}
       {pro ? (
         <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-extrabold text-[#012C43]">
-          {pro.companyName}
-          <span
-            className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full"
-            title="Verified"
-          >
-             <img src={"/images/4.png"}></img>
-          </span>
+          {pro.companyName} 
+
+         
         </h2>
       ) : (
         <div className="h-6 w-48 bg-gray-200 rounded animate-pulse" />
       )}
- 
+
       {/* Location */}
       {pro ? (
         <p className="text-gray-500 mt-1 text-sm sm:text-lg">
@@ -97,38 +113,54 @@ export default function CredentialsPage() {
       ) : (
         <div className="h-4 w-32 mt-2 bg-gray-200 rounded animate-pulse" />
       )}
- 
-      
 
-
+      {pro ? (
+  pro.user.status !== "4" ? (
+    <div className="flex items-center space-x-4">
+      <span className="font-semibold text-base md:text-lg">UnVerified™</span>
     </div>
+  ) : (
+    <div className="flex items-center space-x-4 mt-2">
+      <h3 className="text-lg font-bold">
+        Pro<span className="text-red-600">Verified</span>™
+      </h3>
+    </div>
+  )
+) : null}
 
+      
+      
+    </div>
   </div>
 </div>
- 
- 
- 
-      {/* Nav */}
-      <nav className="flex flex-wrap justify-center gap-2 md:gap-6 mb-6">
-        {[
-          { href: `/pro-overview/${id}`, label: "Overview" },
-          { href: `/pro-overview/${id}/credentials`, label: "Credentials", active: true },
-          { href: `/prooverview/${id}`, label: "Download" },
-         
-        ].map((link, i) => (
-          <Link
-            key={i}
-            href={link.href}
-            className={`text-sm font-medium px-3 py-2 border-b-2 ${
-              link.active
-                ? "border-indigo-500 text-indigo-600"
-                : "border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+
+{/* LEFT-ALIGNED TABS - sits below the blue box */}
+<nav className="flex flex-wrap justify-start gap-4 md:gap-6 mt-2 mb-6">
+  {[
+    { href: `/pro-overview/${id}`, label: "Overview" },
+    { href: `/pro-overview/${id}/credentials`, label: "Credentials", active: true },
+    { href: `/prooverview/${id}`, label: "Download" },
+  ].map((link, i) => (
+    <Link
+      key={i}
+      href={link.href}
+      className={`text-sm font-medium px-3 py-2 border-b-2 ${
+        link.active
+          ? "border-blue-400 text-blue-500 font-semibold"
+          : "border-transparent text-gray-500 hover:text-blue-400 hover:border-blue-400"
+      }`}
+    >
+      {link.label}
+    </Link>
+  ))}
+</nav>
+
+
+
+
+
+
+
  
       {/* Credentials Title */}
       <h2 className="text-4xl font-semibold mb-4 ">Credentials</h2>

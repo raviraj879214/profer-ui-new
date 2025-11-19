@@ -42,19 +42,21 @@ export function SearchForPros({ companyname, zipcode }) {
 
       if (res.ok) {
         const result = await res.json();
-        const filteredData = result.data.filter(
-              (item) => item.user?.status == 4
-            );
+        console.log("pro details",result);
+
+        const filteredData = result.data;
+
+
         console.log(filteredData);
         if (result.status === 200) {
           setRoofingContractors(
             filteredData.map((item) => ({
               id : item.id,
               name: item.companyName,
-              status: item.verifiedStatus,
+              status: item.user.status,
               profileImg:
                 "https://static.wixstatic.com/media/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png/v1/fill/w_174,h_94,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png",
-              verified: item.verifiedStatus == 0 ? false : true,
+              verified: item.user.status == "4" ? true : false,
             }))
           );
         } else {
@@ -345,7 +347,7 @@ export function SearchForPros({ companyname, zipcode }) {
                           verified ? "text-cyan-600" : "text-red-600"
                         }`}
                       >
-                        {status == "0" ? "Unverified" : "Verified"}
+                        {status == "4" ? "Verified" :  "Unverified"}
                       </td>
                       <td className="py-3" onClick={()=>{
                         router.push(`/pro-overview/${id}`)

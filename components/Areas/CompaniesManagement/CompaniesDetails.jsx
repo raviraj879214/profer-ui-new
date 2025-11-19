@@ -241,12 +241,12 @@ const handleDataBlockChild= (value) =>{
 
       <>
       <button onClick={()=> unReject(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
-         {unblockrow == false ? "Reinstate" : "Reinstating"}
+         {unblockrow == false ? "Move to Pending" : "..."}
       </button>
 
-       <button onClick={()=> unblockSelected(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
+       <button onClick={()=> unblockSelected(id) } className="bg-gray-900 text-white px-3 py-1 rounded ">
 
-         {unblockrow == false ? "UnBlock" : "UnBlocking"}
+         {unblockrow == false ? "Move to Approve" : "..."}
 
       </button>
       </>
@@ -255,7 +255,7 @@ const handleDataBlockChild= (value) =>{
 
     {user.status === "7" && (<>
       <button onClick={()=> unReject(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">
-         {unblockrow == false ? "Reinstate" : "Reinstating"}
+         {unblockrow == false ? "Move to Pending" : "Reinstating"}
       </button>
 
        <button onClick={()=> unblockSelected(id) } className="bg-yellow-500 text-white px-3 py-1 rounded ">

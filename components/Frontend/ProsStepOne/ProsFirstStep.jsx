@@ -144,7 +144,7 @@ export function Companyprofile({ paymentIntentId }) {
       <main className="flex-grow flex flex-col justify-center items-center text-center px-6">
         
         {/* Success Icon */}
-       <CheckCircleIcon className="w-20 h-20 text-[#21afbc] animate-bounce" />
+       {/* <CheckCircleIcon className="w-20 h-20 text-[#21afbc] animate-bounce" /> */}
 
       
         {/* Heading */}

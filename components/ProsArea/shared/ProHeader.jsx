@@ -38,6 +38,7 @@ export function ProHeader() {
     function handleClickOutside(e) {
       if (notificationRef.current && !notificationRef.current.contains(e.target)) {
         setShowNotifications(false);
+        setAccountMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,12 +46,13 @@ export function ProHeader() {
   }, []);
 
   const navLinks = [
-    { name: "Pro Dashboard", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
-    { name: "Pro Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
+    { name: "Dashboard", href: "/pro/pro-dashboard", icon: BuildingOffice2Icon },
+    { name: "Overview", href: "/pro/pro-overview", icon: BuildingOffice2Icon },
     { name: "Credentials", href: "/pro/pro-credentials", icon: ShieldCheckIcon, highlight: true },
     { name: "Bids", href: "/pro/pro-bid", icon: ClipboardDocumentListIcon },
     { name: "Subscription", href: "/pro/pro-subscribe", icon: CreditCardIcon },
-    { name: "Profile Update", href: "/pro/pro-update", icon: UserIcon },
+    { name: "Business Details", href: "/pro/pro-business", icon: BuildingOffice2Icon },
+    { name: "Profile", href: "/pro/pro-update", icon: UserIcon },
   ];
 
   const handleLogout = () => {

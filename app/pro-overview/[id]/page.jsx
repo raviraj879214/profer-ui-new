@@ -23,6 +23,8 @@ export default function ProOverviewPage() {
   const [credentials, setCredentials] = useState([]);
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [services,setServices] = useState([]);
+    const [qualifications,setQualifications] = useState([]);
 
 
   const [expandedSections, setExpandedSections] = useState({});
@@ -39,9 +41,40 @@ export default function ProOverviewPage() {
     if (id) {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-pros/${id}`)
         .then((res) => res.json())
-        .then((data) => setPro(data));
+        .then((data) =>
+        {
+            console.log("pro details",data);
+            setServices(safeParse(data.services));
+          setQualifications(safeParse(data.qualifications));
+          setPro(data);
+
+        }
+      );
     }
   }, [id]);
+
+      const safeParse = (val) => {
+    if (!val) return [];
+    let parsed = val;
+    try {
+      while (typeof parsed === "string") parsed = JSON.parse(parsed);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .flat(Infinity)
+          .map((s) => String(s).replace(/['"]+/g, "").trim())
+          .filter(Boolean);
+      }
+      return [];
+    } catch {
+      return String(val)
+        .replace(/^\[|\]$/g, "")
+        .split(",")
+        .map((s) => s.replace(/['"]+/g, "").trim())
+        .filter(Boolean);
+    }
+  };
+
+
 
   // Fetch Pro credentials
   useEffect(() => {
@@ -93,177 +126,175 @@ export default function ProOverviewPage() {
 
     <div className={isExportMode ? "p-4 md:p-6 mt-20" : "p-4 md:p-6 mt-20"}>
 
-    <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full mt-15">
-      {/* Left Side: Logo + Info */}
-      <div className="flex items-center space-x-4 sm:space-x-6">
-        {/* Logo with rounded corners */}
-        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
-          <img
-            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
-            alt={pro.companyName || "Pro Logo"}
-            className="w-full h-full object-contain"
-          />
+    {/* BLUE HEADER BOX */}
+      <div className="relative bg-[#C1E5EC] rounded-3xl p-6 sm:p-8 flex items-center justify-between mt-6 shadow-md w-full mt-15">
+
+        {/* Left Side: Logo + Info */}
+        <div className="flex items-center space-x-4 sm:space-x-6">
+          {/* Logo with blue checkmark overlay */}
+          <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
+            <img
+              src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${pro.companyLogo}`}
+              alt={pro.companyName || "Pro Logo"}
+              className="w-full h-full object-contain"
+            />
+
+            {/* Blue Checkmark */}
+            {pro.user.status === "4" && (
+              <span className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-cyan-400 flex items-center justify-center shadow-lg">
+                <img src="/images/4.png" className="w-8 h-8 object-contain" />
+              </span>
+            )}
+          </div>
+
+          {/* Pro Info */}
+          <div>
+            <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-extrabold text-[#012C43]">
+              {pro.companyName || "Not Updated"}
+            </h2>
+
+            <p className="text-gray-500 mt-1 text-sm sm:text-lg">
+              {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
+            </p>
+
+            {pro.user.status !== "4" ? (
+              <div className="flex items-center space-x-4">
+                <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4 mt-2">
+                <h3 className="text-lg font-bold">
+                  Pro<span className="text-red-600">Verified</span>™
+                </h3>
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Pro Info */}
-        <div>
-          {/* Company Name + Verified Check */}
-          <h2 className="flex items-center gap-2 text-2xl md:text-4xl font-extrabold text-[#012C43]">
-            {pro.companyName || "Not Updated"}
-            <span className="inline-flex items-center justify-center w-6 h-6 bg-cyan-400 rounded-full">
-              <img src={"/images/4.png"}></img>
-            </span>
-          </h2>
-
-          {/* Location */}
-          <p className="text-gray-500 mt-1 text-sm sm:text-lg">
-            {pro.city && pro.state ? `${pro.city}, ${pro.state}` : "Location not available"}
-          </p>
-   {/* <button
-      onClick={takeScreenshot}
-      className="px-4 py-2 bg-blue-500 text-white rounded"
-    >
-      Take Screenshot
-    </button>
-          */}
-         
-        </div>
-      </div>
-    </div>
-
-
-
-
-{!isExportMode && (
- <nav className="flex justify-center space-x-6">
-    <Link
-      href={`/pro-overview/${id}`}
-      className="text-sm font-medium px-3 py-2 border-b-2  border-indigo-500 text-indigo-600 hover:text-indigo-600 hover:border-indigo-500"
-    >
-      Overview
-    </Link>
-    <Link
-      href={`/pro-overview/${id}/credentials`}
-      className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500"
-    >
-      Credentials
-    </Link>
-   <a
-      href={`https://app.profer.com/prooverview/${id}`}
-     target="_blank"
-      className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-500">
-      Download
-    </a>
-
-
-
-
-
-   
-  </nav>
-  )}
- 
-  <br/>
-
-
-<div className="px-4 md:px-8 lg:px-12">
-  <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md border border-gray-400 p-8 min-h-[230px] grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-900">
-
-    {/* Licensed + Founded */}
-    <div className="grid grid-rows-2 gap-3 md:pr-8">
-      <div className="flex items-center space-x-4">
-        <img src="/images/licensed.png" alt="Licensed Icon" className="w-12 h-12 object-contain" />
-        <span className="font-semibold text-base md:text-lg">Licensed</span>
       </div>
 
-      
-      {pro.verifiedStatus == "0" ? (<div className="flex items-center space-x-4">
-        <img  src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain invisible" />
-        <span className="font-semibold text-base md:text-lg">UnVerified™</span>
-      </div>) : (
-        <div className="flex items-center space-x-4">
-        <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-          <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
-                    </h3>
-      </div>
-      )}
 
-    </div>
+        {/* TABS — moved left & positioned under blue box */}
+        {!isExportMode && (
+          <nav className="flex space-x-6 mt-[-10px] ml-10 sm:ml-10 md:ml-12 lg:ml-40">
+            <Link
+              href={`/pro-overview/${id}`}
+              className="text-sm font-medium px-3 py-2 border-b-2 border-blue-300 text-blue-400 hover:text-blue-400 hover:border-blue-300"
+            >
+              <b>Overview</b>
+            </Link>
 
-    {/* Insured + Year Founded */}
-    <div className="grid grid-rows-2 gap-3 md:border-r md:pr-8 border-gray-300">
-      <div className="flex items-center space-x-4">
-        <img src="/images/insured.avif" alt="Insured Icon" className="w-12 h-12 object-contain" />
-        <span className="font-semibold text-base md:text-lg">Insured</span>
-      </div>
+            <Link
+              href={`/pro-overview/${id}/credentials`}
+              className="text-sm font-medium px-3 py-2 border-blue-300 text-gray-500 hover:text-blue-400 hover:border-blue-300"
+            >
+              Credentials
+            </Link>
 
-      <div className="flex items-center space-x-2">
-        <span className="text-3xl font-bold">{pro.experienceYears}</span>
-        <span className="text-base md:text-lg font-semibold text-gray-700">Year Founded</span>
-      </div>
-    </div>
+            <a
+              href={`https://app.profer.com/prooverview/${id}`}
+              target="_blank"
+              className="text-sm font-medium px-3 py-2 border-blue-300 text-gray-500 hover:text-blue-400 hover:border-blue-300"
+            >
+              Download
+            </a>
+          </nav>
+        )}
 
-    {/* Detailed ProVerified™ Section */}
-   
-
+      <br />
 
 
+        {/* CONTENT BOX */}
+        <div className="px-4 md:px-8 lg:px-12">
+          <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md border border-gray-400 p-8 min-h-[230px] grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-900">
 
-            {pro.verifiedStatus == "0" ? (<>
+            {/* Licensed + Founded */}
+            <div className="grid grid-rows-2 gap-3 md:pr-8">
+              <div className="flex items-center space-x-4">
+                <img src="/images/licensed.png" alt="Licensed Icon" className="w-12 h-12 object-contain" />
+                <span className="font-semibold text-base md:text-lg">Licensed</span>
+              </div>
 
-             <div className="flex flex-col">
-  <div className="flex items-center space-x-4">
-    <h3 className="text-2xl font-bold">
-      Un<span className="text-red-600">Verified</span>™
-    </h3>
-  </div>
+              {pro.user.status !== "4" ? (
+                <div className="flex items-center space-x-4">
+                  <img src="/images/Checkmark.png" className="w-12 h-12 object-contain invisible" />
+                  <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <img src="/images/Checkmark.png" className="w-12 h-12 object-contain" />
+                  <h3 className="text-lg font-bold">
+                    Pro<span className="text-black font-medium">Verified</span>™
+                  </h3>
+                </div>
+              )}
+            </div>
 
-  <div className="pl-14 mt-2">
-    <p className="text-gray-800 text-xl leading-relaxed font-normal">
-      This professional has <span className="font-bold">not completed</span> our 
-      <span className="font-bold"> Pro</span>
-      <span className="text-red-600 font-bold">Verify</span>
-      <span className="font-bold">™</span> process. 
-      Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
-    </p>
-  </div>
-</div>
+            {/* Insured + Year Founded */}
+            <div className="grid grid-rows-2 gap-3 md:border-r md:pr-8 border-gray-300">
+              <div className="flex items-center space-x-4">
+                <img src="/images/insured.avif" className="w-12 h-12 object-contain" />
+                <span className="font-semibold text-base md:text-lg">Insured</span>
+              </div>
 
-            </>) : (<>
+              <div className="flex items-center space-x-2">
+                <span className="text-3xl font-bold">{pro.experienceYears}</span>
+                <span className="text-base md:text-lg font-semibold text-gray-700">Year Founded</span>
+              </div>
+            </div>
 
+            {/* ProVerified Section */}
+            {pro.user.status !== "4" ? (
               <div className="flex flex-col">
                 <div className="flex items-center space-x-4">
-                  <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
-                    <h3 className="text-lg font-bold">
-                      Pro<span className="text-green-600">Verified</span>™
-                    </h3>
+                  <h3 className="text-2xl font-bold">
+                    Un<span className="text-red-600">Verified</span>™
+                  </h3>
+                </div>
+
+                <div className="pl-14 mt-2">
+                  <p className="text-gray-800 text-xl leading-relaxed font-normal">
+                    This professional has <span className="font-bold">not completed</span> our 
+                    <span className="font-bold"> Pro</span>
+                    <span className="text-red-600 font-bold">Verify</span>
+                    <span className="font-bold">™</span> process.
+                    Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col">
+                <div className="flex items-center space-x-4">
+                  <img src="/images/4.png" className="w-12 h-12 object-contain" />
+                  <h3 className="text-lg font-bold">
+                    Pro<span className="text-red-600">Verified</span>™
+                  </h3>
                 </div>
 
                 <div className="pl-14 mt-2">
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
                     This professional is fully vetted using our extensive
-                    <span className="font-bold"> Pro</span>
-                    <span className="text-green-600 font-bold">Verified</span>
-                    <span className="font-bold">™</span>
+                    <span className="font-medium"> Pro</span>
+                    <span className="text-red-600 font-medium">Verified</span>
+                    <span className="font-bold">™ </span>
                     process. Identification, licenses, and insurance. It's all there.
                     You can see for yourself.
                   </p>
                 </div>
               </div>
-            </>)}
+            )}
+          </div>
+        </div>
 
 
+    </div>
 
 
-
-  </div>
-</div>
-</div>
 
 
 
 <br/>
+
+
 
 <div
   className="w-full max-w-6xl min-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto items-stretch mb-20"
@@ -273,59 +304,151 @@ export default function ProOverviewPage() {
     <h2 className="text-gray-800 font-medium mb-6 text-2xl">About</h2>
 
     <div className="space-y-6 px-6">
-      <div className="flex items-center gap-6">
-        <PhoneIcon />
-        <span className="text-blue-600 text-xl">{pro.companyPhone}</span>
+  <div className="flex items-center gap-6">
+    <PhoneIcon />
+    <a
+      href={`tel:${pro.companyPhone}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.companyPhone}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GlobeIcon />
+    <a
+      href={pro.website}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.website}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GoogleMapsIcon />
+    <a
+      href={pro.maps}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.maps}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <FacebookIcon />
+    <a
+      href={pro.facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.facebook}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <GoogleBusinessIcon />
+    <a
+      href={pro.googlebusinesslisting}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.googlebusinesslisting}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <BingBusinessIcon />
+    <a
+      href={pro.bingbusinesslisting}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.bingbusinesslisting}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <LinkedInIcon />
+    <a
+      href={pro.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.linkedin}
+    </a>
+  </div>
+
+  <div className="flex items-center gap-6">
+    <WebsiteIcon />
+    <a
+      href={pro.linktoyourwebsite}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-300 text-xl hover:underline"
+    >
+      {pro.linktoyourwebsite}
+    </a>
+  </div>
+</div>
+
+ <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
+      {/* Services Section */}
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Services</h3>
+
+        <div className="flex flex-wrap gap-2">
+          {services.map((item) => (
+            <span
+              key={item}
+              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <GlobeIcon />
-        <span className="text-blue-600 text-xl">{pro.website}</span>
-      </div>
+      {/* Badges Section */}
+      <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
 
-      <div className="flex items-center gap-6">
-        <GoogleMapsIcon />
-        <span className="text-blue-600 text-xl">{pro.maps}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <FacebookIcon />
-        <span className="text-blue-600 text-xl">{pro.facebook}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <GoogleBusinessIcon />
-        <span className="text-blue-600 text-xl">{pro.googlebusinesslisting}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <BingBusinessIcon />
-        <span className="text-blue-600 text-xl">{pro.bingbusinesslisting}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <LinkedInIcon />
-        <span className="text-blue-600 text-xl">{pro.linkedin}</span>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <WebsiteIcon />
-        <span className="text-blue-600 text-xl">{pro.linktoyourwebsite}</span>
+      <div className="flex flex-wrap gap-2">
+         {qualifications.map((item) => (
+            <span
+              key={item}
+              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+            >
+              {item}
+            </span>
+          ))}
+        
       </div>
     </div>
   </div>
 
 
 <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
-  <h2 className="text-gray-800 font-medium mb-6 text-2xl">Credentials</h2>
-    <div className="flex justify-end">
+<div className="flex items-center justify-between mb-6">
+  <h2 className="text-gray-800 font-medium text-2xl">Credentials</h2>
+
   <Link
     href={`/pro-overview/${id}/credentials`}
-    className="text-l font-medium px-3 py-2 border-b-2 border-transparent text-red-500 hover:text-indigo-600 hover:border-indigo-500"
+    className="text-lg font-medium px-3 py-2 border-b-2 border-transparent 
+               text-blue-400 hover:text-indigo-600 hover:border-indigo-500"
   >
     View Credentials
   </Link>
 </div>
+
 
   
 

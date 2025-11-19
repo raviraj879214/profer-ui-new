@@ -39,7 +39,8 @@ export function UpgradeModal() {
   const handleCheckout = async () => {
     try {
       setLoading(true);
-      const userId = 3; // replace with real modal state
+      // const userId = 3; 
+      const userId = localStorage.getItem("UserID");
       if (!userId) {
         alert("User ID not found");
         setLoading(false);

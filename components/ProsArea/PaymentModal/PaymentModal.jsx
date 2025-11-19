@@ -38,6 +38,7 @@ export function UpgradeModal() {
 
   const handleCheckout = async () => {
     try {
+      debugger;
       setLoading(true);
       // const userId = 3; 
       const userId = localStorage.getItem("UserID");

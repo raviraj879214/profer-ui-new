@@ -25,7 +25,8 @@ export function ProHeader() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [user, setUser] = useState(null);
 
-  const notificationRef = useRef(null);
+  // single ref that wraps the area containing the interactive parts
+  const containerRef = useRef(null);
 
   // Load user
   useEffect(() => {
@@ -33,14 +34,19 @@ export function ProHeader() {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  // Close dropdowns when clicking outside
+  // Close dropdowns when clicking outside the containerRef
   useEffect(() => {
     function handleClickOutside(e) {
-      if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+      // if ref not set, nothing to do
+      if (!containerRef.current) return;
+
+      // if the click is outside the container, close dropdowns
+      if (!containerRef.current.contains(e.target)) {
         setShowNotifications(false);
         setAccountMenuOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -65,8 +71,7 @@ export function ProHeader() {
 
   return (
     <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-3 md:py-4 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-
+      <div ref={containerRef} className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="https://www.profer.com/" className="flex items-center gap-2" prefetch={false}>
           <div className="w-24 md:w-28">
@@ -99,11 +104,10 @@ export function ProHeader() {
 
         {/* Right Section */}
         <div className="hidden md:flex items-center gap-4 relative">
-
           {/* Notifications */}
-          <div className="relative" ref={notificationRef}>
+          <div className="relative">
             <button
-              onClick={() => setShowNotifications(!showNotifications)}
+              onClick={() => setShowNotifications(prev => !prev)}
               className="relative focus:outline-none p-1.5 hover:bg-gray-100 rounded-md transition"
               aria-label="View notifications"
             >
@@ -111,7 +115,9 @@ export function ProHeader() {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[70vh] overflow-hidden">
+              <div
+                className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[70vh] overflow-hidden"
+              >
                 <Notifications />
               </div>
             )}
@@ -120,7 +126,7 @@ export function ProHeader() {
           {/* Account Menu */}
           <div className="relative">
             <button
-              onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+              onClick={() => setAccountMenuOpen(prev => !prev)}
               className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 text-sm"
             >
               <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
@@ -132,7 +138,9 @@ export function ProHeader() {
             </button>
 
             {accountMenuOpen && (
-              <div className="absolute right-0 mt-3 w-44 bg-white border rounded-lg shadow-md z-50">
+              <div
+                className="absolute right-0 mt-3 w-44 bg-white border rounded-lg shadow-md z-50"
+              >
                 <Link
                   href="/pro/pro-dashboard"
                   className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm"
@@ -153,14 +161,14 @@ export function ProHeader() {
         {/* Mobile Menu Toggle + Mobile Bell */}
         <div className="md:hidden flex items-center gap-4">
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
+            onClick={() => setShowNotifications(prev => !prev)}
             className="text-gray-800 p-1.5"
           >
             <Bell size={22} />
           </button>
 
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => setMobileMenuOpen(prev => !prev)}
             className="text-gray-800 focus:outline-none"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

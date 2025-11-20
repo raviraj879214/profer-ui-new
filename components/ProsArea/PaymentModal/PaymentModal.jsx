@@ -36,38 +36,48 @@ export function UpgradeModal() {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      debugger;
-      setLoading(true);
-      // const userId = 3; 
-      const userId = localStorage.getItem("UserID");
-      if (!userId) {
-        alert("User ID not found");
-        setLoading(false);
-        return;
-      }
-      const paymentid = await getStripeActivePlan();
-      const res = await fetch("/api/stripe/renew-stripe-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          priceId: paymentid,
-        }),
-      });
+const handleCheckout = async () => {
+  try {
+    setLoading(true);
 
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url; // redirect to Stripe Checkout
-      } else {
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log("Checkout error:", error.message);
+    const userId = localStorage.getItem("UserID");
+    if (!userId) {
+      alert("User ID not found");
+      setLoading(false);
+      return;
+    }
+
+    const paymentid = await getStripeActivePlan();
+    const res = await fetch("/api/stripe/renew-stripe-checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, priceId: paymentid }),
+    });
+
+    if (!res.ok) {
+      console.error("Checkout API failed:", res.status, res.statusText);
+      setLoading(false);
+      return;
+    }
+
+    const data = await res.json();
+    console.log("Stripe Redirect Response:", data); // <---- log it fully
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      console.log("No redirect URL found in response");
       setLoading(false);
     }
-  };
+
+  } catch (error) {
+    console.log("Checkout error:", error); // <--- full object
+    setLoading(false);
+  }
+};
+
+
+
 
   return (
     <>

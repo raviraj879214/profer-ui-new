@@ -8,9 +8,9 @@ export async function POST(req) {
     const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
     const FRONTEND_URL = process.env.NEXT_FORNTEND_PUBLIC_URL || "https://app.profer.com";
 
-    // ✅ Skip if Stripe key is missing
+    // Log missing Stripe key
     if (!STRIPE_SECRET_KEY) {
-      console.warn("⚠️ STRIPE_SECRET_KEY not configured — skipping checkout creation.");
+      console.log("⚠️ STRIPE_SECRET_KEY not configured — cannot create checkout session.");
       return NextResponse.json(
         { success: false, message: "Stripe key missing. Cannot create checkout session." },
         { status: 200 }
@@ -19,24 +19,27 @@ export async function POST(req) {
 
     const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-    // ✅ Parse JSON body safely
+    // Parse JSON body safely
     let body;
     try {
       body = await req.json();
-    } catch {
+    } catch (err) {
+      console.log("⚠️ Invalid JSON body:", err);
       return NextResponse.json({ success: false, message: "Invalid JSON body." }, { status: 400 });
     }
 
     const { userId, priceId } = body;
 
     if (!userId) {
+      console.log("⚠️ User ID is required.");
       return NextResponse.json({ success: false, error: "User ID is required" }, { status: 400 });
     }
     if (!priceId) {
+      console.log("⚠️ Price ID is required.");
       return NextResponse.json({ success: false, error: "Price ID is required" }, { status: 400 });
     }
 
-    // ✅ Create checkout session safely
+    // Create checkout session
     let session;
     try {
       session = await stripe.checkout.sessions.create({
@@ -47,7 +50,7 @@ export async function POST(req) {
         cancel_url: `${FRONTEND_URL}/sign-in`,
       });
     } catch (err) {
-      console.warn("⚠️ Stripe session creation failed:", err.message);
+      console.log("⚠️ Stripe session creation failed:", err.message);
       return NextResponse.json(
         { success: false, message: "Failed to create Stripe checkout session.", error: err.message },
         { status: 200 }
@@ -56,7 +59,7 @@ export async function POST(req) {
 
     return NextResponse.json({ success: true, url: session.url }, { status: 200 });
   } catch (err) {
-    console.error("❌ Unexpected Stripe route error:", err);
+    console.log("⚠️ Unexpected Stripe route error:", err);
     return NextResponse.json(
       { success: false, error: err.message || "Unexpected server error" },
       { status: 500 }

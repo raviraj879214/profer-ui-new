@@ -380,12 +380,12 @@ export  function PlansPage() {
         </svg>
       )}
 
-      <button
+      {/* <button
         onClick={() => setOpen(true)}
         className="bg-[#0C0C2D] text-white px-4 py-2 rounded-lg w-full sm:w-auto"
       >
         Add Product
-      </button>
+      </button> */}
     </div>
   </div>
       </div>

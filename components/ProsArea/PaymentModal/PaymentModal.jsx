@@ -37,6 +37,7 @@ export function UpgradeModal() {
   };
 
 const handleCheckout = async () => {
+  debugger;
   try {
     setLoading(true);
 

@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(req) {
+  debugger;
   try {
     const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
     const FRONTEND_URL = process.env.NEXT_FORNTEND_PUBLIC_URL || "https://app.profer.com";

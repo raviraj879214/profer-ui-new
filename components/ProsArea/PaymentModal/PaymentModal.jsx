@@ -48,6 +48,7 @@ const handleCheckout = async () => {
     }
 
     const paymentid = await getStripeActivePlan();
+    console.log("paymentid",paymentid);
     const res = await fetch("/api/stripe/renew-stripe-checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

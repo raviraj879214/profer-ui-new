@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Logo } from "./Logo";
 
 
@@ -7,7 +8,16 @@ export function AdminFooter() {
   return (
     <footer className="bg-gray-900 text-gray-200 py-10 px-6 flex flex-wrap items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Logo isFooter />
+           <Link href={'https://www.profer.com'}>
+     
+              <img
+                  src="/images/profer-logo-footer.png"
+                  alt="Secondary Logo"
+                  className="h-18 w-auto object-contain"
+                />
+
+
+     </Link>
           <span className="text-sm">© 2025 Profer</span>
         </div>
         

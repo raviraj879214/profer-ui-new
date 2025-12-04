@@ -100,11 +100,11 @@ export function ProDashBoardHero() {
          <div className="mt-1 text-sm sm:text-base">
   {company.verified == "4" ? (
     <h3 className="text-lg font-bold">
-      Pro<span className="text-red-600">Verified</span>™
+      Pro<span className="text-red-600">Verified</span>
     </h3>
   ) : (
     <h3 className="text-lg font-bold">
-      Un <span className="text-red-600">Verified</span>™
+      Un<span className="text-red-600">Verified</span>
     </h3>
   )}
 </div>

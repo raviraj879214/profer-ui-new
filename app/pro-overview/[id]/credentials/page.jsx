@@ -117,12 +117,12 @@ export default function CredentialsPage() {
       {pro ? (
   pro.user.status !== "4" ? (
     <div className="flex items-center space-x-4">
-      <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+      <span className="font-semibold text-base md:text-lg">UnVerified</span>
     </div>
   ) : (
     <div className="flex items-center space-x-4 mt-2">
       <h3 className="text-lg font-bold">
-        Pro<span className="text-red-600">Verified</span>™
+        Pro<span className="text-red-600">Verified</span>
       </h3>
     </div>
   )
@@ -135,7 +135,7 @@ export default function CredentialsPage() {
 </div>
 
 {/* LEFT-ALIGNED TABS - sits below the blue box */}
-<nav className="flex flex-wrap justify-start gap-4 md:gap-6 mt-2 mb-6">
+<nav className="flex flex-wrap justify-start gap-4 md:gap-6 mt-2 mb-6 pt-10">
   {[
     { href: `/pro-overview/${id}`, label: "Overview" },
     { href: `/pro-overview/${id}/credentials`, label: "Credentials", active: true },

@@ -138,9 +138,9 @@ export function ProjectAuction() {
   return (
     <div className="min-h-screen flex flex-col bg-white mt-20">
       <main className="w-full max-w-6xl mx-auto px-6 py-8 flex-grow">
-        <section className="bg-sky-100 rounded-tr-3xl rounded-br-3xl p-6 mb-6 flex justify-between items-center">
+        <section className="bg-[#b5e0e8]  rounded-tr-3xl rounded-br-3xl p-6 mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">
-            Project <span className="text-red-600">Auction<sup className="text-sm font-normal">™</sup></span>
+            Project <span className="text-red-600">Auction<sup className="text-sm font-normal"></sup></span>
           </h1>
         </section>
 
@@ -239,7 +239,7 @@ export function ProjectAuction() {
 
           {/* Project Documents */}
           <section className="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-8 space-y-4">
-            <h2 className="font-semibold text-gray-900">Project Documents (All required)</h2>
+            <h2 className="font-semibold text-gray-900">Documents</h2>
             <div className="grid grid-cols-3 gap-4 text-xs text-center text-gray-500">
               {["drawings", "insurance", "projectother"].map((field, idx) => (
                 <label key={idx} className="border border-gray-300 rounded flex flex-col items-center justify-center hover:bg-gray-50 cursor-pointer relative overflow-hidden h-40">
@@ -255,7 +255,7 @@ export function ProjectAuction() {
                   ) : (
                     <>
                       <div className="text-blue-400 text-4xl leading-none mb-2">+</div>
-                      <div>{field === "drawings" ? "Project Drawings or Measure" : field === "insurance" ? "Insurance Claim Paperwork" : "Project other documents"}</div>
+                      <div>{field === "drawings" ? " Drawings or Measure" : field === "insurance" ? "Insurance Claim Documents" : "Other Documents"}</div>
                     </>
                   )}
                   <input

@@ -154,36 +154,8 @@ export function ProDash() {
                 : "bg-white hover:shadow-md"
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div
-                className={`h-10 w-10 rounded-xl grid place-items-center 
-                bg-${w.color}-100 text-${w.color}-600`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  {w.icon}
-                </svg>
-              </div>
-              <span
-                className={`text-xs px-2 py-1 rounded-xl ${
-                  active ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-700"
-                }`}
-              >
-                {w.label}
-              </span>
-            </div>
-            <div
-              className={`mt-4 text-2xl font-semibold ${
-                active ? "text-red-600" : ""
-              }`}
-            >
-              {w.value}
-            </div>
+          
+           
             <div className="text-sm text-gray-600">{w.sub}</div>
           </Link>
         );

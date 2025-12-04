@@ -2,6 +2,7 @@
 
 import { Logo } from "@/components/Areas/shared/Logo";
 import { SubscriberForm } from "../../Frontend/Subscriber/Subscriberui";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -10,7 +11,16 @@ export function Footer() {
         
         {/* Logo + Copyright */}
         <div className="flex items-center space-x-2">
-          <Logo isFooter />
+            <Link href={'https://www.profer.com'}>
+     
+              <img
+                  src="/images/profer-logo-footer.png"
+                  alt="Secondary Logo"
+                  className="h-18 w-auto object-contain"
+                />
+
+
+     </Link>
           <span className="text-sm">© 2025 Profer</span>
         </div>
 

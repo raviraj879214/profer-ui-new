@@ -154,9 +154,7 @@ export function Companyprofile({ paymentIntentId }) {
 
         {/* Description */}
         <p className="mt-4 text-[#21afbc] text-lg max-w-md">
-          Your Pro Membership is now active!
-Thank you for your payment.
-Log in to explore and start using your new features right away.
+          Your pro membership is now active! Login to explore and start using your new features right away.
         </p>
 
         {/* Action Button */}

@@ -119,7 +119,7 @@ export function QualandServe() {
           {services.map((item) => (
             <span
               key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+              className="px-3 py-1 bg-[#b5e0e8] text-black-400 border border-green-300 rounded-full text-sm"
             >
               {item}
             </span>
@@ -134,7 +134,7 @@ export function QualandServe() {
          {qualification.map((item) => (
             <span
               key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+              className="px-3 py-1 bg-[#b5e0e8] text-black-400 border border-green-300 rounded-full text-sm"
             >
               {item}
             </span>

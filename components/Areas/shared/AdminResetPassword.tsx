@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
 import signupimage from "../../../public/images/signup.png";
+import { useRouter } from "next/navigation";
 
 interface AdminResetPasswordFormProps {
   passwordresetlink: string;
@@ -15,6 +16,7 @@ export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
   const [fade, setFade] = useState(false);
   const [tokenValid, setTokenValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -81,6 +83,8 @@ export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
       if (res.ok && result.status == 200) {
         setMessage("Password reset successful. You can now log in.");
         reset();
+        router.push("/sign-in")
+
       } else {
         setMessage(result.message || "Something went wrong. Please try again.");
       }

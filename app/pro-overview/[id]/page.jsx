@@ -159,12 +159,12 @@ export default function ProOverviewPage() {
 
             {pro.user.status !== "4" ? (
               <div className="flex items-center space-x-4">
-                <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+                <span className="font-semibold text-base md:text-lg">UnVerified</span>
               </div>
             ) : (
               <div className="flex items-center space-x-4 mt-2">
                 <h3 className="text-lg font-bold">
-                  Pro<span className="text-red-600">Verified</span>™
+                  Pro<span className="text-red-600">Verified</span>
                 </h3>
               </div>
             )}
@@ -175,7 +175,7 @@ export default function ProOverviewPage() {
 
         {/* TABS — moved left & positioned under blue box */}
         {!isExportMode && (
-          <nav className="flex space-x-6 mt-[-10px] ml-10 sm:ml-10 md:ml-12 lg:ml-40">
+          <nav className="flex space-x-6 mt-[-10px] ml-10 sm:ml-10 md:ml-12 lg:ml-40 pt-10">
             <Link
               href={`/pro-overview/${id}`}
               className="text-sm font-medium px-3 py-2 border-b-2 border-blue-300 text-blue-400 hover:text-blue-400 hover:border-blue-300"
@@ -217,7 +217,7 @@ export default function ProOverviewPage() {
               {pro.user.status !== "4" ? (
                 <div className="flex items-center space-x-4">
                   <img src="/images/Checkmark.png" className="w-12 h-12 object-contain invisible" />
-                  <span className="font-semibold text-base md:text-lg">UnVerified™</span>
+                  <span className="font-semibold text-base md:text-lg">UnVerified</span>
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
@@ -247,7 +247,7 @@ export default function ProOverviewPage() {
               <div className="flex flex-col">
                 <div className="flex items-center space-x-4">
                   <h3 className="text-2xl font-bold">
-                    Un<span className="text-red-600">Verified</span>™
+                    Un<span className="text-red-600">Verified</span>
                   </h3>
                 </div>
 
@@ -266,7 +266,7 @@ export default function ProOverviewPage() {
                 <div className="flex items-center space-x-4">
                   <img src="/images/4.png" className="w-12 h-12 object-contain" />
                   <h3 className="text-lg font-bold">
-                    Pro<span className="text-red-600">Verified</span>™
+                    Pro<span className="text-red-600">Verified</span>
                   </h3>
                 </div>
 
@@ -410,7 +410,7 @@ export default function ProOverviewPage() {
           {services.map((item) => (
             <span
               key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+              className="px-3 py-1 bg-[#b5e0e8] text-white-400 border border-green-300 rounded-full text-sm"
             >
               {item}
             </span>
@@ -425,7 +425,7 @@ export default function ProOverviewPage() {
          {qualifications.map((item) => (
             <span
               key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
+              className="px-3 py-1 bg-[#b5e0e8] text-white-400 border border-green-300 rounded-full text-sm"
             >
               {item}
             </span>

@@ -85,9 +85,9 @@ const router = useRouter();
     <>
       <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg shadow-sm max-w-screen-lg mx-auto mt-6">
         <p className="text-sm md:text-base text-center">
-          <strong>Important:</strong> Please upload all the required documents
-          in each section. Your account will be reviewed and approved by an
-          admin once all credentials are submitted.
+          <strong>Important:</strong> Please upload all the required documents in each section. Your account will be reviewed and approved by an admin once all credentials are submitted.
+
+If you upload or delete any credential, your account will automatically move to Pending status. Please wait for admin approval.
         </p>
       </div>
 
@@ -189,6 +189,43 @@ function CredentialSection({ title, icon, section }) {
     fetchExisting();
   }, [section]);
 
+
+
+
+
+  const sentMessage =async ()=>{
+    const  userid = localStorage.getItem("UserID");
+
+     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/notify-credential-uploade`,{
+        method : "POST",
+        headers: {
+         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+         },
+        body: JSON.stringify({
+          userid : userid
+        })
+      });
+
+      if(res.ok){
+        const result = await res.json();
+        if(result.status == 200){
+          setnotifymessage(result.message);
+        }
+      }
+  }
+
+
+
+
+
+
+
+
+
+
+
   // Upload file
   const handleUpload = async (e, index) => {
     const file = e.target.files[0];
@@ -233,6 +270,9 @@ function CredentialSection({ title, icon, section }) {
       if (!res.ok) throw new Error(data.error || "Upload failed");
 
       await fetchExisting();
+      // sentMessage();
+
+
     } catch (err) {
       alert(err.message);
       console.error("Upload error:", err);

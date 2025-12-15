@@ -315,7 +315,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c] "
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.companyPhone}
     </a>
@@ -328,7 +328,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.website}
     </a>
@@ -341,7 +341,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.maps}
     </a>
@@ -354,7 +354,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.facebook}
     </a>
@@ -367,7 +367,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.googlebusinesslisting}
     </a>
@@ -380,7 +380,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.bingbusinesslisting}
     </a>
@@ -393,7 +393,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.linkedin}
     </a>
@@ -406,7 +406,7 @@ if (!pro) {
       target="_blank"
       rel="noopener noreferrer"
       className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
-           text-[#23a0b0] hover:text-[#1b7f8c]"
+           text-[#23a0b0] hover:text-[#1b7f8c] wrap-anywhere"
     >
       {pro.linktoyourwebsite}
     </a>

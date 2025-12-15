@@ -300,7 +300,7 @@ export default function ProOverviewPage() {
 <div
   className="w-full max-w-6xl min-h-[500px] grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto items-stretch mb-20"
 >
-  {/* Left Side - About */}
+
   <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
     <h2 className="text-gray-800 font-medium mb-6 text-2xl">About</h2>
 
@@ -311,23 +311,25 @@ export default function ProOverviewPage() {
       href={`tel:${pro.companyPhone}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.companyPhone}
     </a>
   </div>
 
-  <div className="flex items-center gap-6">
-    <GlobeIcon className="text-[#23a0b0]" />
-    <a
-      href={pro.website}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
-    >
-      {pro.website}
-    </a>
-  </div>
+<div className="flex items-center gap-6">
+  <GlobeIcon className="text-[#23a0b0]" />
+  <a
+    href={pro.website}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-[#23a0b0] text-xl hover:underline break-words flex-1 wrap-anywhere"
+  >
+    {pro.website}
+  </a>
+</div>
+
+
 
   <div className="flex items-center gap-6">
     <GoogleMapsIcon className="text-[#23a0b0]" />
@@ -335,7 +337,7 @@ export default function ProOverviewPage() {
       href={pro.maps}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.maps}
     </a>
@@ -347,7 +349,7 @@ export default function ProOverviewPage() {
       href={pro.facebook}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.facebook}
     </a>
@@ -359,7 +361,7 @@ export default function ProOverviewPage() {
       href={pro.googlebusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.googlebusinesslisting}
     </a>
@@ -371,7 +373,7 @@ export default function ProOverviewPage() {
       href={pro.bingbusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.bingbusinesslisting}
     </a>
@@ -383,7 +385,7 @@ export default function ProOverviewPage() {
       href={pro.linkedin}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
       {pro.linkedin}
     </a>
@@ -395,9 +397,9 @@ export default function ProOverviewPage() {
       href={pro.linktoyourwebsite}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#23a0b0] text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline wrap-anywhere"
     >
-      {pro.linktoyourwebsite}
+      {pro.linktoyourwebsite} 
     </a>
   </div>
 </div>
@@ -438,6 +440,8 @@ export default function ProOverviewPage() {
 </div>
 
   </div>
+
+
 
 
 <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">

@@ -16,6 +16,8 @@ function SearchForContent() {
   const zip = searchParams.get("zip") || "";
 
   return <SearchForPros companyname={name} zipcode={zip} />;
+
+
 }
 
 
@@ -26,6 +28,7 @@ function SearchForContent() {
 export default function SearchFor() {
   return (
     <Suspense fallback={<div>Loading search results...</div>}>
+      <p>test</p>
       <SearchForContent />
     </Suspense>
   );

@@ -140,7 +140,7 @@ export function ProjectAuction() {
       <main className="w-full max-w-6xl mx-auto px-6 py-8 flex-grow">
         <section className="bg-[#b5e0e8]  rounded-tr-3xl rounded-br-3xl p-6 mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">
-            Project <span className="text-red-600">Auction<sup className="text-sm font-normal"></sup></span>
+            Project <span className="text-[#d63934]">Auction<sup className="text-sm font-normal"></sup></span>
           </h1>
         </section>
 
@@ -315,7 +315,7 @@ export function ProjectAuction() {
                 Uploading...
               </button>
             ) : (
-              <button type="submit" className="rounded-full px-12 py-3 bg-red-500 text-white font-semibold text-lg hover:bg-red-600">
+              <button type="submit" className="rounded-full px-12 py-3 bg-[#d63934] text-white font-semibold text-lg hover:bg-[#d63934]">
                 Proceed
               </button>
             )}

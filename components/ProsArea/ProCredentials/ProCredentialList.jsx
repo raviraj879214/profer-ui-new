@@ -45,7 +45,9 @@ const router = useRouter();
 
   const  submitcredential = async ()=>{
     setIsOpen(true);
-  
+
+
+    
   }
 
    const handleConfirm =async () => {
@@ -68,6 +70,9 @@ const router = useRouter();
         const result = await res.json();
         if(result.status == 200){
           setnotifymessage(result.message);
+          window.location.href='/pro/pro-dashboard';
+
+
         }
       }
    
@@ -86,8 +91,7 @@ const router = useRouter();
       <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg shadow-sm max-w-screen-lg mx-auto mt-6">
         <p className="text-sm md:text-base text-center">
           <strong>Important:</strong> Please upload all the required documents in each section. Your account will be reviewed and approved by an admin once all credentials are submitted.
-
-If you upload or delete any credential, your account will automatically move to Pending status. Please wait for admin approval.
+            If you upload or delete any credential, your account will automatically move to Pending status. Please wait for admin approval.
         </p>
       </div>
 
@@ -109,7 +113,7 @@ If you upload or delete any credential, your account will automatically move to 
         </div>
       ))}
 
-      {/* Submit button below all components */}
+      
       <div className="flex justify-center mt-8 mb-12">
         <button className="bg-red-500 text-white px-8 py-3 rounded-md font-semibold shadow" onClick={()=>submitcredential()}>
           Submit

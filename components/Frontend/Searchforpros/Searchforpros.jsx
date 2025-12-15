@@ -54,8 +54,7 @@ export function SearchForPros({ companyname, zipcode }) {
               id : item.id,
               name: item.companyName,
               status: item.user.status,
-              profileImg:
-                "https://static.wixstatic.com/media/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png/v1/fill/w_174,h_94,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png",
+              profileImg:"https://static.wixstatic.com/media/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png/v1/fill/w_174,h_94,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png",
               verified: item.user.status == "4" ? true : false,
             }))
           );
@@ -170,7 +169,7 @@ export function SearchForPros({ companyname, zipcode }) {
               <button
                 type="submit"
                 disabled={btnLoading}
-                className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded shadow transition w-full sm:w-auto flex items-center justify-center gap-2"
+                className="bg-[#d63934] hover:bg-[#d63934] text-white font-semibold px-6 py-2 rounded shadow transition w-full sm:w-auto flex items-center justify-center gap-2"
               >
                 {btnLoading ? (
                   <>
@@ -353,7 +352,7 @@ export function SearchForPros({ companyname, zipcode }) {
                         router.push(`/pro-overview/${id}`)
                       }}>
 
-                        <img
+                        {/* <img
                           src={profileImg}
                           alt={`ProFile for ${name}`}
                           className="w-10 h-10 opacity-80"
@@ -362,7 +361,13 @@ export function SearchForPros({ companyname, zipcode }) {
                             e.currentTarget.src =
                               "https://placehold.co/40x40?text=PF";
                           }}
-                        />
+                        /> */}
+
+                        <p className="w-10 h-10 text-[#23a0b0] opacity-80 cursor-pointer
+              hover:opacity-100 hover:underline transition-all duration-200">
+  View
+</p>
+
                       </td>
                     </tr>
                   )

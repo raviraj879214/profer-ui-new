@@ -75,12 +75,13 @@ export function ProCredentialList() {
     <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px] flex flex-col">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-bold text-gray-900">Credentials</h3>
-        <Link
-          href="/pro/pro-credentials"
-          className="text-blue-400 text-xs hover:underline cursor-pointer"
-        >
-          View Credentials
-        </Link>
+       <Link
+  href="/pro/pro-credentials"
+  className="text-[#23a0b0] text-xs hover:underline cursor-pointer"
+>
+  View Credentials
+</Link>
+
       </div>
       <div className="space-y-4 overflow-y-auto max-h-[600px]">
         {credentialData.length === 0 ? (

@@ -75,15 +75,15 @@ export default function CredentialsPage() {
             />
 
             {/* Bottom-right checkmark */}
-           {pro && pro.user?.status === "4" && (
-  <span
-    className="absolute bottom-0 right-0 inline-flex items-center justify-center 
-               w-8 h-8 bg-cyan-400 rounded-full shadow-lg"
-    title="Verified"
-  >
-    <img src="/images/4.png" className="w-6 h-6" />
-  </span>
-)}
+           {/* {pro && pro.user?.status === "4" && (
+                <span
+                  className="absolute bottom-0 right-0 inline-flex items-center justify-center 
+                            w-8 h-8 bg-cyan-400 rounded-full shadow-lg"
+                  title="Verified"
+                >
+                  <img src="/images/4.png" className="w-6 h-6" />
+                </span>
+              )} */}
 
           </>
         ) : (
@@ -122,7 +122,7 @@ export default function CredentialsPage() {
   ) : (
     <div className="flex items-center space-x-4 mt-2">
       <h3 className="text-lg font-bold">
-        Pro<span className="text-red-600">Verified</span>
+        Pro<span className="text-[#d63934]">Verified</span>
       </h3>
     </div>
   )
@@ -144,10 +144,10 @@ export default function CredentialsPage() {
     <Link
       key={i}
       href={link.href}
-      className={`text-sm font-medium px-3 py-2 border-b-2 ${
+      className={`text-sm font-medium px-3 py-2 border-b-2 transition-colors duration-200 ${
         link.active
-          ? "border-blue-400 text-blue-500 font-semibold"
-          : "border-transparent text-gray-500 hover:text-blue-400 hover:border-blue-400"
+          ? "border-[#23a0b0] text-[#23a0b0] font-semibold"
+          : "border-transparent text-gray-500 hover:text-[#23a0b0] hover:border-[#23a0b0]"
       }`}
     >
       {link.label}

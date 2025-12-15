@@ -110,37 +110,35 @@ export function QualandServe() {
 
 
   return (
-    <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
-      {/* Services Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Services</h3>
+   <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
+  <div>
+    <h3 className="text-lg font-semibold mb-2">Services</h3>
 
-        <div className="flex flex-wrap gap-2">
-          {services.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-[#b5e0e8] text-black-400 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Badges Section */}
-      <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
-
-      <div className="flex flex-wrap gap-2">
-         {qualification.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-[#b5e0e8] text-black-400 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {services.map((item) => (
+        <span
+          key={item}
+          className="px-3 py-1  text-black border border-[#23a0b0] rounded-full text-sm"
+        >
+          {item}
+        </span>
+      ))}
     </div>
+  </div>
+
+  <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
+
+  <div className="flex flex-wrap gap-2">
+    {qualification.map((item) => (
+      <span
+        key={item}
+        className="px-3 py-1  text-black border border-[#23a0b0] rounded-full text-sm"
+      >
+        {item}
+      </span>
+    ))}
+  </div>
+</div>
+
   );
 }

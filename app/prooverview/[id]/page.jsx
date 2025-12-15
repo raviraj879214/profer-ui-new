@@ -138,14 +138,14 @@ if (!pro) {
     className="w-full h-full object-contain"
   />
 
-  {pro.user.status == "4" && (
+  {/* {pro.user.status == "4" && (
     <span
       className="absolute bottom-0 right-0 inline-flex items-center justify-center 
                  w-8 h-8 bg-cyan-400 rounded-full shadow-lg"
     >
       <img src="/images/4.png" className="w-6 h-6" />
     </span>
-  )}
+  )} */}
 </div>
 
 
@@ -172,7 +172,7 @@ if (!pro) {
         <div className="flex items-center space-x-4">
       
           <h3 className="text-lg font-bold">
-                      Pro<span className="text-red-600">Verified</span>™
+                      Pro<span className="text-[#d63934]">Verified</span>™
                     </h3>
       </div>
       )}
@@ -228,7 +228,7 @@ if (!pro) {
         <div className="flex items-center space-x-4">
         <img src="/images/Checkmark.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
          <h3 className="text-lg font-bold">
-                      Pro<span className="text-red-600">Verified</span>™
+                      Pro<span className="text-[#d63934]">Verified</span>™
             </h3>
       </div>
       )}
@@ -254,7 +254,7 @@ if (!pro) {
              <div className="flex flex-col">
   <div className="flex items-center space-x-4">
     <h3 className="text-2xl font-bold">
-      Un<span className="text-red-600">Verified</span>™
+      Un<span className="text-[#d63934]">Verified</span>™
     </h3>
   </div>
 
@@ -262,7 +262,7 @@ if (!pro) {
     <p className="text-gray-800 text-xl leading-relaxed font-normal">
       This professional has <span className="font-bold">not completed</span> our 
       <span className="font-bold"> Pro</span>
-      <span className="text-red-600 font-bold">Verify</span>
+      <span className="text-[#d63934] font-bold">Verify</span>
       <span className="font-bold">™</span> process. 
       Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
     </p>
@@ -275,7 +275,7 @@ if (!pro) {
                 <div className="flex items-center space-x-4">
                   <img src="/images/4.png" alt="Pro Verified Icon" className="w-12 h-12 object-contain" />
                     <h3 className="text-lg font-bold">
-                      Pro<span className="text-red-600">Verified</span>™
+                      Pro<span className="text-[#d63934]">Verified</span>™
                     </h3>
                 </div>
 
@@ -283,7 +283,7 @@ if (!pro) {
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
                     This professional is fully vetted using our extensive
                     <span className="font-medium"> Pro</span>
-                    <span className="text-black-600 font-medium">Verified</span>
+                    <span className="text-[#d63934] font-medium">Verified</span>
                     <span className="font-bold">™ </span>
                     process. Identification, licenses, and insurance. It's all there.
                     You can see for yourself.
@@ -314,7 +314,8 @@ if (!pro) {
       href={`tel:${pro.companyPhone}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c] "
     >
       {pro.companyPhone}
     </a>
@@ -326,7 +327,8 @@ if (!pro) {
       href={pro.website}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.website}
     </a>
@@ -338,7 +340,8 @@ if (!pro) {
       href={pro.maps}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.maps}
     </a>
@@ -350,7 +353,8 @@ if (!pro) {
       href={pro.facebook}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.facebook}
     </a>
@@ -362,7 +366,8 @@ if (!pro) {
       href={pro.googlebusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.googlebusinesslisting}
     </a>
@@ -374,7 +379,8 @@ if (!pro) {
       href={pro.bingbusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.bingbusinesslisting}
     </a>
@@ -386,7 +392,8 @@ if (!pro) {
       href={pro.linkedin}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.linkedin}
     </a>
@@ -398,44 +405,47 @@ if (!pro) {
       href={pro.linktoyourwebsite}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c]"
     >
       {pro.linktoyourwebsite}
     </a>
   </div>
 </div>
- <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
-      {/* Services Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Services</h3>
+<div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
+  {/* Services Section */}
+  <div>
+    <h3 className="text-lg font-semibold mb-2">Services</h3>
 
-        <div className="flex flex-wrap gap-2">
-          {services.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Badges Section */}
-      <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
-
-      <div className="flex flex-wrap gap-2">
-         {qualifications.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {services.map((item) => (
+        <span
+          key={item}
+          className="px-3 py-1 border border-[#23a0b0] text-[#23a0b0] rounded-full text-sm"
+        >
+          {item}
+        </span>
+      ))}
     </div>
+  </div>
+
+  {/* Qualifications Section */}
+  <div>
+    <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
+
+    <div className="flex flex-wrap gap-2">
+      {qualifications.map((item) => (
+        <span
+          key={item}
+          className="px-3 py-1 border border-[#23a0b0] text-[#23a0b0] rounded-full text-sm"
+        >
+          {item}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
   </div>
 
   {/* Right Side - Credentials */}
@@ -447,8 +457,9 @@ if (!pro) {
 
   <Link
     href={`/pro-overview/${id}/credentials`}
-    className="text-lg font-medium px-3 py-2 border-b-2 border-transparent 
-               text-blue-400 hover:text-indigo-600 hover:border-indigo-500"
+    className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+           text-[#23a0b0] hover:text-[#1b7f8c] hover:border-[#23a0b0]"
+
   >
     View Credentials
   </Link>

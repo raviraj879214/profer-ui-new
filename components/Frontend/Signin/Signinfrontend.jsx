@@ -18,6 +18,7 @@ const SignIn = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm();
 
   const [loading, setLoading] = useState(false);
@@ -163,7 +164,9 @@ const SignIn = () => {
       setErrorMsg(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
-      reset();
+      // reset();
+      setValue("password","");
+      
     }
   };
 

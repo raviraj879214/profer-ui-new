@@ -62,9 +62,9 @@ export function ProDashBoardHero() {
 
   return (
     <div className=" relative bg-[#C1E5EC] rounded-b-3xl p-6 sm:p-8 flex items-center justify-between mt-25 shadow-md ">
-      {/* Left Side: Logo + Info */}
+
       <div className="flex items-center space-x-4 sm:space-x-6">
-        {/* Logo with rounded corners */}
+       
        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white shadow">
   <img
     src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${logoSrc}`}
@@ -75,11 +75,11 @@ export function ProDashBoardHero() {
     onLoad={() => setLogoLoaded(true)}
   />
 
-  {company.verified == "4" && (
+  {/* {company.verified == "4" && (
     <span className="absolute bottom-0 right-0">
       <VerifiedCheckIcon />
     </span>
-  )}
+  )} */}
 </div>
 
         

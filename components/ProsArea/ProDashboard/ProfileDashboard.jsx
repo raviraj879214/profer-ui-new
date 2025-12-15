@@ -277,7 +277,7 @@ export function ProDash() {
         {/* About Section */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 min-h-[300px]">
           <h3 className="font-bold text-gray-900 mb-3">About</h3>
-          <ul className="space-y-4 text-blue-600 text-sm font-medium">
+          <ul className="space-y-4 text-[#23a0b0] text-sm font-medium">
             <EditableField icon={<PhoneIcon />} field="phone" value={aboutInfo.phone} setValue={(val) => setAboutInfo((prev) => ({ ...prev, phone: val }))} linkPrefix="tel:" onSave={handleSaveField} />
             <EditableField icon={<GlobeIcon />} field="website" value={aboutInfo.website} setValue={(val) => setAboutInfo((prev) => ({ ...prev, website: val }))} onSave={handleSaveField} />
             <EditableField icon={<GoogleMapsIcon />} field="maps" value={aboutInfo.maps} setValue={(val) => setAboutInfo((prev) => ({ ...prev, maps: val }))} onSave={handleSaveField} />

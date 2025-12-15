@@ -140,11 +140,11 @@ export default function ProOverviewPage() {
             />
 
             {/* Blue Checkmark */}
-            {pro.user.status === "4" && (
+            {/* {pro.user.status === "4" && (
               <span className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-cyan-400 flex items-center justify-center shadow-lg">
                 <img src="/images/4.png" className="w-8 h-8 object-contain" />
               </span>
-            )}
+            )} */}
           </div>
 
           {/* Pro Info */}
@@ -164,7 +164,7 @@ export default function ProOverviewPage() {
             ) : (
               <div className="flex items-center space-x-4 mt-2">
                 <h3 className="text-lg font-bold">
-                  Pro<span className="text-red-600">Verified</span>
+                  Pro<span className="text-[#d63934]">Verified</span>
                 </h3>
               </div>
             )}
@@ -176,28 +176,29 @@ export default function ProOverviewPage() {
         {/* TABS — moved left & positioned under blue box */}
         {!isExportMode && (
           <nav className="flex space-x-6 mt-[-10px] ml-10 sm:ml-10 md:ml-12 lg:ml-40 pt-10">
-            <Link
-              href={`/pro-overview/${id}`}
-              className="text-sm font-medium px-3 py-2 border-b-2 border-blue-300 text-blue-400 hover:text-blue-400 hover:border-blue-300"
-            >
-              <b>Overview</b>
-            </Link>
+  <Link
+    href={`/pro-overview/${id}`}
+    className="text-sm font-medium px-3 py-2 border-b-2 border-[#23a0b0] text-[#23a0b0] hover:text-[#23a0b0] hover:border-[#23a0b0]"
+  >
+    <b>Overview</b>
+  </Link>
 
-            <Link
-              href={`/pro-overview/${id}/credentials`}
-              className="text-sm font-medium px-3 py-2 border-blue-300 text-gray-500 hover:text-blue-400 hover:border-blue-300"
-            >
-              Credentials
-            </Link>
+  <Link
+    href={`/pro-overview/${id}/credentials`}
+    className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-[#23a0b0] hover:text-[#23a0b0] hover:border-[#23a0b0]"
+  >
+    Credentials
+  </Link>
 
-            <a
-              href={`https://app.profer.com/prooverview/${id}`}
-              target="_blank"
-              className="text-sm font-medium px-3 py-2 border-blue-300 text-gray-500 hover:text-blue-400 hover:border-blue-300"
-            >
-              Download
-            </a>
-          </nav>
+  <a
+    href={`https://app.profer.com/prooverview/${id}`}
+    target="_blank"
+    className="text-sm font-medium px-3 py-2 border-b-2 border-transparent text-[#23a0b0] hover:text-[#23a0b0] hover:border-[#23a0b0]"
+  >
+    Download
+  </a>
+</nav>
+
         )}
 
       <br />
@@ -223,7 +224,7 @@ export default function ProOverviewPage() {
                 <div className="flex items-center space-x-4">
                   <img src="/images/Checkmark.png" className="w-12 h-12 object-contain" />
                   <h3 className="text-lg font-bold">
-                    Pro<span className="text-black font-medium">Verified</span>™
+                    Pro<span className="text-[#d63934] font-medium">Verified</span>
                   </h3>
                 </div>
               )}
@@ -247,7 +248,7 @@ export default function ProOverviewPage() {
               <div className="flex flex-col">
                 <div className="flex items-center space-x-4">
                   <h3 className="text-2xl font-bold">
-                    Un<span className="text-red-600">Verified</span>
+                    Un<span className="text-[#d63934]">Verified</span>
                   </h3>
                 </div>
 
@@ -266,7 +267,7 @@ export default function ProOverviewPage() {
                 <div className="flex items-center space-x-4">
                   <img src="/images/4.png" className="w-12 h-12 object-contain" />
                   <h3 className="text-lg font-bold">
-                    Pro<span className="text-red-600">Verified</span>
+                    Pro<span className="text-[#d63934]">Verified</span>
                   </h3>
                 </div>
 
@@ -274,8 +275,8 @@ export default function ProOverviewPage() {
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
                     This professional is fully vetted using our extensive
                     <span className="font-medium"> Pro</span>
-                    <span className="text-red-600 font-medium">Verified</span>
-                    <span className="font-bold">™ </span>
+                    <span className="text-[#d63934] font-medium">Verified</span>
+                    <span className="font-bold"> </span>
                     process. Identification, licenses, and insurance. It's all there.
                     You can see for yourself.
                   </p>
@@ -303,136 +304,139 @@ export default function ProOverviewPage() {
   <div className="bg-white shadow-md border-gray-400 border-2 rounded-2xl p-10 w-full h-full">
     <h2 className="text-gray-800 font-medium mb-6 text-2xl">About</h2>
 
-    <div className="space-y-6 px-6">
+   <div className="space-y-6 px-6">
   <div className="flex items-center gap-6">
-    <PhoneIcon />
+    <PhoneIcon className="text-[#23a0b0]" />
     <a
       href={`tel:${pro.companyPhone}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.companyPhone}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <GlobeIcon />
+    <GlobeIcon className="text-[#23a0b0]" />
     <a
       href={pro.website}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.website}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <GoogleMapsIcon />
+    <GoogleMapsIcon className="text-[#23a0b0]" />
     <a
       href={pro.maps}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.maps}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <FacebookIcon />
+    <FacebookIcon className="text-[#23a0b0]" />
     <a
       href={pro.facebook}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.facebook}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <GoogleBusinessIcon />
+    <GoogleBusinessIcon className="text-[#23a0b0]" />
     <a
       href={pro.googlebusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.googlebusinesslisting}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <BingBusinessIcon />
+    <BingBusinessIcon className="text-[#23a0b0]" />
     <a
       href={pro.bingbusinesslisting}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.bingbusinesslisting}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <LinkedInIcon />
+    <LinkedInIcon className="text-[#23a0b0]" />
     <a
       href={pro.linkedin}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.linkedin}
     </a>
   </div>
 
   <div className="flex items-center gap-6">
-    <WebsiteIcon />
+    <WebsiteIcon className="text-[#23a0b0]" />
     <a
       href={pro.linktoyourwebsite}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-300 text-xl hover:underline"
+      className="text-[#23a0b0] text-xl hover:underline"
     >
       {pro.linktoyourwebsite}
     </a>
   </div>
 </div>
 
- <div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
-      {/* Services Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Services</h3>
 
-        <div className="flex flex-wrap gap-2">
-          {services.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-[#b5e0e8] text-white-400 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
+<div className="p-4 border rounded-lg bg-white space-y-6 mt-5">
+  {/* Services Section */}
+  <div>
+    <h3 className="text-lg font-semibold mb-2">Services</h3>
 
-      {/* Badges Section */}
-      <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
-
-      <div className="flex flex-wrap gap-2">
-         {qualifications.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1 bg-[#b5e0e8] text-white-400 border border-green-300 rounded-full text-sm"
-            >
-              {item}
-            </span>
-          ))}
-        
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {services.map((item) => (
+        <span
+          key={item}
+          className="px-3 py-1 border border-[#b5e0e8] text-[#23a0b0] rounded-full text-sm"
+        >
+          {item}
+        </span>
+      ))}
     </div>
+  </div>
+
+  {/* Qualifications Section */}
+  <div>
+    <h3 className="text-lg font-semibold mb-2">Qualifications</h3>
+
+    <div className="flex flex-wrap gap-2">
+      {qualifications.map((item) => (
+        <span
+          key={item}
+          className="px-3 py-1 border border-[#b5e0e8] text-[#23a0b0] rounded-full text-sm"
+        >
+          {item}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
   </div>
 
 
@@ -441,12 +445,13 @@ export default function ProOverviewPage() {
   <h2 className="text-gray-800 font-medium text-2xl">Credentials</h2>
 
   <Link
-    href={`/pro-overview/${id}/credentials`}
-    className="text-lg font-medium px-3 py-2 border-b-2 border-transparent 
-               text-blue-400 hover:text-indigo-600 hover:border-indigo-500"
-  >
-    View Credentials
-  </Link>
+  href={`/pro-overview/${id}/credentials`}
+  className="text-lg font-medium px-3 py-2 border-b-2 border-transparent
+             text-[#23a0b0] hover:text-[#23a0b0] hover:border-[#23a0b0]"
+>
+  View Credentials
+</Link>
+
 </div>
 
 

@@ -43,6 +43,8 @@ export function ForgotPassword() {
         body: JSON.stringify({ email: data.email }),
       });
 
+      
+
       const result = await res.json();
 
       if (res.ok) {

@@ -224,7 +224,7 @@ export function ProDash() {
             </div>
           </>) :(
             <div className="flex items-center space-x-4">
-              <img src="/images/checkmark.png" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
+              <img src="/images/Checkmark.png" alt="Pro Verified Icon" className="w-8 h-8 object-contain" />
                <h3 className="text-lg font-bold">
                       Pro<span className="text-red-600">Verified</span>™
                     </h3>

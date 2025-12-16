@@ -81,7 +81,7 @@ export function Header() {
           </Link>
           <Link
             href="/select-plan"
-            className="rounded-md bg-[#D63934] px-4 py-2 text-sm font-medium text-white  transition-colors"
+            className="rounded-md bg-[#e05042] px-4 py-2 text-sm font-medium text-white  transition-colors"
             prefetch={false}
           >
             Join Profer 

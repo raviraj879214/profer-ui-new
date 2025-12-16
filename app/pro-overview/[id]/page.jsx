@@ -254,7 +254,7 @@ export default function ProOverviewPage() {
 
                 <div className="pl-14 mt-2">
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
-                    This professional has <span className="font-bold">not completed</span> our 
+                    This professional has <span className="font-bold">not yet completed</span> our 
                     <span className="font-bold"> Pro</span>
                     <span className="text-red-600 font-bold">Verify</span>
                     <span className="font-bold">™</span> process.

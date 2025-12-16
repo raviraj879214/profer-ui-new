@@ -315,7 +315,7 @@ export function ProjectAuction() {
                 Uploading...
               </button>
             ) : (
-              <button type="submit" className="rounded-full px-12 py-3 bg-[#d63934] text-white font-semibold text-lg hover:bg-[#d63934]">
+              <button type="submit" className="rounded-full px-12 py-3 bg-[#e05042] text-white font-semibold text-lg hover:bg-[#d63934]">
                 Proceed
               </button>
             )}

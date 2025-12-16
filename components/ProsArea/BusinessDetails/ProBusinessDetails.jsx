@@ -23,7 +23,7 @@ export function BusinessDetails({  }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue ,formState:{errors} } = useForm();
 
    const [userId, setUserId] = useState(null);
 
@@ -200,6 +200,17 @@ export function BusinessDetails({  }) {
     }
   };
 
+
+const urlValidation = {
+  pattern: {
+    value: /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
+    message: "URL must start with http:// or https://",
+  },
+};
+
+
+
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-12 ">
       {/* Success Banner */}
@@ -236,7 +247,27 @@ export function BusinessDetails({  }) {
             <input {...register("zip")} placeholder="Zip" className="w-full border p-2 rounded" />
           </div>
           <input {...register("ein")} placeholder="EIN" className="w-full border p-2 rounded" />
-          <input {...register("experienceYears")} placeholder="Established Year" className="w-full border p-2 rounded" />
+
+        <div>
+            <input
+            {...register("experienceYears", {
+              required: "Established year is required",
+              pattern: {
+                value: /^\d{4}$/,
+                message: "Please enter a valid 4-digit year",
+              },
+            })}
+            placeholder="Established Year"
+            maxLength={4}
+            inputMode="numeric"
+            className="w-full border p-2 rounded"
+          />
+          {errors.experienceYears &&(
+            <p className="text-sm text-red-500">{errors.experienceYears.message}</p>
+          )}
+
+        </div>
+        
 
           <div className="grid grid-cols-2 gap-4 col-span-2">
             <MultiSelect
@@ -311,35 +342,142 @@ export function BusinessDetails({  }) {
             </div>
           </div>
 
-          {/* Links Section */}
-          <div className="col-span-2">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4">
-              Links to your:
-            </h3>
-            <div className="grid grid-cols-2 gap-6">
-              <input {...register("phone")} placeholder="Phone" className="w-full border p-2 rounded" />
-              <input {...register("website")} placeholder="Website" className="w-full border p-2 rounded" />
-              <input {...register("maps")} placeholder="Google Maps Link" className="w-full border p-2 rounded" />
-              <input {...register("facebook")} placeholder="Facebook" className="w-full border p-2 rounded" />
-              <input {...register("googlebusinesslisting")} placeholder="Google Business Listing" className="w-full border p-2 rounded" />
-              <input {...register("bingbusinesslisting")} placeholder="Bing Business Listing" className="w-full border p-2 rounded" />
-              <input {...register("linkedin")} placeholder="LinkedIn" className="w-full border p-2 rounded" />
-              <input {...register("linktoyourwebsite")} placeholder="Link to your Website" className="w-full border p-2 rounded" />
-            </div>
-          </div>
+          
+        <div className="col-span-2">
+        <h3 className="text-sm font-semibold text-gray-700 mb-4">
+          Links to your (optional):
+        </h3>
+
+    <div className="grid grid-cols-2 gap-6">
+
+  {/* Phone */}
+  <div>
+    <input
+      {...register("phone", {
+        pattern: {
+          value: /^[0-9]{10,15}$/,
+          message: "Enter a valid phone number",
+        },
+      })}
+      placeholder="Phone"
+      className="w-full border p-2 rounded"
+    />
+    {errors.phone && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.phone.message}
+      </p>
+    )}
+  </div>
+
+  {/* Website */}
+  <div>
+    <input
+      {...register("website", urlValidation)}
+      placeholder="Website"
+      className="w-full border p-2 rounded"
+    />
+    {errors.website && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.website.message}
+      </p>
+    )}
+  </div>
+
+  {/* Google Maps */}
+  <div>
+    <input
+      {...register("maps", urlValidation)}
+      placeholder="Google Maps Link"
+      className="w-full border p-2 rounded"
+    />
+    {errors.maps && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.maps.message}
+      </p>
+    )}
+  </div>
+
+  {/* Facebook */}
+  <div>
+    <input
+      {...register("facebook", urlValidation)}
+      placeholder="Facebook"
+      className="w-full border p-2 rounded"
+    />
+    {errors.facebook && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.facebook.message}
+      </p>
+    )}
+  </div>
+
+  {/* Google Business */}
+  <div>
+    <input
+      {...register("googlebusinesslisting", urlValidation)}
+      placeholder="Google Business Listing"
+      className="w-full border p-2 rounded"
+    />
+    {errors.googlebusinesslisting && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.googlebusinesslisting.message}
+      </p>
+    )}
+  </div>
+
+  {/* Bing Business */}
+  <div>
+    <input
+      {...register("bingbusinesslisting", urlValidation)}
+      placeholder="Bing Business Listing"
+      className="w-full border p-2 rounded"
+    />
+    {errors.bingbusinesslisting && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.bingbusinesslisting.message}
+      </p>
+    )}
+  </div>
+
+  {/* LinkedIn */}
+  <div>
+    <input
+      {...register("linkedin", urlValidation)}
+      placeholder="LinkedIn"
+      className="w-full border p-2 rounded"
+    />
+    {errors.linkedin && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.linkedin.message}
+      </p>
+    )}
+  </div>
+
+  {/* Other Website */}
+  <div>
+    <input
+      {...register("linktoyourwebsite", urlValidation)}
+      placeholder="Link to your Website"
+      className="w-full border p-2 rounded"
+    />
+    {errors.linktoyourwebsite && (
+      <p className="text-red-500 text-xs mt-1">
+        {errors.linktoyourwebsite.message}
+      </p>
+    )}
+  </div>
+
+</div>
+
+    </div>
+
         </div>
 
         {/* Buttons */}
         <div className="mt-12 flex justify-between items-right max-w-4xl mx-auto">
+         
           <button
-            onClick={() => router.push("/pro/step-1")}
-            type="button"
-            className="hidden text-[#00BBD1] underline text-sm font-semibold hover:text-[#008a9a]"
-          >
-            Back
-          </button>
-          <button
-            onClick={() => submitbusinessdetails()}
+            // onClick={() => submitbusinessdetails()}
             type="submit"
             className="bg-[#0B0E26] text-white font-mono py-3 px-8 rounded-full shadow-md"
           >

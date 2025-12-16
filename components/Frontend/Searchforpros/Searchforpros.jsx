@@ -99,7 +99,7 @@ export function SearchForPros({ companyname, zipcode }) {
   // Handle form submit
   const onsubmit = async (data) => {
     setBtnLoading(true);
-    fetchprosdata(data.service, data.zipcode, "test");
+    fetchprosdata(data.service, data.zipcode, data.companyname);
   };
 
   // Refresh handler
@@ -133,7 +133,7 @@ export function SearchForPros({ companyname, zipcode }) {
                   })}
                 >
                   <option value="" disabled>
-                    Service type dropdown
+                    Service type 
                   </option>
                   {servielist.map((item, i) => (
                     <option key={i} value={item}>
@@ -149,6 +149,24 @@ export function SearchForPros({ companyname, zipcode }) {
               </div>
 
               {/* Zip Code Input */}
+              <div className="flex flex-col w-full sm:w-40">
+                <input
+                  type="text"
+                  placeholder="Company name"
+                  className="border border-gray-300 rounded px-4 py-2 focus:ring-red-400 focus:outline-none"
+                  {...register("companyname")}
+                />
+              {(errors.zipcode && errors.service) && (
+                <p
+                  style={{ visibility: "hidden" }}
+                  className="text-red-500 text-sm mt-1"
+                >
+                  {errors.zipcode.message}
+                </p>
+              )}
+
+                
+              </div>
               <div className="flex flex-col w-full sm:w-40">
                 <input
                   type="text"
@@ -169,7 +187,7 @@ export function SearchForPros({ companyname, zipcode }) {
               <button
                 type="submit"
                 disabled={btnLoading}
-                className="bg-[#d63934] hover:bg-[#d63934] text-white font-semibold px-6 py-2 rounded shadow transition w-full sm:w-auto flex items-center justify-center gap-2"
+                className="bg-[#e05042] hover:bg-[#e05042] text-white font-semibold px-6 py-2 rounded shadow transition w-full sm:w-auto flex items-center justify-center gap-2"
               >
                 {btnLoading ? (
                   <>
@@ -260,7 +278,7 @@ export function SearchForPros({ companyname, zipcode }) {
             <strong>
               Pro<span className="text-red-500">Files</span>
             </strong>
-            <sup>™</sup>
+            
           </p>
 
           {loading ? (
@@ -298,7 +316,7 @@ export function SearchForPros({ companyname, zipcode }) {
                   <th className="text-left py-2">Status</th>
                   <th className="text-left py-2">
                     Pro<span className="text-red-500">file</span>
-                    <sup>™</sup>
+                   
                   </th>
                 </tr>
               </thead>
@@ -314,7 +332,7 @@ export function SearchForPros({ companyname, zipcode }) {
                       <td className="flex items-center gap-2 py-3">
                         <div
                           className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                            verified ? "bg-cyan-500" : "bg-red-500"
+                            verified ? "bg-cyan-500" : "bg-[#e05042]"
                           }`}
                         >
                           {verified ? (
@@ -343,7 +361,7 @@ export function SearchForPros({ companyname, zipcode }) {
                       </td>
                       <td
                         className={`py-3 font-semibold ${
-                          verified ? "text-cyan-600" : "text-red-600"
+                          verified ? "text-cyan-600" : "text-red-500"
                         }`}
                       >
                         {status == "4" ? "Verified" :  "Unverified"}
@@ -363,10 +381,10 @@ export function SearchForPros({ companyname, zipcode }) {
                           }}
                         /> */}
 
-                        <p className="w-10 h-10 text-[#23a0b0] opacity-80 cursor-pointer
-              hover:opacity-100 hover:underline transition-all duration-200">
-  View
-</p>
+                        <p className="w-10  text-[#23a0b0] opacity-80 cursor-pointer
+                            hover:opacity-100 hover:underline transition-all duration-200">
+                        View
+                      </p>
 
                       </td>
                     </tr>

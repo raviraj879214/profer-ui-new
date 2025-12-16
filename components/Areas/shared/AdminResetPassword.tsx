@@ -79,11 +79,12 @@ export function AdminReset({ passwordresetlink }: AdminResetPasswordFormProps) {
         }),
       });
 
+      debugger;
       const result = await res.json();
       if (res.ok && result.status == 200) {
         setMessage("Password reset successful. You can now log in.");
         reset();
-        router.push("/sign-in")
+        router.push(result.urlredirect);
 
       } else {
         setMessage(result.message || "Something went wrong. Please try again.");

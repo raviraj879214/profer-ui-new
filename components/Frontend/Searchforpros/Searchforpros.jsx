@@ -128,11 +128,9 @@ export function SearchForPros({ companyname, zipcode }) {
                 <select
                   className="border border-gray-300 rounded px-4 py-2 focus:ring-red-400 focus:outline-none"
                   defaultValue=""
-                  {...register("service", {
-                    required: "Please select services",
-                  })}
+                  {...register("service")}
                 >
-                  <option value="" disabled>
+                  <option value="">
                     Service type 
                   </option>
                   {servielist.map((item, i) => (
@@ -170,11 +168,9 @@ export function SearchForPros({ companyname, zipcode }) {
               <div className="flex flex-col w-full sm:w-40">
                 <input
                   type="text"
-                  placeholder="Enter Zip Code"
+                  placeholder="Enter city"
                   className="border border-gray-300 rounded px-4 py-2 focus:ring-red-400 focus:outline-none"
-                  {...register("zipcode", {
-                    required: "Please enter zip code",
-                  })}
+                  {...register("zipcode")}
                 />
                 {errors.zipcode && (
                   <p className="text-red-500 text-sm mt-1">

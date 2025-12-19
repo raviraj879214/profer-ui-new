@@ -232,8 +232,25 @@ function CredentialSection({ title, icon, section }) {
 
   // Upload file
   const handleUpload = async (e, index) => {
+    debugger;
     const file = e.target.files[0];
     if (!file) return;
+
+     const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/jpg",
+    "image/webp",
+    "application/pdf",
+  ];
+
+     if (!allowedTypes.includes(file.type)) {
+        alert("Only image files (JPG, PNG, WEBP) and PDF are allowed.");
+        e.target.value = ""; // reset file input
+        return;
+      }
+
+
 
     const doc = uploadedFiles[index];
 

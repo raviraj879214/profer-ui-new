@@ -20,6 +20,9 @@ export default function CredentialsPage() {
   const [credentials, setCredentials] = useState([]);
   const [expandedSections, setExpandedSections] = useState({});
    const [pro, setPro] = useState(null);
+
+
+
  
  
   useEffect(() => {
@@ -54,6 +57,39 @@ export default function CredentialsPage() {
       [section]: !prev[section],
     }));
   };
+
+
+
+
+
+     
+const [modalOpen, setModalOpen] = useState(false);
+  const [modalFile, setModalFile] = useState(null);
+  const [isPdf, setIsPdf] = useState(false);
+  const [zoom, setZoom] = useState(1);
+
+  // Open modal
+  const openModal = (cred) => {
+    setModalFile(cred.fileUrl);
+    setIsPdf(cred.fileUrl?.endsWith(".pdf"));
+    setZoom(1);
+    setModalOpen(true);
+  };
+
+  // Close modal
+  const closeModal = () => setModalOpen(false);
+
+  // Zoom
+  const zoomIn = () => setZoom((prev) => Math.min(prev + 0.2, 3));
+  const zoomOut = () => setZoom((prev) => Math.max(prev - 0.2, 0.5));
+
+
+
+
+
+
+
+
  
   return (
     <div className="p-4 md:p-6 mt-20">
@@ -166,79 +202,133 @@ export default function CredentialsPage() {
       <h2 className="text-4xl font-semibold mb-4 ">Credentials</h2>
  
       {/* Credentials Sections */}
-      <div className="space-y-4 max-w-6xl mx-auto px-2 sm:px-4">
+  <div className="space-y-4 max-w-6xl mx-auto px-2 sm:px-4">
+      {Object.keys(grouped).length === 0 ? (
+        <p className="text-center text-gray-500 text-sm mb-70">No credentials found.</p>
+      ) : (
+        Object.entries(grouped).map(([section, creds], idx) => {
+          const expanded = expandedSections[section];
+          const visibleCreds = expanded ? creds : creds.slice(0, 3);
+          const icon = credentialIcons[idx] || "/images/default.png";
 
-        {Object.keys(grouped).length === 0 ? (
-
-          <p className="text-center text-gray-500 text-sm mb-70">No credentials found.</p>
-
-        ) : (
-          Object.entries(grouped).map(([section, creds], idx) => {
-            const expanded = expandedSections[section];
-            const visibleCreds = expanded ? creds : creds.slice(0, 3);
-            const icon = credentialIcons[idx] || "/images/default.png";
- 
-            return (
-              <div key={idx} className="border border-gray-200 rounded-md p-4">
-                {/* Section Header */}
-          <div className="flex items-center mb-3 flex-wrap justify-center md:justify-start">
-  <img
-    src={icon}
-    alt={`${section} Icon`}
-    className="w-5 h-5 object-contain mr-2 mb-1"
-  />
-  <h4 className="font-semibold text-gray-700 text-xl text-center md:text-left break-words">
-    {section}
-  </h4>
-</div>
- 
- 
- 
-                {/* Credentials Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
-                  {visibleCreds.map((cred) => (
-                    <div
-                      key={cred.id}
-                      className="flex flex-col items-center border border-gray-300 rounded p-2"
-                    >
-                      <p className="font-semibold text-gray-700 text-l text-center">{cred.name}</p>
-                      {cred.fileUrl?.endsWith(".pdf") ? (
-                        <embed
-                          src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-                          type="application/pdf"
-                          width="100%"
-                          height="200px"
-                          className="border rounded"
-                        />
-                      ) : (
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}`}
-                          alt={cred.name}
-                          className="w-full h-32 object-contain border rounded"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
- 
-                {/* Show More / Less Button */}
-                {creds.length > 3 && (
-                  <div className="flex ">
-                    <button
-                      onClick={() => toggleShowMore(section)}
-                      className="mt-2 text-blue-500 text-xs hover:underline"
-                    >
-                      {expanded
-                        ? "Show Less"
-                        : `Show More (${creds.length - 3} more)`}
-                    </button>
-                  </div>
-                )}
+          return (
+            <div key={idx} className="border border-gray-200 rounded-md p-4">
+              {/* Section Header */}
+              <div className="flex items-center mb-3 flex-wrap justify-center md:justify-start">
+                <img src={icon} alt={`${section} Icon`} className="w-5 h-5 object-contain mr-2 mb-1" />
+                <h4 className="font-semibold text-gray-700 text-xl text-center md:text-left break-words">
+                  {section}
+                </h4>
               </div>
-            );
-          })
-        )}
-      </div>
+
+              {/* Credentials Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
+                {visibleCreds.map((cred) => (
+                 <div key={cred.id} className="flex flex-col items-center border border-gray-300 rounded p-2">
+  <p className="font-semibold text-gray-700 text-l text-center">{cred.name}</p>
+
+  {/* Small View Button */}
+  <button
+    onClick={() => openModal(cred)}
+    className="mt-1 text-sm text-blue-500 hover:text-blue-700 px-2 py-1 border border-blue-200 rounded transition"
+  >
+    View
+  </button>
+
+  {/* Credential Preview */}
+  {cred.fileUrl?.endsWith(".pdf") ? (
+    <embed
+      src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+      type="application/pdf"
+      width="100%"
+      height="200px"
+      className="border rounded mt-2 "
+    />
+  ) : (
+    <div className="w-full h-48 overflow-hidden rounded border mt-2">
+      <img
+        src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${cred.fileUrl}`}
+        alt={cred.name}
+        className="w-full h-full object-cover transition-transform duration-500 hover:scale-500 cursor-pointer"
+      />
+    </div>
+  )}
+</div>
+
+                ))}
+              </div>
+
+              {/* Show More / Less Button */}
+              {creds.length > 3 && (
+                <div className="flex">
+                  <button
+                    onClick={() => toggleShowMore(section)}
+                    className="mt-2 text-blue-500 text-xs hover:underline"
+                  >
+                    {expanded ? "Show Less" : `Show More (${creds.length - 3} more)`}
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })
+      )}
+
+      {/* Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
+          <div className="bg-white rounded-lg max-w-3xl w-full relative p-4">
+            {/* Close Button */}
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              onClick={closeModal}
+            >
+              ✕
+            </button>
+
+            {/* Zoom Buttons */}
+            <div className="flex justify-end space-x-2 mb-2">
+              <button
+                className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={zoomOut}
+              >
+                -
+              </button>
+              <button
+                className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={zoomIn}
+              >
+                +
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="overflow-auto max-h-[80vh] flex justify-center items-center">
+              {isPdf ? (
+                <embed
+                  src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}#toolbar=0`}
+                  type="application/pdf"
+                  className="w-full"
+                  style={{ height: "80vh", transform: `scale(${zoom})`, transformOrigin: "center top" }}
+                />
+              ) : (
+                <img
+                  src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}`}
+                  alt="credential"
+                  className="object-contain"
+                  style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+
+
+
+
+      
     </div>
   );
 }

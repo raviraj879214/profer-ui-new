@@ -12,10 +12,13 @@ function SearchForContent() {
   const searchParams = useSearchParams();
 
   
-  const name = searchParams.get("name") || "";
-  const zip = searchParams.get("zip") || "";
+  const name = searchParams.get("company") || "";
+  const zip = searchParams.get("city") || "";
 
-  return <SearchForPros companyname={name} zipcode={zip} />;
+  return (<>
+      
+     <SearchForPros companyname={name} zipcode={zip} />
+  </>);
 
 
 }

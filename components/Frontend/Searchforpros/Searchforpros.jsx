@@ -10,6 +10,7 @@ export function SearchForPros({ companyname, zipcode }) {
   const [loading, setLoading] = useState(false); // For table loader
   const [btnLoading, setBtnLoading] = useState(false); // For search button loader
   const [refreshing, setRefreshing] = useState(false); // For refresh loader
+  const [errormessage,setErrormessage] = useState("Unverified");
   const router = useRouter();
   const {
     register,
@@ -19,7 +20,7 @@ export function SearchForPros({ companyname, zipcode }) {
   } = useForm();
 
   useEffect(() => {
-    fetchprosdata("test", zipcode, companyname);
+    fetchprosdata("", zipcode, companyname);
     fetchservices();
   }, []);
 
@@ -39,7 +40,7 @@ export function SearchForPros({ companyname, zipcode }) {
           }),
         }
       );
-
+      debugger;
       if (res.ok) {
         const result = await res.json();
         console.log("pro details",result);
@@ -49,6 +50,12 @@ export function SearchForPros({ companyname, zipcode }) {
 
         console.log(filteredData);
         if (result.status === 200) {
+         setErrormessage(
+  <>
+    {companyname} <span className="text-red-500 font-semibold">Unverified</span>
+  </>
+);
+
           setRoofingContractors(
             filteredData.map((item) => ({
               id : item.id,
@@ -56,9 +63,11 @@ export function SearchForPros({ companyname, zipcode }) {
               status: item.user.status,
               profileImg:"https://static.wixstatic.com/media/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png/v1/fill/w_174,h_94,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/8de7f9_acbb695fd7e94f47b58c7ef118d8f3a6~mv2.png",
               verified: item.user.status == "4" ? true : false,
+              city : item.city
             }))
           );
         } else {
+         
           setRoofingContractors([]);
         }
       }
@@ -104,19 +113,21 @@ export function SearchForPros({ companyname, zipcode }) {
 
   // Refresh handler
   const handleRefresh = () => {
+    window.location.href='/search-for-pros';
     setRefreshing(true);
     reset(); // clear form fields
     setRoofingContractors([]);
     setServicelist([]);
     fetchprosdata("test", zipcode, companyname);
     fetchservices();
+
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-cyan-50 mt-20">
       <main className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-semibold text-center mb-4">
-          Pro Directory - Search Results
+          Pro Directory - Search Results  {companyname}
         </h1>
 
         {/* Search Form */}
@@ -221,7 +232,7 @@ export function SearchForPros({ companyname, zipcode }) {
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">
-              Roofing Contractors
+              Roofing Contractors 
             </h2>
             <button
               onClick={handleRefresh}
@@ -273,7 +284,7 @@ export function SearchForPros({ companyname, zipcode }) {
             Click to View{" "}
             <strong>
               Pro<span className="text-red-500">Files</span>
-            </strong>
+            </strong> 
             
           </p>
 
@@ -302,13 +313,14 @@ export function SearchForPros({ companyname, zipcode }) {
             </div>
           ) : roofingContractors.length === 0 ? (
             <p className="text-center text-gray-500 py-6">
-              No contractors found.
+                {errormessage}
             </p>
           ) : (
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-300">
                   <th className="text-left py-2">Company Name</th>
+                  <th className="text-left py-2">City</th>
                   <th className="text-left py-2">Status</th>
                   <th className="text-left py-2">
                     Pro<span className="text-red-500">file</span>
@@ -318,7 +330,7 @@ export function SearchForPros({ companyname, zipcode }) {
               </thead>
               <tbody>
                 {roofingContractors.map(
-                  ({ name, status, profileImg, verified ,id }, i) => (
+                  ({ name, status, profileImg, verified ,id , city }, i) => (
                     <tr
                       key={i}
                       className={`border-b border-gray-200 ${
@@ -354,6 +366,11 @@ export function SearchForPros({ companyname, zipcode }) {
                           )}
                         </div>
                         <span>{name}</span>
+                      </td>
+                     <td className="py-3">
+                        <div className="flex items-center gap-2">
+                          <span>{city}</span>
+                        </div>
                       </td>
                       <td
                         className={`py-3 font-semibold ${

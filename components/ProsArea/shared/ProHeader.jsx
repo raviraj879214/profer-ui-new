@@ -73,7 +73,7 @@ export function ProHeader() {
     <header className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white px-4 md:px-10 py-3 md:py-4 z-50 shadow-sm">
       <div ref={containerRef} className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="https://www.profer.com/" className="flex items-center gap-2" prefetch={false}>
+        <Link href="https://www.profer.com" className="flex items-center gap-2" prefetch={false}>
           <div className="w-24 md:w-28">
             <Logo />
           </div>

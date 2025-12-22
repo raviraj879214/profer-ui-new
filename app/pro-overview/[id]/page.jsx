@@ -555,54 +555,68 @@ export default function ProOverviewPage() {
   )}
 
   {/* Modal */}
-  {modalOpen && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
-      <div className="bg-white rounded-lg max-w-3xl w-full relative p-4">
-        {/* Close Button */}
-        <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
-          onClick={closeModal}
-        >
-          ✕
-        </button>
+ {modalOpen && (
+ <div className="fixed inset-0 z-50 flex items-center justify-center p-4 border border-gray-300">
 
-        {/* Zoom Buttons */}
-        <div className="flex justify-end space-x-2 mb-2">
+    <div className="bg-white rounded-lg max-w-3xl w-full border border-gray-300 shadow-lg">
+
+      {/* Header */}
+      <div className="flex items-center justify-between border-b px-4 py-2">
+        {/* Zoom buttons - left */}
+        <div className="flex gap-2">
           <button
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
             onClick={zoomOut}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
           >
-            -
+            −
           </button>
           <button
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
             onClick={zoomIn}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
           >
             +
           </button>
         </div>
 
-        {/* Modal Content */}
-        <div className="overflow-auto max-h-[80vh] flex justify-center items-center">
-          {isPdf ? (
-            <embed
-              src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}#toolbar=0`}
-              type="application/pdf"
-              className="w-full"
-              style={{ height: "80vh", transform: `scale(${zoom})`, transformOrigin: "center top" }}
-            />
-          ) : (
-            <img
-              src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}`}
-              alt="credential"
-              className="object-contain"
-              style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}
-            />
-          )}
-        </div>
+        {/* Close button - right */}
+        <button
+          onClick={closeModal}
+          className="text-gray-600 hover:text-red-600 text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="overflow-auto max-h-[80vh] flex justify-center items-center p-4">
+        {isPdf ? (
+          <embed
+            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}#toolbar=0`}
+            type="application/pdf"
+            className="w-full"
+            style={{
+              height: "80vh",
+              transform: `scale(${zoom})`,
+              transformOrigin: "center top",
+            }}
+          />
+        ) : (
+          <img
+            src={`${process.env.NEXT_PUBLIC_URL}/api/files?filepath=${modalFile}`}
+            alt="credential"
+            className="object-contain"
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: "center center",
+            }}
+          />
+        )}
       </div>
     </div>
-  )}
+  </div>
+)}
+
+
 </div>
 
 

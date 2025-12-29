@@ -10,7 +10,7 @@ export function SearchForPros({ companyname, zipcode }) {
   const [loading, setLoading] = useState(false); // For table loader
   const [btnLoading, setBtnLoading] = useState(false); // For search button loader
   const [refreshing, setRefreshing] = useState(false); // For refresh loader
-  const [errormessage,setErrormessage] = useState("Unverified");
+  const [errormessage,setErrormessage] = useState("");
   const router = useRouter();
   const {
     register,
@@ -50,11 +50,29 @@ export function SearchForPros({ companyname, zipcode }) {
 
         console.log(filteredData);
         if (result.status === 200) {
-         setErrormessage(
-  <>
-    {companyname} <span className="text-red-500 font-semibold">Unverified</span>
-  </>
-);
+
+
+       
+
+        if (companyname) {
+              setErrormessage(
+                <>
+                 {formatText(companyname)}{" "}{" "}
+                  <span className="text-red-500 font-semibold">
+                    Unverified
+                  </span>
+                </>
+              );
+            } else if (zipcodes) {
+              setErrormessage(
+                <>
+                  <span className="text-red-500 font-semibold">
+                    No pros found in City
+                  </span>
+                </>
+              );
+            }
+
 
           setRoofingContractors(
             filteredData.map((item) => ({
@@ -66,6 +84,7 @@ export function SearchForPros({ companyname, zipcode }) {
               city : item.city
             }))
           );
+
         } else {
          
           setRoofingContractors([]);
@@ -411,3 +430,7 @@ export function SearchForPros({ companyname, zipcode }) {
     </div>
   );
 }
+
+
+const formatText = (text) =>
+  text.charAt(0).toUpperCase() + text.slice(1);

@@ -277,7 +277,7 @@ export default function ProOverviewPage() {
                   <p className="text-gray-800 text-xl leading-relaxed font-normal">
                     This professional has <span className="font-bold">not yet completed</span> our 
                     <span className="font-bold"> Pro</span>
-                    <span className="text-red-600 font-bold">Verify</span>
+                    <span className="text-[#d63934] font-bold">Verify</span>
                     <span className="font-bold">™</span> process.
                     Their identification, licenses, and insurance have <span className="font-bold">not been confirmed</span>.
                   </p>

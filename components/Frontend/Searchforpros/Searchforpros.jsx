@@ -67,7 +67,7 @@ export function SearchForPros({ companyname, zipcode }) {
               setErrormessage(
                 <>
                   <span className="text-red-500 font-semibold">
-                    No pros found in City
+                    No pros found in {formatText(zipcodes)}{" "}{" "}
                   </span>
                 </>
               );

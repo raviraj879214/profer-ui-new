@@ -71,6 +71,7 @@ export function AdminDetails() {
     
      const id = tokendecryptor();
 
+     
      setId(id);
 
     fetchUserData(id);
